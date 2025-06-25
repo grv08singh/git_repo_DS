@@ -347,6 +347,7 @@
 
 # np.cross(V1, V2)                                                  #cross product of vectors
 # np.dot(V1, V2)                                                    #dot product of vectors
+# np.linalg.norm(V1)                                                #magnitude of vector
 
 
 
