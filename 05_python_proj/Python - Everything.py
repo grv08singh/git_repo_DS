@@ -341,8 +341,8 @@
 # M.T                                                               #Transpose numpy array without changing the original array
 # np.transpose(M)                                                   #Transpose numpy array without changing the original array
 # np.linalg.det(M)                                                  #determinant of matrix
-# np.linalg.inv(M)                                                  #inverse of matrix
-# np.linalg.matrix_rank(M)                                          #inverse of matrix
+# np.linalg.inv(M)                                                  #inverse of a matrix
+# np.linalg.matrix_rank(M)                                          #rank of a matrix
 # np.linalg.eig(M)                                                  #(eig_val, eig_vector) of matrix
 
 # np.cross(V1, V2)                                                  #cross product of vectors
