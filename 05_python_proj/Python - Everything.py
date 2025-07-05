@@ -3,7 +3,15 @@
 # jupyter notebook --notebook-dir="specified_path"
 # jupyter notebook --notebook-dir="D:\04 Intellipaat - EPGC\02 EPGC - Python\06 Python - Mandatory Assignments\05 - Data Visualization Assignment"
 # jupyter notebook --notebook-dir="C:\Users\Grv\00 DS Python\00-grv-DS PythonPractice"
-# jupyter notebook --notebook-dir="D:\04 Intellipaat - EPGC\03 EPGC - ML\2025.06.22 - EPGC - ML - LR HandsOn"
+# jupyter notebook --notebook-dir="D:\04 Intellipaat - EPGC\03 EPGC - ML\2025.07.05 (evng) - EPGC -"
+
+
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
 
 
 # string - Everything
@@ -451,6 +459,8 @@
 # df.std()                                                          #returns standard deviation for every numeric column
 # df.count()                                                        #returns count for every numeric column
 # df.describe()                                                     #returns count,mean,std,min,25%,median,75%,max for each numeric column
+# df.describe(include = 'O')                                        #returns count,unique,frequency,top (Statistics) for non-numeric column
+# df.describe(include = 'all')                                      #returns Statistics for all numeric column
 
 # df.duplicated().sum()                                             #row-wise count of duplicates
 # df.drop_duplicates()                                              #drop duplicate rows
@@ -668,6 +678,7 @@
 # plt.title('title_1')            
 # plt.legend('legend_1')            
 # plt.grid(True)            
+# plt.xticks(rotation=90)            
 # plt.show()            
 
 # plt.subplot(2,3,4).plot(df['col_1'],df['col_2'],'g--')            #2 rows, 3 coloumns, 4th plot, g-- green dashed line
