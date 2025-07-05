@@ -109,43 +109,68 @@
 
 # 1.1 Cleaning
 
-# 1.2 Remove Null Values
+# 1.2 Checking Datatype Inconsistency 
+#### (when column is supposed to be float/int, but it is object type due to a space or unknown value maybe)
+####
 #### for col in df.columns:
 ####     if df[col].dtype == 'object':
-####         df[col] = df[col].fillna(df[col].mode()[0])
-####     else:
-####         df[col] = df[col].fillna(df[col].median())
+####        print(f"{col}: {df[col].unique()}")
+####        print()
+####
+#### 'unknown' values count
+#### for col in [col1, col3, col6, col9]:
+####    if df[col].dtype == 'object':
+####        print(f"{col}: {df[col].value_counts()['unknown']}")
+####
+#### replacing 'unknown' value with Null
+#### for col in ['age', 'job', 'marital', 'education', 'default', 'housing', 'loan']:
+####   if df[col].dtype=='object':
+####     df[col].replace('unknown',np.NAN)
 
-# 1.3 Remove Duplicates
+# 1.3 Remove Null Values (if Null < 10% of data, [dropna], else if Null < 40% of data, [fillna] with median/mode, else [drop feature/col])
+#### for col in df.columns:
+####     if(df[col].dtype in ('int64', 'float64'):
+####         df[col] = df[col].fillna(df[col].median())
+####     else:
+####         df[col] = df[col].fillna(df[col].mode()[0])
+####
+#### drop Null rows from specific columns -->
+#### df = df.dropna(subset=[col1, col2, col3, col4])
+
+# 1.4 Remove Duplicates
 #### df.drop_duplicates()
 
-# 1.4 Outliers - 
+# 1.5 Outliers - 
 #### Check for outliers
 #### 
 #### for col in df.columns:
-####     if(df[col].dtype != 'object'):
+####     if(df[col].dtype in ('int64', 'float64'):
 ####         sns.boxplot(data = df, y = col)
 ####         plt.show()
 
 #### Remove outliers
 ####
+#### initial_size = df.shape[0]
 #### for col in df.columns:
-####     if(df[col].dtype != 'object'):
+####     if(df[col].dtype in ('int64', 'float64')):
 ####         Q1 = df[col].quantile(0.25)
 ####         Q3 = df[col].quantile(0.75)
 ####         IQR = Q3-Q1
 ####         LB = Q1 - 1.5 * (IQR)
 ####         UB = Q3 + 1.5 * (IQR)
 ####         df = df[ (df[col] >= LB) & (df[col] <= UB) ]
+#### final_size = df.shape[0]
+#### print(f"rows removed: {initial_size - final_size}")
 
-# 1.5 Label Encoding
+# 1.6 Label Encoding
 #### Label encoding on all the non-numeric columns
 ####
 #### from sklearn.preprocessing import LabelEncoder
 #### LE = LabelEncoder()
 #### for col in df.columns:
-####   if(df[col].dtype == 'object'):
-####     df[col] = LE.fit_transform(df[col])
+####    if(df[col].dtype == 'object'):
+####        df[col] = LE.fit_transform(df[col])
+####        print(LE.classes())
 
 
 # 2. Statistics
@@ -413,7 +438,7 @@
 # df.tail()                                                         #show last 2 rows of df
             
 # df.columns                                                        #show all the columns in df
-# df.shape                                                          #returns a tuple (rows, columns)
+# df.shape                                                          #returns a tuple of size (#rows(length), #columns(width))
 # df.info()                                                         #returns column-wise non-null counts and data-types
 # df.describe()                                                     #returns count,mean,std,min,25%,median,75%,max for each numeric column
 # df.transpose()                                                    #transpose all the data of df
@@ -437,6 +462,7 @@
 # df['col_1'].std()                                                 #returns standard deviation for col_1
 # df['col_1'].count()                                               #returns count for col_1
 # df['col_1'].value_counts()                                        #group by col_1 and show its count
+# df.groupby('col_1')['col_2'].size()                               #group by col_1, count of col_2
             
 # df.values.tolist()                                                #All DataFrame values to list
 # df.to_dict()                                                      #DataFrame to a dictionary
@@ -510,9 +536,11 @@
 
 # df.pivot_table(values='col_4',index=['col_1', 'col_2'],columns=['col_3'])
                                                                     #summarize col_4 on combination of col_1, col_2 on rows and col_3 on columns
+# df['date'] = pd.to_datetime(df['date'])
 
 
-
+# pd.Timestamp.now()
+# pd.Timestamp.now().year
 
 
 
