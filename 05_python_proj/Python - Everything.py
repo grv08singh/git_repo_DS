@@ -3,7 +3,7 @@
 # jupyter notebook --notebook-dir="specified_path"
 # jupyter notebook --notebook-dir="D:\04 Intellipaat - EPGC\02 EPGC - Python\06 Python - Mandatory Assignments\05 - Data Visualization Assignment"
 # jupyter notebook --notebook-dir="C:\Users\Grv\00 DS Python\00-grv-DS PythonPractice"
-# jupyter notebook --notebook-dir="D:\04 Intellipaat - EPGC\03 EPGC - ML\2025.07.05 (evng) - EPGC -"
+# jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\git_repo_DS\06_ml_proj\01 Creating Simple Linear Regression Class"
 
 
 
