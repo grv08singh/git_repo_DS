@@ -3,7 +3,7 @@
 # jupyter notebook --notebook-dir="specified_path"
 # jupyter notebook --notebook-dir="D:\04 Intellipaat - EPGC\02 EPGC - Python\06 Python - Mandatory Assignments\05 - Data Visualization Assignment"
 # jupyter notebook --notebook-dir="C:\Users\Grv\00 DS Python\00-grv-DS PythonPractice"
-# jupyter notebook --notebook-dir="D:\git_repo_DS\06_ml_proj\02 3D Linear Regression - Creation"
+# jupyter notebook --notebook-dir="D:\git_repo_DS\06_ml_proj\01 Simple (2D) Linear Regression (SLR) - Creation"
 
 
 
@@ -11,6 +11,13 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn import linear_model
+from sklearn.metrics import r2_score
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import f1_score
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import cross_val_score
 
 
 
