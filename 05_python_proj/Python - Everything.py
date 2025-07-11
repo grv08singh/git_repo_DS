@@ -323,8 +323,11 @@ from sklearn.model_selection import cross_val_score
 # arr1 - arr2                                                       #element-wise difference - returns an array
 # np.subtract(arr1, arr2)                                           #element-wise difference - returns an array
 
-# arr1 / arr2                                                       #element-wise division - returns an array
-# np.divide(arr1, arr2)                                             #element-wise division - returns an array
+# arr1 / arr2                                                       #element-wise division - returns an array of float
+# np.divide(arr1, arr2)                                             #element-wise division - returns an array of float
+
+# arr1 // arr2                                                      #element-wise division - returns an array of integers
+# np.floor_divide(arr1, arr2)                                       #element-wise division - returns an array of integers
 
 # arr1 * arr2                                                       #element-wise (Hadamard or Schur) product - returns an array
 # np.multiply(arr1, arr2)                                           #element-wise (Hadamard or Schur) product - returns an array
