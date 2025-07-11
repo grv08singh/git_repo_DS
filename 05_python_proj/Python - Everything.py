@@ -329,6 +329,12 @@ from sklearn.model_selection import cross_val_score
 # arr1 * arr2                                                       #element-wise (Hadamard or Schur) product - returns an array
 # np.multiply(arr1, arr2)                                           #element-wise (Hadamard or Schur) product - returns an array
 
+# arr1 % arr2                                                       #element-wise modulus - returns an array
+# np.mod(arr1, arr2)                                                #element-wise modulus - returns an array
+
+# arr1 ** arr2                                                      #element-wise power - returns an array
+# np.power(arr1, arr2)                                              #element-wise power - returns an array
+
 # arr1 @ arr2                                                       #Matrix (dot) product - returns an array
 # np.dot(arr1, arr2)                                                #Matrix (dot) product - returns an array
 # np.matmul(arr1, arr2)                                             #Matrix (dot) product - returns an array
