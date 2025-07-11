@@ -253,6 +253,10 @@ from sklearn.model_selection import cross_val_score
 
 # import numpy as np
 
+# np.ceil(arr)                                                      #returns an array of integers lower than orig numbers
+# np.floor(arr)                                                     #returns an array of integers greater than orig numbers
+# np.rint(arr)                                                      #returns an array of integers closest to orig numbers
+
 # np.array(list)
 # np.ones((rows, columns))
 # np.zeros((rows, columns))
