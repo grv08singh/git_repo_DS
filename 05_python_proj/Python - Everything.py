@@ -3,7 +3,7 @@
 # jupyter notebook --notebook-dir="specified_path"
 # jupyter notebook --notebook-dir="D:\04 Intellipaat - EPGC\02 EPGC - Python\06 Python - Mandatory Assignments\05 - Data Visualization Assignment"
 # jupyter notebook --notebook-dir="C:\Users\Grv\00 DS Python\00-grv-DS PythonPractice"
-# jupyter notebook --notebook-dir="D:\git_repo_DS\06_ml_proj\01 Simple (2D) Linear Regression (SLR) - Creation"
+# jupyter notebook --notebook-dir="D:\04 Intellipaat - EPGC\03 EPGC - ML\2025.07.20 - EPGC - RF HandsOn"
 
 
 
@@ -15,104 +15,12 @@ from sklearn.model_selection import train_test_split
 from sklearn import linear_model
 from sklearn.metrics import r2_score
 from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import f1_score
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import cross_val_score
-from sklearn.model_selection import cross_val_score
-
-
-
-# string - Everything
-
-# s1 = 'abcdefghij'                                                 #string
-# s1[3]                                                             #string indexing
-# s1[-1]
-# s1[2:]                                                            #string slicing
-# s1[:8]
-# s1[1:5]
-# s1[::2]                                                           #every character from string s with step size 2
-# s1[::-1]                                                          #string backwards
-
-# s2 = 'welcome'
-# s1 + s2                                                           #concatenation
-# char = 'a'
-# char * 10                                                         #'aaaaaaaaaa'
-
-# s1.upper()                                                        #upper case
-# s1.lower()                                                        #lower case
-# s1.capitalize()                                                   #capitalize first character of every word
-
-# s1.replace('d','z')                                               #replace 'd' with 'z' in s1
-# s1.strip()                                                        #remove white space before and after s1
-# s1.split()                                                        #split the string at space
-# s1.split('c')                                                     #split the string at 'c'
-# len(s1)                                                           #length of string
-
-
-
-
-# list - Everything
-
-# my_list = ['A string',23,100.232,'o']                             #a list can contain anything
-# len(my_list)                                                      #number of elements in a list
-# my_list[2]                                                        #element at index 2
-# my_list[2:]                                                       #elements from index 2 to end
-# my_list[:3]                                                       #elements from start to index 2
-# my_list[2:5]                                                      #elements at index 2,3,4
-# my_list[::2]                                                      #every 2nd element from the list
-# my_list[::-1]                                                     #reverse the list
-# my_list + ['new item']                                            #concatenate element to the list
-# my_list * 2                                                       #repeat the list
-# my_list.append('append_me')                                       #append element to the list
-# my_list.pop()                                                     #remove last element from the list and return it
-# my_list.pop(2)                                                    #remove element at index 2 from the list and return it
-# my_list.reverse()                                                 #reverse the list
-# my_list.sort()                                                    #sort the list - in place
-# sorted(my_list)                                                   #just show the sorted list, not sort original list
-# [i**2 for i in my_list if i%2==0]                                 #list comprehension
-
-
-
-
-
-
-# dictionary - Everything
-
-# d = {'key1':123,'key2':[12,23,33],'key3':['item0','item1','item2']}
-# d['key3']                                                         #give the value of key3 i.e. ['item0','item1','item2']
-# d['key3'][0]                                                      #'item0'
-# d['key3'][0].upper()                                              #'ITEM0'
-# d.keys()                                                          #all the keys of the dictionary
-# d.values()                                                        #all the values of the dictionary
-# d.items()                                                         #all the key:value pairs of the dictionary
-
-
-
-
-# tuples - Everything
-
-# t = ('one', 2, 3.1)                                               #initializing a tuple
-# len(t)                                                            #number of elements in the tuple
-# t[-1]                                                             #last element of the tuple
-# t.index('one')                                                    #index of element 'one' in the tuple
-# t.count('one')                                                    #count of element 'one' in the tuple
-
-
-
-# sets
-
-# x = set()                                                         #creating a set
-# x.add(1)                                                          #adding element to set
-# x.add(2)                                                          #adding element to set
-# set(my_list)                                                      #convert my_list to set: show any duplicate values only once
-
-
-
-
-
-
-
-
+from sklearn.model_selection import cross_val_scoreimport warnings
+warnings.filterwarnings('ignore')
 
 
 
@@ -781,3 +689,90 @@ from sklearn.model_selection import cross_val_score
 
 
 
+
+
+
+
+# strings - Everything
+
+# s1 = 'abcdefghij'                                                 #string
+# s1[3]                                                             #string indexing
+# s1[-1]
+# s1[2:]                                                            #string slicing
+# s1[:8]
+# s1[1:5]
+# s1[::2]                                                           #every character from string s with step size 2
+# s1[::-1]                                                          #string backwards
+
+# s2 = 'welcome'
+# s1 + s2                                                           #concatenation
+# char = 'a'
+# char * 10                                                         #'aaaaaaaaaa'
+
+# s1.upper()                                                        #upper case
+# s1.lower()                                                        #lower case
+# s1.capitalize()                                                   #capitalize first character of every word
+
+# s1.replace('d','z')                                               #replace 'd' with 'z' in s1
+# s1.strip()                                                        #remove white space before and after s1
+# s1.split()                                                        #split the string at space
+# s1.split('c')                                                     #split the string at 'c'
+# len(s1)                                                           #length of string
+
+
+
+
+# list - Everything
+
+# my_list = ['A string',23,100.232,'o']                             #a list can contain anything
+# len(my_list)                                                      #number of elements in a list
+# my_list[2]                                                        #element at index 2
+# my_list[2:]                                                       #elements from index 2 to end
+# my_list[:3]                                                       #elements from start to index 2
+# my_list[2:5]                                                      #elements at index 2,3,4
+# my_list[::2]                                                      #every 2nd element from the list
+# my_list[::-1]                                                     #reverse the list
+# my_list + ['new item']                                            #concatenate element to the list
+# my_list * 2                                                       #repeat the list
+# my_list.append('append_me')                                       #append element to the list
+# my_list.pop()                                                     #remove last element from the list and return it
+# my_list.pop(2)                                                    #remove element at index 2 from the list and return it
+# my_list.reverse()                                                 #reverse the list
+# my_list.sort()                                                    #sort the list - in place
+# sorted(my_list)                                                   #just show the sorted list, not sort original list
+# [i**2 for i in my_list if i%2==0]                                 #list comprehension
+
+
+
+
+
+
+# dictionary - Everything
+
+# d = {'key1':123,'key2':[12,23,33],'key3':['item0','item1','item2']}
+# d['key3']                                                         #give the value of key3 i.e. ['item0','item1','item2']
+# d['key3'][0]                                                      #'item0'
+# d['key3'][0].upper()                                              #'ITEM0'
+# d.keys()                                                          #all the keys of the dictionary
+# d.values()                                                        #all the values of the dictionary
+# d.items()                                                         #all the key:value pairs of the dictionary
+
+
+
+
+# tuples - Everything
+
+# t = ('one', 2, 3.1)                                               #initializing a tuple
+# len(t)                                                            #number of elements in the tuple
+# t[-1]                                                             #last element of the tuple
+# t.index('one')                                                    #index of element 'one' in the tuple
+# t.count('one')                                                    #count of element 'one' in the tuple
+
+
+
+# sets - Everything
+
+# x = set()                                                         #creating a set
+# x.add(1)                                                          #adding element to set
+# x.add(2)                                                          #adding element to set
+# set(my_list)                                                      #convert my_list to set: show any duplicate values only once
