@@ -3,7 +3,7 @@
 # jupyter notebook --notebook-dir="specified_path"
 # jupyter notebook --notebook-dir="D:\04 Intellipaat - EPGC\02 EPGC - Python\06 Python - Mandatory Assignments\05 - Data Visualization Assignment"
 # jupyter notebook --notebook-dir="C:\Users\Grv\00 DS Python\00-grv-DS PythonPractice"
-# jupyter notebook --notebook-dir="D:\04 Intellipaat - EPGC\03 EPGC - ML\2025.07.20 - EPGC - RF HandsOn"
+# jupyter notebook --notebook-dir="D:\git_repo_DS\07_Intellipaat_EPGC\03 EPGC - Python + Stats + ML\2025.07.27 - EPGC ML - K-Means HandsOn"
 
 
 
@@ -412,6 +412,7 @@ warnings.filterwarnings('ignore')
 # df.to_dict()                                                      #DataFrame to a dictionary
 # df['col_1'].astype(int)                                           #convert data type to integer
 # pd.to_numeric(df['col_1'], errors='coerce')                       #convert col_1 values to numbers, if there is space then make it null
+# df['col_1'].astype(int)                                           #convert col_1 values to numbers
 # df.corr(numeric_only = True)                                      #correlation coefficient for each value with respect to every other value
             
 # df['col_1'].fillna(value=df['col_1'].mean())                      #fill all the null values in col_1 with avg of it
