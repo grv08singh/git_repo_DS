@@ -26,6 +26,25 @@ warnings.filterwarnings('ignore')
 
 
 
+#### ML MODELS & TECHNIQUES
+
+
+
+#### 1) Linear Regression
+#### 2) Logistics Regression
+#### 3) Decision Tree Classification
+#### 4) Random Forest Classification
+
+
+
+
+
+
+
+
+
+
+
 
 
 
