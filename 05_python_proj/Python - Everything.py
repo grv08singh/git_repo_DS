@@ -3,7 +3,7 @@
 # jupyter notebook --notebook-dir="specified_path"
 # jupyter notebook --notebook-dir="D:\04 Intellipaat - EPGC\02 EPGC - Python\06 Python - Mandatory Assignments\05 - Data Visualization Assignment"
 # jupyter notebook --notebook-dir="C:\Users\Grv\00 DS Python\00-grv-DS PythonPractice"
-# jupyter notebook --notebook-dir="D:\git_repo_DS\07_Intellipaat_EPGC\03 EPGC - Python + Stats + ML\2025.07.27 - EPGC ML - K-Means HandsOn"
+# jupyter notebook --notebook-dir="D:\git_repo_DS\07_Intellipaat_EPGC\03 EPGC - Python + Stats + ML"
 
 
 
@@ -687,6 +687,7 @@ warnings.filterwarnings('ignore')
 # sns.boxplot(data=df, y='col_1', hue='col_2')                      #box plot
 # sns.histplot(data=df, x='col_1', hue='col_2')                     #histogram plot
 # sns.lineplot(data=df, x='col_1', y='col_2')                       #line plot
+# sns.kdeplot(list_1)                                               #KDE plot
 
 # arguments of scatterplot() method:
     # color 'r','g','b','k','y','c','m'
@@ -700,6 +701,63 @@ warnings.filterwarnings('ignore')
 ################## Subplots in seaborn
 # fig, axis = plt.subplots(nrows=2, ncols=2, figsize=(12,8))
 # sns.barplot(data=df, x='col_1', y='col_2', hue='col_3', ax = axis[0,0])
+
+
+
+
+
+
+
+
+
+###############################################################################################################
+#### Statistics Modules
+###############################################################################################################
+# import statistics as st                                                       #for descriptive statistics - in built in python
+# from scipy import stats                                                       #for descriptive & inferential statistics
+# 
+# st.mean(list_1)
+# st.median(list_1)
+# st.mode(list_1)
+# st.stdev(list_1)                                                              #sample Standard Deviation
+# st.pstdev(list_1)                                                             #population Standard Deviation
+# st.variance(list_1)                                                           #sample Variance
+# st.pvariance(list_1)                                                          #population Variance
+#
+# st.covariance(list_1, list_2)
+# st.correlation(list_1, list_2)
+# st.linear_regression(list_1, list_2)
+#
+# z_score = (list_1 - st.mean(list_1))/st.stdev(list_1)                         #Z-score for every data-point
+#
+# st.geometric_mean(list_1)
+# st.harmonic_mean(list_1)
+#
+#
+#
+#
+#
+#
+#
+# z_stat = (sample_mean - pop_mean) / (std_dev/np.sqrt(N))                      #N = number of population data-points
+# p_val = 2 * (1 - stats.norm.cdf(abs(z_stat)))                                 #for z_stat > 0
+# p_val = 2 * stats.norm.cdf(abs(z_stat))                                       #for z_stat < 0
+#
+# 
+# t_stat, p_val = stats.ttest_1samp(col_1, pop_mean)                            #1-Sample T-Test - direct formula
+# OR
+# t_stat = (sample_mean - pop_mean) / (sample_std_dev/np.sqrt(n-1))             #n = number of sample data-points
+# p_val = 2 * (1 - stats.norm.cdf(abs(t_stat)))                                 #for t_stat > 0
+# p_val = 2 * stats.norm.cdf(abs(t_stat))                                       #for t_stat < 0
+# 
+# 
+# 
+#
+#
+
+
+
+
 
 
 
