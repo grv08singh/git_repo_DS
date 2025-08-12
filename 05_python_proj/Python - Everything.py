@@ -19,7 +19,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import f1_score
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import cross_val_score
-from sklearn.model_selection import cross_val_scoreimport warnings
+import warnings
 warnings.filterwarnings('ignore')
 
 
@@ -39,6 +39,38 @@ warnings.filterwarnings('ignore')
 
 
 
+
+
+
+
+
+
+
+
+
+###############################################################################################################
+#### sklearn
+
+######## 1) preprocessing
+############ LabelEncoder class
+############ StandardScaler class
+
+######## 2) linear_model
+############ LinearRegression class
+
+######## 3) model_selection
+############ train_test_split class
+############ cross_val_score class
+
+######## 4) metrics
+############ r2_score
+############ f1_score
+############ mean_absolute_error
+############ mean_squared_error
+
+######## 5) ensemble sub-module
+############ RandomForestRegressor class
+###############################################################################################################
 
 
 
