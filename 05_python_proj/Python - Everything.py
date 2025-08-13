@@ -68,7 +68,7 @@ warnings.filterwarnings('ignore')
 ############ mean_absolute_error
 ############ mean_squared_error
 
-######## 5) ensemble sub-module
+######## 5) ensemble
 ############ RandomForestRegressor class
 ###############################################################################################################
 
