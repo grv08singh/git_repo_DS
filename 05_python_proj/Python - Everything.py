@@ -31,9 +31,24 @@ warnings.filterwarnings('ignore')
 
 
 #### 1) Linear Regression
-#### 2) Logistics Regression
-#### 3) Decision Tree Classification
-#### 4) Random Forest Classification
+######## 1.1) Regularization - Ridge Regression
+######## 1.2) Regularization - Lasso Regression
+######## 1.3) Regularization - Elastic Net Regression
+
+#### 2) Multiple Linear Regression
+
+#### 3) Gradient Descent
+######## 2.1) Batch Gradient Descent
+######## 2.2) Stochastic Gradient Descent
+######## 2.3) Mini Batch Gradient Descent
+
+#### 4) Polynomial Linear Regression
+
+#### 6) Logistics Regression
+
+#### 7) Decision Tree Classification
+
+#### 8) Random Forest Classification
 
 
 
