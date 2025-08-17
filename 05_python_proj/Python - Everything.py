@@ -577,7 +577,8 @@ warnings.filterwarnings('ignore')
 # pd.concat([s[:5], pd.Series([50], index=[5]), s[5:]])             #use concat to insert at index 5 in pandas series
 # series_1.reset_index(drop = True)                                 #reset index without making previous index a column
 # series_1.reset_index()                                            #reset index making previous index a column
-            
+# df.reset_index(drop = True)                                       #reset index
+# df.set_index('col_1')                                             #set index to col_1
             
             
             
