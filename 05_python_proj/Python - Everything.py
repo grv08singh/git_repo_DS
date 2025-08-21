@@ -950,7 +950,7 @@ warnings.filterwarnings('ignore')
 # s1[1:5]                   
 # s1[::2]                                                                               #every character from string s with step size 2
 # s1[::-1]                                                                              #string backwards
-                    
+
 # s2 = 'welcome'                    
 # s1 + s2                                                                               #concatenation
 # char = 'a'                    
@@ -959,9 +959,12 @@ warnings.filterwarnings('ignore')
 # s1.upper()                                                                            #upper case
 # s1.lower()                                                                            #lower case
 # s1.capitalize()                                                                       #capitalize first character of first word
+# s1.title()                                                                            #capitalize first character of all word
                     
 # s1.replace('d','z')                                                                   #replace 'd' with 'z' in s1
 # s1.strip()                                                                            #remove white space before and after s1
+# s1.rstrip()                                                                           #remove white space after s1
+# s1.lstrip()                                                                           #remove white space before s1
 # s1.split()                                                                            #split the string at space and provide a list of strings
 # s1.split('c')                                                                         #split the string at 'c'
 # " ".join(arr_of_str)                                                                  #join an array of string with space in between
@@ -994,10 +997,11 @@ warnings.filterwarnings('ignore')
 # my_list.pop()                                                                         #remove last element from the list and return it
 # my_list.pop(2)                                                                        #remove element at index 2 from the list and return it
 # my_list.reverse()                                                                     #reverse the list
+# my_list.count(element_1)                                                              #count the number of element_1 in my_list
 # my_list.sort()                                                                        #sort the list - in place
 # sorted(my_list)                                                                       #just show the sorted list, not sort original list
 # [i**2 for i in my_list if i%2==0]                                                     #list comprehension
-
+# my_list = list(tuple_1)                                                               #convert tuple_1 to list
 
 
 
