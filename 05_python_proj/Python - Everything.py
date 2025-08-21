@@ -925,6 +925,20 @@ warnings.filterwarnings('ignore')
 
 
 ###############################################################################################################
+#### General
+###############################################################################################################
+
+# divmod(a,b)                                                                           #returns a tuple with quotient and remainder of a/b
+# a//b                                                                                  #returns quotient of a/b
+# a%b                                                                                   #returns remainder of a/b
+# pow(a,b)                                                                              #returns a^b
+# pow(a,b,m)                                                                            #returns a^b % m
+
+
+
+
+
+###############################################################################################################
 #### strings - Everything
 ###############################################################################################################
 
@@ -952,6 +966,12 @@ warnings.filterwarnings('ignore')
 # s1.split('c')                                                                         #split the string at 'c'
 # " ".join(arr_of_str)                                                                  #join an array of string with space in between
 # len(s1)                                                                               #length of string
+
+# str.isalnum()                                                                         #checks if string is alphanumeric
+# str.isalpha()                                                                         #checks if string is alphabetical
+# str.isdigit()                                                                         #checks if string is numeric
+# str.islower()                                                                         #checks if string is all lower characters
+# str.isupper()                                                                         #checks if string is all upper characters
                     
                     
                     
