@@ -4,7 +4,7 @@
 ## jupyter notebook --notebook-dir="D:\04 Intellipaat - EPGC\02 EPGC - Python\06 Python - Mandatory Assignments\05 - Data Visualization Assignment"
 ## jupyter notebook --notebook-dir="C:\Users\Grv\00 DS Python\00-grv-DS PythonPractice"
 ## jupyter notebook --notebook-dir="D:\git_repo_DS\07_Intellipaat_EPGC\03 EPGC - Python + Stats + ML"
-
+## C:\Users\grv06\AppData\Roaming\Code\User\settings.json
 
 
 import numpy as np
@@ -202,26 +202,64 @@ warnings.filterwarnings('ignore')
 #
 #
 # from scipy import stats
+# 
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
 #
 ###############################################################################################################
 #### Z-Test, Z Test
 ###############################################################################################################
 #
 # z_stat = (st.mean(arr1) - pop_mean) / (pop_std/math.sqrt(N))                          #N = population size
-# p_val = 2 * (1 - stats.norm.cdf(abs(z_stat)))                                         #probability value for z_stat
+# p_val = stats.norm.cdf(z_stat)                                                        #probability to the left of z_stat
+# 
 # OR
+# 
 # from statsmodels.stats.weightstats import ztest                                       #one sampled, z test, z-test
 # z_stat, p_val = ztest(x1=arr1, value = pop_mean, alternative='two-sided')             #for H1: arr1.mean != pop_mean
 # z_stat, p_val = ztest(x1=arr1, value = pop_mean, alternative='larger')                #for H1: arr1.mean > pop_mean
+#
+#
 #
 #
 # z_stat, p_val = ztest(x1=arr1,x2=list_2, value=pop_mean_diff, alternative='larger')   #two sample difference, z test, z-test
 # OR
 # z_stat = ((mean(arr1)-mean(list_2)) - pop_mean_diff)/(s1_std**2/n1 + s2_std**2/n2)    #N = number of sample data-points
 # 
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+###############################################################################################################
+#### Proportion Z-Test, Z Test
+###############################################################################################################
+# 
 # 
 # from statsmodels.stats.proportion import proportions_ztest                            #z-test for proportion
+#
 # z_stat, p_val = proportions_ztest(count=arr1_count, nobs=total_pop, value=0.50, alternative="two-sided")
+# 
+# 
+# 
+# 
 # 
 # 
 # 
@@ -232,9 +270,11 @@ warnings.filterwarnings('ignore')
 ###############################################################################################################
 # 
 # t_stat = (st.mean(arr1) - pop_mean) / (sample_std/math.sqrt(n-1))                     #n = number of sample data-points
-# p_val = stats.t.sf(abs(t_stat), df=(n-1))                                             #one-tailed probability
-# p_val = stats.t.sf(abs(t_stat), df=(n-1)) * 2                                         #two-tailed probability
+# p_val = stats.t.cdf(t_stat, df=(n-1))                                                 #area to the left of t_stat
+# p_val = stats.t.sf(t_stat, df=(n-1))                                                  #area to the left of t_stat - survival fqn (more accurate)
+#
 # OR
+#
 # t_stat, p_val = stats.ttest_1samp(a=arr1, pop_mean)                                   #one sampled T-Test
 #
 #
@@ -253,14 +293,18 @@ warnings.filterwarnings('ignore')
 # from scipy.stats import chi2
 #
 # chi2_stat = sum((obs_arr - exp_arr)**2 / exp_arr)                                     #(observed - expected) / expected
-# p_val = (1 - chi2.cdf(chi2_stat, df))                                                 #df = n-1
+# p_val = chi2.cdf(chi2_stat, df)                                                       #df = n-1, p_val is prob to the left of chi2_stat
+# 
 # OR
+# 
 # from scipy.stats import chi2_contingency
 # contingency_table = pd.crosstab(df['obs_arr1'], df['obs_arr2'])                       #two observed categorical variables
 # chi2_stat, p_val, df, exp_frequencies = chi2_contingency(contingency_table)
+# 
 # OR
+# 
 # from scipy.stats import chisquare
-# chi2_stat, p_val = chisquare(f_obs=obs_arr, f_exp=exp_arr)
+# chi2_stat, p_val = chisquare(f_obs = obs_arr, f_exp = exp_arr)
 # 
 # 
 # 
@@ -272,21 +316,11 @@ warnings.filterwarnings('ignore')
 #### F-Test, F Test (ANOVA)
 ###############################################################################################################
 # 
-# var1 = var(arr1)
-# df1 = len(arr2)
-#
-# var2 = var(arr1)
-# df2 = len(arr2)
-#
-# max_var = max(var1, var2)
-# min_var = min(var1, var2)
-#
-# df_n = max_var_df(df1, df2)
-# df_d = min_var_df(df1, df2)
-#
-# f_stat = max_var/min_var                                                              #max variance / min variance
-# p_val = (1 - stats.f.cdf(f_stat, df_n, df_d))                                         #p_val for one_tailed f_stat, df1 for max(var1, var2)
+# f_stat = max_var/min_var                                                              #ratio of two chi-square fqn, variance is chi-square
+# p_val = stats.f.cdf(f_stat, df_of_max_var, df_of_min_var)                             #p_val to the left of f_stat, for one_tailed f_stat
+# 
 # OR
+# 
 # from scipy.stats import f_oneway                                                      #one way anova
 # f_stat, p_val = f_oneway(arr1, arr2, arr3)                                            #one way anova
 #
@@ -493,6 +527,8 @@ warnings.filterwarnings('ignore')
 # np.log(array)
 # np.exp(num)
 # np.exp(array)
+
+# np.percentile(list_1, 75)                                         #returns 75th percentile element from list_1
 
 # np.corrcoef(array)
 
@@ -717,7 +753,7 @@ warnings.filterwarnings('ignore')
 
 
 ###############################################################################################################
-#### matplotlib - Everything
+#### matplotlib.pyplot - Everything
 ###############################################################################################################
 
 # import matplotlib.pyplot as plt
