@@ -198,7 +198,8 @@ st.geometric_mean(arr1)
 st.harmonic_mean(arr1)
 
 
-
+# create random Sample of 500 datapoints from population
+df_sample = df.sample(500, random_state=0)
 
 
 
@@ -222,29 +223,25 @@ st.harmonic_mean(arr1)
 #### Z-Test, Z Test
 ###############################################################################################################
 
-z_stat = (st.mean(arr1) - pop_mean) / (pop_std/math.sqrt(N))                          #N = population size
-p_val = stats.norm.cdf(z_stat)                                                        #probability to the left of z_stat
+z_stat = (st.mean(arr1) - pop_mean) / (pop_std/math.sqrt(N))                            #N = population size
+p_val = stats.norm.cdf(z_stat)                                                          #probability to the left of z_stat
 
 # OR
 
-from statsmodels.stats.weightstats import ztest                                       #one sampled, z test, z-test
-z_stat, p_val = ztest(x1=arr1, value = pop_mean, alternative='two-sided')             #for H1: arr1.mean != pop_mean
-z_stat, p_val = ztest(x1=arr1, value = pop_mean, alternative='larger')                #for H1: arr1.mean > pop_mean
+from statsmodels.stats.weightstats import ztest                                         #one sampled, z test, z-test
+
+z_stat, p_val = ztest(x1=arr1, value = pop_mean, alternative='two-sided')               #for H1: arr1.mean != pop_mean
+z_stat, p_val = ztest(x1=arr1, value = pop_mean, alternative='larger')                  #for H1: arr1.mean > pop_mean
 
 
 
 
-z_stat, p_val = ztest(x1=arr1,x2=list_2, value=pop_mean_diff, alternative='larger')   #two sample difference, z test, z-test
+z_stat, p_val = ztest(x1=arr1,x2=arr2, value=pop_mean_diff, alternative='larger')       #two sample difference, z test, z-test
 
 # OR
 
-z_stat = ((mean(arr1)-mean(list_2)) - pop_mean_diff)/(s1_std**2/n1 + s2_std**2/n2)    #N = number of sample data-points
+z_stat = ((mean(arr1)-mean(arr2)) - pop_mean_diff)/(s1_std**2/n1 + s2_std**2/n2)        #N = number of sample data-points
  
-
-
-
-
-
 
 
 
@@ -255,23 +252,12 @@ z_stat = ((mean(arr1)-mean(list_2)) - pop_mean_diff)/(s1_std**2/n1 + s2_std**2/n
 ###############################################################################################################
 
 
-from statsmodels.stats.proportion import proportions_ztest                            #z-test for proportion
+from statsmodels.stats.proportion import proportions_ztest                              #z-test for proportion
 
 z_stat, p_val = proportions_ztest(count=arr1_count, nobs=total_pop, value=0.50, alternative="two-sided")
 
  
 
- 
-
- 
-
- 
-
- 
-
- 
-
- 
 
  
 
@@ -280,27 +266,31 @@ z_stat, p_val = proportions_ztest(count=arr1_count, nobs=total_pop, value=0.50, 
 #### T-Test, T Test
 ###############################################################################################################
 
+####one sampled T-Test
+
 t_stat = (st.mean(arr1) - pop_mean) / (sample_std/math.sqrt(n-1))                     #n = number of sample data-points
 p_val = stats.t.cdf(t_stat, df=(n-1))                                                 #area to the left of t_stat
 p_val = stats.t.sf(t_stat, df=(n-1))                                                  #area to the left of t_stat - survival fqn (more accurate)
 
 # OR
 
-t_stat, p_val = stats.ttest_1samp(a=arr1, pop_mean)                                   #one sampled T-Test
+from scipy.stats import ttest_1samp
+t_stat, p_val = stats.ttest_1samp(a=arr1, pop_mean)
 
 
+
+####two independent sampled T-Test
 t_stat = (s1_mean - s2_mean) / (s1_std**2/n1 + s2_std**2/n2)                          #n1, n2 = number of sample data-points in s1, s2
 
 # OR
 
-t_stat, p_val = stats.ttest_ind(arr1, arr2)                                           #two independent sampled T-Test
+from scipy.stats import ttest_ind
+t_stat, p_val = stats.ttest_ind(arr1, arr2)
 
 
 
-
-
- 
-
+####Paired (related) t-test:
+from scipy.stats import ttest_rel
 
  
 
@@ -340,7 +330,7 @@ chi2_stat, p_val = chisquare(f_obs = obs_arr, f_exp = exp_arr)
 ###############################################################################################################
 
 f_stat = max_var/min_var                                                              #ratio of two chi-square fqn, variance is chi-square
-p_val = stats.f.cdf(f_stat, df_of_max_var, df_of_min_var)                             #p_val to the left of f_stat, for one_tailed f_stat
+p_val = stats.f.cdf(f_stat, df1, df2)                                                 #p_val to the left of f_stat, df1-numerator, df2-denominator
 
 # OR
 
@@ -488,11 +478,11 @@ array.resize(num_of_rows, num_of_columns)                         #changes the o
 arr2 = np.append(arr1, n)                                         #append element n at the end of an array
 arr3 = np.insert(arr1, i, n)                                      #insert element n at index i
 arr4 = np.delete(arr1, i)                                         #delete element at index i
-for i,v in enumerate(arr4):                                       #loop through arr4, v=value at i=index
+for i,val in enumerate(arr4):                                     #loop through arr4, val=value at i=index
 np.where(arr4 == 50)                                              #in arr4, find index of element value=50
-sorted(arr4)                                                      #sort arr4 and print without saving permanently
-np.sort(arr4)                                                     #sort arr4 and print without saving permanently
-arr4.sort()                                                       #sort arr4 ascending and save the values in arr4
+sorted(arr4)                                                      #returns a list of sorted arr4 without saving to orig arr4
+np.sort(arr4)                                                     #numpy function to return a numpy array arr4 sorted without saving to orig arr4
+arr4.sort()                                                       #numpy function to sort arr4, returns nothing
 
 np.equal(arr1, arr2)                                              #element-by-element comparison, returns an array of true/false
 np.array_equal(arr1, arr2)                                        #array as a whole comparison, returns either true or false
@@ -649,7 +639,7 @@ df.set_index('col_1')                                             #set index to 
             
             
             
-############# DataFrame df          
+#### DataFrame df          
 df = pd.DataFrame(my_list, columns =['x','y'])                    #create DataFrame from list
 df = pd.DataFrame(my_dict, columns =['x','y'])                    #create DataFrame from dictionary
 
@@ -1129,6 +1119,19 @@ x.differences(y)                                                                
 
 
 
+
+
+###############################################################################################################
+#### Import Methodology
+###############################################################################################################
+
+##Import                            ##Style                             ##Example Usage
+Import whole module	                import math	                        Use with prefix math.sqrt()
+Import whole module with alias	    import numpy as np	                Use alias np.array()
+Import specific names	            from math import sqrt	            Use directly sqrt()
+Import specific names with alias    from math import sqrt as s	        Use alias s()
+Wildcard import all	                from math import *	                Imports all public names (discouraged)
+Import submodule	                import package.submodule	        Access with full path
 
 
 
