@@ -104,17 +104,17 @@ warnings.filterwarnings('ignore')
 
 # 1.2 Checking Datatype Inconsistency 
 #### (when column is supposed to be float/int, but it is object type due to a space or unknown value maybe)
-####
+
 for col in df.columns:
     if df[col].dtype == 'object':
        print(f"{col}: {df[col].unique()}")
        print()
-####
+       
 #### 'unknown' values count
 for col in [col1, col3, col6, col9]:
    if df[col].dtype == 'object':
        print(f"{col}: {df[col].value_counts()['unknown']}")
-####
+       
 #### replacing 'unknown' value with Null
 for col in ['age', 'job', 'marital', 'education', 'default', 'housing', 'loan']:
   if df[col].dtype=='object':
@@ -174,6 +174,7 @@ for col in df.columns:
 ###############################################################################################################
 #### 2. Statistics
 ###############################################################################################################
+
 # IMPORT LIBRARY
 import statistics as st                                                               #for descriptive statistics - in built in python
 from scipy import stats                                                               #for descriptive & inferential statistics
@@ -366,6 +367,7 @@ f_stat, p_val = f_oneway(arr1, arr2, arr3)                                      
 ###############################################################################################################
 #### 3. Machine Learning - Model Building
 ###############################################################################################################
+
 # IMPORT LIBRARY
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
