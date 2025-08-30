@@ -3,7 +3,7 @@
 ## jupyter notebook --notebook-dir="specified_path"
 ## jupyter notebook --notebook-dir="D:\04 Intellipaat - EPGC\02 EPGC - Python\06 Python - Mandatory Assignments\05 - Data Visualization Assignment"
 ## jupyter notebook --notebook-dir="C:\Users\Grv\00 DS Python\00-grv-DS PythonPractice"
-## jupyter notebook --notebook-dir="D:\git_repo_DS\07_Intellipaat_EPGC\03 EPGC - Python + Stats + ML"
+## jupyter notebook --notebook-dir="D:\git_repo_DS\08_EPGC_Intellipaat\02 EPGC - Python + Stats + ML\2025.08.30 - EPGC Practice Quize"
 ## C:\Users\grv06\AppData\Roaming\Code\User\settings.json
 
 
@@ -101,10 +101,28 @@ warnings.filterwarnings('ignore')
 ###############################################################################################################
 
 # 1.1 Cleaning
+df.shape
+df.columns
+df.info()
+df.describe().T
+df.isnull.sum()
+df.isnull.sum().sum()
+df.duplicated().sum()
+df['col_1'].count()
+df['col_1'].sum()
+df['col_1'].unique()
+df['col_1'].nunique()
+df['col_1'].value_counts()
+df.groupby('col_1')['col_2'].size()
+df.groupby('col_1')[['col_2','col_3','col_4']].mean()
+df.rename(columns={'col_1' : 'col_101','col_2' : 'col_102'},inplace = True)
 
-# 1.2 Checking Datatype Inconsistency 
+
+
+
+# 1.2 Checking Datatype Inconsistency
+
 #### (when column is supposed to be float/int, but it is object type due to a space or unknown value maybe)
-
 for col in df.columns:
     if df[col].dtype == 'object':
        print(f"{col}: {df[col].unique()}")
@@ -120,6 +138,7 @@ for col in ['age', 'job', 'marital', 'education', 'default', 'housing', 'loan']:
   if df[col].dtype=='object':
     df[col].replace('unknown',np.NAN)
 
+
 # 1.3 Remove Null Values (if Null < 10% of data, [dropna], else if Null < 40% of data, [fillna] with median/mode, else [drop feature/col])
 for col in df.columns:
     if(df[col].dtype in ('int64', 'float64'):
@@ -128,10 +147,12 @@ for col in df.columns:
         df[col] = df[col].fillna(df[col].mode()[0])
 
 #### drop Null rows from specific columns -->
-df = df.dropna(subset=[col1, col2, col3, col4])
+df = df.dropna(subset=['col_1', 'col_2', 'col_3'])
+
 
 # 1.4 Remove Duplicates
-df.drop_duplicates()
+df = df.drop_duplicates()
+
 
 # 1.5 Outliers - 
 #### Check for outliers
@@ -142,7 +163,6 @@ for col in df.columns:
         plt.show()
 
 #### Remove outliers
-
 initial_size = df.shape[0]
 for col in df.columns:
     if(df[col].dtype in ('int64', 'float64')):
@@ -155,9 +175,9 @@ for col in df.columns:
 final_size = df.shape[0]
 print(f"rows removed: {initial_size - final_size}")
 
+
 # 1.6 Label Encoding
 #### Label encoding on all the non-numeric columns
-
 from sklearn.preprocessing import LabelEncoder
 LE = LabelEncoder()
 for col in df.columns:
@@ -200,11 +220,6 @@ st.harmonic_mean(arr1)
 
 # create random Sample of 500 datapoints from population
 df_sample = df.sample(500, random_state=0)
-
-
-
- 
-
 
 
 
@@ -479,7 +494,7 @@ arr2 = np.append(arr1, n)                                         #append elemen
 arr3 = np.insert(arr1, i, n)                                      #insert element n at index i
 arr4 = np.delete(arr1, i)                                         #delete element at index i
 for i,val in enumerate(arr4):                                     #loop through arr4, val=value at i=index
-np.where(arr4 == 50)                                              #in arr4, find index of element value=50
+np.where(arr4 == 50)                                              #in arr4, find index of element having value=50
 sorted(arr4)                                                      #returns a list of sorted arr4 without saving to orig arr4
 np.sort(arr4)                                                     #numpy function to return a numpy array arr4 sorted without saving to orig arr4
 arr4.sort()                                                       #numpy function to sort arr4, returns nothing
@@ -652,8 +667,12 @@ df.columns                                                        #show all the 
 df.shape                                                          #returns a tuple of size (#rows(length), #columns(width))
 df.info()                                                         #returns column-wise non-null counts and data-types
 df.describe()                                                     #returns count,mean,std,min,25%,median,75%,max for each numeric column
+df.describe(include = 'O')                                        #returns count,unique,frequency,top (Statistics) for non-numeric column
+df.describe(include = 'all')                                      #returns Statistics for all numeric column
 df.transpose()                                                    #transpose all the data of df
 df.index                                                          #range of index
+
+df = df.rename(columns={'col_1':'col_101','col_2':'col_102'})     #rename columns or replace column names
           
 df.min()                                                          #returns a minimum value for each column
 df.max()                                                          #returns a maximum value for each column
@@ -661,9 +680,6 @@ df.mean()                                                         #returns mean 
 df.median()                                                       #returns median for every numeric column
 df.std()                                                          #returns standard deviation for every numeric column
 df.count()                                                        #returns count for every numeric column
-df.describe()                                                     #returns count,mean,std,min,25%,median,75%,max for each numeric column
-df.describe(include = 'O')                                        #returns count,unique,frequency,top (Statistics) for non-numeric column
-df.describe(include = 'all')                                      #returns Statistics for all numeric column
 
 df.duplicated().sum()                                             #row-wise count of duplicates
 df.drop_duplicates()                                              #drop duplicate rows
@@ -732,11 +748,11 @@ df.notnull.sum()                                                  #column-wise c
 del df['col_1']                                                   #permanently remove col_1
 df.fillna({'col_1':x}, inplace=True)                              #fill null values in col_1 with x
           
-Sorting of DataFrame          
+####Sorting of DataFrame          
 df.sort_values(by = 'col_1')                                      #sort ascending based on col_1
 df.sort_values(by = 'col_1', ascending = False)                   #sort descending based on col_1
           
-Filtering DataFrame           
+####Filtering DataFrame           
 df['col_1']>5]                                                    #returns True/False based on the condition >5
 df[df['col_1']>5]                                                 #returns DataFrame where condition is true
 df[df['col_1']>5 & df['col_2']<10]                                #returns DataFrame where both the conditions meet
