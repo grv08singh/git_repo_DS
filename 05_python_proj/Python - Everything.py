@@ -28,6 +28,19 @@ warnings.filterwarnings('ignore')
 
 #### ML MODELS & TECHNIQUES
 
+#### Regression Types:
+######## 1) Linear Regression
+######## 2) Ridge Regression
+######## 3) Lasso Regression
+######## 4) 
+
+#### Classification Types:
+######## 1) Logistic Regression
+######## 2) Decision Tree
+######## 3) Random Forest
+######## 4) K-Nearest Neighbours
+######## 5) Naive Bayes
+
 
 
 #### 1) Linear Regression
@@ -48,8 +61,19 @@ warnings.filterwarnings('ignore')
 #### 6) Logistics Regression
 
 #### 7) Decision Tree Classification
+######## Maximum (Entropy Reduction) OR (Info Gain) is required
+######## General Formula for Entropy at a node = H = P1*log(P1) + P2*log(P2) ------> Max value 1 at P1=P2=0.5
+######## where P1, P2 are probabilities of event 1, 2 at the node
+######## Info_Gain = H_parent - w_avg(H_children)
 
-#### 8) Random Forest Classification
+######## Gini = Measure of impurity (alternative of Entropy H)
+######## Gini = 1 - [P1^2 + P2^2] ------> Max value 0.5 at P1=P2=0.5 [Computationally easier than Entropy calculation]
+######## Info_Gain = Gini_parent - w_avg(Gini_children)
+
+#### 8) Decision Tree Regression
+######## Info_Gain = Variance_parent - w_avg(Variance_children)
+
+#### 9) Random Forest Classification
 
 
 
