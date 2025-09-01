@@ -3,7 +3,7 @@
 ## jupyter notebook --notebook-dir="specified_path"
 ## jupyter notebook --notebook-dir="D:\04 Intellipaat - EPGC\02 EPGC - Python\06 Python - Mandatory Assignments\05 - Data Visualization Assignment"
 ## jupyter notebook --notebook-dir="C:\Users\Grv\00 DS Python\00-grv-DS PythonPractice"
-## jupyter notebook --notebook-dir="D:\git_repo_DS\08_EPGC_Intellipaat\02 EPGC - Python + Stats + ML\2025.08.30 - EPGC Practice Quize"
+## jupyter notebook --notebook-dir="D:\git_repo_DS\08_EPGC_Intellipaat\02 EPGC - Python + Stats + ML\2025.08.31 - EPGC Final Quiz"
 ## C:\Users\grv06\AppData\Roaming\Code\User\settings.json
 
 
