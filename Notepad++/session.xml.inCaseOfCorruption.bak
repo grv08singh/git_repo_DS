@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<NotepadPlus>
+    <Session activeView="0">
+        <mainView activeIndex="1">
+            <File firstVisibleLine="504" xOffset="0" scrollWidth="1" startPos="16038" endPos="16038" selMode="0" offset="0" wrapCount="1" lang="SQL" encoding="-1" userReadOnly="no" filename="D:\git_repo_DS\03_sql_proj\SQL - Everything.sql" backupFilePath="" originalFileLastModifTimestamp="223080622" originalFileLastModifTimestampHigh="31200225" tabColourId="-1" RTL="no" tabPinned="no" mapFirstVisibleDisplayLine="-1" mapFirstVisibleDocLine="-1" mapLastVisibleDocLine="-1" mapNbLine="-1" mapHigherPos="-1" mapWidth="-1" mapHeight="-1" mapKByteInDoc="512" mapWrapIndentMode="-1" mapIsWrap="no" />
+            <File firstVisibleLine="41" xOffset="0" scrollWidth="1800" startPos="2491" endPos="2491" selMode="0" offset="0" wrapCount="1" lang="Python" encoding="-1" userReadOnly="no" filename="D:\git_repo_DS\05_python_proj\Python - Everything.py" backupFilePath="D:\git_repo_DS\Notepad++\backup\Python - Everything.py@2025-08-31_141615" originalFileLastModifTimestamp="-1346440908" originalFileLastModifTimestampHigh="31201875" tabColourId="-1" RTL="no" tabPinned="no" mapFirstVisibleDisplayLine="-1" mapFirstVisibleDocLine="-1" mapLastVisibleDocLine="-1" mapNbLine="-1" mapHigherPos="-1" mapWidth="-1" mapHeight="-1" mapKByteInDoc="512" mapWrapIndentMode="-1" mapIsWrap="no" />
+        </mainView>
+        <subView activeIndex="0" />
+    </Session>
+</NotepadPlus>
