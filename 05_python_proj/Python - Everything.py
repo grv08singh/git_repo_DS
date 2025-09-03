@@ -7,10 +7,13 @@
 ## C:\Users\grv06\AppData\Roaming\Code\User\settings.json
 
 
-import numpy as np
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import warnings as wr
+wr.filterwarnings('ignore')
+
 from sklearn.model_selection import train_test_split
 from sklearn import linear_model
 from sklearn.metrics import r2_score
@@ -19,60 +22,84 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import f1_score
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import cross_val_score
-import warnings
-warnings.filterwarnings('ignore')
 
 
 
 
 
-## ML Pipeline:
-##
-####  1) Data Cleaning:
-########    Remove Duplicates / Redundant rows
-########    Handle Missing Data (Null / Blank / Errors) by removing rows OR filling nulls/replacing errors with some values
-########    Standardize Data Format consistency
-########    Transform OR Remove Outlier that can skew the results
-##
-##
-#### 2) Data Pre-Processing (Standardize, Scale, Encode)
-########    Inspect Data Types - df.info()
-########    Check Missing Values - df.isnull().sum()
-########    Statistical Summary - df.describe()
-########    Visualize Outliers in each numerical column using boxplot()
-########    Remove Outliers using IQR Method
-########    Correlation Analysis to understand the relationship between features & target variable - df.corr()
-########    Check if Target Variable is balanced affecting model training and evaluation - plt.pie()
-########    X - y Split
-########    Feature Scaling:
-##########      Normalization      - MinMaxScaler().fit_transform(X)
-##########      Standardization    - StandardScaler().fit_transform(X)
-##
-##
-#### 3) EDA (Explore, Identify Trends & Patterns, Gain Insights, Decision Making)
-#### 4) Feature Engineering (Feature Selection, Create New or Transform Existing Features)
-##
-##
-#### 5) Model Selection ---> based on: 
-######## data Complexity
-######## decision factors like performance, interpretability, scalability
-######## Experimentation with different models to find the best one
-##
-##
-#### 6) Model Training ---> basic features are:
-######## Iterative Process: Train the model iteratively, adjusting parameters to minimize errors & enhance accuracy
-######## Optimization: Fine-tune model to optimize its predictive capabilities
-######## Validation: Rigorously train model to ensure accuracy to new unseen data
-##
-##
-#### 7) Model Evaluation & Tuning
-######## Evaluation Metrics: Use metrics like accuracy, precision, recall & F1 score to evaluate model performance
-######## Strengths & Weaknesses: Identify the strengths & weaknesses of the model through rigorous testing
-######## Iterative Improvement: Initiate model tuning to adjust hyperparameters & enhance predictive accuracy
-######## Model Robustness: Iterative tuning to achieve desired levels of model robustness & reliability
-##
-##
-#### 8) Model Deployment
+# ML Pipeline:
+#
+## 1) Data Cleaning:
+###    Remove Duplicates / Redundant rows
+###    Handle Missing Data (Null / Blank / Errors) by removing rows OR filling nulls/replacing errors with some values
+###    Standardize Data Format consistency
+###    Transform OR Remove Outlier that can skew the results
+#
+#
+## 2) Data Pre-Processing (Standardize, Scale, Encode)
+###    Inspect Data Types - df.info()
+###    Check Missing Values - df.isnull().sum()
+###    Statistical Summary - df.describe().T
+###    Visualize Outliers in each numerical column using boxplot()
+###    Remove Outliers using IQR Method
+###    Correlation Analysis to understand the relationship between features & target variable - df.corr()
+###    Check if Target Variable is balanced affecting model training and evaluation - plt.pie()
+###    X - y Split
+###    Feature Scaling:
+####      Normalization      - MinMaxScaler().fit_transform(X)
+####      Standardization    - StandardScaler().fit_transform(X)
+#
+#
+## 3) Feature Engineering (Feature Selection, Create New or Transform Existing Features)
+###    Feature Creation: creating new features using domain knowledge
+###    Feature Transformation: 
+####      Normalization / Standardization /Scaling
+####      Encoding
+####      Mathematical Transformation (log, sqrt etc.)
+###    Feature Extraction: (PCA Technique) Reduces dimension, Reduces computation cost, Improves model performance, Prevents overfitting
+####      Signal Processing
+####      Statistical Techniques
+####      Transformation Algorithms
+###    Feature Selection: Choosing relevant features
+####      Filter Methods
+####      Wrapper Methods
+####      Embedded Methods
+###    Feature Scaling: to ensure all the features contribute equally
+####      Min-Max Scaling
+####      Standard Scaling
+#
+#
+## 4) EDA Types:
+###    Univariate Analysis: one variable - mean, median, mode, variance, std, barplot, kdeplot
+###    Bivariate A.: relationship b/w two variables - pairplot, scatterplot, correlation cofficient, contingency table, line graph, covariance
+###    Multivariate A.: rel. b/w two or more variables - heatmap, PCA, Spatial Analysis (geog. maps), ARIMA (time series Analysis)
+#
+#
+## 5) Model Selection ---> based on: 
+### data Complexity
+### decision factors like performance, interpretability, scalability
+### Experimentation with different models to find the best one
+#
+#
+## 6) Model Training ---> basic features are:
+### Iterative Process: Train the model iteratively, adjusting parameters to minimize errors & enhance accuracy
+### Optimization: Fine-tune model to optimize its predictive capabilities
+### Validation: Rigorously train model to ensure accuracy to new unseen data
+#
+#
+## 7) Model Evaluation & Tuning
+### Evaluation Metrics: Accuracy, Precision, Recall, F1 score, Specificity, Type-1-2 error, Confusion Matrix for performance evaluation
+### Strengths & Weaknesses: Identify the strengths & weaknesses of the model through rigorous testing
+### Iterative Improvement: Initiate model tuning to adjust hyperparameters & enhance predictive accuracy
+### Model Robustness: Iterative tuning to achieve desired levels of model robustness & reliability
+### Regularization - Lasso, Ridge, Elastic Net Regression - prevents overfitting, fine tuning, stable model, better performance, interpretability
+### Bias Variance tradeoff
+### Hyperparameter Tuning
+### Cross Validation
+### AUC-ROC curve
+#
+#
+### 8) Model Deployment
 
 
 
@@ -747,9 +774,11 @@ df.head()                                                         #show first 5 
 df.tail()                                                         #show last 2 rows of df
           
 df.columns                                                        #show all the columns in df
+df.columns.tolist()                                               #more readable format
 df.shape                                                          #returns a tuple of size (#rows(length), #columns(width))
 df.info()                                                         #returns column-wise non-null counts and data-types
 df.describe()                                                     #returns count,mean,std,min,25%,median,75%,max for each numeric column
+df.describe().T                                                   #Transpose
 df.describe(include = 'O')                                        #returns count,unique,frequency,top (Statistics) for non-numeric column
 df.describe(include = 'all')                                      #returns Statistics for all numeric column
 df.transpose()                                                    #transpose all the data of df
@@ -916,10 +945,10 @@ ax2.plot(y,x)
 
 
 # Object Oriented Plotting (OOP) - Automatic Method of creating figure and axes simultaneously
-fig,axes = plt.subplot(nrows=1,ncols=2)                           #automatic execution of [fig = plt.figure()] & [ax = fig.add_axes()]
+fig,axes = plt.subplot(nrows=1,ncols=2)                             #automatic execution of [fig = plt.figure()] & [ax = fig.add_axes()]
 axes[0].plot(x,y)
 axes[1].plot(y,x)
-plt.tight_layout()                                                #remove the issue of overlapping plots
+plt.tight_layout()                                                  #remove the issue of overlapping plots
 
 
 fig = plt.figure(figsize=(3,2),dpi=200)
@@ -934,7 +963,7 @@ fig.savefig('x-y sq plot.png', dpi=200)
 
 ax.plot(x, x**2, label='x-squared')
 ax.plot(x, x**3, label='x-cubed')
-ax.legend(loc=0)                                                  #0-best fit location
+ax.legend(loc=0)                                                    #0-best fit location
 
 # arguments of plot() method:           
     # color                                                         #'r','g','b','k','y','c','m'
@@ -986,8 +1015,8 @@ plt.grid(True)
 plt.xticks(rotation=90)            
 plt.show()            
 
-plt.subplot(2,3,4).plot(df['col_1'],df['col_2'],'g--')            #2 rows, 3 coloumns, 4th plot, g-- green dashed line
-plt.subplot(r,c,sn).plot(df['col_1'],df['col_2'],'y*-')           #y*- yellow line with * marker
+plt.subplot(2,3,4).plot(df['col_1'],df['col_2'],'g--')              #2 rows, 3 coloumns, 4th plot, g-- green dashed line
+plt.subplot(r,c,sn).plot(df['col_1'],df['col_2'],'y*-')             #y*- yellow line with * marker
             
                 
 # arguments of pie() method:            
@@ -999,9 +1028,9 @@ plt.subplot(r,c,sn).plot(df['col_1'],df['col_2'],'y*-')           #y*- yellow li
     # cmap = 'autumn', 'summer', 'winter','spring'                  #different color schemes
             
 # Multiple Charts/Plots in Grid of 1x3                              # 1-row, 3-columns
-plt.subplot(1,3,1).scatter(x=df['col_1'],y=df['col_2'])           # 1- rows, 3 - col 1 - position
-plt.subplot(1,3,2).scatter(x=df['col_1'],y=df['col_2'])           # 1- rows, 3 - col 2 - position
-plt.subplot(1,3,3).scatter(x=df['col_1'],y=df['col_2'])           # 1- rows, 3 - col 3 - position
+plt.subplot(1,3,1).scatter(x=df['col_1'],y=df['col_2'])             # 1- rows, 3 - col 1 - position
+plt.subplot(1,3,2).scatter(x=df['col_1'],y=df['col_2'])             # 1- rows, 3 - col 2 - position
+plt.subplot(1,3,3).scatter(x=df['col_1'],y=df['col_2'])             # 1- rows, 3 - col 3 - position
 plt.show()
 
 
@@ -1029,18 +1058,18 @@ plt.show()
 
 # import seaborn as sns
 
-sns.pairplot(data=df)                                             #scatterplot for all the column pairs
-sns.countplot(data=df, x='col_1')                                 #vertical bar chart of col_1 summarized with its count
-sns.countplot(data=df, y='col_1')                                 #horizontal bar chart of col_1 summarized with its count
-sns.boxplot(data=df, y='col_1')                                   #used to find outlier
-sns.scatterplot(data=df, x='col_1', y='col_2')                    #scatter plot
-sns.barplot(data=df, x='col_1', y='col_2')                        #bar chart
-sns.regplot(data=df, x='col_1', y='col_2')                        #regression plot = scatter plot with best fit line
-sns.heatmap(data=df, y=3x3_array)                                 #heat map
-sns.boxplot(data=df, y='col_1', hue='col_2')                      #box plot
-sns.histplot(data=df, x='col_1', hue='col_2')                     #histogram plot
-sns.lineplot(data=df, x='col_1', y='col_2')                       #line plot
-sns.kdeplot(arr1)                                               #KDE plot
+sns.pairplot(data=df)                                               #scatterplot for all the column pairs
+sns.countplot(data=df, x='col_1')                                   #vertical bar chart of col_1 summarized with its count
+sns.countplot(data=df, y='col_1')                                   #horizontal bar chart of col_1 summarized with its count
+sns.boxplot(data=df, y='col_1')                                     #used to find outlier
+sns.scatterplot(data=df, x='col_1', y='col_2')                      #scatter plot
+sns.barplot(data=df, x='col_1', y='col_2')                          #bar chart
+sns.regplot(data=df, x='col_1', y='col_2')                          #regression plot = scatter plot with best fit line
+sns.heatmap(data=df, y=3x3_array)                                   #heat map
+sns.boxplot(data=df, y='col_1', hue='col_2')                        #box plot
+sns.histplot(data=df, x='col_1', hue='col_2')                       #histogram plot
+sns.lineplot(data=df, x='col_1', y='col_2')                         #line plot
+sns.kdeplot(arr1)                                                   #KDE plot
 
 # arguments of scatterplot() method:
     # color 'r','g','b','k','y','c','m'
@@ -1084,11 +1113,11 @@ sns.barplot(data=df, x='col_1', y='col_2', hue='col_3', ax = axis[0,0])
 #### General
 ###############################################################################################################
 
-divmod(a,b)                                                                           #returns a tuple with quotient and remainder of a/b
-a//b                                                                                  #returns quotient of a/b
-a%b                                                                                   #returns remainder of a/b
-pow(a,b)                                                                              #returns a^b
-pow(a,b,m)                                                                            #returns a^b % m
+divmod(a,b)                                 #returns a tuple with quotient and remainder of a/b
+a//b                                        #returns quotient of a/b
+a%b                                         #returns remainder of a/b
+pow(a,b)                                    #returns a^b
+pow(a,b,m)                                  #returns a^b % m
 
 
 
@@ -1098,39 +1127,39 @@ pow(a,b,m)                                                                      
 #### strings - Everything
 ###############################################################################################################
 
-s1 = 'abcdefghij'                                                                     #string
-s1[3]                                                                                 #string indexing
-s1[-1]                    
-s1[2:]                                                                                #string slicing
-s1[:8]                    
-s1[1:5]                   
-s1[::2]                                                                               #every character from string s with step size 2
-s1[::-1]                                                                              #string backwards
-
-s2 = 'welcome'                    
-s1 + s2                                                                               #concatenation
-char = 'a'                    
-char * 10                                                                             #'aaaaaaaaaa'
-                  
-s1.upper()                                                                            #upper case
-s1.lower()                                                                            #lower case
-s1.capitalize()                                                                       #capitalize first character of first word
-s1.title()                                                                            #capitalize first character of all word
-                  
-s1.replace('d','z')                                                                   #replace 'd' with 'z' in s1
-s1.strip()                                                                            #remove white space before and after s1
-s1.rstrip()                                                                           #remove white space after s1
-s1.lstrip()                                                                           #remove white space before s1
-s1.split()                                                                            #split the string at space and provide a list of strings
-s1.split('c')                                                                         #split the string at 'c'
-" ".join(arr_of_str)                                                                  #join an array of string with space in between
-len(s1)                                                                               #length of string
-
-str.isalnum()                                                                         #checks if string is alphanumeric
-str.isalpha()                                                                         #checks if string is alphabetical
-str.isdigit()                                                                         #checks if string is numeric
-str.islower()                                                                         #checks if string is all lower characters
-str.isupper()                                                                         #checks if string is all upper characters
+s1 = 'abcdefghij'                           #string
+s1[3]                                       #string indexing
+s1[-1]                          
+s1[2:]                                      #string slicing
+s1[:8]                          
+s1[1:5]                         
+s1[::2]                                     #every character from string s with step size 2
+s1[::-1]                                    #string backwards
+        
+s2 = 'welcome'                          
+s1 + s2                                     #concatenation
+char = 'a'                          
+char * 10                                   #'aaaaaaaaaa'
+                        
+s1.upper()                                  #upper case
+s1.lower()                                  #lower case
+s1.capitalize()                             #capitalize first character of first word
+s1.title()                                  #capitalize first character of all word
+                        
+s1.replace('d','z')                         #replace 'd' with 'z' in s1
+s1.strip()                                  #remove white space before and after s1
+s1.rstrip()                                 #remove white space after s1
+s1.lstrip()                                 #remove white space before s1
+s1.split()                                  #split the string at space and provide a list of strings
+s1.split('c')                               #split the string at 'c'
+" ".join(arr_of_str)                        #join an array of string with space in between
+len(s1)                                     #length of string
+        
+str.isalnum()                               #checks if string is alphanumeric
+str.isalpha()                               #checks if string is alphabetical
+str.isdigit()                               #checks if string is numeric
+str.islower()                               #checks if string is all lower characters
+str.isupper()                               #checks if string is all upper characters
                     
                     
                     
@@ -1139,25 +1168,25 @@ str.isupper()                                                                   
 #### list - Everything
 ###############################################################################################################
                     
-my_list = ['A string',23,100.232,'o']                                                 #a list can contain anything
-len(my_list)                                                                          #number of elements in a list
-my_list[2]                                                                            #element at index 2
-my_list[2:]                                                                           #elements from index 2 to end
-my_list[:3]                                                                           #elements from start to index 2
-my_list[2:5]                                                                          #elements at index 2,3,4
-my_list[::2]                                                                          #every 2nd element from the list
-my_list[::-1]                                                                         #reverse the list
-my_list + ['new item']                                                                #concatenate element to the list
-my_list * 2                                                                           #repeat the list
-my_list.append('append_me')                                                           #append element to the list
-my_list.pop()                                                                         #remove last element from the list and return it
-my_list.pop(2)                                                                        #remove element at index 2 from the list and return it
-my_list.reverse()                                                                     #reverse the list
-my_list.count(element_1)                                                              #count the number of element_1 in my_list
-my_list.sort()                                                                        #sort the list - in place
-sorted(my_list)                                                                       #just show the sorted list, not sort original list
-[i**2 for i in my_list if i%2==0]                                                     #list comprehension
-my_list = list(tuple_1)                                                               #convert tuple_1 to list
+my_list = ['A string',23,100.232,'o']       #a list can contain anything
+len(my_list)                                #number of elements in a list
+my_list[2]                                  #element at index 2
+my_list[2:]                                 #elements from index 2 to end
+my_list[:3]                                 #elements from start to index 2
+my_list[2:5]                                #elements at index 2,3,4
+my_list[::2]                                #every 2nd element from the list
+my_list[::-1]                               #reverse the list
+my_list + ['new item']                      #concatenate element to the list
+my_list * 2                                 #repeat the list
+my_list.append('append_me')                 #append element to the list
+my_list.pop()                               #remove last element from the list and return it
+my_list.pop(2)                              #remove element at index 2 from the list and return it
+my_list.reverse()                           #reverse the list
+my_list.count(element_1)                    #count the number of element_1 in my_list
+my_list.sort()                              #sort the list - in place
+sorted(my_list)                             #just show the sorted list, not sort original list
+[i**2 for i in my_list if i%2==0]           #list comprehension
+my_list = list(tuple_1)                     #convert tuple_1 to list
 
 
 
