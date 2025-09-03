@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <NotepadPlus>
     <Session activeView="0">
-        <mainView activeIndex="1">
-            <File firstVisibleLine="0" xOffset="0" scrollWidth="1764" startPos="0" endPos="0" selMode="0" offset="0" wrapCount="1" lang="Python" encoding="-1" userReadOnly="no" filename="F:\Grv\Grv\05 Personal - Official\Monthly Work Done.py" backupFilePath="" originalFileLastModifTimestamp="-483795446" originalFileLastModifTimestampHigh="31197836" tabColourId="-1" RTL="no" tabPinned="no" mapFirstVisibleDisplayLine="-1" mapFirstVisibleDocLine="-1" mapLastVisibleDocLine="-1" mapNbLine="-1" mapHigherPos="-1" mapWidth="-1" mapHeight="-1" mapKByteInDoc="512" mapWrapIndentMode="-1" mapIsWrap="no" />
-            <File firstVisibleLine="0" xOffset="0" scrollWidth="1764" startPos="0" endPos="0" selMode="0" offset="0" wrapCount="45" lang="Python" encoding="-1" userReadOnly="no" filename="F:\Grv\Grv\06 Personal\git_repo_DS\05_python_proj\Python - Everything.py" backupFilePath="" originalFileLastModifTimestamp="-1302254808" originalFileLastModifTimestampHigh="31202262" tabColourId="-1" RTL="no" tabPinned="no" mapFirstVisibleDisplayLine="-1" mapFirstVisibleDocLine="-1" mapLastVisibleDocLine="-1" mapNbLine="-1" mapHigherPos="-1" mapWidth="-1" mapHeight="-1" mapKByteInDoc="512" mapWrapIndentMode="-1" mapIsWrap="no" />
-        </mainView>
+        <mainView activeIndex="0" />
         <subView activeIndex="0" />
     </Session>
 </NotepadPlus>

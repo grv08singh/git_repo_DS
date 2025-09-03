@@ -16,8 +16,6 @@
         <Replace name="D4E4E4" />
     </FindHistory>
     <History nbMaxFile="10" inSubMenu="no" customLength="-1">
-        <File filename="C:\Users\grv06\AppData\Local\Programs\Microsoft VS Code\resources\app\extensions\markdown-language-features\package.json" />
-        <File filename="C:\Users\grv06\AppData\Local\Programs\Microsoft VS Code\resources\app\extensions\markdown-language-features\package.nls.json" />
         <File filename="C:\Users\grv06\AppData\Local\Programs\Microsoft VS Code\resources\app\extensions\markdown-basics\package.json" />
         <File filename="C:\Users\grv06\AppData\Local\Programs\Microsoft VS Code\resources\app\extensions\markdown-math\preview-styles\index.css" />
         <File filename="C:\Users\grv06\AppData\Local\Programs\Microsoft VS Code\resources\app\extensions\ipynb\package.json" />
@@ -26,6 +24,8 @@
         <File filename="C:\Users\grv06\AppData\Local\Programs\Microsoft VS Code\resources\app\extensions\ipynb\dist\ipynbMain.node.js" />
         <File filename="C:\Users\grv06\AppData\Local\Programs\Microsoft VS Code\resources\app\extensions\ipynb\dist\notebookSerializerWorker.js" />
         <File filename="F:\Grv\Grv\06 Personal\git_repo_DS\03_sql_proj\SQL - Everything.sql" />
+        <File filename="F:\Grv\Grv\06 Personal\git_repo_DS\05_python_proj\Python - Everything.py" />
+        <File filename="F:\Grv\Grv\05 Personal - Official\Monthly Work Done.py" />
     </History>
     <ProjectPanels>
         <ProjectPanel id="0" workSpaceFile="" />

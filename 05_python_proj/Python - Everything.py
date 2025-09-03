@@ -26,91 +26,53 @@ warnings.filterwarnings('ignore')
 
 
 
-#### ML MODELS & TECHNIQUES
-
-#### Regression Types:
-######## 1) Linear Regression
-######## 2) Ridge Regression
-######## 3) Lasso Regression
-######## 4) 
-
-#### Classification Types:
-######## 1) Logistic Regression
-######## 2) Decision Tree
-######## 3) Random Forest
-######## 4) K-Nearest Neighbours
-######## 5) Naive Bayes
-
-
-
-#### 1) Linear Regression
-######## 1) Bias-Variance Trade-Off
-############ 1) Regularization - Ridge Regression
-############ 2) Regularization - Lasso Regression
-############ 3) Regularization - Elastic Net Regression
-
-#### 2) Multiple Linear Regression
-
-#### 3) Gradient Descent
-######## 2.1) Batch Gradient Descent
-######## 2.2) Stochastic Gradient Descent
-######## 2.3) Mini Batch Gradient Descent
-
-#### 4) Polynomial Linear Regression
-
-#### 6) Logistics Regression
-
-#### 7) Decision Tree Classification
-######## Maximum (Entropy Reduction) OR (Info Gain) is required
-######## General Formula for Entropy at a node = H = P1*log(P1) + P2*log(P2) ------> Max value 1 at P1=P2=0.5
-######## where P1, P2 are probabilities of event 1, 2 at the node
-######## Info_Gain = H_parent - w_avg(H_children)
-
-######## Gini = Measure of impurity (alternative of Entropy H)
-######## Gini = 1 - [P1^2 + P2^2] ------> Max value 0.5 at P1=P2=0.5 [Computationally easier than Entropy calculation]
-######## Info_Gain = Gini_parent - w_avg(Gini_children)
-
-#### 8) Decision Tree Regression
-######## Info_Gain = Variance_parent - w_avg(Variance_children)
-
-#### 9) Random Forest Classification
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-###############################################################################################################
-#### sklearn
-
-######## 1) preprocessing
-############ LabelEncoder class
-############ StandardScaler class
-
-######## 2) linear_model
-############ LinearRegression class
-
-######## 3) model_selection
-############ train_test_split class
-############ cross_val_score class
-
-######## 4) metrics
-############ r2_score
-############ f1_score
-############ mean_absolute_error
-############ mean_squared_error
-
-######## 5) ensemble
-############ RandomForestRegressor class
-###############################################################################################################
+## ML Pipeline:
+##
+####  1) Data Cleaning:
+########    Remove Duplicates / Redundant rows
+########    Handle Missing Data (Null / Blank / Errors) by removing rows OR filling nulls/replacing errors with some values
+########    Standardize Data Format consistency
+########    Transform OR Remove Outlier that can skew the results
+##
+##
+#### 2) Data Pre-Processing (Standardize, Scale, Encode)
+########    Inspect Data Types - df.info()
+########    Check Missing Values - df.isnull().sum()
+########    Statistical Summary - df.describe()
+########    Visualize Outliers in each numerical column using boxplot()
+########    Remove Outliers using IQR Method
+########    Correlation Analysis to understand the relationship between features & target variable - df.corr()
+########    Check if Target Variable is balanced affecting model training and evaluation - plt.pie()
+########    X - y Split
+########    Feature Scaling:
+##########      Normalization      - MinMaxScaler().fit_transform(X)
+##########      Standardization    - StandardScaler().fit_transform(X)
+##
+##
+#### 3) EDA (Explore, Identify Trends & Patterns, Gain Insights, Decision Making)
+#### 4) Feature Engineering (Feature Selection, Create New or Transform Existing Features)
+##
+##
+#### 5) Model Selection ---> based on: 
+######## data Complexity
+######## decision factors like performance, interpretability, scalability
+######## Experimentation with different models to find the best one
+##
+##
+#### 6) Model Training ---> basic features are:
+######## Iterative Process: Train the model iteratively, adjusting parameters to minimize errors & enhance accuracy
+######## Optimization: Fine-tune model to optimize its predictive capabilities
+######## Validation: Rigorously train model to ensure accuracy to new unseen data
+##
+##
+#### 7) Model Evaluation & Tuning
+######## Evaluation Metrics: Use metrics like accuracy, precision, recall & F1 score to evaluate model performance
+######## Strengths & Weaknesses: Identify the strengths & weaknesses of the model through rigorous testing
+######## Iterative Improvement: Initiate model tuning to adjust hyperparameters & enhance predictive accuracy
+######## Model Robustness: Iterative tuning to achieve desired levels of model robustness & reliability
+##
+##
+#### 8) Model Deployment
 
 
 
@@ -208,6 +170,103 @@ for col in df.columns:
    if(df[col].dtype == 'object'):
        df[col] = LE.fit_transform(df[col])
        print(LE.classes())
+
+
+
+
+
+
+
+
+
+
+
+
+#### ML MODELS & TECHNIQUES
+
+#### Regression Types:
+######## 1) Linear Regression
+######## 2) Ridge Regression
+######## 3) Lasso Regression
+######## 4) 
+
+#### Classification Types:
+######## 1) Logistic Regression
+######## 2) Decision Tree
+######## 3) Random Forest
+######## 4) K-Nearest Neighbours
+######## 5) Naive Bayes
+
+
+
+#### 1) Linear Regression
+######## 1) Bias-Variance Trade-Off
+############ 1) Regularization - Ridge Regression
+############ 2) Regularization - Lasso Regression
+############ 3) Regularization - Elastic Net Regression
+
+#### 2) Multiple Linear Regression
+
+#### 3) Gradient Descent
+######## 2.1) Batch Gradient Descent
+######## 2.2) Stochastic Gradient Descent
+######## 2.3) Mini Batch Gradient Descent
+
+#### 4) Polynomial Linear Regression
+
+#### 6) Logistics Regression
+
+#### 7) Decision Tree Classification
+######## Maximum (Entropy Reduction) OR (Info Gain) is required
+######## General Formula for Entropy at a node = H = P1*log(P1) + P2*log(P2) ------> Max value 1 at P1=P2=0.5
+######## where P1, P2 are probabilities of event 1, 2 at the node
+######## Info_Gain = H_parent - w_avg(H_children)
+
+######## Gini = Measure of impurity (alternative of Entropy H)
+######## Gini = 1 - [P1^2 + P2^2] ------> Max value 0.5 at P1=P2=0.5 [Computationally easier than Entropy calculation]
+######## Info_Gain = Gini_parent - w_avg(Gini_children)
+
+#### 8) Decision Tree Regression
+######## Info_Gain = Variance_parent - w_avg(Variance_children)
+
+#### 9) Random Forest Classification
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###############################################################################################################
+#### sklearn
+
+######## 1) preprocessing
+############ LabelEncoder class
+############ StandardScaler class
+
+######## 2) linear_model
+############ LinearRegression class
+
+######## 3) model_selection
+############ train_test_split class
+############ cross_val_score class
+
+######## 4) metrics
+############ r2_score
+############ f1_score
+############ mean_absolute_error
+############ mean_squared_error
+
+######## 5) ensemble
+############ RandomForestRegressor class
+###############################################################################################################
 
 
 
