@@ -16,7 +16,6 @@
         <Replace name="D4E4E4" />
     </FindHistory>
     <History nbMaxFile="10" inSubMenu="no" customLength="-1">
-        <File filename="C:\Users\grv06\AppData\Local\Programs\Microsoft VS Code\resources\app\extensions\markdown-language-features\notebook-out\index.js" />
         <File filename="C:\Users\grv06\AppData\Local\Programs\Microsoft VS Code\resources\app\extensions\markdown-language-features\package.json" />
         <File filename="C:\Users\grv06\AppData\Local\Programs\Microsoft VS Code\resources\app\extensions\markdown-language-features\package.nls.json" />
         <File filename="C:\Users\grv06\AppData\Local\Programs\Microsoft VS Code\resources\app\extensions\markdown-basics\package.json" />
@@ -26,6 +25,7 @@
         <File filename="C:\Users\grv06\AppData\Local\Programs\Microsoft VS Code\resources\app\extensions\ipynb\README.md" />
         <File filename="C:\Users\grv06\AppData\Local\Programs\Microsoft VS Code\resources\app\extensions\ipynb\dist\ipynbMain.node.js" />
         <File filename="C:\Users\grv06\AppData\Local\Programs\Microsoft VS Code\resources\app\extensions\ipynb\dist\notebookSerializerWorker.js" />
+        <File filename="F:\Grv\Grv\06 Personal\git_repo_DS\03_sql_proj\SQL - Everything.sql" />
     </History>
     <ProjectPanels>
         <ProjectPanel id="0" workSpaceFile="" />
