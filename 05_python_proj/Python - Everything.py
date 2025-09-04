@@ -30,10 +30,10 @@ from sklearn.model_selection import cross_val_score
 # ML Pipeline:
 #
 ## 1) Data Cleaning:
-###    Remove Duplicates / Redundant rows
-###    Handle Missing Data (Null / Blank / Errors) by removing rows OR filling nulls/replacing errors with some values
-###    Standardize Data Format consistency
-###    Transform OR Remove Outlier that can skew the results
+###    Remove Duplicates rows - df.duplicated()
+###    Handle Null values - df.dropna() / df.fillna()
+###    Check unique values of each column - df['col_1'].unique().tolist()
+###    Handle Errors - df['col_1'].replace('unknown',np.NAN)
 #
 #
 ## 2) Data Pre-Processing (Standardize, Scale, Encode)
