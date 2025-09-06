@@ -215,7 +215,13 @@ for col in df.columns:
 
 # 2.1 X-y Split
 X = df[['col_1','col_2']]
-y = df['Tgt_col']
+y = df['tgt_col']
+#or
+X = df.iloc[:, :-1]
+y = df.iloc[:, -1]
+#or
+X = df.iloc[:,[0,1,2,3,4,5,6,7]]
+y = df.iloc[:,[8]]
 
 
 # 2.2 Train-Test Split
