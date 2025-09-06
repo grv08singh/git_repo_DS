@@ -3,7 +3,7 @@
 ## jupyter notebook --notebook-dir="specified_path"
 ## jupyter notebook --notebook-dir="D:\04 Intellipaat - EPGC\02 EPGC - Python\06 Python - Mandatory Assignments\05 - Data Visualization Assignment"
 ## jupyter notebook --notebook-dir="C:\Users\Grv\00 DS Python\00-grv-DS PythonPractice"
-## jupyter notebook --notebook-dir="D:\git_repo_DS\08_EPGC_Intellipaat\02 EPGC - Python + Stats + ML\2025.08.31 - EPGC Final Quiz"
+## jupyter notebook --notebook-dir="D:\git_repo_DS\08_EPGC_Intellipaat\02 EPGC - Python + Stats + ML\2025.09.06 - EPGC ML - Customer Churn Project"
 ## C:\Users\grv06\AppData\Roaming\Code\User\settings.json
 
 
@@ -20,8 +20,13 @@ from sklearn.metrics import r2_score
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import f1_score
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import ConfusionMatrixDisplay
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import GridSearchCV
 
 
 
@@ -197,6 +202,94 @@ for col in df.columns:
    if(df[col].dtype == 'object'):
        df[col] = LE.fit_transform(df[col])
        print(LE.classes())
+
+
+
+
+
+
+###############################################################################################################
+#### 2. Machine Learning (ML) - Model Fitting
+###############################################################################################################
+
+
+# 2.1 X-y Split
+X = df[['col_1','col_2']]
+y = df['Tgt_col']
+
+
+# 2.2 Train-Test Split
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(x, y, test_size = 0.30, random_state = 42)
+
+
+# 2.3 Initializing Different ML Model
+
+## 2.3.1 Linear Regression
+from sklearn.linear_model import LinearRegression
+lr = LinearRegression()
+lr.fit(X_train, y_train)
+y_pred = lr.predict(X_test)
+
+from sklearn.metrics import *
+mse = mean_squared_error(y_test, y_pred)
+rmse = np.sqrt(mse)
+r2_score = r2_score(y_test, y_pred)
+
+## 2.3.2 Logistic Regression
+from sklearn.linear_model import LogisticRegression
+log = LogisticRegression()
+log.fit(X_train, y_train)
+y_pred = log.predict(X_test)
+
+from sklearn.metrics import *
+accuracy_score(y_test, y_pred)
+confusion_matrix(y_test, y_pred)
+
+## 2.3.3 Decision Tree Classifier
+from sklearn.tree import DecisionTreeClassifier
+dt = DecisionTreeClassifier()
+dt = DecisionTreeClassifier(max_depth = 5)
+dt.fit(X_train, y_train)
+y_pred = dt.predict(X_test)
+
+from sklearn.metrics import *
+accuracy_score(y_test, y_pred)
+confusion_matrix(y_test, y_pred)
+
+## 2.3.4 Random Forest Classifier
+from sklearn.ensemble import RandomForestClassifier
+rf = RandomForestClassifier()
+rf = RandomForestClassifier(n_estimators = 52, max_depth = 7, criterion = 'entropy', random_state = 2)
+rf.fit(X_train, y_train)
+y_pred = rf.predict(X_test)
+
+from sklearn.metrics import *
+accuracy_score(y_test, y_pred)
+confusion_matrix(y_test, y_pred)
+
+## 2.3.5 Grid Search CV
+param_grid = {
+    'n_estimators' : [100,200,300],
+    'max_depth' : [None,5,10,15],
+    'min_samples_split' : [2,5,10],
+    'min_samples_leaf' : [1,2,4],
+    'criterion' : ['gini','entropy']
+}
+
+from sklearn.model_selection import GridSearchCV
+from sklearn.ensemble import RandomForestClassifier
+rf = RandomForestClassifier()
+grid_search = GridSearchCV(estimator = rf, param_grid = param_grid, cv = 5, scoring = 'accuracy')
+grid_search.fit(X_train, y_train)
+
+grid_search.best_estimator_
+grid_search.score(X,y)
+grid_search.best_score_
+grid_search.best_params_
+
+
+
 
 
 
@@ -808,8 +901,12 @@ df = pd.DataFrame(my_dict, columns =['x','y'])                    #create DataFr
 
 df = pd.read_csv('my_csv.csv')                                    #read data from csv file into df
 df = pd.read_html('http://www.fdic.gov/bank/individual/failed/banklist.html')
+pd.set_option('display.max_columns', None)                        #display all columns while printing dataset
+pd.set_option('display.max_rows', 5)                              #display only 5 rows while printing dataset
 df.head()                                                         #show first 5 rows of df
-df.tail()                                                         #show last 2 rows of df
+df.tail()                                                         #show last 5 rows of df
+print(df.head().to_string())                                      #print every column for first 5 rows when columns hide normally
+print(df.to_string())                                             #print every column for all rows when columns hide normally
           
 df.columns                                                        #show all the columns in df
 df.columns.tolist()                                               #more readable format
