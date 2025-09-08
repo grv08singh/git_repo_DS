@@ -3,7 +3,7 @@
 ## jupyter notebook --notebook-dir="specified_path"
 ## jupyter notebook --notebook-dir="D:\04 Intellipaat - EPGC\02 EPGC - Python\06 Python - Mandatory Assignments\05 - Data Visualization Assignment"
 ## jupyter notebook --notebook-dir="C:\Users\Grv\00 DS Python\00-grv-DS PythonPractice"
-## jupyter notebook --notebook-dir="D:\git_repo_DS\08_EPGC_Intellipaat\02 EPGC - Python + Stats + ML\2025.09.06 - EPGC ML - Customer Churn Project"
+## jupyter notebook --notebook-dir="D:\git_repo_DS\08_EPGC_Intellipaat\03 EPGC - P+S+ML - Mandatory Assignments\06 - Logistic Regression Assignment Quiz"
 ## C:\Users\grv06\AppData\Roaming\Code\User\settings.json
 
 
@@ -226,7 +226,7 @@ y = df.iloc[:,[8]]
 
 # 2.2 Train-Test Split
 from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(x, y, test_size = 0.30, random_state = 42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.30, random_state = 42)
 
 
 # 2.3 Initializing Different ML Model
@@ -251,6 +251,13 @@ y_pred = log.predict(X_test)
 from sklearn.metrics import *
 accuracy_score(y_test, y_pred)
 confusion_matrix(y_test, y_pred)
+tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
+precision = tp / (tp + fp)
+recall = tp / (tp + fn)
+f1_score = 2 * precision * recall / (precision + recall)
+negative precision = tn / (tn + fn)
+specificity = tn / (tn + fp)
+total support value = tp + tn + fp + fn
 
 ## 2.3.3 Decision Tree Classifier
 from sklearn.tree import DecisionTreeClassifier
