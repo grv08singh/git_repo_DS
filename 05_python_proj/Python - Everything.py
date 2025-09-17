@@ -928,27 +928,81 @@ df = pd.DataFrame(my_list, columns =['x','y'])                    #create DataFr
 df = pd.DataFrame(my_dict, columns =['x','y'])                    #create DataFrame from dictionary
 
 df = pd.read_csv('my_csv.csv')                                    #read data from csv file into df
-df = pd.read_html('http://www.fdic.gov/bank/individual/failed/banklist.html')
+df = pd.read_table('my_file.txt')                                 #read data from delimited text file
+df = pd.read_excel('my_file.xlsx')                                #read data from excel file
+df = pd.read_excel('my_file.xlsx', sheet='Sheet1')                #read data from particular sheet of an excel file
+df = pd.read_sql(query, connection_object)                        #read data from sql database
+df = pd.read_json(json_string)                                    #read data from json
+df = pd.read_html(url)                                            #read data from web
+
+df.to_csv(filename)                                               #write to a csv file
+df.to_excel(filename)                                             #write to an excel file
+df.to_sql(tbl_nm, connection_object)                              #write to an sql database table
+df.to_json(filename)                                              #write to a file in json format
+
+
+
 pd.set_option('display.max_columns', None)                        #display all columns while printing dataset
 pd.set_option('display.max_rows', 5)                              #display only 5 rows while printing dataset
 df.head()                                                         #show first 5 rows of df
 df.tail()                                                         #show last 5 rows of df
+df.sample()                                                       #show random 5 rows of df
 print(df.head().to_string())                                      #print every column for first 5 rows when columns hide normally
 print(df.to_string())                                             #print every column for all rows when columns hide normally
           
+df.shape                                                          #returns a tuple of size (#rows(length), #columns(width))
 df.columns                                                        #show all the columns in df
 df.columns.tolist()                                               #more readable format
-df.shape                                                          #returns a tuple of size (#rows(length), #columns(width))
+df.dtypes                                                         #show data types of all the columns
+df.index                                                          #show the index range
+
 df.info()                                                         #returns column-wise non-null counts and data-types
 df.describe()                                                     #returns count,mean,std,min,25%,median,75%,max for each numeric column
 df.describe().T                                                   #Transpose
 df.describe(include = 'O')                                        #returns count,unique,frequency,top (Statistics) for non-numeric column
 df.describe(include = 'all')                                      #returns Statistics for all numeric column
 df.transpose()                                                    #transpose all the data of df
-df.index                                                          #range of index
+df.T                                                              #transpose all the data of df
 
-df = df.rename(columns={'col_1':'col_101','col_2':'col_102'})     #rename columns or replace column names
+df.col_1                                                          #returns single column
+df.col_1[0]                                                       #returns data of col_1 @ row index 0
+df['col_1']                                                       #returns single column
+df[['col_1','col_2']]                                             #returns multiple column
+df['col_1'][0]                                                    #returns data of col_1 @ row index 0
+
+df.loc[0]                                                         #select first row by index label
+df.loc[0, 'col_1']                                                #select an element by label
+df.loc[0:3, 'col_1':'col_4']                                      #returns data from row 0 to 2 & col_1 to col_4
+df.loc[0:5,'col_0':'col_2']                                       #returns data from row 0 to 4, col_0 to col_2
+df.loc[[2,3,6],['col_1','col_3']]                                 #returns data from row 2,3,6 & col 1,3
+
+df.iloc[0]                                                        #select first row by index or position
+df.iloc[0, 0]                                                     #select an element by position
+df.iloc[0:3, 1:4]                                                 #returns data from row 0 to 2 & col_1 to col_4
+df.iloc[0:5,0:3]                                                  #returns data from row 0 to 4, col 0 to 2
+df.iloc[[2,3,6],[5,2]]                                            #returns data from row 2,3,6 & col 5,2
           
+pd.set_index('col_3', inplace=True)                               #to set col_3 as indexs
+pd.reset_index(drop = True)                                       #reset index making previous index a column
+
+df.isnull.sum()                                                   #column-wise count of null values
+df.notnull.sum()                                                  #column-wise count of non-null values
+
+df.dropna()                                                       #drop all the rows with null in any column
+df.dropna(axis=0)                                                 #drop all the rows with null in any column
+df.dropna(axis=1)                                                 #drop all the columns with null in any row
+df.dropna(thresh=2)                                               #drop all the rows with values above 2
+df.fillna(value='abc')                                            #fill all the null values with 'abc'
+df.fillna({'col_1':x}, inplace=True)                              #fill null values in col_1 with x
+df['col_1'].fillna(value=df['col_1'].mean())                      #fill all the null values in col_1 with avg of it
+df['col_1'].replace(' ', np.nan)                                  #replace all the space values with null
+
+del df['col_1']                                                   #permanently remove col_1
+
+
+
+
+
 df.min()                                                          #returns a minimum value for each column
 df.max()                                                          #returns a maximum value for each column
 df.mean()                                                         #returns mean for every numeric column
@@ -961,77 +1015,50 @@ df.drop_duplicates()                                              #drop duplicat
 df['col_1'].astype(float)                                         #change col_1 data type to float
 df.drop(columns = [col_1,col_2], inplace=True)                    #drop col_1 and col_2
 
+df = df.rename(columns={'col_1':'col_101','col_2':'col_102'})     #rename columns or replace column names
+
 df['col_1'].mean()                                                #returns mean for col_1
 df['col_1'].median()                                              #returns median for col_1
 df['col_1'].std()                                                 #returns standard deviation for col_1
 df['col_1'].count()                                               #returns count for col_1
 df['col_1'].value_counts()                                        #group by col_1 and show its count
 df.groupby('col_1')['col_2'].size()                               #group by col_1, count of col_2
-          
+
 df.values.tolist()                                                #All DataFrame values to list
 df.to_dict()                                                      #DataFrame to a dictionary
 df['col_1'].astype(int)                                           #convert data type to integer
 pd.to_numeric(df['col_1'], errors='coerce')                       #convert col_1 values to numbers, if there is space then make it null
 df['col_1'].astype(int)                                           #convert col_1 values to numbers
 df.corr(numeric_only = True)                                      #correlation coefficient for each value with respect to every other value
-          
-df['col_1'].fillna(value=df['col_1'].mean())                      #fill all the null values in col_1 with avg of it
-df['col_1'].replace(' ', np.nan)                                  #replace all the space values with null
-df.dropna()                                                       #drop all the rows with null in any column
-df.dropna(axis=0)                                                 #drop all the rows with null in any column
-df.dropna(axis=1)                                                 #drop all the columns with null in any row
-df.dropna(thresh=2)                                               #drop all the rows with values above 2
-df.fillna(value='abc')                                            #fill all the null values with 'abc'
-          
+
 pd.concat([df_1, df_2])                                           #append df_2 at the end of df_1
 pd.concat([df_1, df_2], axis=0)                                   #append df_2 at the end of df_1
 pd.concat([df_1, df_2], axis=1)                                   #append df_2 at the end and right of df_1
 pd.merge(df_1,df_2,how='inner',on='col_3')                        #SQL INNER JOIN on col_3
 pd.merge(df_1,df_2,how='outer',on=['col_3','col_5'])              #SQL OUTER JOIN on col_3 and col_5
 pd.merge(df_1,df_2,how='left',on='col_5')                         #SQL LEFT JOIN on col_5
-          
+
 df_left.join(df_right)                                            #SQL INNER JOIN based on row_index
 df_left.join(df_right,how='left')                                 #SQL LEFT JOIN based on row_index
-          
-pd.reset_index(drop = True)                                       #reset index making previous index a column
-pd.set_index('col_3', inplace=True)                               #to set col_3 as indexs
-          
+
 np.array_split(df, 2)                                             #split df into 2 np arrays of almost equal rows
 np.array_split(df, 2, axis=0)                                     #split df into 2 np arrays of almost equal rows
 np.array_split(df, 2, axis=1)                                     #split df into 2 np arrays of almost equal columns
-          
-df['col_1']                                                       #returns data of col_1
-df.col_1                                                          #returns data of col_1
-          
-df['col_1'][0]                                                    #returns data of col_1 @ row index 0
-df.col_1'[0]                                                      #returns data of col_1 @ row index 0
-          
-df.loc[0:3, 'col_1':'col_4']                                      #returns data from row 0 to 2 & col_1 to col_4
-df.loc[0:5,'col_0':'col_2']                                       #returns data from row 0 to 4, col_0 to col_2
-df.loc[[2,3,6],['col_1','col_3']]                                 #returns data from row 2,3,6 & col 1,3
-          
-df.iloc[0:3, 1:4]                                                 #returns data from row 0 to 2 & col_1 to col_4
-df.iloc[0:5,0:3]                                                  #returns data from row 0 to 4, col 0 to 2
-df.iloc[[2,3,6],[5,2]]                                            #returns data from row 2,3,6 & col 5,2
-          
+
 df['col_1'].unique()                                              #Unique values from col_1
 df['col_1'].nunique()                                             #The number of unique values from col_1
 df['col_1'].value_counts()                                        #group by col_1 and show its count
-          
-df.isnull.sum()                                                   #column-wise count of null values
-df.notnull.sum()                                                  #column-wise count of non-null values
-del df['col_1']                                                   #permanently remove col_1
-df.fillna({'col_1':x}, inplace=True)                              #fill null values in col_1 with x
-          
+
+
 ####Sorting of DataFrame          
 df.sort_values(by = 'col_1')                                      #sort ascending based on col_1
 df.sort_values(by = 'col_1', ascending = False)                   #sort descending based on col_1
-          
+
 ####Filtering DataFrame           
 df['col_1']>5]                                                    #returns True/False based on the condition >5
 df[df['col_1']>5]                                                 #returns DataFrame where condition is true
 df[df['col_1']>5 & df['col_2']<10]                                #returns DataFrame where both the conditions meet
-          
+
 df.groupby('col_1')['col_2'].sum()                                #group by col_1, sum of col_2
 df.groupby('col_1')['col_2'].count()                              #group by col_1, count of col_2
 df.groupby('col_1')['col_2'].mean()                               #group by col_1, mean of col_2
