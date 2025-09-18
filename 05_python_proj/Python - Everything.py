@@ -1172,7 +1172,7 @@ ax.plot(x,y)
 ax.set_xlabel('x-axis')
 ax.set_ylabel('y-axis')
 ax.set_title('title')
-ax.set_xlim([4,7])                                                #set lower and upper limit on x-axis
+ax.set_xlim([4,7])                                                   #set lower and upper limit on x-axis
 ax.set_ylim([15,50])
 
 fig = plt.figure()
@@ -1220,7 +1220,7 @@ ax.legend(loc=0)                                                    #0-best fit 
     # startangle=90                                                 #only in pie chart
     # radius=1.5                                                    #only in pie chart, to change pie to donut
     # labels                                                        #labels
-    # hue='col2'                                                   #Segregate based on col2
+    # hue='col2'                                                    #Segregate based on col2
 
 
 
@@ -1234,16 +1234,16 @@ x = range(32)
 y = df['col1']
 
 # Single Chart/Plot
-plt.plot(df['col1'],df['col2'])                                 #line chart
-plt.bar(df['col1'],df['col2'])                                  #vertical bar chart
-plt.barh(df['col1'],df['col2'])                                 #horizontal bar chart
-plt.scatter(df['col1'],df['col2'])                              #scatter plot
-plt.stackplot(df['col1'],df['col2'])                            #Area/stack plot, y can be 2-d array
-plt.pie(df['col2'])                                              #Pie Chart
-plt.boxplot(df['col2'])                                          #used to find outlier
-plt.violinplot(df['col2'])                                       #used to find outlier
-plt.imshow(df['col2'], cmap='summer')                            #heatmap
-plt.hist(df['col1'], bins=8, edgecolor="white")                  #histogram with 8 bins
+plt.plot(df['col1'],df['col2'])                                     #line chart
+plt.bar(df['col1'],df['col2'])                                      #vertical bar chart
+plt.barh(df['col1'],df['col2'])                                     #horizontal bar chart
+plt.scatter(df['col1'],df['col2'])                                  #scatter plot
+plt.stackplot(df['col1'],df['col2'])                                #Area/stack plot, y can be 2-d array
+plt.pie(df['col2'])                                                 #Pie Chart
+plt.boxplot(df['col2'])                                             #used to find outlier
+plt.violinplot(df['col2'])                                          #used to find outlier
+plt.imshow(df['col2'], cmap='summer')                               #heatmap
+plt.hist(df['col1'], bins=8, edgecolor="white")                     #histogram with 8 bins
           
 plt.figure(figsize=(4, 10))           
 plt.xlabel('X Axis Title Here')           
@@ -1254,12 +1254,12 @@ plt.grid(True)
 plt.xticks(rotation=90)            
 plt.show()            
 
-plt.subplot(2,3,4).plot(df['col1'],df['col2'],'g--')              #2 rows, 3 coloumns, 4th plot, g-- green dashed line
-plt.subplot(r,c,sn).plot(df['col1'],df['col2'],'y*-')             #y*- yellow line with * marker
+plt.subplot(2,3,4).plot(df['col1'],df['col2'],'g--')                #2 rows, 3 coloumns, 4th plot, g-- green dashed line
+plt.subplot(r,c,sn).plot(df['col1'],df['col2'],'y*-')               #y*- yellow line with * marker
             
                 
 # arguments of pie() method:            
-    # labels='col1'                                                #Pie chart only
+    # labels='col1'                                                 #Pie chart only
     # explode=()                                                    #Pie chart only
     # autopct='%1.2f%%'                                             #Pie chart only
                 
@@ -1267,9 +1267,9 @@ plt.subplot(r,c,sn).plot(df['col1'],df['col2'],'y*-')             #y*- yellow li
     # cmap = 'autumn', 'summer', 'winter','spring'                  #different color schemes
             
 # Multiple Charts/Plots in Grid of 1x3                              # 1-row, 3-columns
-plt.subplot(1,3,1).scatter(x=df['col1'],y=df['col2'])             # 1- rows, 3 - col 1 - position
-plt.subplot(1,3,2).scatter(x=df['col1'],y=df['col2'])             # 1- rows, 3 - col 2 - position
-plt.subplot(1,3,3).scatter(x=df['col1'],y=df['col2'])             # 1- rows, 3 - col 3 - position
+plt.subplot(1,3,1).scatter(x=df['col1'],y=df['col2'])               # 1- rows, 3 - col 1 - position
+plt.subplot(1,3,2).scatter(x=df['col1'],y=df['col2'])               # 1- rows, 3 - col 2 - position
+plt.subplot(1,3,3).scatter(x=df['col1'],y=df['col2'])               # 1- rows, 3 - col 3 - position
 plt.show()
 
 
