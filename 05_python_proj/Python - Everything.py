@@ -891,7 +891,7 @@ import pandas as pd
 my_list = []
 labels = []
 
-############# Series
+# Series
 pd.Series(my_list, index=labels)                                  #list to pd.Series
 pd.Series(my_dictionary)                                          #dictionary to pd.Series
 pd.Series(list(my_set))                                           #set to list to pd.Series
@@ -911,6 +911,7 @@ series_1.loc[[2,3,6]]                                             #returns data 
 series_1.iloc[2]                                                  #returns data from row index 2
 series_1.iloc[0:3]                                                #returns data from row index 0 to 2
 series_1.iloc[[2,3,6]]                                            #returns data from row index 2,3,6
+
 series_1.drop(2)                                                  #remove row at index 2
           
 series_1.append(5)                                                #append element=5 at the end of series_1
@@ -918,12 +919,10 @@ series_1.append(5)                                                #append elemen
 pd.concat([s[:5], pd.Series([50], index=[5]), s[5:]])             #use concat to insert at index 5 in pandas series
 series_1.reset_index(drop = True)                                 #reset index without making previous index a column
 series_1.reset_index()                                            #reset index making previous index a column
-df.reset_index(drop = True)                                       #reset index
-df.set_index('col1')                                              #set index to col1
             
             
             
-#### Import Export Data
+# Import Export Data
 df = pd.DataFrame(my_list, columns =['x','y'])                    #create DataFrame from list
 df = pd.DataFrame(my_dict, columns =['x','y'])                    #create DataFrame from dictionary
 
@@ -998,6 +997,10 @@ pd.reset_index(drop = True)                                       #reset index m
 df.isnull().sum()                                                 #column-wise count of null values
 df.notnull().sum()                                                #column-wise count of non-null values
 
+df.duplicated().sum()                                             #row-wise count of duplicates
+df.drop_duplicates()                                              #drop duplicate rows
+df.drop(columns = ['col1', 'col2'], inplace = True)               #drop col1 and col2
+
 df.dropna()                                                       #drop all the rows with null in any column
 df.dropna(axis=0)                                                 #drop all the rows with null in any column
 df.dropna(axis=1)                                                 #drop all the columns with null in any row
@@ -1014,10 +1017,6 @@ df = df.rename(columns={'old':'new','old2':'new2'})               #rename column
 df['col1'].astype(int)                                            #change col1 data type to int
 df['col1'].astype(float)                                          #change col1 data type to float
 pd.to_numeric(df['col1'], errors='coerce')                        #convert col1 values to numbers, if there is space then make it null
-
-df.duplicated().sum()                                             #row-wise count of duplicates
-df.drop_duplicates()                                              #drop duplicate rows
-df.drop(columns = ['col1', 'col2'], inplace = True)               #drop col1 and col2
 
 
 
