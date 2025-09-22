@@ -3,7 +3,7 @@
 ## jupyter notebook --notebook-dir="specified_path"
 ## jupyter notebook --notebook-dir="D:\04 Intellipaat - EPGC\02 EPGC - Python\06 Python - Mandatory Assignments\05 - Data Visualization Assignment"
 ## jupyter notebook --notebook-dir="C:\Users\Grv\00 DS Python\00-grv-DS PythonPractice"
-## jupyter notebook --notebook-dir="D:\git_repo_DS\08_EPGC_Intellipaat\03 EPGC - P+S+ML - Mandatory Assignments\07 - Capstone Project Walmart"
+## jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\git_repo_DS\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\14 EPGC - ML - Capstone Project Walmart"
 ## C:\Users\grv06\AppData\Roaming\Code\User\settings.json
 
 
@@ -1149,9 +1149,10 @@ df['col1'].var()                                                  #returns varia
 
 
 # Datetime
-df['date'] = pd.to_datetime(df['date'])
 pd.Timestamp.now()
 pd.Timestamp.now().year
+pd.to_datetime(df['date'], format='%d-%m-%Y')                     #change FROM object(dd-mm-YYYY) to Datetime(YYYY-mm-dd)
+df['Date'].dt.day_name()                                          #gives name of the day
 
 
 # Visualization
@@ -1191,6 +1192,56 @@ df.plot.scatter(x = 'col1', y = 'col2')
 #relation plots             ::  scatter,line
 #distribution plots         ::  histogram,kde plot,pie chart,countplot
 #categorical plots          ::  barplot,countplot,box plot,violin plot
+
+
+
+## Intellipaat
+x = range(32)
+y = df['col1']
+
+# Single Chart/Plot
+plt.figure(figsize=(4, 10))
+plt.bar(df['col1'],df['col2'])                                      #vertical bar chart
+plt.xlabel('X Axis Title Here')
+plt.ylabel('Y Axis Title Here')
+plt.title('title_1')
+plt.legend('legend_1')
+plt.grid(True)
+plt.xticks(rotation=90)
+plt.show()
+
+plt.plot(df['col1'],df['col2'])                                     #line chart
+plt.barh(df['col1'],df['col2'])                                     #horizontal bar chart
+plt.scatter(df['col1'],df['col2'])                                  #scatter plot
+plt.stackplot(df['col1'],df['col2'])                                #Area/stack plot, y can be 2-d array
+plt.pie(df['col2'])                                                 #Pie Chart
+plt.boxplot(df['col2'])                                             #used to find outlier
+plt.violinplot(df['col2'])                                          #used to find outlier
+plt.imshow(df['col2'], cmap='summer')                               #heatmap
+plt.hist(df['col1'], bins=8, edgecolor="white")                     #histogram with 8 bins
+
+plt.subplot(2,3,4).plot(df['col1'],df['col2'],'g--')                #2 rows, 3 coloumns, 4th plot, g-- green dashed line
+plt.subplot(r,c,sn).plot(df['col1'],df['col2'],'y*-')               #y*- yellow line with * marker
+            
+                
+# arguments of pie() method:            
+    # labels='col1'                                                 #Pie chart only
+    # explode=()                                                    #Pie chart only
+    # autopct='%1.2f%%'                                             #Pie chart only
+                
+# arguments of imshow() method:         
+    # cmap = 'autumn', 'summer', 'winter','spring'                  #different color schemes
+            
+# Multiple Charts/Plots in Grid of 1x3                              # 1-row, 3-columns
+plt.subplot(1,3,1).scatter(x=df['col1'],y=df['col2'])               # 1- rows, 3 - col 1 - position
+plt.subplot(1,3,2).scatter(x=df['col1'],y=df['col2'])               # 1- rows, 3 - col 2 - position
+plt.subplot(1,3,3).scatter(x=df['col1'],y=df['col2'])               # 1- rows, 3 - col 3 - position
+plt.show()
+
+
+
+
+
 
 
 # Udemy
@@ -1268,48 +1319,7 @@ ax.legend(loc=0)                                                    #0-best fit 
 
 
 
-## Intellipaat
-x = range(32)
-y = df['col1']
 
-# Single Chart/Plot
-plt.plot(df['col1'],df['col2'])                                     #line chart
-plt.bar(df['col1'],df['col2'])                                      #vertical bar chart
-plt.barh(df['col1'],df['col2'])                                     #horizontal bar chart
-plt.scatter(df['col1'],df['col2'])                                  #scatter plot
-plt.stackplot(df['col1'],df['col2'])                                #Area/stack plot, y can be 2-d array
-plt.pie(df['col2'])                                                 #Pie Chart
-plt.boxplot(df['col2'])                                             #used to find outlier
-plt.violinplot(df['col2'])                                          #used to find outlier
-plt.imshow(df['col2'], cmap='summer')                               #heatmap
-plt.hist(df['col1'], bins=8, edgecolor="white")                     #histogram with 8 bins
-          
-plt.figure(figsize=(4, 10))           
-plt.xlabel('X Axis Title Here')           
-plt.ylabel('Y Axis Title Here')           
-plt.title('title_1')            
-plt.legend('legend_1')            
-plt.grid(True)            
-plt.xticks(rotation=90)            
-plt.show()            
-
-plt.subplot(2,3,4).plot(df['col1'],df['col2'],'g--')                #2 rows, 3 coloumns, 4th plot, g-- green dashed line
-plt.subplot(r,c,sn).plot(df['col1'],df['col2'],'y*-')               #y*- yellow line with * marker
-            
-                
-# arguments of pie() method:            
-    # labels='col1'                                                 #Pie chart only
-    # explode=()                                                    #Pie chart only
-    # autopct='%1.2f%%'                                             #Pie chart only
-                
-# arguments of imshow() method:         
-    # cmap = 'autumn', 'summer', 'winter','spring'                  #different color schemes
-            
-# Multiple Charts/Plots in Grid of 1x3                              # 1-row, 3-columns
-plt.subplot(1,3,1).scatter(x=df['col1'],y=df['col2'])               # 1- rows, 3 - col 1 - position
-plt.subplot(1,3,2).scatter(x=df['col1'],y=df['col2'])               # 1- rows, 3 - col 2 - position
-plt.subplot(1,3,3).scatter(x=df['col1'],y=df['col2'])               # 1- rows, 3 - col 3 - position
-plt.show()
 
 
 
