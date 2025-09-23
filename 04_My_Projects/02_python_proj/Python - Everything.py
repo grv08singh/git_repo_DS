@@ -1028,8 +1028,8 @@ df.iloc[0:3, 1:4]                                                 #returns data 
 df.iloc[0:5,0:3]                                                  #returns data from row 0 to 4, col 0 to 2
 df.iloc[[2,3,6],[5,2]]                                            #returns data from row 2,3,6 & col 5,2
           
-pd.set_index('col3', inplace=True)                                #to set col3 as indexs
-pd.reset_index(drop = True)                                       #reset index making previous index a column
+df.set_index('col3', inplace=True)                                #to set col3 as indexs
+df.reset_index(drop = True)                                       #reset index making previous index a column
 
 
 # Cleaning Data
