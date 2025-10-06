@@ -3,7 +3,7 @@
 ## jupyter notebook --notebook-dir="specified_path"
 ## jupyter notebook --notebook-dir="D:\04 Intellipaat - EPGC\02 EPGC - Python\06 Python - Mandatory Assignments\05 - Data Visualization Assignment"
 ## jupyter notebook --notebook-dir="C:\Users\Grv\00 DS Python\00-grv-DS PythonPractice"
-## jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\git_repo_DS\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\14 EPGC - ML - Capstone Project Walmart"
+## jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\git_repo_DS\04_My_Projects\02_python_proj"
 ## C:\Users\grv06\AppData\Roaming\Code\User\settings.json
 
 
@@ -1553,3 +1553,8 @@ Import submodule	                import package.submodule	        Access with fu
 
 
 
+###############################################################################################################
+#### Create New Python Environment in VS Code
+###############################################################################################################
+conda create --name .venv python=3.13
+conda activate .venv/
