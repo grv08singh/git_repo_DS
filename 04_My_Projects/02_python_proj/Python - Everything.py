@@ -3,7 +3,7 @@
 ## jupyter notebook --notebook-dir="specified_path"
 ## jupyter notebook --notebook-dir="D:\04 Intellipaat - EPGC\02 EPGC - Python\06 Python - Mandatory Assignments\05 - Data Visualization Assignment"
 ## jupyter notebook --notebook-dir="C:\Users\Grv\00 DS Python\00-grv-DS PythonPractice"
-## jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\git_repo_DS\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\16 EPGC - ML - Linear Regression Quiz"
+## jupyter notebook --notebook-dir="D:\git_repo_DS\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\16 EPGC - ML - Linear Regression Quiz"
 ## C:\Users\grv06\AppData\Roaming\Code\User\settings.json
 
 
@@ -160,7 +160,7 @@ plt.show()
 
 # 1.1 Cleaning
 df.shape
-df.columns
+df.columns.tolist()
 df.info()
 df.describe().T
 df.isnull().sum()
@@ -421,17 +421,17 @@ sns.regplot(x = y_pred, y = y_test, line_kws = {'color':'red'})
 
 #### 6) Logistic Regression
 from sklearn.model_selection import train_test_split
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.2, random_state = 42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 42)
 
 from sklearn.preprocessing import StandardScaler
 sc = StandardScaler()
-x_train_scaled = sc.fit_transform(x_train)
-x_test_scaled = sc.transform(x_test)
+X_train_scaled = sc.fit_transform(X_train)
+X_test_scaled = sc.transform(X_test)
 
 from sklearn.linear_model import LogisticRegression
 model = LogisticRegression()
-model.fit(x_train_scaled, y_train)
-y_pred = model.predict(x_test_scaled)
+model.fit(X_train_scaled, y_train)
+y_pred = model.predict(X_test_scaled)
 
 from sklearn.metrics import classification_report, confusion_matrix
 print(f"Classification Report: {classification_report(y_test, y_pred)}")
@@ -962,7 +962,7 @@ series_1.reset_index()                                            #reset index m
             
             
             
-# Import Export Data
+# Import Export Data - DataFrame
 df = pd.DataFrame(my_list, columns =['x','y'])                    #create DataFrame from list
 df = pd.DataFrame(my_dict, columns =['x','y'])                    #create DataFrame from dictionary
 
