@@ -3,12 +3,12 @@
 ## jupyter notebook --notebook-dir="specified_path"
 ## jupyter notebook --notebook-dir="D:\04 Intellipaat - EPGC\02 EPGC - Python\06 Python - Mandatory Assignments\05 - Data Visualization Assignment"
 ## jupyter notebook --notebook-dir="C:\Users\Grv\00 DS Python\00-grv-DS PythonPractice"
-## jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\git_repo_DS\04_My_Projects\02_python_proj"
+## jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\git_repo_DS\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\16 EPGC - ML - Linear Regression Quiz"
 ## C:\Users\grv06\AppData\Roaming\Code\User\settings.json
 
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings as wr
@@ -16,6 +16,7 @@ wr.filterwarnings('ignore')
 
 from sklearn.model_selection import train_test_split
 from sklearn import linear_model
+from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import LabelEncoder
