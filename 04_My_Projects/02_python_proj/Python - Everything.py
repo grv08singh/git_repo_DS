@@ -2,8 +2,8 @@
 ## Type in Anaconda Prompt
 ## jupyter notebook --notebook-dir="specified_path"
 ## jupyter notebook --notebook-dir="D:\04 Intellipaat - EPGC\02 EPGC - Python\06 Python - Mandatory Assignments\05 - Data Visualization Assignment"
-## jupyter notebook --notebook-dir="C:\Users\Grv\00 DS Python\00-grv-DS PythonPractice"
-## jupyter notebook --notebook-dir="D:\git_repo_DS\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\16 EPGC - ML - Linear Regression Quiz"
+## jupyter notebook --notebook-dir="D:\git_repo_DS\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\17 EPGC - ML - Decision Tree Quiz"
+## jupyter notebook --notebook-dir="D:\Projects\streamlit_startup_dashboard"
 ## C:\Users\grv06\AppData\Roaming\Code\User\settings.json
 
 
@@ -22,6 +22,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import f1_score
 from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.metrics import ConfusionMatrixDisplay
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
@@ -257,6 +258,7 @@ LE = LabelEncoder()
 for col in df.columns:
    if(df[col].dtype == 'object'):
        df[col] = LE.fit_transform(df[col])
+       df[col] = LE.fit_transform(df[col])
 
 
 
@@ -306,13 +308,13 @@ y_pred = log.predict(X_test)
 from sklearn.metrics import *
 accuracy_score(y_test, y_pred)
 confusion_matrix(y_test, y_pred)
-tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
+tn, fp, fn, tp = confusion_matrix(y_test, y_pred).ravel()
 precision = tp / (tp + fp)
-recall = tp / (tp + fn)
+recall_or_sensitivity = tp / (tp + fn)
 f1_score = 2 * precision * recall / (precision + recall)
-negative precision = tn / (tn + fn)
+negative_precision = tn / (tn + fn)
 specificity = tn / (tn + fp)
-total support value = tp + tn + fp + fn
+total_support_value = tp + tn + fp + fn
 
 ## 2.3.3 Decision Tree Classifier
 from sklearn.tree import DecisionTreeClassifier
@@ -907,7 +909,7 @@ np.dot(V1, V2)                                                    #dot product o
 np.linalg.norm(V1)                                                #magnitude of vector
 
 
-
+np.set_printoption(precision=2, supress=True)                     #2 decimal place, without scientific notation
 
 
 

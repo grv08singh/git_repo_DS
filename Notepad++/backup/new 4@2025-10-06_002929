@@ -1,2 +1,0 @@
-ctl00_MainContent_ddlCTaluk
-elem_taluk = driver.find_element(By.ID, "ctl00_MainContent_ddlCTaluk")
