@@ -1,3 +1,21 @@
+python -m venv .venv
+.\.venv\Scripts\activate.bat
+
+
+conda create -p venv python==3.13 -y
+conda activate venv/
+
+conda install -r requirements.txt
+
+
+
+#Proj_1: use mnist dataset to learn a MBGD,DT,RF,KNN,DL model and create an online app to recognize handwritten digits.
+#Proj_2: 
+
+
+
+
+
 ## Open jupyter notebook at a specified path:
 ## Type in Anaconda Prompt
 ## jupyter notebook --notebook-dir="specified_path"
