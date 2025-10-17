@@ -1,16 +1,27 @@
-python -m venv .venv
-.\.venv\Scripts\activate.bat
+# AWS
+# Acc ID: 676206921654
+# Username: grv08singh@gmail.com
+# pw: 
+
+# Create Python environment using python
+# python -m venv .venv
+# .\.venv\Scripts\activate.bat
+# 
+# pip install -r requirements.txt
+# 
+# Create Python environment using conda
+# conda create -p venv python==3.13 -y
+# conda activate venv/
+# 
+# conda install -r requirements.txt
 
 
-conda create -p venv python==3.13 -y
-conda activate venv/
-
-conda install -r requirements.txt
 
 
 
-#Proj_1: use mnist dataset to learn a MBGD,DT,RF,KNN,DL model and create an online app to recognize handwritten digits.
-#Proj_2: 
+
+#Proj_01: use mnist dataset to learn a MBGD,DT,RF,KNN,DL model and create an online app to recognize handwritten digits.
+#Proj_02: 
 
 
 
