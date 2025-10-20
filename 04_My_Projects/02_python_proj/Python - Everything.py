@@ -773,59 +773,152 @@ print(rmse)
 #### numpy - Everything
 ###############################################################################################################
 
-list = []
-
 import numpy as np
 
-np.ceil(arr)                                                      #returns an array of integers lower than orig numbers
-np.floor(arr)                                                     #returns an array of integers greater than orig numbers
-np.rint(arr)                                                      #returns an array of integers closest to orig numbers
+#initializing np array
+np.array([1,2,3],dtype=float)                                   #creating a numpy array of float dtype
+np.arange(11)                                                   #[0 1 2 3 4 5 6 7 8 9 10]
+np.arange(1,11)                                                 #[1 2 3 4 5 6 7 8 9 10]
+np.arange(1,11,2)                                               #[1 3 5 7 9]
 
-np.array(list)
-np.ones((rows, columns))
-np.zeros((rows, columns))
-np.full((rows, columns), n)                                       #an array of rows x columns filled with n
+array.reshape(rows, cols)                                       #shows the changed shape but doesn't change the original shape.
+array.resize(rows, cols)                                        #changes the original shape of array
 
-np.linspace(start, end+1, number_of_points)
-np.arange(start, end+1, space_between_numbers)
+np.ones((rows, cols))
+np.zeros((rows, cols))
+np.full((rows, cols), n)                                        #an array of rows x columns filled with n
+np.identity(3)                                                  #identity Matrix of 3 x 3
 
-np.identity(3)                                                    #identity Matrix
+np.random.seed(42)
+np.random.random((rows, cols))                                  #rows x cols array of random numbers bw 0 and 1
+np.random.rand(rows, cols)                                      #rows x cols array of random numbers bw 0 and 1
+np.random.randn(rows, cols)                                     #rows x cols array of standard normal distribution
+np.random.randint(start, end, n).reshape(rows,cols)             #rows x cols array of random integers bw start & end    
+
+np.linspace(start, end+1, n)                                    #equally spaced n points between start and end
+
+
+
+#np attributes
+a = np.arange(1,25).reshape(2,3,4)
+a.ndim                                                          #returns number of dimensions [3 here]
+a.shape                                                         #returns shape of a [(2,3,4) here]
+a.size                                                          #total number of elements in an array
+a.itemsize                                                      #size of each elements in an array
+a.dtype                                                         #data type of each elements in an array
+
+
+
+#changing data type
+a.astype(np.int32)                                              #changing data type to int32
+
+
+
+
+#array operations
+a1 = np.arange(12).reshape(3,4)
+a2 = np.arange(12,24).reshape(3,4)
+
+#scalar operations
+a1 * 2
+a2 + 5
+a1 // 3
+a2 ** 2
+a1 > 5
+a2 == 4
+
+#vector operations
+a1 + a2
+a1 * a2
+a1 / a2
+a1 - a2
+a1 ** a2
+a1 // a2
+a1 > a2
+a1 == a2
+
+
+
+
+
+#numpy functions
+np.max(a1)
+np.min(a1)
+np.sum(a1)
+np.prod(a1)
+np.mean(a1)
+np.median(a1)
+np.std(a1)
+np.var(a1)
+
+np.max(a1, axis=0)                                              #take all rows, find max -->> i.e. column-wise max
+np.min(a1, axis=1)                                              #take all cols, find min -->> i.e. row-wise min
+np.sum(a1, axis=0)                                              #take all rows, find sum -->> i.e. column-wise sum
+np.prod(a1, axis=1)                                             #take all cols, find product -->> i.e. row-wise product
+np.mean(a1, axis=0)
+np.median(a1, axis=1)
+np.std(a1, axis=1)
+np.var(a1, axis=1)
+
+np.sin(a1)
+np.cos(a1)
+np.tan(a1)
+
+np.log(a1)
+np.exp(a1)
+
+np.round(a1)                                                    #returns an array of nearest integers
+np.floor(a1)                                                    #returns an array of integers greater than orig numbers
+np.ceil(a1)                                                     #returns an array of integers lower than orig numbers
+np.rint(a1)                                                     #returns an array of integers closest to orig numbers
+
+np.hstack((a1,a2))                                              #concatenate horizontally
+np.vstack((a1,a2))                                              #concatenate vertically
+np.concatenate((a1,a2))                                         #concat two arrays one after another
+
+np.hsplit(a1,2)                                                 #split horizontally in 2 equal parts
+np.vsplit(a1,3)                                                 #split vertically in 3 equal parts
+np.hsplit(a1,np.array([3]))                                     #split into one part of 3 cols and another part of remaining cols
+
+a1.T                                                            #Transpose numpy array without changing the original array
+np.transpose(a1)                                                #Transpose numpy array without changing the original array
+a1.ravel()                                                      #converts any dimensional array into 1-d
+a1.flatten()                                                    #array flattened to 1-D
+
+#dot product
+a1 = np.arange(6).reshape(2,3)
+a2 = np.arange(9).reshape(3,3)
+np.dot(a1,a2)
+np.matmul(a1,a2)
+a1 @ a2
+
+
+
+
+#Fancy indexing
+a1[[0,2,3]]                                                     #return rows at index 0,2 and 3
+a1[:,[0,2,3]]                                                   #return cols at index 0,2 and 3
+
+#Boolean indexing
+a1[a1>50]                                                       #all elements of a1 which are > 50
+a1[(a1>50) & (a1%2==0)]                                         #all even elements of a1 which are > 50
+a1[~(a1%7==0)]                                                  #all elements of a1 which are NOT divisible by 7
+
+
+
+
+np.ndim(a1)                                                      #same as above
+np.shape(a1)                                                     #returns shape of a [(2,3,4) here]
+np.size(a1)                                                      #total number of elements in an array
+
+
+
 np.eye(3,4,k=1)                                                   #diagonal(1) shifted right Matrix
 np.eye(4,3,k=-1)                                                  #diagonal(1) shifted left Matrix
-arr.flatten()                                                     #array flattened to 1-D
 np.diag(arr)                                                      #diagonal of a Matrix
 np.fliplr(arr)                                                    #flipping an array from left to right
 np.rot90(arr)                                                     #rotating an array by 90 degrees anticlock-wise
 
-np.random.random()                                                #random whole number between 0 and 1 - uniform distribution
-np.random.rand()                                                  #random whole number between 0 and 1 - uniform distribution
-np.random.randn()                                                 #random number - normal distribution
-np.random.randint(start, end)                                     #for random integer
-
-np.random.random(2)                                               #1-D array of 2 random whole numbers between 0 and 1 from uniform distribution
-np.random.rand(4)                                                 #1-D array of 4 random whole numbers between 0 and 1 from uniform distribution
-np.random.randn(3)                                                #1-D array of 3 random numbers from normal distribution
-
-np.random.random((3,4))                                           #2-D array of 12 random whole numbers between 0 and 1 from uniform distribution
-np.random.rand(3,4)                                               #2-D array of 12 random whole numbers between 0 and 1 from uniform distribution
-np.random.randn(2,3)                                              #2-D array of 6 random numbers from normal distribution
-
-np.random.random((2,3,4))                                         #3-D array of 24 random whole numbers between 0 and 1 from uniform distribution
-np.random.rand(2,3,4)                                             #3-D array of 24 random whole numbers between 0 and 1 from uniform distribution
-np.random.randn(2,3,4)                                            #3-D array of 24 random numbers from normal distribution
-
-np.random.seed(101)                                               #Fix the random numbers all at ones using a particular number in seed
-
-np.size(array)                                                    #total number of elements in an array
-array.size                                                        #total number of elements in an array
-np.ndim(array)                                                    #dimension of array
-array.ndim                                                        #dimension of array
-np.shape(array)                                                   #shape of the array (n,m) format
-array.shape                                                       #shape of the array (n,m) format
-array.dtype
-
-array.reshape(num_of_rows, num_of_columns)                        #shows the changed shape but doesn't change the original shape.
-array.resize(num_of_rows, num_of_columns)                         #changes the original shape of array
 
 arr2 = np.append(arr1, n)                                         #append element n at the end of an array
 arr3 = np.insert(arr1, i, n)                                      #insert element n at index i
@@ -839,9 +932,6 @@ arr4.sort()                                                       #numpy functio
 np.equal(arr1, arr2)                                              #element-by-element comparison, returns an array of true/false
 np.array_equal(arr1, arr2)                                        #array as a whole comparison, returns either true or false
 
-np.sum(array)                                                     #sum of all the elements of an array - returns a scalar
-np.sum(array,axis=0)                                              #sum of all elements from 1st axis
-np.sum(array,axis=1)                                              #sum of all elements from 2nd axis
 np.sum([arr1, arr2])                                              #sum of all elements from both the arrays - returns a scalar
 np.sum((arr1, arr2))                                              #sum of all elements from both the arrays - returns a scalar
 
@@ -860,9 +950,6 @@ np.floor_divide(arr1, arr2)                                       #element-wise 
 arr1 * arr2                                                       #element-wise (Hadamard or Schur) product - returns an array
 np.multiply(arr1, arr2)                                           #element-wise (Hadamard or Schur) product - returns an array
 
-arr1 @ arr2                                                       #Matrix (dot) product - returns an array
-np.dot(arr1, arr2)                                                #Matrix (dot) product - returns an array
-np.matmul(arr1, arr2)                                             #Matrix (dot) product - returns an array
 
 np.inner(arr1, arr2)                                              #inner product of two arrays, returns a scalar
 np.outer(arr1, arr2)                                              #outer product of two arrays, returns an array
@@ -883,35 +970,13 @@ np.argmin(array)                                                  #index/positio
 np.max(array)
 np.argmax(array)                                                  #index/position of maximum
 
-np.mean(array)
-np.median(array)
-np.median(array)
-np.std(array)
 
-np.sin(num)
-np.sin(array)
-np.cos(num)
-np.cos(array)
-np.tan(num)
-np.tan(array)
-
-np.log(num)
-np.log(array)
-np.exp(num)
-np.exp(array)
 
 np.percentile(list_1, 75)                                         #returns 75th percentile element from list_1
 
 np.corrcoef(array)
 
-np.concatenate((arr1, arr2))                                      #concat two arrays one after another
-np.hstack((arr1, arr2))                                           #
-np.vstack((arr1, arr2))                                           #concat two arrays one below another
 np.column_stack((arr1, arr2))                                     #Transposed of vstack result
-          
-np.hsplit(array,2)                                                #split into 2 horizontal parts
-np.hsplit(array,np.array([3]))                                    #split into one part of 3 cols and another part of remaining cols
-np.vsplit(array,3)                                                #split into 3 vertical parts
 
 np.clip(arr, a_min=10, a_max=30)                                  #replace all values below 10 with 10 and greater than 30 with 30 in arr
 np.where(arr < 10, 10, np.where(arr > 30, 30, arr))               #replace all values below 10 with 10 and greater than 30 with 30 in arr
@@ -1557,9 +1622,101 @@ x.union(y)                                                                      
 x.intersection(y)                                                                     #set function intersection
 x.differences(y)                                                                      #elements in x but not in y
 
+                
+                    
+                    
+###############################################################################################################
+#### scope - Local, Enclosing, Global, Builtin (LEGB Rule)
+###############################################################################################################
+                
+                    
+                    
+###############################################################################################################
+#### Decorators
+###############################################################################################################
 
 
+#actual way of calling a decorator
+def my_decorator(my_func,my_val):
+    def wrapper():
+        print('**********************')
+        my_func(my_val)
+        print('**********************')
+    return wrapper
 
+def sq(val):
+    print(val**2)
+
+a = my_decorator(sq, 3)
+a()
+
+
+#short-cut way of calling same decorator
+def my_decorator(my_func,my_val):
+    def wrapper():
+        print('**********************')
+        my_func(my_val)
+        print('**********************')
+    return wrapper
+
+@my_decorator
+def sq(val):
+    print(val**2)
+
+sq(3)
+
+#actual use case example of decorator
+#displaying time taken by a function to execute
+
+import time
+def timer(func):
+    def wrapper():
+        print('**********************')
+        start = time.time()
+        func()
+        print("time taken by",func.__name__," = ",time.time() - start,"secs")
+        print('**********************')
+    return wrapper
+
+@timer
+def hello():
+    print("Hello World")
+    time.sleep(2)
+
+@timer
+def display():
+    print("Displaying something")
+    time.sleep(0.5)
+
+hello()
+display()
+
+#this kind of decorator will work only when functions (hello, display) don't have an input
+#when a function comes where there is one or more input arguments, 
+#then def wrapper(*args) as well as func(*args) needs to be changed.
+
+
+import time
+def timer(func):
+    def wrapper(*args):
+        print('**********************')
+        start = time.time()
+        func(*args)
+        print("time taken by",func.__name__," = ",time.time() - start,"secs")
+        print('**********************')
+    return wrapper
+
+@timer
+def hello():
+    print("Hello World")
+    time.sleep(2)
+
+@timer
+def square(num):
+    num**2
+
+hello()
+square(5)
 
 
 

@@ -2,25 +2,22 @@
 <NotepadPlus>
     <FindHistory nbMaxFindHistoryPath="10" nbMaxFindHistoryFilter="10" nbMaxFindHistoryFind="10" nbMaxFindHistoryReplace="10" matchWord="no" matchCase="no" wrap="yes" directionDown="yes" fifRecuisive="yes" fifInHiddenFolder="no" dlgAlwaysVisible="no" fifFilterFollowsDoc="no" fifFolderFollowsDoc="no" searchMode="1" transparencyMode="1" transparency="150" dotMatchesNewline="no" isSearch2ButtonsMode="no" fifProjectPanel1="no" fifProjectPanel2="no" fifProjectPanel3="no" regexBackward4PowerUser="no" bookmarkLine="no" purge="no">
         <Filter name="" />
-        <Find name='&quot;,&quot;' />
-        <Find name="," />
-        <Find name="duplicates" />
-        <Find name="COERCE" />
-        <Find name="coer" />
-        <Find name="rsce" />
-        <Find name="rcse" />
-        <Find name="e" />
-        <Find name="co" />
-        <Find name="round" />
+        <Find name="arima" />
+        <Find name="time series" />
+        <Find name="sort" />
+        <Find name="histogram" />
+        <Find name="fig, ax" />
+        <Find name="precision" />
+        <Find name="numpy" />
+        <Find name="groupby" />
+        <Find name="IQR" />
+        <Find name="StandardScaler" />
         <Replace name='&quot;,\n&quot;' />
         <Replace name="\n" />
         <Replace name='&quot;#D4E4E4&quot;' />
         <Replace name="D4E4E4" />
     </FindHistory>
     <History nbMaxFile="10" inSubMenu="no" customLength="-1">
-        <File filename="C:\Users\grv06\AppData\Local\Programs\Microsoft VS Code\resources\app\extensions\ipynb\dist\ipynbMain.node.js" />
-        <File filename="C:\Users\grv06\AppData\Local\Programs\Microsoft VS Code\resources\app\extensions\ipynb\dist\notebookSerializerWorker.js" />
-        <File filename="F:\Grv\Grv\06 Personal\git_repo_DS\03_sql_proj\SQL - Everything.sql" />
         <File filename="F:\Grv\Grv\06 Personal\git_repo_DS\05_python_proj\Python - Everything.py" />
         <File filename="F:\Grv\Grv\05 Personal - Official\Monthly Work Done.py" />
         <File filename="D:\git_repo_DS\03_sql_proj\SQL - Everything.sql" />
@@ -28,6 +25,9 @@
         <File filename="D:\Projects\mlproject\logs\09_23_2025_00_00_04.log\09_23_2025_00_00_04.log" />
         <File filename="D:\Projects\mlproject\artifacts\model.pkl" />
         <File filename="D:\Projects\mlproject\requirements.txt" />
+        <File filename="D:\Projects\pyproj_webscraping\DTHV.csv" />
+        <File filename="D:\Projects\pyproj_ws_ktk\run_app.bat" />
+        <File filename="C:\Users\grv06\OneDrive\Desktop\git_pull.bat" />
     </History>
     <ProjectPanels>
         <ProjectPanel id="0" workSpaceFile="" />
