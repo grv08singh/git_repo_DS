@@ -829,28 +829,28 @@ a2 == 4
 
 #vector operations
 a1 + a2
+a1 - a2
 a1 * a2
 a1 / a2
-a1 - a2
-a1 ** a2
 a1 // a2
+a1 ** a2
+a1 % a2
 a1 > a2
 a1 == a2
 
+#vector operation functions (element-wise operation)
+np.add(a1, a2)
+np.subtract(a1, a2)
+np.multiply(a1, a2)
+np.divide(a1, a2)
+np.floor_divide(a1, a2)
+np.power(a1, a2)
+np.mod(a1, a2)
 
 
 
 
-#numpy functions
-np.max(a1)
-np.min(a1)
-np.sum(a1)
-np.prod(a1)
-np.mean(a1)
-np.median(a1)
-np.std(a1)
-np.var(a1)
-
+#numpy functions (apply operation on every element)
 np.max(a1, axis=0)                                              #take all rows, find max -->> i.e. column-wise max
 np.min(a1, axis=1)                                              #take all cols, find min -->> i.e. row-wise min
 np.sum(a1, axis=0)                                              #take all rows, find sum -->> i.e. column-wise sum
@@ -859,6 +859,9 @@ np.mean(a1, axis=0)
 np.median(a1, axis=1)
 np.std(a1, axis=1)
 np.var(a1, axis=1)
+
+np.sqrt(a1)
+np.pi
 
 np.sin(a1)
 np.cos(a1)
@@ -875,6 +878,8 @@ np.rint(a1)                                                     #returns an arra
 np.hstack((a1,a2))                                              #concatenate horizontally
 np.vstack((a1,a2))                                              #concatenate vertically
 np.concatenate((a1,a2))                                         #concat two arrays one after another
+np.concatenate((a1,a2), axis=0)                                 #hstack
+np.concatenate((a1,a2), axis=1)                                 #vstack
 
 np.hsplit(a1,2)                                                 #split horizontally in 2 equal parts
 np.vsplit(a1,3)                                                 #split vertically in 3 equal parts
@@ -885,9 +890,7 @@ np.transpose(a1)                                                #Transpose numpy
 a1.ravel()                                                      #converts any dimensional array into 1-d
 a1.flatten()                                                    #array flattened to 1-D
 
-#dot product
-a1 = np.arange(6).reshape(2,3)
-a2 = np.arange(9).reshape(3,3)
+#dot product of (n x m) & (m x p) = gives 
 np.dot(a1,a2)
 np.matmul(a1,a2)
 a1 @ a2
@@ -905,6 +908,46 @@ a1[(a1>50) & (a1%2==0)]                                         #all even elemen
 a1[~(a1%7==0)]                                                  #all elements of a1 which are NOT divisible by 7
 
 
+#Advance Functions
+sorted(a1)                                                      #returns a LIST of sorted arr4 without saving to orig arr4
+np.sort(a1)                                                     #numpy function to return a np.array arr4 sorted without saving to
+np.append(a1, n)                                                #append element n at the end of an array
+np.append(a1, n, axis=1)                                        #append a col of element n at the end of a 2-d array
+np.unique(a1)                                                   #unique elements from a1
+np.expanddims(a1)                                               #converts a 1-d array into 2-d
+np.where(a1>50)                                                 #returns index of elements where condition meets
+np.where(a1>50,n,a1)                                            #replace with n where condition meets (condition,TRUE,FALSE)
+np.isin(a1,[x,y,z])                                             #checks if x,y,z exist in a1
+
+np.argmax(a1)                                                   #index of maximum
+np.argmax(a1,axis=0)                                            #index of maximum col wise, all rows
+np.argmin(a1)                                                   #index of minimum
+np.argmin(a1,axis=1)                                            #index of minimum row wise, all cols
+np.cumsum(a1)                                                   #cumulative sum
+np.cumsum(a1,axis=0)                                            #cumulative sum col wise, all rows
+np.cumprod(a1)                                                  #cumulative product
+np.cumprod(a1,axis=0)                                           #cumulative product col wise, all rows
+np.flip(a1)                                                     #reverses 1-d array, 2-array on both dimensions
+np.flip(a1,axis=0)                                              #reverses 2-d array along col, all rows
+
+np.percentile(a1,90)                                            #90th percentile element
+np.histogram(a1,bins=[0,10,20,30])                              #frequency count in bins of 10-20, 20-30, ...
+np.corrcoef(a1,a2)                                              #pearson correlation coefficient matrix
+
+np.put(a1,[0,3],[100,200])                                      #set index 0 as 100, index 3 as 200 in a1
+np.delete(a1, i)                                                #delete element at index i
+np.insert(a1, i, n)                                             #insert element n at index i in a1
+
+
+
+
+
+
+
+
+
+
+
 
 
 np.ndim(a1)                                                      #same as above
@@ -915,81 +958,32 @@ np.size(a1)                                                      #total number o
 
 np.eye(3,4,k=1)                                                   #diagonal(1) shifted right Matrix
 np.eye(4,3,k=-1)                                                  #diagonal(1) shifted left Matrix
-np.diag(arr)                                                      #diagonal of a Matrix
-np.fliplr(arr)                                                    #flipping an array from left to right
-np.rot90(arr)                                                     #rotating an array by 90 degrees anticlock-wise
+np.diag(a1)                                                      #diagonal of a Matrix
+np.fliplr(a1)                                                    #flipping an a1ay from left to right
+np.rot90(a1)                                                     #rotating an array by 90 degrees anticlock-wise
 
 
-arr2 = np.append(arr1, n)                                         #append element n at the end of an array
-arr3 = np.insert(arr1, i, n)                                      #insert element n at index i
-arr4 = np.delete(arr1, i)                                         #delete element at index i
-for i,val in enumerate(arr4):                                     #loop through arr4, val=value at i=index
-np.where(arr4 == 50)                                              #in arr4, find index of element having value=50
-sorted(arr4)                                                      #returns a list of sorted arr4 without saving to orig arr4
-np.sort(arr4)                                                     #numpy function to return a numpy array arr4 sorted without saving to orig arr4
-arr4.sort()                                                       #numpy function to sort arr4, returns nothing
+for i,val in enumerate(a4):                                     #loop through arr4, val=value at i=index
+a4.sort()                                                       #numpy function to sort arr4, returns nothing
 
-np.equal(arr1, arr2)                                              #element-by-element comparison, returns an array of true/false
-np.array_equal(arr1, arr2)                                        #array as a whole comparison, returns either true or false
-
-np.sum([arr1, arr2])                                              #sum of all elements from both the arrays - returns a scalar
-np.sum((arr1, arr2))                                              #sum of all elements from both the arrays - returns a scalar
-
-arr1 + arr2                                                       #element-wise sum - returns an array
-np.add(arr1, arr2)                                                #element-wise sum - returns an array
-
-arr1 - arr2                                                       #element-wise difference - returns an array
-np.subtract(arr1, arr2)                                           #element-wise difference - returns an array
-
-arr1 / arr2                                                       #element-wise division - returns an array of float
-np.divide(arr1, arr2)                                             #element-wise division - returns an array of float
-
-arr1 // arr2                                                      #element-wise division - returns an array of integers
-np.floor_divide(arr1, arr2)                                       #element-wise division - returns an array of integers
-
-arr1 * arr2                                                       #element-wise (Hadamard or Schur) product - returns an array
-np.multiply(arr1, arr2)                                           #element-wise (Hadamard or Schur) product - returns an array
+np.equal(a1, a2)                                              #element-by-element comparison, returns an array of true/false
+np.array_equal(a1, a2)                                        #array as a whole comparison, returns either true or false
 
 
-np.inner(arr1, arr2)                                              #inner product of two arrays, returns a scalar
-np.outer(arr1, arr2)                                              #outer product of two arrays, returns an array
+np.inner(a1, a2)                                              #inner product of two arrays, returns a scalar
+np.outer(a1, a2)                                              #outer product of two arrays, returns an array
 
 np.cross(v1, v2)                                                  #Vector (cross) product - returns an array
 
-arr1 % arr2                                                       #element-wise modulus - returns an array
-np.mod(arr1, arr2)                                                #element-wise modulus - returns an array
 
-arr1 ** arr2                                                      #element-wise power - returns an array
-np.power(arr1, arr2)                                              #element-wise power - returns an array
-
-np.sqrt(num)
-np.pi
-
-np.min(array)
-np.argmin(array)                                                  #index/position of minimum
-np.max(array)
-np.argmax(array)                                                  #index/position of maximum
-
-
-
-np.percentile(list_1, 75)                                         #returns 75th percentile element from list_1
-
-np.corrcoef(array)
-
-np.column_stack((arr1, arr2))                                     #Transposed of vstack result
+np.column_stack((a1, a2))                                     #Transposed of vstack result
 
 np.clip(arr, a_min=10, a_max=30)                                  #replace all values below 10 with 10 and greater than 30 with 30 in arr
-np.where(arr < 10, 10, np.where(arr > 30, 30, arr))               #replace all values below 10 with 10 and greater than 30 with 30 in arr
 
 
 
 M1 * M2                                                           #element-by-element multiplication of matrix
-M1 @ M2                                                           #matrix multiplication
-np.matmul(M1, M2)                                                 #matrix multiplication
-np.dot(M1, M2)                                                    #matrix multiplication
 
-M.T                                                               #Transpose numpy array without changing the original array
-np.transpose(M)                                                   #Transpose numpy array without changing the original array
 np.linalg.det(M)                                                  #determinant of matrix
 np.linalg.inv(M)                                                  #inverse of a matrix
 np.linalg.matrix_rank(M)                                          #rank of a matrix
