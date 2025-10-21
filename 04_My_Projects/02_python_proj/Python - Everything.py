@@ -918,6 +918,8 @@ np.expanddims(a1)                                               #converts a 1-d 
 np.where(a1>50)                                                 #returns index of elements where condition meets
 np.where(a1>50,n,a1)                                            #replace with n where condition meets (condition,TRUE,FALSE)
 np.isin(a1,[x,y,z])                                             #checks if x,y,z exist in a1
+np.in1d(a1, 100)                                                #checks if 100 exist in 1-d a1
+np.clip(a1, a_min=25, a_max=75)                                 #keeps all values of a1 bw 25 and 75
 
 np.argmax(a1)                                                   #index of maximum
 np.argmax(a1,axis=0)                                            #index of maximum col wise, all rows
@@ -938,6 +940,11 @@ np.put(a1,[0,3],[100,200])                                      #set index 0 as 
 np.delete(a1, i)                                                #delete element at index i
 np.insert(a1, i, n)                                             #insert element n at index i in a1
 
+#Set functions
+np.union1d(a1, a2)                                              #union of two 1-d arrays
+np.intersect1d(a1, a2)                                          #intersection of two 1-d arrays
+np.setdiff1d(a1, a2)                                            #all items of a1 not present in a2
+np.setxor1d(a1, a2)                                             #union minus intersection
 
 
 
