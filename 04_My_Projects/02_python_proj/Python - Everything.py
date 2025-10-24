@@ -105,7 +105,7 @@ plt.show()
 ###    Remove Duplicates rows - df.duplicated()
 ###    Handle Null values - df.dropna() / df.fillna()
 ###    Check unique values of each column - df['col1'].unique().tolist()
-###    Handle Errors - df['col1'].replace('unknown',np.NAN)
+###    Handle Errors - df['col1'].replace('unknown',NaN)
 #
 #
 ## 2) Data Pre-Processing (Standardize, Scale, Encode)
@@ -221,7 +221,7 @@ for col in [col1, col3, col6, col9]:
 #### replacing 'unknown' value with Null
 for col in ['age', 'job', 'marital', 'education', 'default', 'housing', 'loan']:
   if df[col].dtype=='object':
-    df[col].replace('unknown',np.NAN)
+    df[col].replace('unknown',NaN)
 
 
 # 1.3 Remove Null Values (if Null < 10% of data, [dropna], else if Null < 40% of data, [fillna] with median/mode, else [drop feature/col])
@@ -779,7 +779,8 @@ import numpy as np
 np.array([1,2,3],dtype=float)                                   #creating a numpy array of float dtype
 np.arange(11)                                                   #[0 1 2 3 4 5 6 7 8 9 10]
 np.arange(1,11)                                                 #[1 2 3 4 5 6 7 8 9 10]
-np.arange(1,11,2)                                               #[1 3 5 7 9]
+np.arange(1,11,2)                                               #points bw 1 & 10 with equal distance=2
+np.linspace(1,11,10)                                            #10 equi-distant points from 1 to 10(=11-1)
 
 array.reshape(rows, cols)                                       #shows the changed shape but doesn't change the original shape.
 array.resize(rows, cols)                                        #changes the original shape of array
@@ -789,13 +790,18 @@ np.zeros((rows, cols))
 np.full((rows, cols), n)                                        #an array of rows x columns filled with n
 np.identity(3)                                                  #identity Matrix of 3 x 3
 
-np.random.seed(42)
+#changing data type
+a.astype(np.int32)                                              #changing data type to int32
+
+#random
+np.random.seed(42)                                              #set randomness to reproduce
 np.random.random((rows, cols))                                  #rows x cols array of random numbers bw 0 and 1
 np.random.rand(rows, cols)                                      #rows x cols array of random numbers bw 0 and 1
 np.random.randn(rows, cols)                                     #rows x cols array of standard normal distribution
-np.random.randint(start, end, n).reshape(rows,cols)             #rows x cols array of random integers bw start & end    
-
-np.linspace(start, end+1, n)                                    #equally spaced n points between start and end
+np.random.randint(start, end, n).reshape(rows,cols)             #n random numbers bw start & end reshaped to rows x cols
+np.random.shuffle(a1)                                           #shuffle the position of items in array
+np.random.choice(a1,3)                                          #choose 3 items randomly from a1 with replacement
+np.random.choice(a1,3,replace=False)                            #choose 3 items randomly from a1 without replacement
 
 
 
@@ -806,13 +812,6 @@ a.shape                                                         #returns shape o
 a.size                                                          #total number of elements in an array
 a.itemsize                                                      #size of each elements in an array
 a.dtype                                                         #data type of each elements in an array
-
-
-
-#changing data type
-a.astype(np.int32)                                              #changing data type to int32
-
-
 
 
 #array operations
@@ -875,11 +874,11 @@ np.floor(a1)                                                    #returns an arra
 np.ceil(a1)                                                     #returns an array of integers lower than orig numbers
 np.rint(a1)                                                     #returns an array of integers closest to orig numbers
 
-np.hstack((a1,a2))                                              #concatenate horizontally
-np.vstack((a1,a2))                                              #concatenate vertically
 np.concatenate((a1,a2))                                         #concat two arrays one after another
 np.concatenate((a1,a2), axis=0)                                 #hstack
 np.concatenate((a1,a2), axis=1)                                 #vstack
+np.hstack((a1,a2))                                              #concatenate horizontally
+np.vstack((a1,a2))                                              #concatenate vertically
 
 np.hsplit(a1,2)                                                 #split horizontally in 2 equal parts
 np.vsplit(a1,3)                                                 #split vertically in 3 equal parts
@@ -946,8 +945,14 @@ np.intersect1d(a1, a2)                                          #intersection of
 np.setdiff1d(a1, a2)                                            #all items of a1 not present in a2
 np.setxor1d(a1, a2)                                             #union minus intersection
 
+#Meshgrid
+x=np.linspace(-10,9,20)
+y=np.linspace(-10,9,20)
+xx,yy=np.meshgrid(x,y)                                          #grid of all value combination of x & y
 
 
+#structured array
+dt = 
 
 
 
@@ -1022,187 +1027,344 @@ np.set_printoption(precision=2, supress=True)                     #2 decimal pla
 ###############################################################################################################
 
 import pandas as pd
-my_list = []
-labels = []
 
-# Series
-pd.Series(my_list, index=labels)                                  #list to pd.Series
-pd.Series(my_dictionary)                                          #dictionary to pd.Series
-pd.Series(list(my_set))                                           #set to list to pd.Series
-pd.Series(my_array, index=labels)                                 #np.array to pd.Series
-          
-list(series_1)                                                    #pd.Series to list
-tuple(series_1)                                                   #pd.Series to tuple
-series_1.to_dict()                                                #pd.Series to dictionary
-set(series_1)                                                     #pd.Series to set
-          
-series_1 + series_2                                               #gives union of both the series
-          
-series_1.loc[2]                                                   #returns data from row index 2
-series_1.loc[0:3]                                                 #returns data from row index 0 to 3
-series_1.loc[[2,3,6]]                                             #returns data from row index 2,3,6
-          
-series_1.iloc[2]                                                  #returns data from row index 2
-series_1.iloc[0:3]                                                #returns data from row index 0 to 2
-series_1.iloc[[2,3,6]]                                            #returns data from row index 2,3,6
+#Series - creating series
+pd.Series([1,2,3],index=['a','b','c'],name='abc')                   #pd.Series from a list
+pd.Series(my_dict)                                                  #pd.Series from a dictionary
+pd.Series(list(my_set))                                             #pd.Series from a set
+pd.Series(np_a1,index=labels)                                       #pd.Series from a np.array
 
-series_1.drop(2)                                                  #remove row at index 2
-          
-series_1.append(5)                                                #append element=5 at the end of series_1
-# #### series_1.insert()                                          #pandas series don't have insert method, so, convert to dataframe first
+#Series to other data structures
+list(sr)                                                            #pd.Series to list
+tuple(sr)                                                           #pd.Series to tuple
+sr.to_dict()                                                        #pd.Series to dictionary
+set(sr)                                                             #pd.Series to set
+
+#Series attributes
+sr = pd.Series([1,2,3],index=['a','b','c'],name='abc')
+sr.size                                                             #sr item counts (inc. NaN)
+sr.size - sr.count()                                                #count of missing (NaN) values
+sr.dtype
+sr.name
+sr.is_unique                                                        #True if all items are unique
+sr.index
+sr.values                                                           #sr values in 1-d np.array
+
+#reading series from csv
+sr = pd.read_csv('file_nm',squeeze=True)                            #csv file with only 1 col, squeeze converts csv to pd.Series
+sr = pd.read_csv('file_nm',index='col1',squeeze=True)               #csv file with 2 cols, col1=index, col2=values
+
+#Series methods
+sr.head(3)
+sr.tail()
+sr.sample()                                                         #random 1 row
+sr.value_counts()                                                   #groupby values & give count
+sr.sort_values(ascending=False, inplace=False)                      #sorting series by values
+sr.sort_index(ascending=False, inplace=False)                       #sorting series by index
+
+#Series Math methods
+sr.count()                                                          #counts non-missing values only
+sr.isnull()                                                         #counts missings (NaN) values
+sr.size - sr.count()                                                #counts missing (NaN) values
+sr.sum()
+sr.product()
+sr.mean()
+sr.median()
+sr.mode()
+sr.std()
+sr.var()
+sr.min()
+sr.max()
+sr.describe()
+
+#Indexing & Slicing
+sr[2]                                                               #Series Indexing
+sr[2]=100                                                           #set value 100 at index 2
+sr[-1]                                                              #works only when index is text datatype
+sr[[1,3,6,7]]                                                       #Fancy indexing in pd.Series
+sr[[1,3,6,7]]=[100,200,300,400]
+sr[5:16]                                                            #Series slicing
+sr[-5:]=[1,1,1,1,1]                                                 #set value 1 in last 5 indices
+
+#fetch item using iloc
+sr.iloc[2]                                                          #index 2
+sr.iloc[0:3]                                                        #index 0 to 2
+sr.iloc[[2,3,6]]                                                    #index 2,3,6
+
+#fetch item using loc
+sr.loc['index2']                                                    #index 2
+sr.loc['index1':'index3']                                           #index 1 to 3(inc.)
+sr.loc[['index2','index6']]                                         #index 2,6
+sr[::-1]
+
+#Series with python in-built functionality
+len(sr)
+type(sr)                                                            #shows dtype of sr
+dir(sr)                                                             #shows all attributes & methods of series
+sorted(sr)                                                          #sorted sr in LIST form
+min(sr)
+max(sr)
+list(sr)                                                            #shows sr in list form
+dict(sr)                                                            #shows sr in dictionary form
+
+#other important series methods
+sr.astype('int16')                                                  #converts dtype of series.values to int8, saves memory
+sr.between(5,10)                                                    #TRUE if value is bw 5 & 10
+sr.clip(5,10)                                                       #5 if value <5, 10 if value >10
+sr.duplicated()                                                     #TRUE if duplicate
+sr.duplicated().sum()                                               #count of duplicates
+sr.drop_duplicates()                                                #drop duplicate, keep 1st occurence of each value
+sr.drop_duplicates(keep='last')                                     #drop duplicate, keep last occurence of each value
+sr.dropna()                                                         #remove NaN
+sr.drop(index=[2,3,6])                                              #drop rows with index 2,3,6
+sr.fillna(sr.mean())                                                #replace NaN with mean
+sr[(sr==4)|(sr==7)|(sr==2)]                                         #TRUE if each value is 4,7 or 2
+sr.isin([4,7,2])                                                    #TRUE if each value is in 4,7,2; same as above
+sr.apply(lambda x: x.split()[0].upper())                            #apply custom function lambda --> 1st word uppercase from sr.values
+sr1 = sr                                                            #creates a view of same sr
+sr1 = sr.copy()                                                     #creates a copy of sr
+
+#membership operator
+'abc' in sr                                                         #TRUE if 'abc' exists in sr.index
+'abc' in sr.values                                                  #TRUE if 'abc' exists in sr.values
+
+#looping
+for i in sr: print(i)                                               #prints sr.values one-by-one
+for i in sr.index: print(i)                                         #prints sr.index one-by-one
+
+#Arithmetic operators
+100 - sr                                                            #broadcasting 100 to the size of sr & subtracting each item
+
+#Relational operators
+sr>=5
+
+#Boolean indexing
+sr[sr>=5]                                                           #items >=5
+sr[sr>=5].size                                                      #count of items >=5x
+
+#plotting graphs using pd
+sr.plot()                                                           #line chart with index on x-axis, values on y-axis
+sr.plot(kind='bar')                                                 #bar chart with index on x-axis, values on y-axis
+sr.plot(kind='pie')                                                 #pie chart with %age of values
+
+
+
+
+
+
+
+
+
+
+
+
+
+sr.drop(2)                                                  #remove row at index 2
+
+sr.append(5)                                                #append element=5 at the end of sr
+# #### sr.insert()                                          #pandas series don't have insert method, so, convert to dataframe first
 pd.concat([s[:5], pd.Series([50], index=[5]), s[5:]])             #use concat to insert at index 5 in pandas series
-series_1.reset_index(drop = True)                                 #reset index without making previous index a column
-series_1.reset_index()                                            #reset index making previous index a column
-            
-            
-            
-# Import Export Data - DataFrame
-df = pd.DataFrame(my_list, columns =['x','y'])                    #create DataFrame from list
-df = pd.DataFrame(my_dict, columns =['x','y'])                    #create DataFrame from dictionary
-
-df = pd.read_csv('my_csv.csv')                                    #read data from csv file into df
-df = pd.read_table('my_file.txt')                                 #read data from delimited text file
-df = pd.read_excel('my_file.xlsx')                                #read data from excel file
-df = pd.read_excel('my_file.xlsx', sheet='Sheet1')                #read data from particular sheet of an excel file
-df = pd.read_sql(query, connection_object)                        #read data from sql database
-df = pd.read_json(json_string)                                    #read data from json
-df = pd.read_html(url)                                            #read data from web
-
-df.to_csv(filename)                                               #write to a csv file
-df.to_excel(filename)                                             #write to an excel file
-df.to_sql(tbl_nm, connection_object)                              #write to an sql database table
-df.to_json(filename)                                              #write to a file in json format
-df.values.tolist()                                                #All DataFrame values to list
-df.to_dict()                                                      #DataFrame to a dictionary
+sr.reset_index(drop = True)                                 #reset index without making previous index a column
+sr.reset_index()                                            #reset index making previous index a column
 
 
-# Inspect Data
-pd.set_option('display.max_columns', None)                        #display all columns while printing dataset
-pd.set_option('display.max_rows', 5)                              #display only 5 rows while printing dataset
-df.head()                                                         #show first 5 rows of df
-df.tail()                                                         #show last 5 rows of df
-df.sample()                                                       #show random 5 rows of df
-print(df.head().to_string())                                      #print every column for first 5 rows when columns hide normally
-print(df.to_string())                                             #print every column for all rows when columns hide normally
-          
-df.shape                                                          #returns a tuple of size (#rows(length), #columns(width))
-df.columns                                                        #show all the columns in df
-df.columns.tolist()                                               #more readable format
-df.dtypes                                                         #show data types of all the columns
-df.index                                                          #show the index range
-
-df.info()                                                         #returns column-wise non-null counts and data-types
-df.describe()                                                     #returns count,mean,std,min,25%,median,75%,max for each numeric column
-df.describe().T                                                   #Transpose
-df.describe(include = 'O')                                        #returns count,unique,frequency,top (Statistics) for non-numeric column
-df.describe(include = 'all')                                      #returns Statistics for all numeric column
-df.transpose()                                                    #transpose all the data of df
-df.T                                                              #transpose all the data of df
-
-np.array_split(df, 2)                                             #split df into 2 np arrays of almost equal rows
-np.array_split(df, 2, axis=0)                                     #split df into 2 np arrays of almost equal rows
-np.array_split(df, 2, axis=1)                                     #split df into 2 np arrays of almost equal columns
-
-
-# Selecting Data
-df.col1                                                           #returns single column
-df.col1[0]                                                        #returns data of col1 @ row index 0
-df['col1']                                                        #returns single column
-df[['col1','col2']]                                               #returns multiple column
-df['col1'][0]                                                     #returns data of col1 @ row index 0
-
-df.loc[0]                                                         #select first row by index label
-df.loc[0, 'col1']                                                 #select an element by label
-df.loc[0:3, 'col1':'col4']                                        #returns data from row 0 to 2 & col1 to col4
-df.loc[0:5,'col_0':'col2']                                        #returns data from row 0 to 4, col_0 to col2
-df.loc[[2,3,6],['col1','col3']]                                   #returns data from row 2,3,6 & col 1,3
-
-df.iloc[0]                                                        #select first row by index or position
-df.iloc[0, 0]                                                     #select an element by position
-df.iloc[0:3, 1:4]                                                 #returns data from row 0 to 2 & col1 to col4
-df.iloc[0:5,0:3]                                                  #returns data from row 0 to 4, col 0 to 2
-df.iloc[[2,3,6],[5,2]]                                            #returns data from row 2,3,6 & col 5,2
-          
-df.set_index('col3', inplace=True)                                #to set col3 as indexs
-df.reset_index(drop = True)                                       #reset index making previous index a column
-
-
-# Cleaning Data
-df.isnull().sum()                                                 #column-wise count of null values
-df.notnull().sum()                                                #column-wise count of non-null values
-
-df.duplicated().sum()                                             #row-wise count of duplicates
-df.drop_duplicates()                                              #drop duplicate rows
-df.drop(columns = ['col1', 'col2'], inplace = True)               #drop col1 and col2
-
-df.dropna()                                                       #drop all the rows with null in any column
-df.dropna(axis=0)                                                 #drop all the rows with null in any column
-df.dropna(axis=1)                                                 #drop all the columns with null in any row
-df.dropna(thresh=2)                                               #drop all the rows with values above 2
-
-df.fillna(value='abc')                                            #fill all the null values with 'abc'
-df.fillna({'col1':x}, inplace=True)                               #fill null values in col1 with x
-df['col1'].fillna(value=df['col1'].mean())                        #fill all the null values in col1 with avg of it
-df['col1'].replace(' ', np.nan)                                   #replace all the space values with null
-df['col1'].replace(1, 'one')                                      #replace all the space values with null
-
-df = df.rename(columns={'old':'new','old2':'new2'})               #rename columns
-
-df['col1'].astype(int)                                            #change col1 data type to int
-df['col1'].astype(float)                                          #change col1 data type to float
-pd.to_numeric(df['col1'], errors='coerce')                        #convert col1 values to numbers, if there is space then make it null
+sr + sr2                                               #gives union of both the series
 
 
 
-# Sort or Filter Data
-df.sort_values('col1')                                            #sort ascending based on col1
-df.sort_values('col1', ascending = False)                         #sort descending based on col1
-df.sort_values(['col1','col2'], ascending = [True, False])        #sort multiple columns
-
-df['col1'] > 5                                                    #returns True/False based on the condition > 5
-df[df['col1'] > 5]                                                #returns DataFrame where condition is true
-df[(df['col1'] > 5) & (df['col2'] < 10)]                          #returns DataFrame where both the conditions meet
-df[df['col1'].isin(['Alice', 'David'])]                           #Filter rows where Name is 'Alice' or 'David'
-
-df = df.query('col1 > 2 and col2 != "apple"')                     #filter using a query string
-a, b = 2, 'apple'
-df = df.query('col1 > @a and col2 == @b')                         #filter using a query string
-
-df.nlargest(3, 'col1')                                            #get top 3 rows by col1
-df.nsmallest(3, 'col1')                                           #get bottom 3 rows by col1
-
-df.filter(like = 'part')                                          #filter columns by substring
-df.filter(like = 'abc', axis = 1)                                 #filter columns containing abc in their name
-df.filter(regex = '^N', axis = 1)                                 #selects columns starting with 'N'
 
 
-# Group Data
-df.groupby('col1')                                                #group by col1
 
-df.groupby('col1').sum()                                          #group by col1, sum of col1
-df.groupby('col1').count()                                        #group by col1, count of col1
-df.groupby('col1').size()                                         #same as above
-df.groupby('col1').mean()                                         #group by col1, mean of col1
-df.groupby('col1').std()                                          #group by col1, standard deviation of col1
-df.groupby('col1').max()                                          #group by col1, maximum of col1
-df.groupby('col1').min()                                          #group by col1, minimum of col1
 
-df.groupby('col1')['col2'].sum()                                  #group by col1, sum of col2
-df.groupby('col1')['col2'].count()                                #group by col1, count of col2
-df.groupby('col1')['col2'].size()                                 #same as above
-df.groupby('col1')['col2'].mean()                                 #group by col1, mean of col2
-df.groupby('col1')['col2'].std()                                  #group by col1, standard deviation of col2
-df.groupby('col1')['col2'].max()                                  #group by col1, maximum of col2
-df.groupby('col1')['col2'].min()                                  #group by col1, minimum of col2
 
-df.agg({'col1':'mean', 'col2':'sum'})                             #aggregate multiple columns
-df.pivot_table(values = 'col1', index = 'group', aggfunc = 'mean')
-df.pivot_table(values = 'col4', index = ['col1', 'col2'], columns = ['col3'])
-                                                                  #summarize col4 on combination of col1, col2 on rows and col3 on columns
 
-df.apply(np.mean)                                                 #apply a function to columns
-df.transform(lambda x: x+10)                                      #transform data column-wise
 
+
+
+
+
+#DataFrame
+df = pd.DataFrame([[],[],[]], columns =['x','y'])                   #DataFrame from list
+df = pd.DataFrame(my_dict)                                          #DataFrame from dict (col name comes from dict.keys)
+df = pd.read_csv('my_csv.csv')                                      #read data from csv file into df
+df = pd.read_table('my_file.txt')                                   #read data from delimited text file
+df = pd.read_excel('my_excel.xlsx', sheet='Sheet1')                 #read data from particular sheet of an excel file
+df = pd.read_sql(query, connection_obj)                             #read data from sql database
+df = pd.read_json(json_string)                                      #read data from json
+df = pd.read_html(url)                                              #read data from web
+
+#Export DataFrame to files
+df.values.tolist()                                                  #All DataFrame values to list
+df.to_dict()                                                        #DataFrame to a dictionary
+df.to_csv('my_csv.csv')                                             #write to a csv file
+df.to_excel('my_excel.xlsx')                                        #write to an excel file
+df.to_sql('my_table', connection_obj)                               #write to an sql database table
+df.to_json('my_json.json')                                          #write to a file in json format
+
+#DataFrame attributes
+df.shape                                                            #returns a tuple of size (rows, cols)
+df.dtypes                                                           #shows dtypes of all the cols
+df.index                                                            #show the index range
+df.columns                                                          #shows col names
+df.T                                                                #transpose all the data of df
+df.values                                                           #DataFrame values in 2-d np.array
+
+#DataFrame Methods - Inspect Data
+df.head(3)                                                          #first 3 rows
+df.tail(2)                                                          #last 2 rows
+df.sample()                                                         #1 random row
+df.info()                                                           #col-wise non-null counts, dtypes & memory usage
+df.describe()                                                       #numeric col-wise statistical summary
+df.describe(include = 'O')                                          #statistical summary for non-numeric col
+df.describe(include = 'all')                                        #Statistical summary for all cols
+df.value_counts()                                                   #col-wise count of unique values [sr & df both]
+df.isnull().sum()                                                   #col-wise count of null values [sr & df both]
+df.notnull().sum()                                                  #col-wise count of non-null values [sr & df both]
+df.duplicated().sum()                                               #row-wise count of duplicates
+df.rename(columns={'old':'new','old2':'new2'},inplace=True)         #rename columns
+df.transpose()                                                      #transpose all the data of df
+
+#Mathematical methods
+df.min()                                                            #col-wise min
+df.min(axis=1)                                                      #row-wise min
+df.max()                                                            #col-wise max
+df.sum()                                                            #col-wise sum
+df.count()                                                          #col-wise count
+df.mean()                                                           #col-wise mean
+df.median()                                                         #col-wise median
+df.std()                                                            #col-wise standard deviation
+df.var()                                                            #col-wise variance
+df.corr(numeric_only = True)                                        #numerical col-wise corr coef
+
+#fetch cols
+df['col1']                                                          #select 1 col as pd.Series
+df[['col1']]                                                        #select 1 col as pd.DataFrame
+df[['col1','col2']]                                                 #select multiple cols as pd.DataFrame
+
+#fetch rows using iloc(index position)
+df.iloc[0]                                                          #row at index 0 as pd.Series
+df.iloc[0:1]                                                        #row at index 0 as pd.DataFrame
+df.iloc[[0,4,5]]                                                    #Fancy Indexing: rows at index 0,4,5 as pd.DataFrame
+
+#fetch rows using loc(index label), when custom index
+df.loc['index1']                                                    #row by index label, same as iloc[0]
+df.loc['index1':'index3']                                           #rows from index1 to index3(inc.)
+df.loc[['index3','index6','index9']]                                #Fancy indexing
+
+#fetch rows,cols both using iloc
+df.iloc[0, 0]                                                       #row index 0, col index 0
+df.iloc[0:3,1:5]                                                    #row 0 to 2 & col 1 to 4
+df.iloc[[2,3,6],[5,2]]                                              #Fancy indexing: row 2,3,6 & col 5,2
+
+#fetch rows,cols both using loc
+df.loc['index1', 'col1']                                            #select an element by label
+df.loc['index1':'index3', 'col1':'col4']                            #row 1 to 3(inc.), col 1 to 4(inc.)
+df.loc[['index6','index8'],['col1','col3']]                         #Fancy indexing: row 6,8 & col 1,3
+
+#Filtering DataFrame
+df['col1'] > 5                                                      #True if col1.value > 5
+df[df['col1'] > 5]                                                  #rows where condition is true
+df[(df['col1'] > 5) & (df['col2'] < 10)]                            #rows where both the conditions meet
+df[df['col1'].isin(['Alice', 'David'])]                             #True if col1.value is either 'Alice' or 'David'
+
+#col (pd.Series) attributes
+df['col1'].dtype                                                    #col1 dtype
+df['col1'].hasnans                                                  #True if col1 has NaNsr.size                                                             
+df['col1'].size                                                     #col1 item counts (inc. NaN)
+
+#col methods
+df['col1'].value_counts()                                           #col1 (in pd.Series form) unique value count [sr & df both]
+df['col1'].astype('category')                                       #change dtype to category
+df['col1'].unique()                                                 #col1 unique values (shows NaN)
+df['col1'].nunique()                                                #col1 unique value count (doesn't show NaN)
+df['col1'].tolist()                                                 #col1 to list
+
+#sort df
+df.sort_values('col1')                                              #sort by col1 [sr & df both]
+df.sort_values('col1', na_position='first')                         #sort by col1 with NaN showing on top
+df.sort_values('col1', ascending = False)                           #sort by col1 descending
+df.sort_values(['col1','col2'], ascending = [True, False])          #sort multiple columns
+
+#rank method
+df['col1'].rank()                                                   #rank based on col1 (min val is rank 1)
+df['col1'].rank(ascending=False)                                    #rank based on col1 (max var is rank 1)
+
+#index operations
+df.sort_index()                                                     #sort by index [sr & df both]
+df.sort_index(ascending=False)                                      #sort by index [sr & df both]
+df.set_index('col2')                                                #set col2 as index
+df.reset_index(drop = True)                                         #reset index making previous index a column
+
+#rename in df
+df.rename(columns={'col1':'c1','col2':'c2'})                        #rename cols
+df.rename(index={'index1':'i1','index2':'i2'})                      #rename custom index
+
+#fill NaN values
+df.fillna(0)                                                        #fill all NaN values with 0
+df['col1'].fillna('abc')                                            #fill NaN with 'abc'
+df['col1'].fillna(method='ffill')                                   #forward fill: NaN replaced with value above
+df['col1'].fillna(method='bfill')                                   #backward fill: NaN replaced with value below
+
+#remove NaN values
+df.dropna()                                                         #drop rows having any NaN
+df.dropna(how='all')                                                #drop rows with all cols NaN
+df.dropna(subset=['col1','col3'])                                   #drop rows where col1,col3 have NaN
+df.dropna(axis=0)                                                   #drop all rows with null in any col
+df.dropna(axis=1)                                                   #drop all cols with null in any row
+df.dropna(thresh=2)                                                 #drop all the rows with values above 2
+
+#remove duplicate rows
+df.drop_duplicates()                                                #drops duplicate rows
+df.drop_duplicates(keep='last')                                     #drops duplicate rows & keep last instance
+df.drop_duplicates(subset=['col2','col3'])                          #drops duplicate based on col2,col3
+
+#remove rows, cols: Fancy indexing
+df.drop(index=[2,3,4])                                              #remove rows with index 2,3,4
+df.drop(['col1','col3'])                                            #remove col1, col3
+
+#groupby col1
+grp = df.groupby('col1')                                            #group by col1; grp is pandas groupby object
+for a,b in grp: print(a, b)                                         #a is group name string, b is DataFrame containing all rows of that group
+
+grp.size()                                                          #count of rows
+grp.sum()                                                           #col-wise sum of all numeric cols
+grp.min()                                                           #col-wise minimum of all cols
+grp.max()                                                           #col-wise maximum of all cols
+grp.count()                                                         #col-wise count of all cols
+
+grp.sum()['col2']                                                   #sum of all cols, select col2
+grp['col2'].sum()                                                   #sum of col2
+grp['col2'].min()                                                   #minimum of col2
+grp['col2'].max()                                                   #maximum of col2
+grp['col2'].count()                                                 #count of col2
+grp['col2'].mean()                                                  #mean of col2
+grp['col2'].std()                                                   #standard deviation of col2
+grp['col2'].var()                                                   #variance of col2
+
+grp.agg(['min','max','mean','sum'])                                 #min,max,mean,sum of all numeric cols
+grp.agg(                                                            #customize aggregation on diff numeric cols
+            {
+                'col1':['sum','min','max'],
+                'col2':['sum','mean'],
+                'col3':['min','max'],
+                'col4':'min',
+                'col5':'sum'
+            }
+        )
+
+grp.first()                                                         #fetch 1st row of each group
+grp.last()                                                          #fetch last row of each group
+grp.nth(7)                                                          #fetch 7th row of each group
+
+grp.get_group('val1')                                               #same as df[df['col1']=='val1']; get_group is faster
+grp.groups                                                          #a dict with (groups as keys) & (list of indices in this grp) as values
+grp.describe()                                                      #group-wise describe
+grp.sample()                                                        #group-wise 1 random row
+grp.sample(2)                                                       #group-wise 2 random rows
+grp.nunique()                                                       #group-wise & col-wise unique rows count [PIVOT TABLE]
+
+#groupby col1,col2
+grp=df.groupby(['col1','col2'])
 
 # Concatenate, Merge & Join Data (pd.append has been discontinued)
 pd.concat([df1, df2])                                             #concatenate data vertically / append rows
@@ -1217,30 +1379,73 @@ df1.join(df2)                                                     #SQL INNER JOI
 df1.join(df2, how = 'left')                                       #SQL LEFT JOIN based on row_index
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+pd.set_option('display.max_columns', None)                        #display all columns while printing dataset
+pd.set_option('display.max_rows', 5)                              #display only 5 rows while printing dataset
+print(df.head().to_string())                                      #print every column for first 5 rows when columns hide normally
+print(df.to_string())                                             #print every column for all rows when columns hide normally
+
+
+
+np.array_split(df, 2)                                             #split df into 2 np arrays of almost equal rows
+np.array_split(df, 2, axis=0)                                     #split df into 2 np arrays of almost equal rows
+np.array_split(df, 2, axis=1)                                     #split df into 2 np arrays of almost equal columns
+
+
+          
+
+
+# Cleaning Data of it
+df['col1'].replace(' ', NaN)                                   #replace all the space values with null
+df['col1'].replace(1, 'one')                                      #replace all the space values with null
+
+
+pd.to_numeric(df['col1'], errors='coerce')                        #convert col1 values to numbers, if there is space then make it null
+
+
+
+
+
+df = df.query('col1 > 2 and col2 != "apple"')                     #filter using a query string
+a, b = 2, 'apple'
+df = df.query('col1 > @a and col2 == @b')                         #filter using a query string
+
+df.nlargest(3, 'col1')                                            #get top 3 rows by col1
+df.nsmallest(3, 'col1')                                           #get bottom 3 rows by col1
+
+df.filter(like = 'part')                                          #filter columns by substring
+df.filter(like = 'abc', axis = 1)                                 #filter columns containing abc in their name
+df.filter(regex = '^N', axis = 1)                                 #selects columns starting with 'N'
+
+
+
+df.pivot_table(values = 'col1', index = 'group', aggfunc = 'mean')
+df.pivot_table(values = 'col4', index = ['col1', 'col2'], columns = ['col3'])
+                                                                  #summarize col4 on combination of col1, col2 on rows and col3 on columns
+
+df.apply(np.mean)                                                 #apply a function to columns
+df.transform(lambda x: x+10)                                      #transform data column-wise
+
+
+
 # Statistical Operations
 
-df['col1'].value_counts()                                         #group by col1 and show its count
-df['col1'].unique()                                               #Unique values from col1
-df['col1'].nunique()                                              #The number of unique values from col1
-
-df.min()                                                          #returns a minimum value for each column
-df.max()                                                          #returns a maximum value for each column
-df.sum()                                                          #returns sum for every numeric column
-df.count()                                                        #returns count for every numeric column
-df.mean()                                                         #returns mean for every numeric column
-df.median()                                                       #returns median for every numeric column
-df.std()                                                          #returns standard deviation for every numeric column
-df.var()                                                          #returns variance for every numeric column
-df.corr(numeric_only = True)                                      #correlation coefficient for each value with respect to every other value
-
-df['col1'].min()                                                  #returns a minimum value for col1
-df['col1'].max()                                                  #returns a maximum value for col1
-df['col1'].sum()                                                  #returns sum for col1
-df['col1'].count()                                                #returns count for col1
-df['col1'].mean()                                                 #returns mean for col1
-df['col1'].median()                                               #returns median for col1
-df['col1'].std()                                                  #returns standard deviation of col1
-df['col1'].var()                                                  #returns variance of col1
 
 
 # Datetime
@@ -1468,6 +1673,24 @@ fig, axis = plt.subplots(nrows=2, ncols=2, figsize=(12,8))
 sns.barplot(data=df, x='col1', y='col2', hue='col3', ax = axis[0,0])
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+###############################################################################################################
+#### sys - Everything
+###############################################################################################################
+
+import sys
+sys.getsizeof(a)                                                    #memory size occupied by a(can be anything)
 
 
 
