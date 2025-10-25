@@ -774,6 +774,7 @@ print(rmse)
 ###############################################################################################################
 
 import numpy as np
+np.set_printoption(precision=2, supress=True)                   #2 decimal places, without scientific notation
 
 #initializing np array
 np.array([1,2,3],dtype=float)                                   #creating a numpy array of float dtype
@@ -782,18 +783,14 @@ np.arange(1,11)                                                 #[1 2 3 4 5 6 7 
 np.arange(1,11,2)                                               #points bw 1 & 10 with equal distance=2
 np.linspace(1,11,10)                                            #10 equi-distant points from 1 to 10(=11-1)
 
-array.reshape(rows, cols)                                       #shows the changed shape but doesn't change the original shape.
-array.resize(rows, cols)                                        #changes the original shape of array
-
 np.ones((rows, cols))
 np.zeros((rows, cols))
 np.full((rows, cols), n)                                        #an array of rows x columns filled with n
 np.identity(3)                                                  #identity Matrix of 3 x 3
+np.eye(3,4)                                                     #identity Matrix of rectangular array
+np.eye(3,4,k=1)                                                 #diag(1) shifted right Matrix
+np.eye(4,3,k=-1)                                                #diag(1) shifted left Matrix
 
-#changing data type
-a.astype(np.int32)                                              #changing data type to int32
-
-#random
 np.random.seed(42)                                              #set randomness to reproduce
 np.random.random((rows, cols))                                  #rows x cols array of random numbers bw 0 and 1
 np.random.rand(rows, cols)                                      #rows x cols array of random numbers bw 0 and 1
@@ -803,33 +800,43 @@ np.random.shuffle(a1)                                           #shuffle the pos
 np.random.choice(a1,3)                                          #choose 3 items randomly from a1 with replacement
 np.random.choice(a1,3,replace=False)                            #choose 3 items randomly from a1 without replacement
 
-
+a1.resize(rows, cols)                                           #changes the shape in original array.
+a1.reshape(rows, cols)                                          #orig a1 is not affected.
+a1.reshape(4,-1)                                                #reshape a 1-d a1 to 4 rows & possible no. of cols.
+a1.reshape(-1,3)                                                #reshape a 1-d a1 to possible no. of rows & 3 cols.
+a1.reshape(-1)                                                  #reshape any-dimension a1 1-d (or Flatten a1).
 
 #np attributes
-a = np.arange(1,25).reshape(2,3,4)
-a.ndim                                                          #returns number of dimensions [3 here]
-a.shape                                                         #returns shape of a [(2,3,4) here]
-a.size                                                          #total number of elements in an array
-a.itemsize                                                      #size of each elements in an array
-a.dtype                                                         #data type of each elements in an array
+a1.ndim                                                         #returns number of dimensions [3 here]
+a1.shape                                                        #returns shape of a [(2,3,4) here]
+a1.size                                                         #total number of elements in an array
+a1.itemsize                                                     #size of each elements in an array
+a1.dtype                                                        #data type of each elements in an array
 
+#Fancy indexing
+a1[[0,2,3]]                                                     #return rows at index 0,2 and 3
+a1[:,[0,2,3]]                                                   #return cols at index 0,2 and 3
 
-#array operations
-a1 = np.arange(12).reshape(3,4)
-a2 = np.arange(12,24).reshape(3,4)
+#Boolean indexing
+a1[a1>50]                                                       #all elements of a1 which are > 50
+a1[(a1>50) & (a1%2==0)]                                         #all even elements of a1 which are > 50
+a1[~(a1%7==0)]                                                  #all elements of a1 which are NOT divisible by 7
+
+#changing data type
+a.astype(np.int8)                                               #changing data type to int8
 
 #scalar operations
 a1 * 2
-a2 + 5
+a1 + 5
 a1 // 3
-a2 ** 2
+a1 ** 2
 a1 > 5
-a2 == 4
+a1 == 4
 
-#vector operations
+#vector (two arrays of same shape) operations
 a1 + a2
 a1 - a2
-a1 * a2
+a1 * a2         #item-wise (Hadamard) multiplication
 a1 / a2
 a1 // a2
 a1 ** a2
@@ -846,9 +853,6 @@ np.floor_divide(a1, a2)
 np.power(a1, a2)
 np.mod(a1, a2)
 
-
-
-
 #numpy functions (apply operation on every element)
 np.max(a1, axis=0)                                              #take all rows, find max -->> i.e. column-wise max
 np.min(a1, axis=1)                                              #take all cols, find min -->> i.e. row-wise min
@@ -861,24 +865,23 @@ np.var(a1, axis=1)
 
 np.sqrt(a1)
 np.pi
-
 np.sin(a1)
 np.cos(a1)
 np.tan(a1)
-
 np.log(a1)
 np.exp(a1)
 
-np.round(a1)                                                    #returns an array of nearest integers
-np.floor(a1)                                                    #returns an array of integers greater than orig numbers
-np.ceil(a1)                                                     #returns an array of integers lower than orig numbers
-np.rint(a1)                                                     #returns an array of integers closest to orig numbers
+np.round(a1,3)                                                  #round to 3 decimal places
+np.ceil(a1)                                                     #round to lower integers
+np.floor(a1)                                                    #round to higher integers
+np.rint(a1)                                                     #round to nearest integers
 
 np.concatenate((a1,a2))                                         #concat two arrays one after another
 np.concatenate((a1,a2), axis=0)                                 #hstack
 np.concatenate((a1,a2), axis=1)                                 #vstack
 np.hstack((a1,a2))                                              #concatenate horizontally
 np.vstack((a1,a2))                                              #concatenate vertically
+np.column_stack((a1, a2))                                       #Transposed of vstack result
 
 np.hsplit(a1,2)                                                 #split horizontally in 2 equal parts
 np.vsplit(a1,3)                                                 #split vertically in 3 equal parts
@@ -887,38 +890,41 @@ np.hsplit(a1,np.array([3]))                                     #split into one 
 a1.T                                                            #Transpose numpy array without changing the original array
 np.transpose(a1)                                                #Transpose numpy array without changing the original array
 a1.ravel()                                                      #converts any dimensional array into 1-d
-a1.flatten()                                                    #array flattened to 1-D
+a1.flatten()                                                    #Flatten a1 to 1-d
+a1.reshape(-1)                                                  #reshape a1 to 1-d (or Flatten a1).
 
-#dot product of (n x m) & (m x p) = gives 
-np.dot(a1,a2)
-np.matmul(a1,a2)
-a1 @ a2
+np.diag(a1)                                                     #diagonal of a Matrix
+np.fliplr(a1)                                                   #flipping an a1ay from left to right
+np.rot90(a1)                                                    #rotating an array by 90 degrees anticlock-wise
 
+#Matrices functions
+np.dot(a1,a2)                                                   #dot product
+np.matmul(a1,a2)                                                #dot product
+a1 @ a2                                                         #dot product
+np.cross(a1, a2)                                                #cross product
+np.inner(a1, a2)                                                #inner product of a1 & a2, returns a scalar
+np.outer(a1, a2)                                                #outer product of a1 & a2, returns an array
 
-
-
-#Fancy indexing
-a1[[0,2,3]]                                                     #return rows at index 0,2 and 3
-a1[:,[0,2,3]]                                                   #return cols at index 0,2 and 3
-
-#Boolean indexing
-a1[a1>50]                                                       #all elements of a1 which are > 50
-a1[(a1>50) & (a1%2==0)]                                         #all even elements of a1 which are > 50
-a1[~(a1%7==0)]                                                  #all elements of a1 which are NOT divisible by 7
-
+np.linalg.norm(a1)                                              #magnitude of a1
+np.linalg.det(a1)                                               #determinant
+np.linalg.inv(a1)                                               #inverse
+np.linalg.matrix_rank(a1)                                       #rank
+np.linalg.eig(a1)                                               #(eig_val, eig_vector)
 
 #Advance Functions
 sorted(a1)                                                      #returns a LIST of sorted arr4 without saving to orig arr4
-np.sort(a1)                                                     #numpy function to return a np.array arr4 sorted without saving to
-np.append(a1, n)                                                #append element n at the end of an array
-np.append(a1, n, axis=1)                                        #append a col of element n at the end of a 2-d array
-np.unique(a1)                                                   #unique elements from a1
+np.sort(a1)                                                     #sort a1, not permanent change [faster than sorted(list)]
+np.append(a1, n)                                                #append item n at the end
+np.append(a1, n, axis=1)                                        #append a col, each row=n
+np.unique(a1)                                                   #unique items from a1
 np.expanddims(a1)                                               #converts a 1-d array into 2-d
-np.where(a1>50)                                                 #returns index of elements where condition meets
-np.where(a1>50,n,a1)                                            #replace with n where condition meets (condition,TRUE,FALSE)
+np.where(a1>50)                                                 #returns index of items where condition meets
+np.where(a1>50,n,a1)                                            #replace with n where condition meets (condition,ifTRUE,else)
 np.isin(a1,[x,y,z])                                             #checks if x,y,z exist in a1
 np.in1d(a1, 100)                                                #checks if 100 exist in 1-d a1
 np.clip(a1, a_min=25, a_max=75)                                 #keeps all values of a1 bw 25 and 75
+np.equal(a1, a2)                                                #item-wise comparison, returns an array of True/False
+np.array_equal(a1, a2)                                          #if whole a1 = whole a2, returns True/False
 
 np.argmax(a1)                                                   #index of maximum
 np.argmax(a1,axis=0)                                            #index of maximum col wise, all rows
@@ -951,64 +957,8 @@ y=np.linspace(-10,9,20)
 xx,yy=np.meshgrid(x,y)                                          #grid of all value combination of x & y
 
 
-#structured array
+#customised structured array
 dt = 
-
-
-
-
-
-
-
-
-
-np.ndim(a1)                                                      #same as above
-np.shape(a1)                                                     #returns shape of a [(2,3,4) here]
-np.size(a1)                                                      #total number of elements in an array
-
-
-
-np.eye(3,4,k=1)                                                   #diagonal(1) shifted right Matrix
-np.eye(4,3,k=-1)                                                  #diagonal(1) shifted left Matrix
-np.diag(a1)                                                      #diagonal of a Matrix
-np.fliplr(a1)                                                    #flipping an a1ay from left to right
-np.rot90(a1)                                                     #rotating an array by 90 degrees anticlock-wise
-
-
-for i,val in enumerate(a4):                                     #loop through arr4, val=value at i=index
-a4.sort()                                                       #numpy function to sort arr4, returns nothing
-
-np.equal(a1, a2)                                              #element-by-element comparison, returns an array of true/false
-np.array_equal(a1, a2)                                        #array as a whole comparison, returns either true or false
-
-
-np.inner(a1, a2)                                              #inner product of two arrays, returns a scalar
-np.outer(a1, a2)                                              #outer product of two arrays, returns an array
-
-np.cross(v1, v2)                                                  #Vector (cross) product - returns an array
-
-
-np.column_stack((a1, a2))                                     #Transposed of vstack result
-
-np.clip(arr, a_min=10, a_max=30)                                  #replace all values below 10 with 10 and greater than 30 with 30 in arr
-
-
-
-M1 * M2                                                           #element-by-element multiplication of matrix
-
-np.linalg.det(M)                                                  #determinant of matrix
-np.linalg.inv(M)                                                  #inverse of a matrix
-np.linalg.matrix_rank(M)                                          #rank of a matrix
-np.linalg.eig(M)                                                  #(eig_val, eig_vector) of matrix
-
-np.cross(V1, V2)                                                  #cross product of vectors
-np.dot(V1, V2)                                                    #dot product of vectors
-np.linalg.norm(V1)                                                #magnitude of vector
-
-
-np.set_printoption(precision=2, supress=True)                     #2 decimal place, without scientific notation
-
-
 
 
 
