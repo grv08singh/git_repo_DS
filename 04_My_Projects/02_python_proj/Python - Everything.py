@@ -30,7 +30,7 @@
 ## Open jupyter notebook at a specified path:
 ## Type in Anaconda Prompt
 ## jupyter notebook --notebook-dir="specified_path"
-## jupyter notebook --notebook-dir="D:\git_repo_DS\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\14 EPGC - ML - Capstone Project Walmart"
+## jupyter notebook --notebook-dir="D:\git_repo_DS\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\18 EPGC - Py - Pandas Assignment 2"
 ## jupyter notebook --notebook-dir="D:\git_repo_DS\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\17 EPGC - ML - Decision Tree Quiz"
 ## jupyter notebook --notebook-dir="D:\Projects\streamlit_startup_dashboard"
 ## C:\Users\grv06\AppData\Roaming\Code\User\settings.json
@@ -980,6 +980,11 @@ pd.Series(my_dict)                                                  #pd.Series f
 pd.Series(list(my_set))                                             #pd.Series from a set
 pd.Series(np_a1,index=labels)                                       #pd.Series from a np.array
 
+sr.drop(2)                                                          #remove row at index 2
+sr.append(5)                                                        #append element=5 at the end of sr
+sr.reset_index(drop = True)                                         #reset index without making previous index a column
+sr.reset_index()                                                    #reset index making previous index a column
+
 #Series to other data structures
 list(sr)                                                            #pd.Series to list
 tuple(sr)                                                           #pd.Series to tuple
@@ -1105,13 +1110,8 @@ sr.plot(kind='pie')                                                 #pie chart w
 
 
 
-sr.drop(2)                                                  #remove row at index 2
-
-sr.append(5)                                                #append element=5 at the end of sr
 # #### sr.insert()                                          #pandas series don't have insert method, so, convert to dataframe first
 pd.concat([s[:5], pd.Series([50], index=[5]), s[5:]])             #use concat to insert at index 5 in pandas series
-sr.reset_index(drop = True)                                 #reset index without making previous index a column
-sr.reset_index()                                            #reset index making previous index a column
 
 
 sr + sr2                                               #gives union of both the series
@@ -1129,7 +1129,14 @@ sr + sr2                                               #gives union of both the 
 
 
 
-#DataFrame
+#Pandas DataFrame
+#setting display options
+pd.set_option('display.max_columns', None)                          #display all columns while printing dataset
+pd.set_option('display.max_rows', 5)                                #display only 5 rows while printing dataset
+print(df.head().to_string())                                        #print every column for first 5 rows when columns hide normally
+print(df.to_string())                                               #print every column for all rows when columns hide normally
+
+#Creating DataFrame
 df = pd.DataFrame([[],[],[]], columns =['x','y'])                   #DataFrame from list
 df = pd.DataFrame(my_dict)                                          #DataFrame from dict (col name comes from dict.keys)
 df = pd.read_csv('my_csv.csv')                                      #read data from csv file into df
@@ -1169,6 +1176,8 @@ df.notnull().sum()                                                  #col-wise co
 df.duplicated().sum()                                               #row-wise count of duplicates
 df.rename(columns={'old':'new','old2':'new2'},inplace=True)         #rename columns
 df.transpose()                                                      #transpose all the data of df
+df.nlargest(N, 'col1')                                              #TOP N rows by col1
+df.nsmallest(N, 'col1')                                             #BOTTOM N rows by col1
 
 #Mathematical methods
 df.min()                                                            #col-wise min
@@ -1207,11 +1216,20 @@ df.loc['index1', 'col1']                                            #select an e
 df.loc['index1':'index3', 'col1':'col4']                            #row 1 to 3(inc.), col 1 to 4(inc.)
 df.loc[['index6','index8'],['col1','col3']]                         #Fancy indexing: row 6,8 & col 1,3
 
-#Filtering DataFrame
+#Filtering rows
 df['col1'] > 5                                                      #True if col1.value > 5
 df[df['col1'] > 5]                                                  #rows where condition is true
 df[(df['col1'] > 5) & (df['col2'] < 10)]                            #rows where both the conditions meet
 df[df['col1'].isin(['Alice', 'David'])]                             #True if col1.value is either 'Alice' or 'David'
+
+df = df.query('col1 > 2 and col2 != "apple"')                       #filter using a query string
+a, b = 2, 'apple'
+df = df.query('col1 > @a and col2 == @b')                           #filter using a query string
+
+#Filtering index or cols
+df.filter(like = 'abc')                                             #filter index contaning abc
+df.filter(like = 'abc', axis = 1)                                   #filter cols containing abc in their name
+df.filter(regex = '^N', axis = 1)                                   #selects cols starting with 'N'
 
 #col (pd.Series) attributes
 df['col1'].dtype                                                    #col1 dtype
@@ -1220,10 +1238,15 @@ df['col1'].size                                                     #col1 item c
 
 #col methods
 df['col1'].value_counts()                                           #col1 (in pd.Series form) unique value count [sr & df both]
-df['col1'].astype('category')                                       #change dtype to category
 df['col1'].unique()                                                 #col1 unique values (shows NaN)
 df['col1'].nunique()                                                #col1 unique value count (doesn't show NaN)
 df['col1'].tolist()                                                 #col1 to list
+df['col1'].astype(int)                                              #change dtype to integer
+df['col1'].astype(float)                                            #change dtype to float
+df['col1'].astype('category')                                       #change dtype to category
+pd.to_numeric(df['col1'], errors='coerce')                          #change dtype to numbers, space becomes NaN
+df['col1'].nlargest(N)                                              #TOP N values from col1
+df['col1'].nsmallest(N)                                             #BOTTOM N values from col1
 
 #sort df
 df.sort_values('col1')                                              #sort by col1 [sr & df both]
@@ -1312,96 +1335,123 @@ grp.nunique()                                                       #group-wise 
 #groupby col1,col2
 grp=df.groupby(['col1','col2'])
 
-# Concatenate, Merge & Join Data (pd.append has been discontinued)
-pd.concat([df1, df2])                                             #concatenate data vertically / append rows
-pd.concat([df1, df2], axis=0)                                     #concatenate data vertically / append rows
-pd.concat([df1, df2], axis=1)                                     #concatenate data horizontally / add colums
-    
-pd.merge(df1, df2, how = 'inner', on = 'col3')                    #SQL INNER JOIN on col3
-pd.merge(df1, df2, how = 'outer', on = ['col3', 'col5'])          #SQL OUTER JOIN on col3 and col5
-pd.merge(df1, df2, how = 'left', on = 'col5')                     #SQL LEFT JOIN on col5
+#Concatenate Data or stacking data(df.append has been discontinued)
+pd.concat([df1,df2])                                                #concatenate data vertically / append rows
+pd.concat([df1,df2],ignore_index=True)                              #create new index, remove previous index
+df=pd.concat([df1,df2],keys=['d1','d2'])                            #multiple index, mainindex=d1,d2 & subindex=orig index
+df.loc[('d1',2)]                                                    #indexing--> mainindex=d1, subindex=2
+pd.concat([df1,df2],axis=0)                                         #concatenate data vertically / append rows
+pd.concat([df1,df2],axis=1)                                         #concatenate data horizontally / add colums
 
-df1.join(df2)                                                     #SQL INNER JOIN based on row_index
-df1.join(df2, how = 'left')                                       #SQL LEFT JOIN based on row_index
+#Merge Data (SQL joins)
+pd.merge(df1,df2,how='inner',on='col3')                             #SQL INNER JOIN on col3
+pd.merge(df1,df2,how='inner',left_on='col3',right_on='col1')        #common col has diff name in both tables/df
+pd.merge(df1,df2,how='outer',on=['col3','col5'])                    #SQL OUTER JOIN on col3 and col5
+pd.merge(df1,df2,how='left',on='col5')                              #SQL LEFT JOIN on col5
 
+#Join Data
+df1.join(df2)                                                       #SQL INNER JOIN based on row_index
+df1.join(df2,how='left')                                            #SQL LEFT JOIN based on row_index
 
+#MultiIndex Series
+mi=pd.MultiIndex.from_product([['i1','i2'],[3,4]])                  #Cartisian prod of 2 indices: index i1 has 2 vals 1,2; i2 has 2 vals 1,2
+mi=pd.MultiIndex.from_tuples([('i1',3),('i1',4),('i2',3),('i2',4)]) #multi index created manually
+mi.levels[1]                                                        #showing vals in index level 1
+sr=pd.Series([1,2,3,4,5,6,7,8],index=mi)                            #Creating Series with multi index
+sr.unstack()                                                        #last index converted to col-index
+sr.stack()                                                          #col-index converted to row index
 
+#MultiIndex DataFrame
+data=[[1,2],[5,6],[7,8],[9,0]]
+df=pd.DataFrame(data,index=mi,columns=['col1','col2'])              #creating df with multi index in rows
+df=pd.DataFrame(data,index=['i1','i2'],columns=mi)                  #creating df with multi index in cols
+df.sort_index(level=1,ascending=False)                              #sort index 1 descending 
+df.sort_index(ascending=[False,True])                               #sort index 0 descending, index 1 ascending
+df.transpose()
+df.swaplevel(axis=1)                                                #col index swap with each other
 
+#Pivot Table
+df.pivot_table(index='col1',columns='col2',values='col3')           #pivot table, col3 will be avg/mean by default
+df.pivot_table(index='col1',columns='col2',aggfunc='std')           #analyse all numeric cols
+df.pivot_table(index='col1',columns='col2',
+                aggfunc='sum',margins=True)                         #also shows row-wise & col-wise totals
+df.pivot_table(index='col1',columns='col2',
+                values='col3',aggfunc='std')                        #pivot table, col3 will be avg/mean by default
+df.pivot_table(index=['col1','col2'],
+                columns=['col3','col4'],values='col5')              #analyse all numeric cols
+df.pivot_table(index=['col1','col2'],
+                columns=['col3','col4'],
+                aggfunc={'col5':'sum','col6':'min'}                 #diff cols, diff aggregations
 
+#vectorized String operations using pandas
+df['col1'].str.upper()                                              #all upper case
+df['col1'].str.lower()                                              #all lower case
+df['col1'].str.capitalize()                                         #1st letter capital in each item
+df['col1'].str.title()                                              #1st letter of each word in caps
+df['col1'].str.len()                                                #length of each item
+df['col1'].str.len().max()                                          #max length out of all items
+df['col1'].str[0:6:2]                                               #slicing
 
+df['col1'].str.strip()                                              #removes leading & trailing spaces
+df['col1'].str.split()                                              #split items at every space
+df['col1'].str.split(',')                                           #split items at every comma
+df['col1'].str.split(n=1,expand=True)                               #split once at first space only, make two new cols
+df['col1'].str.split(n=2)                                           #split twice at first 2 spaces
 
+df['col1'].str.replace('abc','xyz')                                 #replace abc with xyz
+df['col1'].str.startswith('a')                                      #True if item starts with 'a'
+df['col1'].str.endswith('a')                                        #True if item ends with 'a'
+df['col1'].str.isdigit()                                            #True if item is numeric
+df['col1'].str.contains('abc')                                      #True if item contains abc
+df['col1'].str.contains('^[^aeiouAEIOU].+[aeiouAEIOU]$')            #^ means 1st char, . means any no of chars, $ means last char
+                                                                    #^ starts wit consonant (NOT vowel), $ ends with vowel
 
-
-
-
-
-
-
-
-
-
-
-
-pd.set_option('display.max_columns', None)                        #display all columns while printing dataset
-pd.set_option('display.max_rows', 5)                              #display only 5 rows while printing dataset
-print(df.head().to_string())                                      #print every column for first 5 rows when columns hide normally
-print(df.to_string())                                             #print every column for all rows when columns hide normally
-
-
-
-np.array_split(df, 2)                                             #split df into 2 np arrays of almost equal rows
-np.array_split(df, 2, axis=0)                                     #split df into 2 np arrays of almost equal rows
-np.array_split(df, 2, axis=1)                                     #split df into 2 np arrays of almost equal columns
-
-
-          
-
-
-# Cleaning Data of it
-df['col1'].replace(' ', NaN)                                   #replace all the space values with null
-df['col1'].replace(1, 'one')                                      #replace all the space values with null
-
-
-pd.to_numeric(df['col1'], errors='coerce')                        #convert col1 values to numbers, if there is space then make it null
-
-
-
-
-
-df = df.query('col1 > 2 and col2 != "apple"')                     #filter using a query string
-a, b = 2, 'apple'
-df = df.query('col1 > @a and col2 == @b')                         #filter using a query string
-
-df.nlargest(3, 'col1')                                            #get top 3 rows by col1
-df.nsmallest(3, 'col1')                                           #get bottom 3 rows by col1
-
-df.filter(like = 'part')                                          #filter columns by substring
-df.filter(like = 'abc', axis = 1)                                 #filter columns containing abc in their name
-df.filter(regex = '^N', axis = 1)                                 #selects columns starting with 'N'
-
-
-
-df.pivot_table(values = 'col1', index = 'group', aggfunc = 'mean')
-df.pivot_table(values = 'col4', index = ['col1', 'col2'], columns = ['col3'])
-                                                                  #summarize col4 on combination of col1, col2 on rows and col3 on columns
-
-df.apply(np.mean)                                                 #apply a function to columns
-df.transform(lambda x: x+10)                                      #transform data column-wise
-
-
-
-# Statistical Operations
-
-
-
-# Datetime
+#Pandas Timestamp
 pd.Timestamp.now()
 pd.Timestamp.now().year
-pd.to_datetime(df['date'], format='%d-%m-%Y')                     #change FROM object(dd-mm-YYYY) to Datetime(YYYY-mm-dd)
-df['Date'].dt.day_name()                                          #gives name of the day
+pd.to_datetime(df['date'])                                          #object to Datetime
+pd.to_datetime(df['date'], errors='coerce')                         #object to Datetime, ignore errors
+pd.to_datetime(df['date'], format='%d-%m-%Y')                       #object(dd-mm-YYYY) to Datetime(YYYY-mm-dd)
+df['Date'].dt.year                                                  #year
+df['Date'].dt.month                                                 #month
+df['Date'].dt.day                                                   #day
+df['Date'].dt.hour                                                  #hour
+df['Date'].dt.minute                                                #minute
+df['Date'].dt.second                                                #second
+df['Date'].dt.month_name()                                          #month name
+df['Date'].dt.day_name()                                            #day name
 
+df['Date'].dt.is_month_start()                                      #True if month start date
+df['Date'].dt.is_month_end()                                        #True if month end date
+df['Date'].dt.is_quarter_start()                                    #True if month start date
+df['Date'].dt.is_quarter_end()                                      #True if month end date
 
-# Visualization
+#Datetime Index (contains items with dtype pd.Timestamp)
+import Datetime as dt
+dt_index=pd.DatetimeIndex(dt.datetime(2025,1,1),
+                    dt.datetime(2024,1,1),
+                    dt.datetime(2023,1,1))                          #using python Datetime module [slower]
+dt_index=pd.DatetimeIndex(pd.Timestamp(2025,1,1),
+                    dt.Timestamp(2024,1,1),
+                    dt.Timestamp(2023,1,1))                         #using pandas Timestamp [faster]
+pd.Series([1,2,3],index=dt_index)                                   #create series with date index
+
+st_dt = pd.Timestamp(2025,1,1)
+end_dt= pd.Timestamp(2027,12,31)
+pd.date_range(start=st_dt, end=end_dt, freq='D')                    #Datetime index with dates ranging bw st_dt & end_dt daily
+pd.date_range(start=st_dt, end=end_dt, freq='2D')                   #alternate dates index
+pd.date_range(start=st_dt, end=end_dt, freq='B')                    #Business dates index
+pd.date_range(start=st_dt, end=end_dt, freq='W')                    #weekly dates index
+pd.date_range(start=st_dt, end=end_dt, freq='W-THU')                #weekly Thursday dates index
+pd.date_range(start=st_dt, end=end_dt, freq='H')                    #Hourly Timestamp index
+pd.date_range(start=st_dt, end=end_dt, freq='M')                    #Month end dates index
+pd.date_range(start=st_dt, end=end_dt, freq='MS')                   #Month start dates index
+pd.date_range(start=st_dt, end=end_dt, freq='A')                    #Annual end dates index (31-Dec)
+pd.date_range(start=st_dt, periods=25, freq='D')                    #Datetime index with 25 dates from st_dt daily
+pd.date_range(start=st_dt, periods=25, freq='H')                    #Datetime index with 25 hours from st_dt hourly
+pd.date_range(start=st_dt, periods=25, freq='M')                    #Datetime index with 25 months from st_dt monthly
+
+# Plot Visualization
 df.plot.line()
 df.plot.bar()
 df.plot.barh()
@@ -1411,6 +1461,24 @@ df.plot.kde()
 df.plot.area()
 df.plot.pie()
 df.plot.scatter(x = 'col1', y = 'col2')
+
+
+
+
+
+
+
+
+np.array_split(df, 2)                                             #split df into 2 np arrays of almost equal rows
+np.array_split(df, 2, axis=0)                                     #split df into 2 np arrays of almost equal rows
+np.array_split(df, 2, axis=1)                                     #split df into 2 np arrays of almost equal columns
+
+df.transform(lambda x: x+10)                                      #transform data column-wise
+
+
+
+
+
 
 
 
@@ -1429,15 +1497,93 @@ df.plot.scatter(x = 'col1', y = 'col2')
 #### matplotlib.pyplot - Everything
 ###############################################################################################################
 
-# import matplotlib.pyplot as plt
-
-#univariate     (1-axis)    ::  countplot,histogram,box
-#bivariate      (2-axes)    ::  bar,scatter,line
+#univariate     (1-axis)    ::  countplot,histogram,box,pie
+#bivariate      (2-axes)    ::  bar,scatter,line,pie
 #multivariate   (>1-axes)   ::  heatmap,pairplot
 
 #relation plots             ::  scatter,line
 #distribution plots         ::  histogram,kde plot,pie chart,countplot
 #categorical plots          ::  barplot,countplot,box plot,violin plot
+
+import matplotlib.pyplot as plt
+
+##CampusX
+#matplotlib styles
+plt.style.available                                                 #shows available styles in plt
+plt.style.use('classic')                                            #use style in plt
+
+#Line Plot - Bivariate (numeric-datetime)
+plt.plot(x,y,color='#199274',
+            linestyle='dashdot',
+            linewidth=2,
+            marker='o',
+            markersize=10,
+            label='abc')
+plt.legend()
+plt.ylim(0,500)
+plt.xlim(0,20)
+plt.grid()
+plt.show()
+
+#Scatter Plot - Bivariate (numeric-numeric)
+plt.scatter(x,y,color='#199274',
+            marker='o',
+            markersize=10)
+plt.xlabel('x')
+plt.ylabel('y')
+plt.show()
+
+#Bar/Col chart - Bivariate (numeric-categorical)
+plt.bar(x,y,color='#199274',width=0.2)
+plt.xlabel('a')
+plt.ylabel('count of a')
+plt.xticks(rotation=75)
+plt.show()
+
+#Stacked Bar/Col chart - Bivariate (numeric-categorical)
+plt.bar(x,y1,label='y1')
+plt.bar(x,y2,bottom=y1,label='y2')
+plt.bar(x,y3,bottom=y1+y2,label='y3')
+plt.legend()
+plt.show()
+
+#Clustered Bar/Col chart - Bivariate (numeric-categorical)
+#done be shifting x-axis (jugaad)
+
+#Histogram - Univariate (numeric only) - Frequency count in each bin
+plt.hist(x,bins=[0,10,20,30,40,50,60],log=True)                     #log for logarithmic scale in case of uneven distribution
+plt.show()
+
+#Pie chart - Univariate/Bivariate (numeric/categorical)
+#Univariate (categorical) - count of each category
+#Bivariate (categorical-numeric) - revenue sum based on each category
+#Univariate (numeric) - sum proportion of self col
+#Bivariate (numeric-numeric) - sum proportion of one numeric col based on other numeric col
+plt.pie(data=x,
+        labels=y,
+        autopct='%0.1f%%',
+        colors=[c1,c2...],
+        explode=[0.1,0,0,...],
+        shadow=True)                                                #explode is to cut out a slice, autopct is to show %age
+plt.show()
+
+#save chart in png format
+plt.savefig('sample.png')                                           #don't use plt.show() before saving
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
