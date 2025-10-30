@@ -1512,7 +1512,9 @@ import matplotlib.pyplot as plt
 plt.style.available                                                 #shows available styles in plt
 plt.style.use('classic')                                            #use style in plt
 
+#x,y,z are different cols of df
 #Line Plot - Bivariate (numeric-datetime)
+plt.figure(figsize=(15,7))
 plt.plot(x,y,color='#199274',
             linestyle='dashdot',
             linewidth=2,
@@ -1523,35 +1525,64 @@ plt.legend()
 plt.ylim(0,500)
 plt.xlim(0,20)
 plt.grid()
+plt.title('title_1')
 plt.show()
 
 #Scatter Plot - Bivariate (numeric-numeric)
-plt.scatter(x,y,color='#199274',
+plt.figure(figsize=(15,7))
+plt.scatter(x,y,
+            color='#199274',
+            marker='o',
+            markersize=10,
+            )
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('title_1')
+plt.show()
+
+#Scatter Plot with c[hue in sns]
+plt.figure(figsize=(15,7))
+plt.scatter(x,y,
+            s=numeric_col,                                          #size of the bubble based on numeric_col
+            c=categorical_col,
+            cmap='jet',
+            alpha=0.6,                                              #transparency; 0=Transparent; 1=Opaque
             marker='o',
             markersize=10)
 plt.xlabel('x')
 plt.ylabel('y')
+plt.text(x1,y1,'p1')                                                #name the point 'p1' at x=x1,y=y1
+plt.text(x2,y2,'p2',fontdict={'size':12,'color':'blue'})            #name the point 'p2' at x=x2,y=y2
+plt.axhline(5,color='red')                                          #horizontal red line at y=5
+plt.axvline(10,color='green')                                       #vertical green line at x=10
+plt.title('title_1')
 plt.show()
 
 #Bar/Col chart - Bivariate (numeric-categorical)
+plt.figure(figsize=(15,7))
 plt.bar(x,y,color='#199274',width=0.2)
 plt.xlabel('a')
 plt.ylabel('count of a')
 plt.xticks(rotation=75)
+plt.title('title_1')
 plt.show()
 
 #Stacked Bar/Col chart - Bivariate (numeric-categorical)
+plt.figure(figsize=(15,7))
 plt.bar(x,y1,label='y1')
 plt.bar(x,y2,bottom=y1,label='y2')
 plt.bar(x,y3,bottom=y1+y2,label='y3')
 plt.legend()
+plt.title('title_1')
 plt.show()
 
 #Clustered Bar/Col chart - Bivariate (numeric-categorical)
 #done be shifting x-axis (jugaad)
 
 #Histogram - Univariate (numeric only) - Frequency count in each bin
+plt.figure(figsize=(15,7))
 plt.hist(x,bins=[0,10,20,30,40,50,60],log=True)                     #log for logarithmic scale in case of uneven distribution
+plt.title('title_1')
 plt.show()
 
 #Pie chart - Univariate/Bivariate (numeric/categorical)
@@ -1559,16 +1590,89 @@ plt.show()
 #Bivariate (categorical-numeric) - revenue sum based on each category
 #Univariate (numeric) - sum proportion of self col
 #Bivariate (numeric-numeric) - sum proportion of one numeric col based on other numeric col
+plt.figure(figsize=(15,7))
 plt.pie(data=x,
         labels=y,
         autopct='%0.1f%%',
         colors=[c1,c2...],
         explode=[0.1,0,0,...],
         shadow=True)                                                #explode is to cut out a slice, autopct is to show %age
+plt.title('title_1')
 plt.show()
 
 #save chart in png format
 plt.savefig('sample.png')                                           #don't use plt.show() before saving
+
+#Scatter Plot - for comparison with OOP below
+plt.figure(figsize=(15,7))
+plt.scatter(x,y,color='red',marker='+',markersize=10)
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('title_1')
+plt.show()
+
+#Scatter Plot with Object Oriented Programming (OOP) - as compared with non-OOP above
+fig,ax=plt.subplots(figsize=(15,7))
+ax.scatter(x,y,color='red',marker='+')
+ax.set_xlabel('x')
+ax.set_ylabel('y')
+ax.set_title('title_1')
+fig.show()
+
+#Multiple (2) subplots with Object Oriented Programming OOP
+fig,ax = plt.subplots(nrows=2,ncols=1,sharex=True,figsize=(15,6))   #sharex is to use single x-axis in 2 charts up & down
+ax[0].scatter(x,y,color='red')
+ax[0].set_title('x vs. y')
+ax[0].set_xlabel('x')
+ax[0].set_ylabel('y']
+
+ax[1].scatter(x,z)
+ax[1].set_title('x vs. z')
+ax[1].set_xlabel('x')
+ax[1].set_ylabel('z']
+fig.show()
+
+#Multiple (2x2) subplots with Object Oriented Programming OOP
+fig,ax = plt.subplots(nrows=2,ncols=2,figsize=(15,6))
+ax[0,0].scatter(x,y,color='red')
+ax[0,1].scatter(x,z,color='green')
+ax[1,0].hist(x)
+ax[1,1].hist(z)
+fig.show()
+
+#Multiple (2x2) subplots with Object Oriented Programming OOP - another way
+fig = plt.figure()
+ax1 = fig.add_subplot(2,2,1)
+ax1.scatter(x,y,color='red')
+ax2 = fig.add_subplot(2,2,2)
+ax2.scatter(x,z,color='green')
+ax3 = fig.add_subplot(2,2,3)
+ax3.hist(x)
+ax4 = fig.add_subplot(2,2,4)
+ax4.hist(z)
+fig.show()
+
+#3-D scatter plot with Object Oriented Programming OOP
+fig = plt.figure()
+ax = plt.subplot(projection='3d')
+ax.scatter3D(x,y,z)
+ax.set_title('title_1')
+ax.set_xlabel('x')
+ax.set_ylabel('y')
+ax.set_zlabel('z')
+fig.show()
+
+#3-D line plot with Object Oriented Programming OOP
+fig = plt.figure()
+ax = plt.subplot(projection='3d')
+ax.scatter3D(x,y,z,s=[100,100,100,...])                             #s=size of marker for each point, ... represent as many scatter points in data
+ax.plot3D(x,y,z,color='red')                                        #line to connect the points
+fig.show()
+
+
+
+
+
 
 
 
@@ -1593,7 +1697,7 @@ y = df['col1']
 
 # Single Chart/Plot
 plt.figure(figsize=(4, 10))
-plt.bar(df['col1'],df['col2'])                                      #vertical bar chart
+plt.bar(x,df['col2'])                                      #vertical bar chart
 plt.xlabel('X Axis Title Here')
 plt.ylabel('Y Axis Title Here')
 plt.title('title_1')
@@ -1602,18 +1706,18 @@ plt.grid(True)
 plt.xticks(rotation=90)
 plt.show()
 
-plt.plot(df['col1'],df['col2'])                                     #line chart
-plt.barh(df['col1'],df['col2'])                                     #horizontal bar chart
-plt.scatter(df['col1'],df['col2'])                                  #scatter plot
-plt.stackplot(df['col1'],df['col2'])                                #Area/stack plot, y can be 2-d array
-plt.pie(df['col2'])                                                 #Pie Chart
-plt.boxplot(df['col2'])                                             #used to find outlier
-plt.violinplot(df['col2'])                                          #used to find outlier
-plt.imshow(df['col2'], cmap='summer')                               #heatmap
-plt.hist(df['col1'], bins=8, edgecolor="white")                     #histogram with 8 bins
+plt.plot(x,y)                                     #line chart
+plt.barh(x,y)                                     #horizontal bar chart
+plt.scatter(x,y)                                  #scatter plot
+plt.stackplot(x,y)                                #Area/stack plot, y can be 2-d array
+plt.pie(y)                                                 #Pie Chart
+plt.boxplot(y)                                             #used to find outlier
+plt.violinplot(y)                                          #used to find outlier
+plt.imshow(y, cmap='summer')                               #heatmap
+plt.hist(x, bins=8, edgecolor="white")                     #histogram with 8 bins
 
-plt.subplot(2,3,4).plot(df['col1'],df['col2'],'g--')                #2 rows, 3 coloumns, 4th plot, g-- green dashed line
-plt.subplot(r,c,sn).plot(df['col1'],df['col2'],'y*-')               #y*- yellow line with * marker
+plt.subplot(2,3,4).plot(x,y,'g--')                #2 rows, 3 coloumns, 4th plot, g-- green dashed line
+plt.subplot(r,c,sn).plot(x,y,'y*-')               #y*- yellow line with * marker
             
                 
 # arguments of pie() method:            
@@ -1625,9 +1729,9 @@ plt.subplot(r,c,sn).plot(df['col1'],df['col2'],'y*-')               #y*- yellow 
     # cmap = 'autumn', 'summer', 'winter','spring'                  #different color schemes
             
 # Multiple Charts/Plots in Grid of 1x3                              # 1-row, 3-columns
-plt.subplot(1,3,1).scatter(x=df['col1'],y=df['col2'])               # 1- rows, 3 - col 1 - position
-plt.subplot(1,3,2).scatter(x=df['col1'],y=df['col2'])               # 1- rows, 3 - col 2 - position
-plt.subplot(1,3,3).scatter(x=df['col1'],y=df['col2'])               # 1- rows, 3 - col 3 - position
+plt.subplot(1,3,1).scatter(x=x,y=y)               # 1- rows, 3 - col 1 - position
+plt.subplot(1,3,2).scatter(x=x,y=y)               # 1- rows, 3 - col 2 - position
+plt.subplot(1,3,3).scatter(x=x,y=y)               # 1- rows, 3 - col 3 - position
 plt.show()
 
 
@@ -1736,7 +1840,7 @@ ax.legend(loc=0)                                                    #0-best fit 
 #### Seaborn
 ###############################################################################################################
 
-# import seaborn as sns
+import seaborn as sns
 
 sns.pairplot(data=df)                                               #scatterplot for all the column pairs
 sns.countplot(data=df, x='col1')                                   #vertical bar chart of col1 summarized with its count
