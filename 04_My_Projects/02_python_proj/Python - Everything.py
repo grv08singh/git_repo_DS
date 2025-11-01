@@ -1451,16 +1451,40 @@ pd.date_range(start=st_dt, periods=25, freq='D')                    #Datetime in
 pd.date_range(start=st_dt, periods=25, freq='H')                    #Datetime index with 25 hours from st_dt hourly
 pd.date_range(start=st_dt, periods=25, freq='M')                    #Datetime index with 25 months from st_dt monthly
 
-# Plot Visualization
-df.plot.line()
-df.plot.bar()
-df.plot.barh()
-df.plot.hist()
-df.plot.box()
-df.plot.kde()
-df.plot.area()
-df.plot.pie()
-df.plot.scatter(x = 'col1', y = 'col2')
+# pandas plot - sr Plot Visualization
+sr.plot(kind='line')
+sr.plot(kind='bar')
+sr.plot(kind='barh')
+sr.plot(kind='hist')
+sr.plot(kind='box')
+sr.plot(kind='kde')
+sr.plot(kind='area')
+sr.plot(kind='pie')
+sr.plot(kind='scatter',x='col1',y='col2')
+
+# pandas plot - df Plot Visualization
+df.plot(kind='scatter',
+        x='col1',
+        y='col2',
+        title='title_1',
+        marker='+',
+        figsize=(12,8),
+        s='col3',
+        c='col4',
+        cmap='virdis')                                              #c:color as per categorical col4, s:size as per numeric col3
+df.plot(kind='line',x='date_col')                                   #plots line trend for all possible combinations in one plot
+df.plot(kind='line',x='date_col',subplots=True)                     #plots line trend for all possible combinations in diff subplots
+df.groupby('col1')['col2'].mean().plot(kind='bar')                  #col1 categorical, col2 numeric, clustered bar chart automatically made
+df.plot(kind='bar',stacked=True)                                    #col1 categorical, col2 numeric, clustered bar chart automatically made
+df.plot(kind='hist',bins=20)                                        #20 bins
+df['col1'].plot(kind='pie',
+                labels=df['col2'].values,
+                autopct='%.1f%%',
+                explode=[0.1,0,0...])                               #as many values in explode as the number of categories in col2
+df['col1','col2','col3'].plot(kind='pie',
+                                subplots=True,
+                                figsize=(15,8))                     #multiple pie charts on col1, col2, col3
+
 
 
 
@@ -1669,7 +1693,38 @@ ax.scatter3D(x,y,z,s=[100,100,100,...])                             #s=size of m
 ax.plot3D(x,y,z,color='red')                                        #line to connect the points
 fig.show()
 
+#3-D surface plot with OOP
+x = np.linspace(-10,10,100)
+y = np.linspace(-10,10,100)
+xx,yy = np.meshgrid(x,y)
+z = xx**2 + yy**2
 
+fig = plt.figure(figsize=(12,8))
+ax = plt.subplot(projection='3d')
+p = ax.plot_surface(xx,yy,z,cmap='virdis')
+fig.colorbar(p)
+fig.show()
+
+#Contour plot (lines only) with OOP
+fig = plt.figure(figsize=(12,8))
+ax = plt.subplot()
+p = ax.contour(xx,yy,z,cmap='virdis')
+fig.colorbar(p)
+fig.show()
+
+#Contour plot (filled with colors) with OOP
+fig = plt.figure(figsize=(12,8))
+ax = plt.subplot()
+p = ax.contourf(xx,yy,z,cmap='virdis')
+fig.colorbar(p)
+fig.show()
+
+#Heatmap
+grid = df.pivot_table(index='col1',columns='col2',values='col3',aggfunc='count')
+fig = plt.figure(figsize=(12,8))
+plt.imshow(grid)
+plt.xlabel('x')
+plt.ylabel('y')
 
 
 
@@ -1841,7 +1896,323 @@ ax.legend(loc=0)                                                    #0-best fit 
 ###############################################################################################################
 
 import seaborn as sns
+sns.get_dataset_names()                                             #shows the names of dataset in sns
+sns.load_dataset('planets')
 
+##CampusX
+#1) Relational Plot [figure level plot is called relplot]
+#scatterplot (bivariate) - using axes level plot
+sns.scatterplot(data=df,
+                x='col1',
+                y='col2',
+                hue='col3',
+                style='col4'
+                size='col5')                                        #hue:color categorically; style:marker categorically
+
+#scatterplot (bivariate) - using figure level plot
+sns.relplot(data=df,
+            x='col1',
+            y='col2',
+            kind='scatter',
+            hue='col3',
+            style='col4'
+            size='col5')
+
+#lineplot (bivariate) - using axes level plot
+sns.lineplot(data=df,
+            x='date_col',
+            y='col2',
+            hue='col3',
+            style='col4',
+            size='col5')
+
+#lineplot (bivariate) - using figure level plot
+sns.relplot(kind='line',
+            data=df,
+            x='date_col',
+            y='col2',
+            hue='col3',
+            style='col4',
+            size='col5')
+
+#facet plot - 
+#hue gives diff colors for diff categories in same chart
+#if we want to plot those diff categories in diff charts, we need facet plots.
+#facet plot can only be made on figure level plots (not axes level plots)
+#below code will plot a grid of scatterplot:
+#a) males & females on diff charts juxtaposed side by side, 
+#b) diff continents on diff charts juxtaposed up-down.
+#col_wrap will keep only 4 charts in each row here.
+sns.relplot(kind='scatter',
+            data=df,
+            x='col1',
+            y='col2',
+            row='sex_col',
+            col='continent_col',
+            col_wrap=4)
+
+
+
+#2) Distribution Plot [figure level plot is called distplot]
+#histplot - using axes level plot - (Univariate) numeric/categorical
+sns.histplot(data=df,
+                x='col1',
+                bins=20,
+                hue='sex_col',
+                element='step')                     
+
+#histplot - using figure level plot - (col='sex_col' will plot 2 histograms side by side for each sex)
+sns.distplot(kind='hist',
+                data=df,
+                x='col1',
+                bins=20,
+                col='sex_col',
+                element='step')
+
+#histplot (2-D) - using axes level plot - (Bivariate)
+sns.histplot(data=df,
+                x='col1',
+                y='col2')                     
+
+#histplot (2-D) - using figure level plot
+sns.distplot(kind='hist',
+                data=df,
+                x='col1',
+                y='col2')
+
+#KDE plot - using axes level plot - (Univariate) numeric/categorical
+sns.kdeplot(data=df,
+                x='col1',
+                hue='sex_col',
+                fill=True)
+
+#KDE plot - using figure level plot
+sns.distplot(kind='kde',
+                data=df,
+                x='col1',
+                hue='sex_col',
+                fill=True)
+
+#KDE plot (2-D) - using axes level plot - (Bivariate)
+sns.kdeplot(data=df,
+                x='col1',
+                y='col2')                     
+
+#KDE plot (2-D) - using figure level plot
+sns.distplot(kind='kde',
+                data=df,
+                x='col1',
+                y='col2')
+
+#rug plot - using axes level plot - (Univariate) numeric/categorical
+sns.kdeplot(data=df,
+            x='col1')
+
+#rug plot - using figure level plot
+sns.distplot(kind='rug',
+                data=df,
+                x='col1')
+
+#3) Categorical Plots
+#3.1) Categorical Scatter Plot - Bivariate
+#stripplot = scatter plot with a categorical col on x-axis
+#stripplot - using axes level plot
+sns.stripplot(data=df,
+                x='col1',
+                y='col2',
+                hue='col3',
+                jitter=False)
+
+#stripplot - using figure level plot
+sns.catplot(kind='strip',
+                data=df,
+                x='col1',
+                y='col2',
+                hue='col3',
+                jitter=0.1)
+
+#swarmplot: like stripplot, gives distribution info as well
+#swarmplot - using axes level plot
+sns.swarmplot(data=df,
+                x='col1',
+                y='col2',
+                hue='col3')
+
+#swarmplot - using figure level plot
+sns.catplot(kind='swarm',
+                data=df,
+                x='col1',
+                y='col2',
+                hue='col3')
+
+
+#3.2) Categorical Distribution Plot - Univariate
+#single boxplot - using axes level plot
+sns.boxplot(data=df,
+                y='num_col')
+
+#multiple boxplot - using axes level plot
+sns.boxplot(data=df,
+                x='cat_col',
+                y='num_col',
+                hue='col3')
+
+#multiple boxplot - using figure level plot
+sns.catplot(kind='box',
+                data=df,
+                x='cat_col',
+                y='num_col',
+                hue='col3')
+
+#violinplot - using axes level plot
+sns.violinplot(data=df,
+                y='num_col')
+
+#multiple violinplot - using axes level plot
+sns.violinplot(data=df,
+                x='cat_col',
+                y='num_col',
+                hue='col3')
+
+#multiple violinplot - using figure level plot
+sns.catplot(kind='violin',
+                data=df,
+                x='cat_col',
+                y='num_col',
+                hue='col3')
+
+
+#3.3) Categorical Estimate Plot -> for central tendency
+#barplot - using axes level plot
+sns.barplot(data=df,
+                x='cat_col',
+                y='num_col',
+                hue='col3',
+                estimator=np.median)
+
+#barplot - using figure level plot
+sns.catplot(kind='bar',
+                data=df,
+                x='cat_col',
+                y='num_col',
+                hue='col3',
+                estimator=np.median)
+
+#pointplot - using axes level plot
+sns.pointplot(data=df,
+                x='cat_col',
+                y='num_col')
+
+#pointplot - using figure level plot
+sns.catplot(kind='point',
+                data=df,
+                x='cat_col',
+                y='num_col')
+
+#countplot = histplot for categorical col
+#countplot - using axes level plot
+sns.countplot(data=df,
+                x='cat_col',
+                hue='col3')
+
+#countplot - using figure level plot
+sns.catplot(kind='count',
+                data=df,
+                x='cat_col',
+                hue='col3')
+
+
+
+#4) Reg Plot (Regression Plot) = Scatter Plot with Best Fit Line having 95% confidence interval
+#regplot - using axes level plot [hue not available]
+sns.regplot(data=df,
+                x='col1',
+                y='col2')
+
+#regplot - using figure level plot [hue available]
+sns.lmplot(data=df,
+                x='col1',
+                y='col2',
+                hue='cat_col')
+
+#residplot - residual plot (for above regression plot, residplot plots errors around the best fit line)
+sns.residplot(data=df,
+                x='col1',
+                y='col2')
+
+
+#5) Matrix Plot [only axes level plots exist]
+#Heatmap - using axes level plot (No figure level plot function exists)
+#grid_df :: wide format data with col1 on index, col2 on columns
+plt.figure(figsize=(15,10))
+sns.heatmap(data=grid_df,
+            annot=True,
+            linewidth=0.5,
+            cmap='summer')                                          #linewidth creates space bw grid boxes
+plt.show()
+
+#Clustermap - using axes level plot (No figure level plot function exists)
+sns.clustermap(iris.iloc[:,[0,1,2,3]])                              #not that useful graph.
+
+#6) Multiplots - FacetGrid, PairGrid, JointGrid
+#6.1) FacetGrid
+#FacetGrid for boxplot
+g = sns.FacetGrid(data=df, col='col1', row='col2')                  #col & row decide the size of grid
+g.map(sns.boxplot, 'cat_col', 'num_col')
+g.add_legend()
+
+#FacetGrid for scatterplot
+g = sns.FacetGrid(data=df,col='cat_col1',row='cat_col2')            #col & row decide the size of grid
+g.map(sns.scatter,'num_col1','num_col2',hue='cat_col3')
+g.add_legend()
+
+#6.2) PairGrid
+#PairPlot (Special case of PairGrid) - scatterplot + histplot for each pair of numeric cols
+sns.pairplot(df,hue='cat_col')                                      #histplot converts into kdeplot while using hue
+
+#PairGrid - customizable pairplot - all scatterplots
+g = sns.PairGrid(data=df,hue='cat_col')
+g.map(sns.scatterplot)
+
+#Customized PairGrid - scatterplot + histplot
+g = sns.PairGrid(data=df,hue='cat_col')
+g.map_diag(sns.histplot)
+g.map_offdiag(sns.scatterplot)
+
+#Customized PairGrid - histplot + boxplot
+g = sns.PairGrid(data=df,hue='cat_col')
+g.map_diag(sns.boxplot)
+g.map_offdiag(sns.histplot)
+
+#Customized PairGrid - diff plots above & below diagonal
+g = sns.PairGrid(data=df,hue='cat_col')
+g.map_diag(sns.histplot)
+g.map_upper(sns.kdeplot)
+g.map_lower(sns.scatterplot)
+
+#6.3)JointGrid
+#JointPlot (Special case of JointGrid)
+sns.jointplot(data=df,
+                x='num_col1',
+                y='num_col2',
+                kind='hist',
+                hue='cat_col')
+
+#JointGrid - customizable jointplot
+g = sns.JointGrid(data=df,x='num_col1',y='num_col2')
+g.plot(sns.scatterplot,sns.histplot)
+
+
+
+
+
+
+
+
+
+
+
+##Intellipaat
 sns.pairplot(data=df)                                               #scatterplot for all the column pairs
 sns.countplot(data=df, x='col1')                                   #vertical bar chart of col1 summarized with its count
 sns.countplot(data=df, y='col1')                                   #horizontal bar chart of col1 summarized with its count
@@ -1867,6 +2238,118 @@ sns.kdeplot(arr1)                                                   #KDE plot
 ################## Subplots in seaborn
 fig, axis = plt.subplots(nrows=2, ncols=2, figsize=(12,8))
 sns.barplot(data=df, x='col1', y='col2', hue='col3', ax = axis[0,0])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###############################################################################################################
+#### Plotly
+###############################################################################################################
+
+import plotly.offline as pyo
+import plotly.graph_objs as go
+
+#scatter plot
+trace = go.Scatter(x=df['num_col1'],
+                    y=df['num_col2'],
+                    mode='markers',
+                    text=df['cat_col'],
+                    marker={'color':'#00a65a', 'size':16})
+data = [trace]
+layout = go.Layout(title='title of graph',
+                    xaxis={'title':'x_title'},
+                    yaxis={'title':'y_title'})
+fig = go.Figure(data=data,layout=layout)
+pyo.plot(fig)
+
+#single line chart
+trace = go.Scatter(x=df['datetime_col'],
+                    y=df['num_col'],
+                    mode='lines',
+                    #mode='lines+markers',
+                    marker={'color':'#00a65a', 'size':16})
+data = [trace]
+layout = go.Layout(title='title of graph',
+                    xaxis={'title':'timeline'},
+                    yaxis={'title':'y_title'})
+fig = go.Figure(data=data,layout=layout)
+pyo.plot(fig)
+
+#multi-line chart
+trace1 = go.Scatter(x=df['datetime_col'],
+                    y=df['num_col1'],
+                    mode='lines+markers',
+                    marker={'color':'#00a65a', 'size':16},
+                    name='line1_label')
+trace2 = go.Scatter(x=df['datetime_col'],
+                    y=df['num_col2'],
+                    mode='lines+markers',
+                    marker={'color':'#007399', 'size':16},
+                    name='line2_label')
+data = [trace1, trace2]
+layout = go.Layout(title='title of graph',
+                    xaxis={'title':'timeline'},
+                    yaxis={'title':'y_title'})
+fig = go.Figure(data=data,layout=layout)
+pyo.plot(fig)
+
+#bar graph
+trace = go.Bar(x=df['cat_col'],
+                    y=df['num_col'])
+data = [trace]
+layout = go.Layout(title='title of graph',
+                    xaxis={'title':'x_title'},
+                    yaxis={'title':'y_title'})
+fig = go.Figure(data=data,layout=layout)
+pyo.plot(fig)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
