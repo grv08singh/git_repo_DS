@@ -44,7 +44,8 @@ import warnings as wr
 wr.filterwarnings('ignore')
 
 
-from sklearn.preprocessing import StandardScaler,LabelEncoder
+from sklearn.preprocessing import LabelEncoder,OneHotEncoder,OrdinalEncoder,StandardScaler,MinMaxScaler
+from sklearn.impute import SimpleImputer
 from sklearn.model_selection import train_test_split,cross_val_score,GridSearchCV,RandomizedSearchCV
 from sklearn.linear_model import LinearRegression,LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
@@ -273,13 +274,45 @@ final_size = df.shape[0]
 print(f"rows removed: {initial_size - final_size}")
 
 
-# 1.6 Label Encoding
-#### Label encoding on all the non-numeric columns
+# 1.6 Encoding
+## Label encoding
 from sklearn.preprocessing import LabelEncoder
-LE = LabelEncoder()
+le = LabelEncoder()
 for col in df.columns:
     if df[col].dtype == 'object':
-        df[col] = pd.DataFrame(LE.fit_transform(df[col]))
+        df[col] = pd.DataFrame(le.fit_transform(df[[col]]))
+
+## Ordinal Encoding
+from sklearn.preprocessing import OrdinalEncoder
+oe = OrdinalEncoder(categories=[['low','medium','high']])
+df['col1'] = pd.DataFrame(oe.fit_transform(df[['col1']]))
+
+## One Hot Encoding
+from sklearn.preprocessing import OneHotEncoder
+ohe = OneHotEncoder(drop='First', sparse=False, handle_unknown='ignore')
+df['col1'] = pd.DataFrame(ohe.fit_transform(df[['col1']]))
+
+## Simple Imputer [replace missing values with col mean]
+from sklearn.impute import SimpleImputer
+si = SimpleImputer()                                            #mean by default
+si = SimpleImputer(strategy = 'median')                         #median
+si = SimpleImputer(strategy = 'most_frequent')                  #mode
+df['col1'] = pd.DataFrame(si.fit_transform(df[['col1']]))
+
+
+# 1.7 Column Transformer [task of 1.6 becomes easier]
+from sklearn.compose import ColumnTransformer
+ct = ColumnTransformer(transformers=[
+                                        ('tnf1', OrdinalEncoder(categories=[['low','medium','high']]), ['col1']),
+                                        ('tnf2', OneHotEncoder(drop='First', sparse=False), ['col2', 'col3']),
+                                        ('tnf3', SimpleImputer(), ['col4'])
+                                    ],
+                        remainder = 'passthrough'))
+ct.fit_transform(df)
+
+
+#1.8 Pipeline
+from sklearn.pipeline import Pipeline,make_pipeline
 
 
 
