@@ -441,79 +441,21 @@ plt.show()
 
 
 
-# ML Pipeline:
+# ML Flow:
 #
-## 1) Data Cleaning:
-###    Remove Duplicates rows - df.duplicated()
-###    Handle Null values - df.dropna() / df.fillna()
-###    Check unique values of each column - df['col1'].unique().tolist()
-###    Handle Errors - df['col1'].replace('unknown',NaN)
-#
-#
-## 2) Data Pre-Processing (Standardize, Scale, Encode)
-###    Inspect Data Types - df.info()
-###    Check Missing Values - df.isnull().sum()
-###    Statistical Summary - df.describe().T
-###    Visualize Outliers in each numerical column using boxplot()
-###    Remove Outliers using IQR Method
-###    Correlation Analysis to understand the relationship between features & target variable - df.corr()
-###    Check if Target Variable is balanced affecting model training and evaluation - plt.pie()
-###    X - y Split
-###    Feature Scaling:
-####      Normalization      - MinMaxScaler().fit_transform(X)
-####      Standardization    - StandardScaler().fit_transform(X)
-#
-#
-## 3) Feature Engineering (Feature Selection, Create New or Transform Existing Features)
-###    Feature Creation: creating new features using domain knowledge
-###    Feature Transformation: 
-####      Normalization / Standardization /Scaling
-####      Encoding
-####      Mathematical Transformation (log, sqrt etc.)
-###    Feature Extraction: (PCA Technique) Reduces dimension, Reduces computation cost, Improves model performance, Prevents overfitting
-####      Signal Processing
-####      Statistical Techniques
-####      Transformation Algorithms
-###    Feature Selection: Choosing relevant features
-####      Filter Methods
-####      Wrapper Methods
-####      Embedded Methods
-###    Feature Scaling: to ensure all the features contribute equally
-####      Min-Max Scaling
-####      Standard Scaling
-#
-#
-## 4) EDA Types:
-###    Univariate Analysis: one variable - mean, median, mode, variance, std, barplot, kdeplot
-###    Bivariate A.: relationship b/w two variables - pairplot, scatterplot, correlation cofficient, contingency table, line graph, covariance
-###    Multivariate A.: rel. b/w two or more variables - heatmap, PCA, Spatial Analysis (geog. maps), ARIMA (time series Analysis)
-#
-#
-## 5) Model Selection ---> based on: 
-### data Complexity
-### decision factors like performance, interpretability, scalability
-### Experimentation with different models to find the best one
-#
-#
-## 6) Model Training ---> basic features are:
-### Iterative Process: Train the model iteratively, adjusting parameters to minimize errors & enhance accuracy
-### Optimization: Fine-tune model to optimize its predictive capabilities
-### Validation: Rigorously train model to ensure accuracy to new unseen data
-#
-#
-## 7) Model Evaluation & Tuning
-### Evaluation Metrics: Accuracy, Precision, Recall, F1 score, Specificity, Type-1-2 error, Confusion Matrix for performance evaluation
-### Strengths & Weaknesses: Identify the strengths & weaknesses of the model through rigorous testing
-### Iterative Improvement: Initiate model tuning to adjust hyperparameters & enhance predictive accuracy
-### Model Robustness: Iterative tuning to achieve desired levels of model robustness & reliability
-### Regularization - Lasso, Ridge, Elastic Net Regression - prevents overfitting, fine tuning, stable model, better performance, interpretability
-### Bias Variance tradeoff
-### Hyperparameter Tuning
-### Cross Validation
-### AUC-ROC curve
-#
-#
-### 8) Model Deployment
+## 01) Data Gathering
+## 02) Cleaning / Preprocessing
+## 03) Feature Engineering
+## 04) Outlier Detection
+## 05) Missing Value Imputation
+## 06) Feature Selection
+## 07) Model Building
+## 08) Model Selection
+## 09) Hyper Parameter Tuning
+## 10) Convert to Website/App
+## 11) Deploy
+## 12) Monitor
+
 
 
 
