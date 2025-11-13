@@ -444,17 +444,47 @@ plt.show()
 # ML Flow:
 #
 ## 01) Data Gathering
-## 02) Cleaning / Preprocessing
-## 03) Feature Engineering
-## 04) Outlier Detection
-## 05) Missing Value Imputation
-## 06) Feature Selection
-## 07) Model Building
-## 08) Model Selection
-## 09) Hyper Parameter Tuning
-## 10) Convert to Website/App
-## 11) Deploy
-## 12) Monitor
+##      01.01) df.info
+##      01.02) df.shape
+##      01.03) df.describe()
+##      01.04) df.duplicated()
+##      01.05) df['col1'].info() - check null vals
+## 02) Data Wrangling / Cleaning / Preprocessing
+##      02.01) df.drop_duplicates()
+##      02.02) df.fillna(mean) / Missing Value Imputation
+##      02.03) df['col1'].astype(int)
+##      02.04) Outlier Detection & Removal
+## 03) Exploratory Data Analysis (EDA)
+##      03.01) Explore Data
+##          03.01.01) Univariate Analysis:
+##                          Histogram
+##                          Frequency plot
+##                          Pie chart
+##                          Box plot
+##                          Frequency distribution
+##          03.01.02) Bivariate Analysis:
+##                          Scatter plot
+##                          Bar chart
+##                          Line chart
+##                          Pie chart
+##          03.01.03) Multivariate Analysis:
+##                          3D Scatter plot
+##                          Heatmap
+##                          Pair plot
+##                          Bar chart with hue
+##                          Histogram with hue
+##          03.01.04) Correlation
+##          03.01.05) Covariance
+##      03.02) Augment Data / Feature Engineering
+##          03.02.01) Merging DataFrames
+##          03.02.02) Adding New Cols
+## 04) Feature Selection
+## 05) Model Building
+## 06) Model Selection
+## 07) Hyper Parameter Tuning
+## 08) Convert to Website/App
+## 09) Deploy
+## 10) Monitor
 
 
 
@@ -2609,6 +2639,47 @@ px.scatter(df,
                 color='cat_col3')
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###############################################################################################################
+#### selenium - Everything
+###############################################################################################################
+
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+import time
+
+s = Service("C:/Users/Nitish/Desktop/chromedriver.exe")
+driver = webdriver.Chrome(service = s)
+driver.get('http://google.com')
+time.sleep(2)
+
+# fetch the search input box using xpath
+user_input = driver.find_element(by=By.XPATH, value='/html/body/div[1]/div[3]/form/div[1]/div[1]/div[1]/div/div[2]/input')
+user_input.send_keys('Campusx')
+time.sleep(1)
+# hit enter key
+user_input.send_keys(Keys.ENTER)
+time.sleep(1)
+# click
+link = driver.find_element(by=By.XPATH, value='//*[@id="rso"]/div[2]/div/div/div[1]/div/div/div[1]/div/a')
+link.click()
 
 
 
