@@ -2,16 +2,16 @@
 <NotepadPlus>
     <FindHistory nbMaxFindHistoryPath="10" nbMaxFindHistoryFilter="10" nbMaxFindHistoryFind="10" nbMaxFindHistoryReplace="10" matchWord="no" matchCase="no" wrap="yes" directionDown="yes" fifRecuisive="yes" fifInHiddenFolder="no" dlgAlwaysVisible="no" fifFilterFollowsDoc="no" fifFolderFollowsDoc="no" searchMode="1" transparencyMode="1" transparency="150" dotMatchesNewline="no" isSearch2ButtonsMode="no" fifProjectPanel1="no" fifProjectPanel2="no" fifProjectPanel3="no" regexBackward4PowerUser="no" bookmarkLine="no" purge="no">
         <Filter name="" />
-        <Find name="pd.concat" />
-        <Find name="isnull" />
-        <Find name="astype" />
-        <Find name="as_type" />
-        <Find name="floor" />
-        <Find name="argmax" />
-        <Find name="&apos;col&apos;" />
-        <Find name="&apos;col1&apos;" />
-        <Find name="col01" />
-        <Find name="np.NaN" />
+        <Find name="fillna" />
+        <Find name="datetime" />
+        <Find name="time series" />
+        <Find name="series" />
+        <Find name="time" />
+        <Find name="kmeans" />
+        <Find name="pd.to" />
+        <Find name="express" />
+        <Find name="subplot" />
+        <Find name="show" />
         <Replace name="NaN" />
         <Replace name="sr" />
         <Replace name="sr2" />

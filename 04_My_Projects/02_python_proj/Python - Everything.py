@@ -30,7 +30,7 @@
 ## Open jupyter notebook at a specified path:
 ## Type in Anaconda Prompt
 ## jupyter notebook --notebook-dir="specified_path"
-## jupyter notebook --notebook-dir="D:\git_repo_DS\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\24 EPGC - ML - Random Forest AQ"
+## jupyter notebook --notebook-dir="D:\git_repo_DS\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\26 EPGC - ML - Time Series Quiz (Live Classes)"
 ## jupyter notebook --notebook-dir="D:\git_repo_DS\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\17 EPGC - ML - Decision Tree Quiz"
 ## jupyter notebook --notebook-dir="D:\Projects\streamlit_startup_dashboard"
 ## C:\Users\grv06\AppData\Roaming\Code\User\settings.json
@@ -56,6 +56,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.cluster import KMeans
 from sklearn.metrics import r2_score,accuracy_score,precision_score,recall_score,f1_score,confusion_matrix,ConfusionMatrixDisplay,classification_report
 
+from sklearn.decomposition import PCA
 from sklearn.feature_slection import SelectKBest,chi2
 from sklearn.compose import ColumnTransformer,make_column_transformer
 from sklearn.pipeline import Pipeline,make_pipeline
@@ -228,8 +229,15 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.30, rand
 
 
 # 2.3 Scaling
+# 2.3.1 Standard Scaler
 from sklearn.preprocessing import StandardScaler
 sc = StandardScaler()
+X_train_scaled = sc.fit_transform(X_train)
+X_test_scaled = sc.transform(X_test)
+
+# 2.3.2 Min Max Scaler
+from sklearn.preprocessing import MinMaxScaler
+sc = MinMaxScaler()
 X_train_scaled = sc.fit_transform(X_train)
 X_test_scaled = sc.transform(X_test)
 
@@ -334,11 +342,39 @@ xgb_c = XGBClassifier(objective="binary:logistic", n_estimators=100,
 
 ## 2.4.23 K-Means Clustering
 from sklearn.cluster import KMeans
-kmeans = KMeans(n_clusters=2, init='k-means++', n_init='auto', random_state=0)
-kmeans.fit(X)
-y_kmeans = kmeans.predict(X)
+kmeans = KMeans(n_clusters=3, init='k-means++', 
+                n_init='auto', random_state=0, max_iter=200)
+kmeans = kmeans.fit(X)
+clustered_result = kmeans.labels_
 centers = kmeans.cluster_centers_
+sum_of_within_cluster_variance = kmeans.inertia_
+cluster_pred_for_new_data_point = kmeans.predict(X_new)
 
+## 2.4.24 PCA (Principal Component Analysis) - 3D to 2D
+#manual work
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+df.iloc[:,0:3] = scaler.fit_transform(df.iloc[:,0:3])
+cov_matrix = np.cov([df.iloc[:,0],df.iloc[:,1],df.iloc[:,2]])
+eigen_values, eigen_vectors = np.linalg.eig(covariance_matrix)
+pc = eigen_vectors[0:2]
+transformed_df = np.dot(df.iloc[:,0:3],pc.T)
+new_df = pd.DataFrame(transformed_df,columns=['PC1','PC2'])
+
+#sklearn implementation
+from sklearn.decomposition import PCA
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+pca = PCA(n_components=2)
+X_train_pca = pca.fit_transform(X_train_scaled)
+X_test_pca = pca.transform(X_test_scaled)
+#principal components, PC1, PC2, PC3...
+pca.components_
+#explained variance of each selected principal component
+pca.explained_variance_
+#%age variance explained by each selected component
+pca.explained_variance_ratio_
 
 
 ## 2.5 Scores
