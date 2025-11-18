@@ -2,16 +2,17 @@
 <NotepadPlus>
     <FindHistory nbMaxFindHistoryPath="10" nbMaxFindHistoryFilter="10" nbMaxFindHistoryFind="10" nbMaxFindHistoryReplace="10" matchWord="no" matchCase="no" wrap="yes" directionDown="yes" fifRecuisive="yes" fifInHiddenFolder="no" dlgAlwaysVisible="no" fifFilterFollowsDoc="no" fifFolderFollowsDoc="no" searchMode="1" transparencyMode="1" transparency="150" dotMatchesNewline="no" isSearch2ButtonsMode="no" fifProjectPanel1="no" fifProjectPanel2="no" fifProjectPanel3="no" regexBackward4PowerUser="no" bookmarkLine="no" purge="no">
         <Filter name="" />
+        <Find name="2.5." />
+        <Find name="np.cov" />
+        <Find name="pca" />
+        <Find name="dictionary" />
+        <Find name="pcs" />
         <Find name="fillna" />
         <Find name="datetime" />
         <Find name="time series" />
         <Find name="series" />
         <Find name="time" />
-        <Find name="kmeans" />
-        <Find name="pd.to" />
-        <Find name="express" />
-        <Find name="subplot" />
-        <Find name="show" />
+        <Replace name="2.6." />
         <Replace name="NaN" />
         <Replace name="sr" />
         <Replace name="sr2" />
@@ -21,7 +22,6 @@
         <Replace name="cols" />
         <Replace name='&quot;,\n&quot;' />
         <Replace name="\n" />
-        <Replace name='&quot;#D4E4E4&quot;' />
     </FindHistory>
     <History nbMaxFile="10" inSubMenu="no" customLength="-1">
         <File filename="F:\Grv\Grv\05 Personal - Official\Monthly Work Done.py" />

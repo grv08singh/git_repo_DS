@@ -30,7 +30,7 @@
 ## Open jupyter notebook at a specified path:
 ## Type in Anaconda Prompt
 ## jupyter notebook --notebook-dir="specified_path"
-## jupyter notebook --notebook-dir="D:\git_repo_DS\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\26 EPGC - ML - Time Series Quiz (Live Classes)"
+## jupyter notebook --notebook-dir="D:\git_repo_DS\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\27 EPGC - ML - PCA Assignment Quiz (Live Classes)"
 ## jupyter notebook --notebook-dir="D:\git_repo_DS\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\17 EPGC - ML - Decision Tree Quiz"
 ## jupyter notebook --notebook-dir="D:\Projects\streamlit_startup_dashboard"
 ## C:\Users\grv06\AppData\Roaming\Code\User\settings.json
@@ -47,6 +47,8 @@ wr.filterwarnings('ignore')
 from sklearn.preprocessing import LabelEncoder,OneHotEncoder,OrdinalEncoder,StandardScaler,MinMaxScaler
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import train_test_split,cross_val_score,GridSearchCV,RandomizedSearchCV
+#SMOTE - Synthetic Minority Oversampling Technique
+from imblearn.over_sampling import SMOTE
 
 from sklearn.linear_model import LinearRegression,LogisticRegression,SGDRegressor,SGDClassifier,Ridge,Lasso,ElasticNet
 from sklearn.tree import DecisionTreeRegressor,DecisionTreeClassifier
@@ -54,7 +56,7 @@ from sklearn.ensemble import RandomForestRegressor,RandomForestClassifier
 from sklearn.svm import SVR,SVC
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.cluster import KMeans
-from sklearn.metrics import r2_score,accuracy_score,precision_score,recall_score,f1_score,confusion_matrix,ConfusionMatrixDisplay,classification_report
+from sklearn.metrics import r2_score,accuracy_score,roc_auc_score,precision_score,recall_score,f1_score,confusion_matrix,ConfusionMatrixDisplay,classification_report
 
 from sklearn.decomposition import PCA
 from sklearn.feature_slection import SelectKBest,chi2
@@ -242,123 +244,24 @@ X_train_scaled = sc.fit_transform(X_train)
 X_test_scaled = sc.transform(X_test)
 
 
-# 2.4 Initializing Different ML Model
-## 2.4.1 Linear Regressor (OLS)
-from sklearn.linear_model import LinearRegression
-lr = LinearRegression()
-lr = lr.fit(X_train, y_train)
-y_pred = lr.predict(X_test)
-sns.regplot(x = y_pred, y = y_test, line_kws = {'color':'red'})
+# 2.4 SMOTE - Synthetic Minority Oversampling Technique
+# make class balanced
+from imblearn.over_sampling import SMOTE
+smote = SMOTE(random_state=42)
+X_resampled, y_resampled = smote.fit_resample(X_train, y_train)
+#now X_resampled & y_resampled will not have class imbalance
 
-## 2.4.2 SGDRegressor (GD)
-from sklearn.linear_model import SGDRegressor
-sgd_r = SGDRegressor(loss='squared_error', penalty='l2', random_state=42)
 
-## 2.4.3 Lasso Regressor
-from sklearn.linear_model import Lasso
-lasso_r = Lasso(alpha=1.0)
-
-## 2.4.4 Ridge Regressor
-from sklearn.linear_model import Ridge
-ridge_r = Ridge(alpha=1.0)
-
-## 2.4.5 Elastic Net Regressor
-from sklearn.linear_model import ElasticNet
-elastic_net_r = ElasticNet(alpha=0.1, l1_ratio=0.5, random_state=42)
-
-## 2.4.6 KNN Regressor
-from sklearn.neighbors import KNeighborsRegressor
-knnr = KNeighborsRegressor(n_neighbors=5)
-
-## 2.4.7 Support Vector Regressor (SVR)
-from sklearn.svm import SVR
-svr = SVR(kernel='rbf', C=100, gamma=0.1, epsilon=.1)
-
-## 2.4.8 Decision Tree Regressor
-from sklearn.tree import DecisionTreeRegressor
-dt_r = DecisionTreeRegressor(max_depth=5, random_state=0)
-
-## 2.4.9 Random Forest Regressor
-from sklearn.ensemble import RandomForestRegressor
-rf_r = RandomForestRegressor(n_estimators=100, random_state=42)
-
-## 2.4.10 Gradient Boosting Regressor
-from sklearn.ensemble import GradientBoostingRegressor
-gb_r = GradientBoostingRegressor(n_estimators=500, learning_rate=0.01,
-                                    max_depth=4, loss='ls', random_state=42)
-
-## 2.4.11 XGBoost Regressor
-from xgboost import XGBRegressor
-xgb_r = XGBRegressor(objective='reg:squarederror',n_estimators=100, 
-                         learning_rate=0.1,max_depth=5,random_state=42)
-
-## 2.4.12 Logistic Regressor - Binary Classifier
-from sklearn.linear_model import LogisticRegression
-LoR = LogisticRegression()
-
-## 2.4.13 SGDClassifier
-from sklearn.linear_model import SGDClassifier
-sgd_c = SGDClassifier(loss='log_loss', penalty='l2', max_iter=1000, random_state=42)
-
-## 2.4.14 Lasso Classifier (No direct method)
-from sklearn.linear_model import LogisticRegression
-lasso_c = LogisticRegression(penalty='l1', solver='liblinear', C=0.1)
-
-## 2.4.15 Ridge Classifier
-from sklearn.linear_model import RidgeClassifier
-ridge_c = RidgeClassifier(alpha=1.0, solver='auto')
-
-## 2.4.16 Elastic Net Classifier (No direct method)
-from sklearn.linear_model import SGDClassifier
-elastic_net_c = SGDClassifier(loss='log_loss', penalty='elasticnet', l1_ratio=0.5)
-#OR
-elastic_net_c = LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5)
-
-## 2.4.17 KNN Classifier
-from sklearn.neighbors import KNeighborsClassifier
-knn_c = KNeighborsClassifier(n_neighbors=5)
-
-## 2.4.18 Support Vector Classifier (SVC)
-from sklearn.svm import SVC
-svc = SVC(kernel='rbf', C=1, gamma='scale')
-
-## 2.4.19 Decision Tree Classifier
-from sklearn.tree import DecisionTreeClassifier
-dt_c = DecisionTreeClassifier(max_depth = 5)
-
-## 2.4.20 Random Forest Classifier
-from sklearn.ensemble import RandomForestClassifier
-rf_c = RandomForestClassifier()
-rf_c = RandomForestClassifier(n_estimators = 52, max_depth = 7, criterion = 'entropy', random_state = 2)
-
-## 2.4.21 Gradient Boosting Classifier
-from sklearn.ensemble import GradientBoostingClassifier
-gb_c = GradientBoostingClassifier(n_estimators=100, learning_rate=0.1, max_depth=3, random_state=42)
-
-## 2.4.22 XGBoost Classifier
-from xgboost import XGBClassifier
-xgb_c = XGBClassifier(objective="binary:logistic", n_estimators=100,
-                        learning_rate=0.1, max_depth=3, random_state=42)
-
-## 2.4.23 K-Means Clustering
-from sklearn.cluster import KMeans
-kmeans = KMeans(n_clusters=3, init='k-means++', 
-                n_init='auto', random_state=0, max_iter=200)
-kmeans = kmeans.fit(X)
-clustered_result = kmeans.labels_
-centers = kmeans.cluster_centers_
-sum_of_within_cluster_variance = kmeans.inertia_
-cluster_pred_for_new_data_point = kmeans.predict(X_new)
-
-## 2.4.24 PCA (Principal Component Analysis) - 3D to 2D
+# 2.5 Dimensionality Reduction
+## 2.5.1 PCA (Principal Component Analysis) [Unsupervised Technique - Not Algo]
 #manual work
 from sklearn.preprocessing import StandardScaler
 scaler = StandardScaler()
-df.iloc[:,0:3] = scaler.fit_transform(df.iloc[:,0:3])
+df.iloc[:,:3] = scaler.fit_transform(df.iloc[:,:3])
 cov_matrix = np.cov([df.iloc[:,0],df.iloc[:,1],df.iloc[:,2]])
-eigen_values, eigen_vectors = np.linalg.eig(covariance_matrix)
-pc = eigen_vectors[0:2]
-transformed_df = np.dot(df.iloc[:,0:3],pc.T)
+eigen_values,eigen_vectors = np.linalg.eig(cov_matrix)
+pc = eigen_vectors[:2]
+transformed_df = np.dot(df.iloc[:,:3],pc.T)
 new_df = pd.DataFrame(transformed_df,columns=['PC1','PC2'])
 
 #sklearn implementation
@@ -369,31 +272,160 @@ X_test_scaled = scaler.transform(X_test)
 pca = PCA(n_components=2)
 X_train_pca = pca.fit_transform(X_train_scaled)
 X_test_pca = pca.transform(X_test_scaled)
-#principal components, PC1, PC2, PC3...
+#principal components = Eigen Vectors
 pca.components_
-#explained variance of each selected principal component
+#explained variance = Eigen Values
 pca.explained_variance_
-#%age variance explained by each selected component
+#%age variance explained by each PC
 pca.explained_variance_ratio_
 
+## 2.5.2 LDA (Linear Discriminant Analysis) [Supervised Technique - Not Algo]
+#used with classification problem only
+#Fisher Discriminant Ratio = (mu1 - mu2)^2/(s1^2 + s2^2)      after projection on line
+#we have to find max of numerator, min of denominator
+#class1 & class2 projected on a line,
+#must have both classes' mean as far as possible, 
+#& variance within class as low as possible
+#
+#to find n_components in LDA, the formula is MIN(independent_features, num_of_classes-1)
+#for MNIST dataset, n_components = MIN(784, 10-1) = 9
+#for digit_dataset, n_components = MIN(64, 10-1) = 9
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+LDA = LinearDiscriminantAnalysis(n_components=9)
+X_train_lda = LDA.fit_transform(X_train, y_train)
+X_test_lda = LDA.transform(X_test)
 
-## 2.5 Scores
+
+
+# 2.6 Initializing Different ML Model
+## 2.6.1 Linear Regressor (OLS)
+from sklearn.linear_model import LinearRegression
+lr = LinearRegression()
+lr.fit(X_train, y_train)
+y_pred = lr.predict(X_test)
+sns.regplot(x = y_pred, y = y_test, line_kws = {'color':'red'})
+
+## 2.6.2 SGDRegressor (GD)
+from sklearn.linear_model import SGDRegressor
+sgd_r = SGDRegressor(loss='squared_error', penalty='l2', random_state=42)
+
+## 2.6.3 Lasso Regressor
+from sklearn.linear_model import Lasso
+lasso_r = Lasso(alpha=1.0)
+
+## 2.6.4 Ridge Regressor
+from sklearn.linear_model import Ridge
+ridge_r = Ridge(alpha=1.0)
+
+## 2.6.5 Elastic Net Regressor
+from sklearn.linear_model import ElasticNet
+elastic_net_r = ElasticNet(alpha=0.1, l1_ratio=0.5, random_state=42)
+
+## 2.6.6 KNN Regressor
+from sklearn.neighbors import KNeighborsRegressor
+knnr = KNeighborsRegressor(n_neighbors=5)
+
+## 2.6.7 Support Vector Regressor (SVR)
+from sklearn.svm import SVR
+svr = SVR(kernel='rbf', C=100, gamma=0.1, epsilon=.1)
+
+## 2.6.8 Decision Tree Regressor
+from sklearn.tree import DecisionTreeRegressor
+dt_r = DecisionTreeRegressor(max_depth=5, random_state=0)
+
+## 2.6.9 Random Forest Regressor
+from sklearn.ensemble import RandomForestRegressor
+rf_r = RandomForestRegressor(n_estimators=100, random_state=42)
+
+## 2.6.10 Gradient Boosting Regressor
+from sklearn.ensemble import GradientBoostingRegressor
+gb_r = GradientBoostingRegressor(n_estimators=500, learning_rate=0.01,
+                                    max_depth=4, loss='ls', random_state=42)
+
+## 2.6.11 XGBoost Regressor
+from xgboost import XGBRegressor
+xgb_r = XGBRegressor(objective='reg:squarederror',n_estimators=100, 
+                         learning_rate=0.1,max_depth=5,random_state=42)
+
+## 2.6.12 Logistic Regressor - Binary Classifier
+from sklearn.linear_model import LogisticRegression
+LoR = LogisticRegression()
+
+## 2.6.13 SGDClassifier
+from sklearn.linear_model import SGDClassifier
+sgd_c = SGDClassifier(loss='log_loss', penalty='l2', max_iter=1000, random_state=42)
+
+## 2.6.14 Lasso Classifier (No direct method)
+from sklearn.linear_model import LogisticRegression
+lasso_c = LogisticRegression(penalty='l1', solver='liblinear', C=0.1)
+
+## 2.6.15 Ridge Classifier
+from sklearn.linear_model import RidgeClassifier
+ridge_c = RidgeClassifier(alpha=1.0, solver='auto')
+
+## 2.6.16 Elastic Net Classifier (No direct method)
+from sklearn.linear_model import SGDClassifier
+elastic_net_c = SGDClassifier(loss='log_loss', penalty='elasticnet', l1_ratio=0.5)
+#OR
+elastic_net_c = LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5)
+
+## 2.6.17 KNN Classifier
+from sklearn.neighbors import KNeighborsClassifier
+knn_c = KNeighborsClassifier(n_neighbors=5)
+
+## 2.6.18 Support Vector Classifier (SVC)
+from sklearn.svm import SVC
+svc = SVC(kernel='rbf', C=1, gamma='scale')
+
+## 2.6.19 Decision Tree Classifier
+from sklearn.tree import DecisionTreeClassifier
+dt_c = DecisionTreeClassifier(max_depth = 5)
+
+## 2.6.20 Random Forest Classifier
+from sklearn.ensemble import RandomForestClassifier
+rf_c = RandomForestClassifier()
+rf_c = RandomForestClassifier(n_estimators = 52, max_depth = 7, criterion = 'entropy', random_state = 2)
+
+## 2.6.21 Gradient Boosting Classifier
+from sklearn.ensemble import GradientBoostingClassifier
+gb_c = GradientBoostingClassifier(n_estimators=100, learning_rate=0.1, max_depth=3, random_state=42)
+
+## 2.6.22 XGBoost Classifier
+from xgboost import XGBClassifier
+xgb_c = XGBClassifier(objective="binary:logistic", n_estimators=100,
+                        learning_rate=0.1, max_depth=3, random_state=42)
+
+## 2.6.23 K-Means Clustering [Unsupervised Algo]
+from sklearn.cluster import KMeans
+kmeans = KMeans(n_clusters=3, init='k-means++', 
+                n_init='auto', random_state=0, max_iter=200)
+kmeans.fit(X)
+clustered_result = kmeans.labels_
+centers = kmeans.cluster_centers_
+sum_of_within_cluster_variance = kmeans.inertia_
+cluster_pred_for_new_data_point = kmeans.predict(X_new)
+
+
+
+## 2.6 Scores
 # Regression
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 mae = mean_absolute_error(y_test, y_pred)
 mse = mean_squared_error(y_test, y_pred)
 rmse = np.sqrt(mse)
 r2_score = r2_score(y_test, y_pred)
+adjusted_r2 = 1 - (1 - r2) * ((n - 1) / (n - p - 1))
 
 #Classification
 #automatic calculation
-from sklearn.metrics import confusion_matrix,accuracy_score,precision_score,recall_score,f1_score,classification_report
+from sklearn.metrics import confusion_matrix,accuracy_score,roc_auc_score,precision_score,recall_score,f1_score,classification_report
 confusion_matrix(y_test, y_pred)
 accuracy_score(y_test, y_pred)
 precision_score(y_test, y_pred)
 recall_score(y_test, y_pred)
 f1_score(y_test, y_pred)
 classification_report(y_test, y_pred)
+roc_auc_score(y_test, y_pred)   #better measure of accuracy in unbalanced dataset
 
 #manual calculation
 [tn, fp], [fn, tp] = confusion_matrix(y_test, y_pred).ravel()
@@ -405,8 +437,8 @@ specificity = tn / (tn + fp)
 total_support_value = tp + tn + fp + fn
 
 
-## 2.6 Finding Best Hyper Parameters
-## 2.6.1 Values to try
+## 2.7 Finding Best Hyper Parameters
+## 2.7.1 Values to try
 param_grid = {
     'n_estimators' : [100,200,300],
     'max_depth' : [None,5,10,15],
@@ -416,7 +448,7 @@ param_grid = {
     'bootstrap': [True, False]
 }
 
-## 2.6.2.1 Grid Search CV
+## 2.7.2.1 Grid Search CV
 rf = RandomForestClassifier()
 grid_search = GridSearchCV(estimator = rf, 
                             param_grid = param_grid, 
@@ -426,7 +458,7 @@ grid_search = GridSearchCV(estimator = rf,
                             verbose = 1)
 grid_search.fit(X_train, y_train)
 
-## 2.6.2.2 Randomized Search CV
+## 2.7.2.2 Randomized Search CV
 rand_grid_cv = RandomizedSearchCV(estimator = rf, 
                                     param_distributions = param_grid, 
                                     cv = 5, 
@@ -435,14 +467,14 @@ rand_grid_cv = RandomizedSearchCV(estimator = rf,
                                     verbose = 1)
 rand_grid_cv.fit(X_train, y_train)
 
-## 2.6.3 Finding best params/models from grid
+## 2.7.3 Finding best params/models from grid
 grid_search.best_estimator_
 grid_search.score(X,y)
 grid_search.best_score_
 grid_search.best_params_
 
 
-## 2.7 Pipeline
+## 2.8 Pipeline
 #single model
 from sklearn.pipeline import Pipeline,make_pipeline
 #imputation transformer - applying imputation on col with index 3 & 5
