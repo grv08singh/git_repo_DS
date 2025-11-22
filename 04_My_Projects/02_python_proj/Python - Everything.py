@@ -2,19 +2,37 @@
 # Acc ID: 676206921654
 # Username: grv08singh@gmail.com
 # pw: 
+# 
+# 
+# 
+# 
+#Create Python env using conda
+conda create --name dummy_env python=3.8
+#list of env
+conda env list
+#activate an env
+conda activate dummy_env
+#deactivate current env
+conda deactivate
+#list of installed packages in activated env
+conda list
+#export env
+conda env export --name dummy_env --file dummy_env.yml
+#import env OR create env from yml file
+conda env create --file dummy_env.yml
+#remove / delete env
+conda remove --name dummy_env --all
+#create an appropriate Jupyter Notebook kernel mapped to new environment
+python -m ipykernel install --user --name=dummy_env
+
+
+
 
 # Create Python environment using python
 # python -m venv .venv
 # .\.venv\Scripts\activate.bat
 # 
 # pip install -r requirements.txt
-# 
-# Create Python environment using conda
-# conda create -p venv python==3.13 -y
-# conda activate venv/
-# 
-# conda install -r requirements.txt
-
 
 
 
@@ -30,7 +48,7 @@
 ## Open jupyter notebook at a specified path:
 ## Type in Anaconda Prompt
 ## jupyter notebook --notebook-dir="specified_path"
-## jupyter notebook --notebook-dir="D:\git_repo_DS\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\27 EPGC - ML - PCA Assignment Quiz (Live Classes)"
+## jupyter notebook --notebook-dir="D:\git_repo_DS\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\31 EPGC - ML - Project Analysing Naming Trend"
 ## jupyter notebook --notebook-dir="D:\git_repo_DS\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\17 EPGC - ML - Decision Tree Quiz"
 ## jupyter notebook --notebook-dir="D:\Projects\streamlit_startup_dashboard"
 ## C:\Users\grv06\AppData\Roaming\Code\User\settings.json
@@ -55,13 +73,71 @@ from sklearn.tree import DecisionTreeRegressor,DecisionTreeClassifier
 from sklearn.ensemble import RandomForestRegressor,RandomForestClassifier
 from sklearn.svm import SVR,SVC
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.cluster import KMeans
 from sklearn.metrics import r2_score,accuracy_score,roc_auc_score,precision_score,recall_score,f1_score,confusion_matrix,ConfusionMatrixDisplay,classification_report
 
+from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+
 from sklearn.feature_slection import SelectKBest,chi2
 from sklearn.compose import ColumnTransformer,make_column_transformer
 from sklearn.pipeline import Pipeline,make_pipeline
+
+
+
+
+
+
+
+
+
+###############################################################################################################
+#### End-to-End ML Flow
+###############################################################################################################
+# ML Flow:
+#
+## 01) Data Gathering
+##      01.01) df.info
+##      01.02) df.shape
+##      01.03) df.describe()
+##      01.04) df.duplicated()
+##      01.05) df['col1'].info() - check null vals
+## 02) Data Wrangling / Cleaning / Preprocessing
+##      02.01) df.drop_duplicates()
+##      02.02) df.fillna(mean) / Missing Value Imputation
+##      02.03) df['col1'].astype(int)
+##      02.04) Outlier Detection & Removal
+## 03) Exploratory Data Analysis (EDA)
+##      03.01) Explore Data
+##          03.01.01) Univariate Analysis:
+##                          Histogram
+##                          Frequency plot
+##                          Pie chart
+##                          Box plot
+##                          Frequency distribution
+##          03.01.02) Bivariate Analysis:
+##                          Scatter plot
+##                          Bar chart
+##                          Line chart
+##                          Pie chart
+##          03.01.03) Multivariate Analysis:
+##                          3D Scatter plot
+##                          Heatmap
+##                          Pair plot
+##                          Bar chart with hue
+##                          Histogram with hue
+##          03.01.04) Correlation
+##          03.01.05) Covariance
+##      03.02) Augment Data / Feature Engineering
+##          03.02.01) Merging DataFrames
+##          03.02.02) Adding New Cols
+## 04) Feature Selection
+## 05) Model Building
+## 06) Model Selection
+## 07) Hyper Parameter Tuning
+## 08) Convert to Website/App
+## 09) Deploy
+## 10) Monitor
 
 
 
@@ -93,21 +169,16 @@ df.groupby('col1')[['col2','col3','col4']].mean()
 df.rename(columns={'col1' : 'col101','col2' : 'col102'},inplace = True)
 
 
-
-
 # 1.2 Checking Datatype Inconsistency
-
 #### (when column is supposed to be float/int, but it is object type due to a space or unknown value maybe)
 for col in df.columns:
     if df[col].dtype == 'object':
        print(f"{col}: {df[col].unique().tolist()}")
        print()
-       
 #### 'unknown' values count
 for col in [col1, col3, col6, col9]:
    if df[col].dtype == 'object':
        print(f"{col}: {df[col].value_counts()['unknown']}")
-       
 #### replacing 'unknown' value with Null
 for col in ['age', 'job', 'marital', 'education', 'default', 'housing', 'loan']:
   if df[col].dtype=='object':
@@ -120,7 +191,6 @@ for col in df.columns:
         df[col] = df[col].fillna(df[col].median())
     else:
         df[col] = df[col].fillna(df[col].mode()[0])
-
 #### drop Null rows from specific columns -->
 df = df.dropna(subset=['col1', 'col2', 'col3'])
 
@@ -136,9 +206,7 @@ for col in df.columns:
     if(df[col].dtype in ('int64', 'float64'):
         sns.boxplot(data = df, y = col)
         plt.show()
-        
 # OR
-
 fig = plt.figure(figsize=(15,12),dpi=300)
 i = 0
 for col in df.columns:
@@ -150,8 +218,6 @@ for col in df.columns:
         # plt.boxplot(x=df[col])
         # plt.title(col)
 plt.show()
-
-
 
 #### Remove outliers
 initial_size = df.shape[0]
@@ -167,41 +233,7 @@ final_size = df.shape[0]
 print(f"rows removed: {initial_size - final_size}")
 
 
-# 1.6 Encoding
-## Label encoding
-from sklearn.preprocessing import LabelEncoder
-le = LabelEncoder()
-for col in df.columns:
-    if df[col].dtype == 'object':
-        df[col] = pd.DataFrame(le.fit_transform(df[[col]]))
 
-## Ordinal Encoding
-from sklearn.preprocessing import OrdinalEncoder
-oe = OrdinalEncoder(categories=[['low','medium','high']])
-df['col1'] = pd.DataFrame(oe.fit_transform(df[['col1']]))
-
-## One Hot Encoding
-from sklearn.preprocessing import OneHotEncoder
-ohe = OneHotEncoder(drop='First', sparse=False, handle_unknown='ignore')
-df['col1'] = pd.DataFrame(ohe.fit_transform(df[['col1']]))
-
-## Simple Imputer [replace missing values with col mean]
-from sklearn.impute import SimpleImputer
-si = SimpleImputer()                                            #mean by default
-si = SimpleImputer(strategy = 'median')                         #median
-si = SimpleImputer(strategy = 'most_frequent')                  #mode
-df['col1'] = pd.DataFrame(si.fit_transform(df[['col1']]))
-
-
-# 1.7 Column Transformer [task of 1.6 becomes easier]
-from sklearn.compose import ColumnTransformer
-ct = ColumnTransformer(transformers=[
-                                        ('tnf1', OrdinalEncoder(categories=[['low','medium','high']]), ['col1']),
-                                        ('tnf2', OneHotEncoder(drop='First', sparse=False), ['col2', 'col3']),
-                                        ('tnf3', SimpleImputer(), ['col4'])
-                                    ],
-                        remainder = 'passthrough'))
-ct.fit_transform(df)
 
 
 
@@ -215,8 +247,8 @@ ct.fit_transform(df)
 
 # 2.1 X-y Split
 #selection using col name
-X = df[['col1','col2']]
-y = df['tgt_col']
+X = df[['col1','col2']]     #pd.DataFrame
+y = df['tgt_col']           #pd.Series
 #or selection using col indexing & slicing
 X = df.iloc[:, :-1]
 y = df.iloc[:, -1]
@@ -230,21 +262,60 @@ from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.30, random_state = 42)
 
 
-# 2.3 Scaling
-# 2.3.1 Standard Scaler
+# 2.3.1 Encoding - Manually
+# 2.3.1.1 Label encoding
+from sklearn.preprocessing import LabelEncoder
+le = LabelEncoder()
+for col in df.columns:
+    if df[col].dtype == 'object':
+        df[col] = pd.DataFrame(le.fit_transform(df[[col]]))
+
+# 2.3.1.2 Ordinal Encoding
+from sklearn.preprocessing import OrdinalEncoder
+oe = OrdinalEncoder(categories=[['low','medium','high']])
+df['col1'] = pd.DataFrame(oe.fit_transform(df[['col1']]))
+
+# 2.3.1.3 One Hot Encoding
+from sklearn.preprocessing import OneHotEncoder
+ohe = OneHotEncoder(drop='First', sparse=False, handle_unknown='ignore')
+df['col1'] = pd.DataFrame(ohe.fit_transform(df[['col1']]))
+## One Hot Encoding - using Pandas [column names retained]
+pd.get_dummies(df,columns=['col1','col2'],drop_first=True)      #OHE for col1 and col2
+
+# 2.3.1.4 Simple Imputer [replace missing values with col mean]
+from sklearn.impute import SimpleImputer
+si = SimpleImputer()                                            #mean by default
+si = SimpleImputer(strategy = 'median')                         #median
+si = SimpleImputer(strategy = 'most_frequent')                  #mode
+df['col1'] = pd.DataFrame(si.fit_transform(df[['col1']]))
+
+# 2.3.1.5 Encoding - Using Column Transformer [task of above steps becomes easier]
+from sklearn.compose import ColumnTransformer
+ct = ColumnTransformer(transformers=[
+                                        ('tnf1', OrdinalEncoder(categories=[['low','medium','high']]), ['col1']),
+                                        ('tnf2', OneHotEncoder(drop='First', sparse=False), ['col2', 'col3']),
+                                        ('tnf3', SimpleImputer(), ['col4'])
+                                    ],
+                        remainder = 'passthrough'))
+ct.fit_transform(df)
+
+
+
+# 2.4 Scaling
+# 2.4.1 Standard Scaler
 from sklearn.preprocessing import StandardScaler
 sc = StandardScaler()
 X_train_scaled = sc.fit_transform(X_train)
 X_test_scaled = sc.transform(X_test)
 
-# 2.3.2 Min Max Scaler
+# 2.4.2 Min Max Scaler
 from sklearn.preprocessing import MinMaxScaler
 sc = MinMaxScaler()
 X_train_scaled = sc.fit_transform(X_train)
 X_test_scaled = sc.transform(X_test)
 
 
-# 2.4 SMOTE - Synthetic Minority Oversampling Technique
+# 2.5 SMOTE - Synthetic Minority Oversampling Technique
 # make class balanced
 from imblearn.over_sampling import SMOTE
 smote = SMOTE(random_state=42)
@@ -252,13 +323,15 @@ X_resampled, y_resampled = smote.fit_resample(X_train, y_train)
 #now X_resampled & y_resampled will not have class imbalance
 
 
-# 2.5 Dimensionality Reduction
-## 2.5.1 PCA (Principal Component Analysis) [Unsupervised Technique - Not Algo]
+# 2.6 Dimensionality Reduction
+## 2.6.1 PCA (Principal Component Analysis) [Unsupervised Technique - Not Algo]
 #manual work
 from sklearn.preprocessing import StandardScaler
 scaler = StandardScaler()
-df.iloc[:,:3] = scaler.fit_transform(df.iloc[:,:3])
-cov_matrix = np.cov([df.iloc[:,0],df.iloc[:,1],df.iloc[:,2]])
+X_scaled = scaler.fit_transform(X)
+cov_matrix = np.cov(X_scaled.T)     #np.cov needs to transpose data due to its functionality
+#OR
+cov_matrix = df.cov(X_scaled)       #df.cov works fine as it is
 eigen_values,eigen_vectors = np.linalg.eig(cov_matrix)
 pc = eigen_vectors[:2]
 transformed_df = np.dot(df.iloc[:,:3],pc.T)
@@ -279,7 +352,7 @@ pca.explained_variance_
 #%age variance explained by each PC
 pca.explained_variance_ratio_
 
-## 2.5.2 LDA (Linear Discriminant Analysis) [Supervised Technique - Not Algo]
+## 2.6.2 LDA (Linear Discriminant Analysis) [Supervised Technique - Not Algo]
 #used with classification problem only
 #Fisher Discriminant Ratio = (mu1 - mu2)^2/(s1^2 + s2^2)      after projection on line
 #we have to find max of numerator, min of denominator
@@ -297,105 +370,105 @@ X_test_lda = LDA.transform(X_test)
 
 
 
-# 2.6 Initializing Different ML Model
-## 2.6.1 Linear Regressor (OLS)
+# 2.7 Initializing Different ML Model
+## 2.7.1 Linear Regressor (OLS)
 from sklearn.linear_model import LinearRegression
 lr = LinearRegression()
 lr.fit(X_train, y_train)
 y_pred = lr.predict(X_test)
 sns.regplot(x = y_pred, y = y_test, line_kws = {'color':'red'})
 
-## 2.6.2 SGDRegressor (GD)
+## 2.7.2 SGDRegressor (GD)
 from sklearn.linear_model import SGDRegressor
 sgd_r = SGDRegressor(loss='squared_error', penalty='l2', random_state=42)
 
-## 2.6.3 Lasso Regressor
+## 2.7.3 Lasso Regressor
 from sklearn.linear_model import Lasso
 lasso_r = Lasso(alpha=1.0)
 
-## 2.6.4 Ridge Regressor
+## 2.7.4 Ridge Regressor
 from sklearn.linear_model import Ridge
 ridge_r = Ridge(alpha=1.0)
 
-## 2.6.5 Elastic Net Regressor
+## 2.7.5 Elastic Net Regressor
 from sklearn.linear_model import ElasticNet
 elastic_net_r = ElasticNet(alpha=0.1, l1_ratio=0.5, random_state=42)
 
-## 2.6.6 KNN Regressor
+## 2.7.6 KNN Regressor
 from sklearn.neighbors import KNeighborsRegressor
 knnr = KNeighborsRegressor(n_neighbors=5)
 
-## 2.6.7 Support Vector Regressor (SVR)
+## 2.7.7 Support Vector Regressor (SVR)
 from sklearn.svm import SVR
 svr = SVR(kernel='rbf', C=100, gamma=0.1, epsilon=.1)
 
-## 2.6.8 Decision Tree Regressor
+## 2.7.8 Decision Tree Regressor
 from sklearn.tree import DecisionTreeRegressor
 dt_r = DecisionTreeRegressor(max_depth=5, random_state=0)
 
-## 2.6.9 Random Forest Regressor
+## 2.7.9 Random Forest Regressor
 from sklearn.ensemble import RandomForestRegressor
 rf_r = RandomForestRegressor(n_estimators=100, random_state=42)
 
-## 2.6.10 Gradient Boosting Regressor
+## 2.7.10 Gradient Boosting Regressor
 from sklearn.ensemble import GradientBoostingRegressor
 gb_r = GradientBoostingRegressor(n_estimators=500, learning_rate=0.01,
                                     max_depth=4, loss='ls', random_state=42)
 
-## 2.6.11 XGBoost Regressor
+## 2.7.11 XGBoost Regressor
 from xgboost import XGBRegressor
 xgb_r = XGBRegressor(objective='reg:squarederror',n_estimators=100, 
                          learning_rate=0.1,max_depth=5,random_state=42)
 
-## 2.6.12 Logistic Regressor - Binary Classifier
+## 2.7.12 Logistic Regressor - Binary Classifier
 from sklearn.linear_model import LogisticRegression
 LoR = LogisticRegression()
 
-## 2.6.13 SGDClassifier
+## 2.7.13 SGDClassifier
 from sklearn.linear_model import SGDClassifier
 sgd_c = SGDClassifier(loss='log_loss', penalty='l2', max_iter=1000, random_state=42)
 
-## 2.6.14 Lasso Classifier (No direct method)
+## 2.7.14 Lasso Classifier (No direct method)
 from sklearn.linear_model import LogisticRegression
 lasso_c = LogisticRegression(penalty='l1', solver='liblinear', C=0.1)
 
-## 2.6.15 Ridge Classifier
+## 2.7.15 Ridge Classifier
 from sklearn.linear_model import RidgeClassifier
 ridge_c = RidgeClassifier(alpha=1.0, solver='auto')
 
-## 2.6.16 Elastic Net Classifier (No direct method)
+## 2.7.16 Elastic Net Classifier (No direct method)
 from sklearn.linear_model import SGDClassifier
 elastic_net_c = SGDClassifier(loss='log_loss', penalty='elasticnet', l1_ratio=0.5)
 #OR
 elastic_net_c = LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5)
 
-## 2.6.17 KNN Classifier
+## 2.7.17 KNN Classifier
 from sklearn.neighbors import KNeighborsClassifier
 knn_c = KNeighborsClassifier(n_neighbors=5)
 
-## 2.6.18 Support Vector Classifier (SVC)
+## 2.7.18 Support Vector Classifier (SVC)
 from sklearn.svm import SVC
 svc = SVC(kernel='rbf', C=1, gamma='scale')
 
-## 2.6.19 Decision Tree Classifier
+## 2.7.19 Decision Tree Classifier
 from sklearn.tree import DecisionTreeClassifier
 dt_c = DecisionTreeClassifier(max_depth = 5)
 
-## 2.6.20 Random Forest Classifier
+## 2.7.20 Random Forest Classifier
 from sklearn.ensemble import RandomForestClassifier
 rf_c = RandomForestClassifier()
 rf_c = RandomForestClassifier(n_estimators = 52, max_depth = 7, criterion = 'entropy', random_state = 2)
 
-## 2.6.21 Gradient Boosting Classifier
+## 2.7.21 Gradient Boosting Classifier
 from sklearn.ensemble import GradientBoostingClassifier
 gb_c = GradientBoostingClassifier(n_estimators=100, learning_rate=0.1, max_depth=3, random_state=42)
 
-## 2.6.22 XGBoost Classifier
+## 2.7.22 XGBoost Classifier
 from xgboost import XGBClassifier
 xgb_c = XGBClassifier(objective="binary:logistic", n_estimators=100,
                         learning_rate=0.1, max_depth=3, random_state=42)
 
-## 2.6.23 K-Means Clustering [Unsupervised Algo]
+## 2.7.23 K-Means Clustering [Unsupervised Algo]
 from sklearn.cluster import KMeans
 kmeans = KMeans(n_clusters=3, init='k-means++', 
                 n_init='auto', random_state=0, max_iter=200)
@@ -407,8 +480,8 @@ cluster_pred_for_new_data_point = kmeans.predict(X_new)
 
 
 
-## 2.6 Scores
-# Regression
+## 2.8 Scores
+## 2.8.1 Regression
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 mae = mean_absolute_error(y_test, y_pred)
 mse = mean_squared_error(y_test, y_pred)
@@ -416,8 +489,8 @@ rmse = np.sqrt(mse)
 r2_score = r2_score(y_test, y_pred)
 adjusted_r2 = 1 - (1 - r2) * ((n - 1) / (n - p - 1))
 
-#Classification
-#automatic calculation
+## 2.8.2 Classification
+## 2.8.2.1 automatic calculation
 from sklearn.metrics import confusion_matrix,accuracy_score,roc_auc_score,precision_score,recall_score,f1_score,classification_report
 confusion_matrix(y_test, y_pred)
 accuracy_score(y_test, y_pred)
@@ -427,7 +500,7 @@ f1_score(y_test, y_pred)
 classification_report(y_test, y_pred)
 roc_auc_score(y_test, y_pred)   #better measure of accuracy in unbalanced dataset
 
-#manual calculation
+## 2.8.2.2 manual calculation
 [tn, fp], [fn, tp] = confusion_matrix(y_test, y_pred).ravel()
 precision = tp / (tp + fp)
 recall_or_sensitivity = tp / (tp + fn)
@@ -437,8 +510,8 @@ specificity = tn / (tn + fp)
 total_support_value = tp + tn + fp + fn
 
 
-## 2.7 Finding Best Hyper Parameters
-## 2.7.1 Values to try
+## 2.9 Finding Best Hyper Parameters
+## 2.9.1 Values to try
 param_grid = {
     'n_estimators' : [100,200,300],
     'max_depth' : [None,5,10,15],
@@ -448,7 +521,7 @@ param_grid = {
     'bootstrap': [True, False]
 }
 
-## 2.7.2.1 Grid Search CV
+## 2.9.2.1 Grid Search CV
 rf = RandomForestClassifier()
 grid_search = GridSearchCV(estimator = rf, 
                             param_grid = param_grid, 
@@ -458,7 +531,7 @@ grid_search = GridSearchCV(estimator = rf,
                             verbose = 1)
 grid_search.fit(X_train, y_train)
 
-## 2.7.2.2 Randomized Search CV
+## 2.9.2.2 Randomized Search CV
 rand_grid_cv = RandomizedSearchCV(estimator = rf, 
                                     param_distributions = param_grid, 
                                     cv = 5, 
@@ -467,14 +540,14 @@ rand_grid_cv = RandomizedSearchCV(estimator = rf,
                                     verbose = 1)
 rand_grid_cv.fit(X_train, y_train)
 
-## 2.7.3 Finding best params/models from grid
+## 2.9.3 Finding best params/models from grid
 grid_search.best_estimator_
 grid_search.score(X,y)
 grid_search.best_score_
 grid_search.best_params_
 
 
-## 2.8 Pipeline
+## 2.10 Pipeline
 #single model
 from sklearn.pipeline import Pipeline,make_pipeline
 #imputation transformer - applying imputation on col with index 3 & 5
@@ -537,100 +610,7 @@ grid.best_params_
 #Exporting the pipeline
 import pickle
 pickle.dump(pipe,open('pipe.pkl','wb'))
-
-
-
-
-
-
-
-
-
-
-
-# Deep Learning Project (Predict handwritten digits):
-# 1) Recognizing handwritten digits in training data
-import os
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-os.getcwd() #get the current working directory
-os.listdir() #list the items in cwd
-
-from PIL import Image #calling Pillow Library (PIL) and then loading the function/method Image
-image_path = r"C:\Users\think\OneDrive\TRAINING\INTELLIPAAT\DEEP LEARNING\09. AI and DL IITR-07Sep2025(M)\number_7.png"
-img = Image.open(image_path) #Pillow lib is used to open and load the image
-img #print the image
-img = img.convert('RGB') #convert the raw image to standard RGB image
-img_gray = img.convert('L') #convert the standard RGB image to grayscale. L stands for Luminance
-width, height = img_gray.size #it returns a tuple (width, height) of the image in pixels
-img_gray_resized = img_gray.resize((28,28)) #Convert this image from (width X height) to (28 X 28)
-img_gray_resized_array = np.array(img_gray_resized) # Convert the resized grayscale image into a pixelated np array
-
-### Plotting the `pixelated image` as a 28 by 28 grid
-plt.figure(figsize = (4,4))
-plt.imshow(img_gray_resized_array, cmap='gray')
-plt.colorbar()
-plt.show()
-
-
-
-
-
-
-
-
-
-
-
-
-
-# ML Flow:
-#
-## 01) Data Gathering
-##      01.01) df.info
-##      01.02) df.shape
-##      01.03) df.describe()
-##      01.04) df.duplicated()
-##      01.05) df['col1'].info() - check null vals
-## 02) Data Wrangling / Cleaning / Preprocessing
-##      02.01) df.drop_duplicates()
-##      02.02) df.fillna(mean) / Missing Value Imputation
-##      02.03) df['col1'].astype(int)
-##      02.04) Outlier Detection & Removal
-## 03) Exploratory Data Analysis (EDA)
-##      03.01) Explore Data
-##          03.01.01) Univariate Analysis:
-##                          Histogram
-##                          Frequency plot
-##                          Pie chart
-##                          Box plot
-##                          Frequency distribution
-##          03.01.02) Bivariate Analysis:
-##                          Scatter plot
-##                          Bar chart
-##                          Line chart
-##                          Pie chart
-##          03.01.03) Multivariate Analysis:
-##                          3D Scatter plot
-##                          Heatmap
-##                          Pair plot
-##                          Bar chart with hue
-##                          Histogram with hue
-##          03.01.04) Correlation
-##          03.01.05) Covariance
-##      03.02) Augment Data / Feature Engineering
-##          03.02.01) Merging DataFrames
-##          03.02.02) Adding New Cols
-## 04) Feature Selection
-## 05) Model Building
-## 06) Model Selection
-## 07) Hyper Parameter Tuning
-## 08) Convert to Website/App
-## 09) Deploy
-## 10) Monitor
+ct.fit_transform(df)
 
 
 
@@ -706,6 +686,47 @@ plt.show()
 
 #### 9) Random Forest Classification
 ###############################################################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+###############################################################################################################
+#### 3. Deep Learning (DL)
+###############################################################################################################
+# Deep Learning Project (Predict handwritten digits):
+# 1) Recognizing handwritten digits in training data
+import os
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+os.getcwd() #get the current working directory
+os.listdir() #list the items in cwd
+
+from PIL import Image #calling Pillow Library (PIL) and then loading the function/method Image
+image_path = r"C:\Users\think\OneDrive\TRAINING\INTELLIPAAT\DEEP LEARNING\09. AI and DL IITR-07Sep2025(M)\number_7.png"
+img = Image.open(image_path) #Pillow lib is used to open and load the image
+img #print the image
+img = img.convert('RGB') #convert the raw image to standard RGB image
+img_gray = img.convert('L') #convert the standard RGB image to grayscale. L stands for Luminance
+width, height = img_gray.size #it returns a tuple (width, height) of the image in pixels
+img_gray_resized = img_gray.resize((28,28)) #Convert this image from (width X height) to (28 X 28)
+img_gray_resized_array = np.array(img_gray_resized) # Convert the resized grayscale image into a pixelated np array
+
+### Plotting the `pixelated image` as a 28 by 28 grid
+plt.figure(figsize = (4,4))
+plt.imshow(img_gray_resized_array, cmap='gray')
+plt.colorbar()
+plt.show()
 
 
 
@@ -3163,6 +3184,40 @@ square(5)
 
 
 
+
+
+
+
+
+
+
+###############################################################################################################
+#### Web Scraping
+###############################################################################################################
+#packages required
+requests
+beautifulsoup4
+lxml
+html5lib
+selenium
+webdriver-manager
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ###############################################################################################################
 #### Import Methodology
 ###############################################################################################################
@@ -3174,13 +3229,3 @@ Import specific names	            from math import sqrt	            Use directly
 Import specific names with alias    from math import sqrt as s	        Use alias s()
 Wildcard import all	                from math import *	                Imports all public names (discouraged)
 Import submodule	                import package.submodule	        Access with full path
-
-
-
-
-
-###############################################################################################################
-#### Create New Python Environment in VS Code
-###############################################################################################################
-conda create --name .venv python=3.13
-conda activate .venv/
