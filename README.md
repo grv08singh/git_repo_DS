@@ -1,2 +1,2 @@
-# git_repo_DS
-Repository for Data Science Projects
+# 01_DS_Study
+Repository for Data Science Study Material
