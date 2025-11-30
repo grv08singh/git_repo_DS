@@ -241,6 +241,103 @@ print(f"rows removed: {initial_size - final_size}")
 
 
 ###############################################################################################################
+#### 2. Feature Engineering
+###############################################################################################################
+
+# 2.1 Feature Selection
+## 2.1.1 Filter Methods [effect of individual col]
+#### 2.1.1.1 Drop Duplicate Cols
+
+#### 2.1.1.2 Variance Threshold Method
+######## 2.1.1.2.1 Constant value: Drop cols with variance = 0
+######## 2.1.1.2.2 Quasi-Constant value: Drop cols with variance ~ 0
+from sklearn.feature_slection import VarianceThreshold
+sel = VarianceThreshold(threshold = 0.05)
+sel.fit_transform(X_train_scaled)
+sel.transform(X_test_scaled)
+
+#### 2.1.1.3 Correlation Method: Drop cols with corr near 0
+
+#### 2.1.1.4 ANOVA Method;    H0 : feature has no relation with tgt
+from sklearn.feature_slection import f_classif, SelectKBest
+sel = SelectKBest(f_classif, k=25).fit(X_train, y_train)
+sel.get_support()
+
+#### 2.1.1.5 CHI-Square Method;    H0 : feature has no relation with tgt
+ct = pd.crosstab('col1', y_train, margin=True)
+from scipy.stats import chi2_contingency
+p_val = chi2_contingency(ct)[1]
+
+
+
+## 2.1.2 Wrapper Methods [effect of combination of cols on tgt]
+#### 2.1.2.1 Exhaustive Feature Selection: try out each subset combination, and select the best
+######## needs to train 2^n - 1 models to find the best subset of features
+from mlxtend.feature_selection import ExhaustiveFeatureSelector as EFS
+LoR = LogisticRegression()
+efs = EFS(LoR, max_features=4, scoring='accuracy', cv=5)
+#OR
+LR = LinearRegression()
+efs = EFS(LR, max_features=4, scoring='r2', cv=5, n_jobs=-1)
+efs = efs.fit(X_train, y_train)
+efs.best_score_
+efs.best_feature_names_
+efs.subsets_
+
+#### 2.1.2.2 Sequential Forward Selection
+######## needs to train n(n+1)/2 models to find the best subset of features
+######## use only 1 feature & calculate accuracy; do for all cols; choose best score
+######## do this process until all features are selected
+######## choose the best score of all, that subset is the best subset
+from mlxtend.feature_selection import SequentialFeatureSelector as SFS
+LoR = LogisticRegression()
+sfs = SFS(LoR, k_features='best', forward=True, floating=False, scoring='accuracy', cv=5)
+#OR
+LR = LinearRegression()
+sfs = SFS(LR, k_features='best', forward=True, floating=False, scoring='r2', cv=5)
+sfs = sfs.fit(X_train, y_train)
+sfs.k_feature_idx_
+
+#### 2.1.2.3 Backward Elimination
+######## needs to train n(n+1)/2 models to find the best subset of features
+######## remove 1 feature & calculate accuracy; do for all cols; choose best score
+######## do this process until 1 feature remains
+######## choose the best score of all, that subset is the best subset
+from mlxtend.feature_selection import SequentialFeatureSelector as SFS
+LoR = LogisticRegression()
+sfs = SFS(LoR, k_features='best', forward=False, floating=False, scoring='accuracy', cv=5)
+#OR
+LR = LinearRegression()
+sfs = SFS(LR, k_features='best', forward=False, floating=False, scoring='r2', cv=5)
+sfs = sfs.fit(X_train, y_train)
+sfs.k_feature_idx_
+
+
+#### 2.1.2.4 Recursive Feature Elimination
+
+
+## 2.1.3 Embedded Methods
+
+
+## 2.1.4 Hybrid Methods
+
+
+
+# 2.2 Feature Extraction
+## 2.2.1 Principal Component Analysis (PCA)
+
+
+## 2.2.2 Linear Discriminant Analysis (LDA)
+
+
+
+
+
+
+
+
+
+###############################################################################################################
 #### 2. Machine Learning (ML) - Model Fitting
 ###############################################################################################################
 
@@ -3192,15 +3289,137 @@ square(5)
 
 
 ###############################################################################################################
-#### Web Scraping
+#### Web Scraping - requests
 ###############################################################################################################
-#packages required
-requests
-beautifulsoup4
-lxml
-html5lib
-selenium
-webdriver-manager
+
+import requests
+
+#GET: normal request fetching response
+response = request.get(uri)
+
+#GET: request with query: all repositories with requests module used using python
+uri = "https://api.github.com/search/repositories"
+params = {"q":"requests+language:python"}
+response = request.get(uri, params=params)
+
+#POST: 
+uri = "https://httpbin.org/post"
+data = {
+	"username": "bruce",
+	"password": "bruce123"
+}
+response = request.post(uri, data=data)
+OR
+response = request.post(uri, json=data)
+
+#PUT:
+uri = "https://httpbin.org/put"
+data = {"param1":"value1"}
+response = request.put(uri, data=data)
+
+#DELETE:
+uri = "https://httpbin.org/delete"
+response = request.delete(uri)
+
+
+#response attributes & methods
+response.status_code        #status_code=200 succesful
+response.headers            #headers from server
+response.text               #response content in string format
+response.content            #response content in binary format
+response.json()             #response content in json format
+
+
+#exception handling in get
+uri = "https://jsonplaceholder.typicode.com/posts"
+try:
+	response = requests.get(uri)
+	response.raise_for_status()
+except Exception as e:
+	print(e)
+else:
+	status_code = response.status_code
+	print(f"Status Code: {status_code}")
+	if status_code == 200:
+		print("\nSuccessful GET request!")
+		posts = response.json()
+		for i in range(3):
+			print(f"\nPost {i + 1}:")
+			print(posts[i])
+	else:
+		print("Unsuccessful GET request!")
+
+
+#exception handling in post
+new_post = {
+	"title": "Sample Post",
+	"body": "This is a sample post",
+	"userId": 101
+}
+try:
+	response = requests.post(url, data=new_post)
+	response.raise_for_status()
+except Exception as e:
+	print(e)
+else:
+	status_code = response.status_code
+	if status_code == 201:
+		print(f"Status Code: {status_code}")
+		print("\nSuccessful POST request!")
+		post = response.json()
+		print("\nPost:")
+		print(post)
+	else:
+		print(f"Status Code: {status_code}")
+		print("\nUnsuccessful POST request!")
+
+
+
+
+
+
+
+###############################################################################################################
+#### Web Scraping - beautifulsoup4
+###############################################################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###############################################################################################################
+#### Web Scraping - selenium
+###############################################################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###############################################################################################################
+#### Web Scraping - scrapy
+###############################################################################################################
+
+
+
+
 
 
 
