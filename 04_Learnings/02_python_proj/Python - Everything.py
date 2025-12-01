@@ -3,9 +3,42 @@
 # Username: grv08singh@gmail.com
 # pw: 
 # 
-# 
-# 
-# 
+
+
+
+
+
+
+
+
+
+
+###############################################################################################################
+#### GIT
+###############################################################################################################
+git config --global user.name "Gaurav Singh"
+git config --global user.email "grv08singh@gmail.com"
+git config --list --global
+
+git clone https://github.com/grv08singh/02_mlprojects.git
+git clone https://github.com/grv08singh/03_g_translator.git
+git clone https://github.com/grv08singh/04_st_startups.git
+git clone https://github.com/grv08singh/05_selenium_ktk_v1.git
+git clone https://github.com/grv08singh/06_selenium_ktk_v2.git
+git clone https://github.com/grv08singh/07_st_censusDA.git
+git clone https://github.com/grv08singh/01_Docs.git
+
+
+
+
+
+
+
+
+
+###############################################################################################################
+#### Python Environment
+###############################################################################################################
 #Create Python env using conda
 conda create --name dummy_env python=3.8
 #list of env
@@ -27,7 +60,6 @@ python -m ipykernel install --user --name=dummy_env
 
 
 
-
 # Create Python environment using python
 # python -m venv .venv
 # .\.venv\Scripts\activate.bat
@@ -35,6 +67,16 @@ python -m ipykernel install --user --name=dummy_env
 # pip install -r requirements.txt
 
 
+
+
+
+
+
+
+
+###############################################################################################################
+#### Data Science
+###############################################################################################################
 
 
 
@@ -841,7 +883,7 @@ plt.show()
 
 
 ###############################################################################################################
-#### 2. Statistics
+#### Statistics
 ###############################################################################################################
 
 # IMPORT LIBRARY
