@@ -3018,6 +3018,7 @@ square(5)
 #### Web Scraping - requests
 ###############################################################################################################
 
+
 import requests
 
 #GET: normal request fetching response
@@ -3159,9 +3160,62 @@ else:
 ###############################################################################################################
 #### Web Scraping - selenium
 ###############################################################################################################
+pip install requests beautifulsoup4 selenium lxml html5lib webdriver-manager
+
+from selenium import webdriver
+driver = webdriver.Chrome()
+driver.maximize_window()
+
+url = "https://www.google.com"
+driver.get(url)
+
+driver.title                                                        #tab title
+driver.current_url                                                  #https://www.google.com
+driver.save_screenshot("goog_scr.png")                              #take screenshot of webpage
+
+element = driver.find_element("id","<element id>")
+element = driver.find_element("name","<element name>")
+element = driver.find_element("class name","<element class id>")
+element = driver.find_element("tag name","<element tag>")
+element = driver.find_element("xpath","<element xpath link>")
+#OR
+from selenium.webdriver.common.by import By
+element = driver.find_element(by=By.ID,"<element id>")
+element = driver.find_element(by=By.CLASS_NAME,"<element class id>")
+element = driver.find_element(by=By.TAG_NAME,"<element tag>")
+element = driver.find_element(by=By.XPATH,"<element xpath link>")
+
+#entering Text value in Text Box
+txt_element = driver.find_element(by=By.XPATH, "<element xpath link>")
+txt_element.clear()                                                     #clear the text box
+txt_element.send_keys("machine learning")                               #enter the value "machine learning"
+
+#hitting enter on keyboard
+from selenium.webdriver.common.keys import Keys
+txt_element.send_keys(Keys.ENTER)
+
+#clicking a button or a link
+button = driver.find_element(by=By.XPATH, "<element xpath link>")
+button.click()
+
+#selecting value from dropdown
+drop_field = driver.find_element(by=By.XPATH, "<element xpath link>")
+drop_down = Select(drop_field)
+drop_down.select_by_index(5)
+drop_down.select_by_visible_text("<any visible value from dropdown>")
+
+#multiselect values
+multi_field = driver.find_element(by=By.XPATH, "<element xpath link>")
+multi_select = Select(multi_field)
+multi_select.select_by_index(1)
+multi_select.select_by_visible_text("<any visible value from dropdown>")
+
+multi_select.deselect_by_index(2)
+multi_select.deselect_all()
 
 
 
+driver.quit()                                                       #close browser
 
 
 
