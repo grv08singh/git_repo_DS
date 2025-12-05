@@ -3164,8 +3164,18 @@ pip install requests beautifulsoup4 selenium lxml html5lib webdriver-manager
 
 import time
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 driver = webdriver.Chrome()
 driver.maximize_window()
+
+#OR -- headless browser instance (No GUI)
+from selenium.webdriver.chrome.options import Options
+options = Options()
+options.add_argument("--headless")
+driver = webdriver.Chrome(options=options)
 
 url = "https://www.google.com"
 driver.get(url)
@@ -3175,11 +3185,11 @@ driver.title                                                        #tab title
 driver.current_url                                                  #https://www.google.com
 driver.save_screenshot("goog_scr.png")                              #take screenshot of webpage
 
-element = driver.find_element("id","<element id>")
-element = driver.find_element("name","<element name>")
+element = driver.find_element("id","<element id>")                  #fast
+element = driver.find_element("name","<element name>")              #fast
 element = driver.find_element("class name","<element class id>")
 element = driver.find_element("tag name","<element tag>")
-element = driver.find_element("xpath","<element xpath link>")
+element = driver.find_element("xpath","<element xpath link>")       #slow
 #OR
 from selenium.webdriver.common.by import By
 element = driver.find_element(by=By.ID,"<element id>")
@@ -3272,17 +3282,34 @@ print(driver.switch_to.alert.text)                                  #print alert
 driver.switch_to.alert.accept()                                     #click OK
 driver.switch_to.alert.dismiss()                                    #click Cancel
 driver.switch_to.alert.send_keys("text123")                         #enter text into alert text box
-
 driver.switch_to.default_content()                                  #to work with parent frame
 
+
+#OOP scraping technique
+driver = webdriver.Chrome()
+driver.maximize_window()
+
+url = "https://www.google.com"
+driver.get(url)
+
+class LoginPage:
+    def __init__(self, driver):
+        self.driver = driver
+        self.username = (By.XPATH, "<XPATH of username field>")
+        self.password = (By.XPATH, "<XPATH of password field>")
+        self.login_button = (By.XPATH, "<XPATH of login button>")
+    
+    def login(self, username, password):
+        self.driver.find_element(*self.username).send_keys(username)
+        self.driver.find_element(*self.password).send_keys(password)
+        self.driver.find_element(*self.login_button).click()
+
+login_page = LoginPage(driver)
+login_page.login("user_1", "password1")
 
 
 
 driver.quit()                                                       #close browser
-
-
-
-
 
 
 
