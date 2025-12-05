@@ -3162,12 +3162,14 @@ else:
 ###############################################################################################################
 pip install requests beautifulsoup4 selenium lxml html5lib webdriver-manager
 
+import time
 from selenium import webdriver
 driver = webdriver.Chrome()
 driver.maximize_window()
 
 url = "https://www.google.com"
 driver.get(url)
+time.sleep(2)
 
 driver.title                                                        #tab title
 driver.current_url                                                  #https://www.google.com
@@ -3234,7 +3236,44 @@ while True:
     prev_height = new_height
 
 
+#explicit wait
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
+wait = WebDriverWait(driver, 5)
+wait.until(EC.element_to_be_clickable((By.XPATH, '<XPATH of button>')))
+txt_element.send_keys(Keys.ENTER)
+
+#types of explicit waits
+EC.element_to_be_clickable                                          #wait for the button to be enabled
+EC.alert_is_present                                                 #wait for a browser alert to pop up
+EC.title_is                                                         #wait for page title to match a given value
+EC.title_contains                                                   #wait for page title to contain specific text
+
+
+#implicit wait - waits untill an element is loaded/recognized
+#unlike explicit wait code, implicit wait code is written once only
+#works for find_element() and find_elements() methods
+driver.get(url)
+driver.implicitly_wait(5)                                           #wait until element loads or 5 secs
+
+
+#frames / iframes (another html doc inside an html doc)
+iframe_element = driver.find_element(By.XPATH, "<iframe XPATH>")
+driver.switch_to.frame(iframe_element)                              #to work with elements in iframe
+driver.switch_to.default_content()                                  #to work with parent frame
+
+
+#handling javascript alerts
+#alert()    shows a message & a button with OK
+#confirm()  shows a message, two buttons with OK, Cancel
+#prompt()   shows a message, takes an input, submits input with OK, submits None with Cancel button
+print(driver.switch_to.alert.text)                                  #print alert content
+driver.switch_to.alert.accept()                                     #click OK
+driver.switch_to.alert.dismiss()                                    #click Cancel
+driver.switch_to.alert.send_keys("text123")                         #enter text into alert text box
+
+driver.switch_to.default_content()                                  #to work with parent frame
 
 
 
