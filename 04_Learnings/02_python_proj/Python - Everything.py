@@ -118,7 +118,7 @@ plt.show()
 
 
 #Proj_01: use mnist dataset to learn a MBGD,DT,RF,KNN,DL model and create an online app to recognize handwritten digits.
-#Proj_02: 
+#Proj_02: use cifar-100 dataset to learn
 
 
 
