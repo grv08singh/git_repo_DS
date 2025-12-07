@@ -36,7 +36,7 @@ git clone https://github.com/grv08singh/01_Docs.git
 ## Open jupyter notebook at a specified path:
 ## Type in Anaconda Prompt
 ## jupyter notebook --notebook-dir="specified_path"
-## jupyter notebook --notebook-dir="D:\git_repo_DS\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\31 EPGC - ML - Project Analysing Naming Trend"
+## jupyter notebook --notebook-dir="D:\05 GIT\01_Docs\02_EPGC_Intellipaat\01 EPGC - Live Classes\2025.11.30 - EPGC DL - CNN HandsOn"
 ## jupyter notebook --notebook-dir="D:\git_repo_DS\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\17 EPGC - ML - Decision Tree Quiz"
 ## jupyter notebook --notebook-dir="D:\Projects\streamlit_startup_dashboard"
 ## C:\Users\grv06\AppData\Roaming\Code\User\settings.json
