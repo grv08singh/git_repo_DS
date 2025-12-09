@@ -3284,6 +3284,11 @@ login_page.login("user_1", "password1")
 
 
 
+#handling CAPTCHAs
+#handling by manually filling CAPTCHA value
+
+
+
 driver.quit()                                                       #close browser
 
 
