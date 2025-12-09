@@ -293,8 +293,7 @@ wr.filterwarnings('ignore')
 from sklearn.preprocessing import LabelEncoder,OneHotEncoder,OrdinalEncoder,StandardScaler,MinMaxScaler
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import train_test_split,cross_val_score,GridSearchCV,RandomizedSearchCV
-#SMOTE - Synthetic Minority Oversampling Technique
-from imblearn.over_sampling import SMOTE
+from imblearn.over_sampling import SMOTE                #SMOTE - Synthetic Minority Oversampling Technique
 
 from sklearn.linear_model import LinearRegression,LogisticRegression,SGDRegressor,SGDClassifier,Ridge,Lasso,ElasticNet
 from sklearn.tree import DecisionTreeRegressor,DecisionTreeClassifier
