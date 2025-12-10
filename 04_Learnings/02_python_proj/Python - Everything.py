@@ -6,79 +6,6 @@
 
 
 
-
-
-###############################################################################################################
-#### cmd
-###############################################################################################################
-#1) Windows not genuine watermark removal:
-bcdedit -set TESTSIGNING OFF;
-or
-slmgr /rearm
-or
-irm https://get.activated.win | iex
-
-#2) get disk names
-wmic logicaldisk get name
-
-#3) Make Backup using cmd:
-robocopy <source> <destination> /E /Z /DCOPY:DAT;
-#OR
-#max speed, use all threads, copy everything, with timestamp:
-robocopy <source> <destination> /E /MT:64 /R:3 /W:3 /NP /A-:SH /DCOPY:DAT /COPYALL 
-#OR
-#exclude recycle bin content:
-robocopy <source> <destination> /E /MT:64 /R:3 /W:3 /NP /A-:SH /DCOPY:DAT /COPYALL /XD "$RECYCLE.BIN" 
-#OR
-#unhide folder:
-attrib -s -h <folder_path>
-#OR
-#parallel thread copying:
-robocopy <source> <destination> /E /MT:64 /R:3 /W:3 /NFL /NDL
-
-#4) Check battery health:
-powercfg /batteryreport;
-
-#5) Wifi Pw:
-netsh wlan show profile;
-netsh wlan export profile <profile name> folder=C:\ key=clear;
-
-#6) remove temp files:
-del /q/f/s %temp%\*
-
-#7) download youtube videos in highest available quality
-winget install yt-dlp;
-yt-dlp "youtube_video_link";
-
-#8) check windows assessment score [Win Power Shell only]:
-winsat formal;
-get-ciminstance win32_winsat;
-
-
-
-
-
-###############################################################################################################
-#### GIT
-###############################################################################################################
-git config --global user.name "Gaurav Singh"
-git config --global user.email "grv08singh@gmail.com"
-git config --list --global
-
-git clone https://github.com/grv08singh/02_mlprojects.git
-git clone https://github.com/grv08singh/03_g_translator.git
-git clone https://github.com/grv08singh/04_st_startups.git
-git clone https://github.com/grv08singh/05_selenium_ktk_v1.git
-git clone https://github.com/grv08singh/06_selenium_ktk_v2.git
-git clone https://github.com/grv08singh/07_st_censusDA.git
-git clone https://github.com/grv08singh/01_Docs.git
-
-
-
-
-
-
-
 ###############################################################################################################
 #### Python Environment
 ###############################################################################################################
@@ -117,6 +44,34 @@ python -m ipykernel install --user --name=dummy_env
 # .\.venv\Scripts\activate.bat
 # 
 # pip install -r requirements.txt
+
+
+
+pip install numpy
+pip install pandas
+pip install matplotlib
+pip install seaborn
+pip install plotly
+
+pip install scipy
+pip install statsmodels
+
+pip install scikit-learn
+pip install imbalanced-learn
+pip install mlxtend
+
+pip install tensorflow
+
+pip install requests
+pip install beautifulsoup4
+pip install selenium
+pip install scrapy
+pip install lxml
+pip install html5lib
+
+pip install Pillow
+pip install pytesseract
+pip install opencv-python
 
 
 
@@ -3284,12 +3239,131 @@ login_page.login("user_1", "password1")
 
 
 
-#handling CAPTCHAs
-#handling by manually filling CAPTCHA value
-
-
-
 driver.quit()                                                       #close browser
+
+
+
+
+
+
+
+
+
+###############################################################################################################
+#### Web Scraping - CAPTCHA Handling
+###############################################################################################################
+import cv2                              #image preprocessing library
+import time
+import pytesseract                      #OCR library
+import numpy as np
+
+from PIL import Image                   #image basic library
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+#handling CAPTCHA manually
+driver = webdriver.Chrome()
+driver.maximize_window()
+
+url = 'https://www.hackthissite.org/user/login'
+driver.get(url)
+time.sleep(2)
+
+username_field = driver.find_element(By.ID, 'login_username')
+password_field = driver.find_element(By.ID, 'login_password')
+login_button = driver.find_element(By.XPATH, '/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[2]/form/table/tbody/tr[4]/td/input')
+
+username_field.send_keys('abc')
+password_field.send_keys('1234')
+login_button.click()
+
+captcha_xpath = '/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[2]/form/table/tbody/tr[5]/td/img'
+captcha_element = driver.find_element(By.XPATH, captcha_xpath)
+if captcha_element:
+	x = input('This will halt the script.. solve your Captcha..')
+
+print('\nCaptcha handled! Write rest of the script..')
+time.sleep(1)
+driver.quit()
+
+
+#handling CAPTCHA automatically using TESSERACT
+#installation path of tesseract application
+pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+
+driver = webdriver.Chrome()
+driver.maximize_window()
+
+url = 'https://www.hackthissite.org/user/login'
+driver.get(url)
+time.sleep(2)
+
+username_field = driver.find_element(By.ID, 'login_username')
+password_field = driver.find_element(By.ID, 'login_password')
+login_button = driver.find_element(By.XPATH, '/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[2]/form/table/tbody/tr[4]/td/input')
+
+username_field.send_keys('abc')
+password_field.send_keys('1234')
+login_button.click()
+time.sleep(5)
+
+try:
+    captcha_xpath = '/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[2]/form/table/tbody/tr[5]/td/img'
+    captcha_image = driver.find_element(By.XPATH, captcha_xpath)
+    driver.save_screenshot('webpage.png')
+
+    location = captcha_image.location
+    size = captcha_image.size
+    device_pixel_ratio = driver.execute_script("return window.devicePixelRatio;")
+    x = int(location['x'] * device_pixel_ratio)
+    y = int(location['y'] * device_pixel_ratio)
+    w = int(size['width'] * device_pixel_ratio)
+    h = int(size['height'] * device_pixel_ratio)
+
+    img = Image.open('webpage.png')
+    captcha_image = img.crop((x, y, x + w, y + h))
+    captcha_image.save('captcha.png')
+
+    captcha_cv = np.array(captcha_image)
+    captcha_cv = cv2.cvtColor(captcha_cv, cv2.COLOR_RGB2BGR)
+    gray = cv2.cvtColor(captcha_cv, cv2.COLOR_BGR2GRAY)
+    blurred = cv2.medianBlur(gray, 3)
+    _, thresh = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    kernel = np.ones((2, 2), np.uint8)
+    thresh = cv2.dilate(thresh, kernel, iterations=1)
+    cv2.imwrite('captcha-processed.png', thresh)
+
+    captcha_text = pytesseract.image_to_string(Image.fromarray(thresh), config='--psm 8').strip()
+    print(f'Detected captcha text: {captcha_text}')
+
+    if captcha_text:
+        username_field = driver.find_element(By.ID, 'login_username')
+        password_field = driver.find_element(By.ID, 'login_password')
+        captcha_field = driver.find_element(By.XPATH, '/html[1]/body[1]/table[1]/tbody[1]/tr[2]/td[1]/table[1]/tbody[1]/tr[1]/td[2]/form[1]/table[1]/tbody[1]/tr[4]/td[2]/input[1]')
+        login_button = driver.find_element(By.XPATH, '/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[2]/form/table/tbody/tr[4]/td/input')
+
+        username_field.clear()
+        password_field.clear()
+        captcha_field.clear()
+
+        username_field.send_keys('abc')
+        password_field.send_keys('1234')
+        captcha_field.send_keys(captcha_text)
+        login_button.click()
+    else:
+        print('Unable to read Captcha.')
+		
+except Exception as e:
+    print('Unable to locate Captcha:', e)
+	
+finally:
+    time.sleep(2)
+    driver.quit()
+
+
+
+
+
 
 
 
@@ -3301,6 +3375,17 @@ driver.quit()                                                       #close brows
 #### Web Scraping - scrapy
 ###############################################################################################################
 
+import scrapy
+
+#create project folder structure
+scrapy startproject <proj_name>
+
+#Adding a new website to scrape         -       add a new file in spiders/
+#changing export format                 -       settings.py
+#Validating data                        -       pipelines.py
+#dealing with CAPTCHAs or blocking      -       middlewares.py
+#Testing a single spider                -       scrapy crawl <spider_file.py>
+#reusing data structures                -       define once in items.py & use across spiders
 
 
 
@@ -3332,3 +3417,72 @@ Import specific names	            from math import sqrt	            Use directly
 Import specific names with alias    from math import sqrt as s	        Use alias s()
 Wildcard import all	                from math import *	                Imports all public names (discouraged)
 Import submodule	                import package.submodule	        Access with full path
+
+
+
+
+
+###############################################################################################################
+#### cmd
+###############################################################################################################
+#1) Windows not genuine watermark removal:
+bcdedit -set TESTSIGNING OFF;
+or
+slmgr /rearm
+or
+irm https://get.activated.win | iex
+
+#2) get disk names
+wmic logicaldisk get name
+
+#3) Make Backup using cmd:
+robocopy <source> <destination> /E /Z /DCOPY:DAT;
+#OR
+#max speed, use all threads, copy everything, with timestamp:
+robocopy <source> <destination> /E /MT:64 /R:3 /W:3 /NP /A-:SH /DCOPY:DAT /COPYALL 
+#OR
+#exclude recycle bin content:
+robocopy <source> <destination> /E /MT:64 /R:3 /W:3 /NP /A-:SH /DCOPY:DAT /COPYALL /XD "$RECYCLE.BIN" 
+#OR
+#unhide folder:
+attrib -s -h <folder_path>
+#OR
+#parallel thread copying:
+robocopy <source> <destination> /E /MT:64 /R:3 /W:3 /NFL /NDL
+
+#4) Check battery health:
+powercfg /batteryreport;
+
+#5) Wifi Pw:
+netsh wlan show profile;
+netsh wlan export profile <profile name> folder=C:\ key=clear;
+
+#6) remove temp files:
+del /q/f/s %temp%\*
+
+#7) download youtube videos in highest available quality
+winget install yt-dlp;
+yt-dlp "youtube_video_link";
+
+#8) check windows assessment score [Win Power Shell only]:
+winsat formal;
+get-ciminstance win32_winsat;
+
+
+
+
+
+###############################################################################################################
+#### GIT
+###############################################################################################################
+git config --global user.name "Gaurav Singh"
+git config --global user.email "grv08singh@gmail.com"
+git config --list --global
+
+git clone https://github.com/grv08singh/02_mlprojects.git
+git clone https://github.com/grv08singh/03_g_translator.git
+git clone https://github.com/grv08singh/04_st_startups.git
+git clone https://github.com/grv08singh/05_selenium_ktk_v1.git
+git clone https://github.com/grv08singh/06_selenium_ktk_v2.git
+git clone https://github.com/grv08singh/07_st_censusDA.git
+git clone https://github.com/grv08singh/01_Docs.git
