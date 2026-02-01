@@ -1885,6 +1885,7 @@ plt.scatter(x,y,color='red',marker='+',markersize=10)
 plt.xlabel('x')
 plt.ylabel('y')
 plt.title('title_1')
+plt.axis(True)
 plt.show()
 
 #Scatter Plot with Object Oriented Programming (OOP) - as compared with non-OOP above
@@ -1893,6 +1894,7 @@ ax.scatter(x,y,color='red',marker='+')
 ax.set_xlabel('x')
 ax.set_ylabel('y')
 ax.set_title('title_1')
+ax.axis(True)
 fig.show()
 
 #Multiple (2) subplots with Object Oriented Programming OOP
@@ -1901,11 +1903,13 @@ ax[0].scatter(x,y,color='red')
 ax[0].set_title('x vs. y')
 ax[0].set_xlabel('x')
 ax[0].set_ylabel('y']
+ax[0].axis(True)
 
 ax[1].scatter(x,z)
 ax[1].set_title('x vs. z')
 ax[1].set_xlabel('x')
 ax[1].set_ylabel('z']
+ax[1].axis(True)
 fig.show()
 
 #Multiple (2x2) subplots with Object Oriented Programming OOP
@@ -1914,6 +1918,7 @@ ax[0,0].scatter(x,y,color='red')
 ax[0,1].scatter(x,z,color='green')
 ax[1,0].hist(x)
 ax[1,1].hist(z)
+ax[1,1].axis(True)
 fig.show()
 
 #Multiple (2x2) subplots with Object Oriented Programming OOP - another way
@@ -1936,6 +1941,7 @@ ax.set_title('title_1')
 ax.set_xlabel('x')
 ax.set_ylabel('y')
 ax.set_zlabel('z')
+ax.axis(True)
 fig.show()
 
 #3-D line plot with Object Oriented Programming OOP

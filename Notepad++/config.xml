@@ -1,30 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <NotepadPlus>
-    <FindHistory nbMaxFindHistoryPath="10" nbMaxFindHistoryFilter="10" nbMaxFindHistoryFind="10" nbMaxFindHistoryReplace="10" matchWord="no" matchCase="no" wrap="yes" directionDown="yes" fifRecuisive="yes" fifInHiddenFolder="no" dlgAlwaysVisible="no" fifFilterFollowsDoc="no" fifFolderFollowsDoc="no" searchMode="0" transparencyMode="1" transparency="150" dotMatchesNewline="no" isSearch2ButtonsMode="no" fifProjectPanel1="no" fifProjectPanel2="no" fifProjectPanel3="no" regexBackward4PowerUser="no" bookmarkLine="no" purge="no">
+    <FindHistory nbMaxFindHistoryPath="10" nbMaxFindHistoryFilter="10" nbMaxFindHistoryFind="10" nbMaxFindHistoryReplace="10" matchWord="no" matchCase="no" wrap="yes" directionDown="yes" fifRecuisive="yes" fifInHiddenFolder="no" dlgAlwaysVisible="no" fifFilterFollowsDoc="no" fifFolderFollowsDoc="no" searchMode="1" transparencyMode="1" transparency="150" dotMatchesNewline="no" isSearch2ButtonsMode="no" fifProjectPanel1="no" fifProjectPanel2="no" fifProjectPanel3="no" regexBackward4PowerUser="no" bookmarkLine="no" purge="no">
         <Filter name="" />
-        <Find name="fig,ax" />
-        <Find name="groupby" />
-        <Find name="np.groupby" />
-        <Find name="numpy - ev" />
-        <Find name="sns.bar" />
-        <Find name="sns.plot" />
-        <Find name="&#x25CF;" />
-        <Find name="np.arg" />
-        <Find name="numpy" />
-        <Find name="numpy ever" />
+        <Find name="pandas series" />
+        <Find name="series" />
+        <Find name="CNN" />
+        <Find name="dataframe" />
+        <Find name="labelencoder" />
+        <Find name="ANN" />
+        <Find name="sequential" />
+        <Find name="flatten" />
+        <Find name="train_test" />
+        <Find name="plt.pie" />
         <Replace name="*" />
+        <Replace name="/" />
+        <Replace name=")\n" />
         <Replace name=":" />
         <Replace name=" " />
         <Replace name=" 3." />
         <Replace name=" 2.3" />
     </FindHistory>
     <History nbMaxFile="10" inSubMenu="no" customLength="-1">
-        <File filename="C:\Users\grv06\Desktop\git_push.bat" />
-        <File filename="C:\Users\grv06\Desktop\git_pull.bat" />
-        <File filename="C:\Users\grv06\OneDrive\Desktop\Restart.bat" />
-        <File filename="C:\Users\grv06\OneDrive\Desktop\git_push.bat" />
-        <File filename="C:\Users\grv06\OneDrive\Desktop\git_pull.bat" />
-        <File filename="D:\05 GIT\01_masterRepo\kaggle.json" />
+        <File filename="D:\05 GIT\01_masterRepo\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\36 EPGC - DL - Module 6 Post Modeling Activities - Assignment\logs\train\events.out.tfevents.1769155845.DESKTOP-GSK8A5P.11168.7.v2" />
+        <File filename="C:\Users\grv06\anaconda3\envs\venv\Lib\numbers.py" />
+        <File filename="D:\05 GIT\01_masterRepo\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\36 EPGC - DL - Module 6 Post Modeling Activities - Assignment\my_model_architecture.json" />
+        <File filename="D:\Downloads\imdb_rnn_sentiment.py" />
+        <File filename="D:\Downloads\tweets.csv" />
+        <File filename="D:\Downloads\Sentiment Analysis Dataset 100000.csv" />
+        <File filename="D:\Downloads\Tweets (1) (1) (2).csv" />
+        <File filename="D:\05 GIT\01_masterRepo\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\39 EPGC - DL - Intro to NLP - Assignment\tweets.csv" />
+        <File filename="D:\05 GIT\01_masterRepo\06_WebScraping_Udemy\7. Final Projects\Project 02 - Real Estate Details\01. properties-scraper.py" />
+        <File filename="D:\05 GIT\01_masterRepo\06_WebScraping_Udemy\7. Final Projects\Project 02 - Real Estate Details\02. restructured-properties-scraper.py" />
     </History>
     <ProjectPanels>
         <ProjectPanel id="0" workSpaceFile="" />
