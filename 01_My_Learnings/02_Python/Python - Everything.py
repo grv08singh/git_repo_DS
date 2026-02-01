@@ -45,7 +45,7 @@ api.dataset_download_files(dataset=dataset_slug, path=download_path, unzip=True)
 ## Type in Anaconda Prompt
 ## jupyter notebook --notebook-dir="specified_path"
 
-## jupyter notebook --notebook-dir="D:\05 GIT\01_masterRepo\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\40 EPGC - DL - Capstone Project - Customer Churn using Keras (AI)"
+## jupyter notebook --notebook-dir="D:\05 GIT\01_masterRepo\01_My_Learnings\05_NSO_work"
 ## jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\01_masterRepo\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\39 EPGC - DL - Intro to NLP - Assignment"
 
 ## jupyter notebook --notebook-dir="D:\05 GIT\08_WS_ML_DL_Project"
