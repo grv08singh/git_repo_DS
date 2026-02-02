@@ -41,44 +41,36 @@ api.dataset_download_files(dataset=dataset_slug, path=download_path, unzip=True)
 #### Python Environment
 ###############################################################################################################
 
-## Open jupyter notebook at a specified path:
-## Type in Anaconda Prompt
-## jupyter notebook --notebook-dir="specified_path"
+## Open jupyter notebook at a specified path: Type in Anaconda Prompt
+jupyter notebook --notebook-dir="<path>"
 
-## jupyter notebook --notebook-dir="D:\05 GIT\01_masterRepo\01_My_Learnings\05_NSO_work"
-## jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\01_masterRepo\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\39 EPGC - DL - Intro to NLP - Assignment"
+jupyter notebook --notebook-dir="D:\05 GIT\01_masterRepo\01_My_Learnings\05_NSO_work"
+jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\01_masterRepo\01_My_Learnings\05_NSO_work"
 
-## jupyter notebook --notebook-dir="D:\05 GIT\08_WS_ML_DL_Project"
-## jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\08_WS_ML_DL_Project"
-## jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\01_masterRepo\04_Learnings\07_nso_work"
+jupyter notebook --notebook-dir="D:\05 GIT\08_WS_ML_DL_Project"
+jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\08_WS_ML_DL_Project"
+
+
 ## C:\Users\grv06\AppData\Roaming\Code\User\settings.json
 
-#Create Python env using conda
-conda create --name <dummy_env> python=3.8
-#list of env
-conda env list
-#activate an env
-conda activate <dummy_env>
-#deactivate current env
-conda deactivate
-#list of installed packages in activated env
-conda list
-#export env
-conda env export --name <dummy_env> --file <dummy_env>.yml
-#import env OR create env from yml file
-conda env create --file <dummy_env>.yml
-#remove / delete env
-conda remove --name <dummy_env> --all
-#create an appropriate Jupyter Notebook kernel mapped to new environment
-python -m ipykernel install --user --name=<dummy_env>
+
+conda create --name <dummy_env> python=3.8                          #Create Python env using conda
+conda env list                                                      #list of env
+conda activate <dummy_env>                                          #activate an env
+conda deactivate                                                    #deactivate current env 
+conda list                                                          #list of installed packages in activated env
+conda env export --name <dummy_env> --file <dummy_env>.yml          #export env
+conda env create --file <dummy_env>.yml                             #import env OR create env from yml file
+conda remove --name <dummy_env> --all                               #remove / delete env
+python -m ipykernel install --user --name=<dummy_env>               #create an appropriate Jupyter Notebook kernel mapped to new environment
 
 
 
-# Create Python environment using python
-# python -m venv .venv
+
+python -m venv .venv                                                # Create Python environment using python
 # .\.venv\Scripts\activate.bat
-# 
-# pip install -r requirements.txt
+
+pip install -r requirements.txt
 
 
 ######creating a GPU enabled env in cmd
@@ -160,18 +152,6 @@ plt.show()
 
 
 
-
-
-
-
-###############################################################################################################
-#### Data Science
-###############################################################################################################
-
-
-
-#Proj_01: use mnist dataset to learn a MBGD,DT,RF,KNN,DL model and create an online app to recognize handwritten digits.
-#Proj_02: use cifar-100 dataset to learn
 
 
 
@@ -2987,6 +2967,7 @@ my_list.count(element_1)                    #count the number of element_1 in my
 my_list.sort()                              #sort the list - in place
 sorted(my_list)                             #just show the sorted list, not sort original list
 [i**2 for i in my_list if i%2==0]           #list comprehension
+[i**2 if i>5 else i**3 for i in my_list]    #list comprehension
 my_list = list(tuple_1)                     #convert tuple_1 to list
 
 
