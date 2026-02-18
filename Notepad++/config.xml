@@ -2,6 +2,7 @@
 <NotepadPlus>
     <FindHistory nbMaxFindHistoryPath="10" nbMaxFindHistoryFilter="10" nbMaxFindHistoryFind="10" nbMaxFindHistoryReplace="10" matchWord="no" matchCase="no" wrap="yes" directionDown="yes" fifRecuisive="yes" fifInHiddenFolder="no" dlgAlwaysVisible="no" fifFilterFollowsDoc="no" fifFolderFollowsDoc="no" searchMode="1" transparencyMode="1" transparency="150" dotMatchesNewline="no" isSearch2ButtonsMode="no" fifProjectPanel1="no" fifProjectPanel2="no" fifProjectPanel3="no" regexBackward4PowerUser="no" bookmarkLine="no" purge="no">
         <Filter name="" />
+        <Find name="TCROPA" />
         <Find name="ax.plot" />
         <Find name="ax.axis" />
         <Find name="groupby" />
@@ -11,7 +12,6 @@
         <Find name="dataframe" />
         <Find name="labelencoder" />
         <Find name="ANN" />
-        <Find name="sequential" />
         <Replace name="*" />
         <Replace name="/" />
         <Replace name=")\n" />
@@ -20,9 +20,10 @@
         <Replace name=" 3." />
         <Replace name=" 2.3" />
     </FindHistory>
+    <FileBrowser latestSelectedItem="E:\ICS_Scheme\AS2.0\AS20242">
+        <root foldername="E:\ICS_Scheme\AS2.0\AS20242" />
+    </FileBrowser>
     <History nbMaxFile="10" inSubMenu="no" customLength="-1">
-        <File filename="D:\05 GIT\01_masterRepo\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\36 EPGC - DL - Module 6 Post Modeling Activities - Assignment\logs\train\events.out.tfevents.1769155845.DESKTOP-GSK8A5P.11168.7.v2" />
-        <File filename="C:\Users\grv06\anaconda3\envs\venv\Lib\numbers.py" />
         <File filename="D:\05 GIT\01_masterRepo\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\36 EPGC - DL - Module 6 Post Modeling Activities - Assignment\my_model_architecture.json" />
         <File filename="D:\Downloads\imdb_rnn_sentiment.py" />
         <File filename="D:\Downloads\tweets.csv" />
@@ -31,15 +32,14 @@
         <File filename="D:\05 GIT\01_masterRepo\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\39 EPGC - DL - Intro to NLP - Assignment\tweets.csv" />
         <File filename="D:\05 GIT\01_masterRepo\06_WebScraping_Udemy\7. Final Projects\Project 02 - Real Estate Details\01. properties-scraper.py" />
         <File filename="D:\05 GIT\01_masterRepo\06_WebScraping_Udemy\7. Final Projects\Project 02 - Real Estate Details\02. restructured-properties-scraper.py" />
+        <File filename="D:\Downloads\TI84+CE\aaa.rom" />
+        <File filename="D:\Downloads\New folder (3)\CEmu-master\README.md" />
     </History>
     <ProjectPanels>
         <ProjectPanel id="0" workSpaceFile="" />
         <ProjectPanel id="1" workSpaceFile="" />
         <ProjectPanel id="2" workSpaceFile="" />
     </ProjectPanels>
-    <FileBrowser latestSelectedItem="E:\ICS_Scheme\AS2.0\AS20242">
-        <root foldername="E:\ICS_Scheme\AS2.0\AS20242" />
-    </FileBrowser>
     <ColumnEditor choice="number">
         <text content="" />
         <number initial="-1" increase="-1" repeat="-1" formatChoice="dec" leadingChoice="none" />
