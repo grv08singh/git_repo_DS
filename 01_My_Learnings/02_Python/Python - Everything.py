@@ -45,7 +45,7 @@ api.dataset_download_files(dataset=dataset_slug, path=download_path, unzip=True)
 jupyter notebook --notebook-dir="<path>"
 
 jupyter notebook --notebook-dir="D:\05 GIT\01_masterRepo\01_My_Learnings\05_NSO_work"
-jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\01_masterRepo\01_My_Learnings\05_NSO_work"
+jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\01_masterRepo\01_My_Learnings\05_NSO_work\05_Preparing Annexures"
 
 jupyter notebook --notebook-dir="D:\05 GIT\08_WS_ML_DL_Project"
 jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\08_WS_ML_DL_Project"
