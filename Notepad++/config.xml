@@ -24,8 +24,6 @@
         <root foldername="E:\ICS_Scheme\AS2.0\AS20242" />
     </FileBrowser>
     <History nbMaxFile="10" inSubMenu="no" customLength="-1">
-        <File filename="D:\05 GIT\01_masterRepo\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\36 EPGC - DL - Module 6 Post Modeling Activities - Assignment\my_model_architecture.json" />
-        <File filename="D:\Downloads\imdb_rnn_sentiment.py" />
         <File filename="D:\Downloads\tweets.csv" />
         <File filename="D:\Downloads\Sentiment Analysis Dataset 100000.csv" />
         <File filename="D:\Downloads\Tweets (1) (1) (2).csv" />
@@ -34,6 +32,8 @@
         <File filename="D:\05 GIT\01_masterRepo\06_WebScraping_Udemy\7. Final Projects\Project 02 - Real Estate Details\02. restructured-properties-scraper.py" />
         <File filename="D:\Downloads\TI84+CE\aaa.rom" />
         <File filename="D:\Downloads\New folder (3)\CEmu-master\README.md" />
+        <File filename="C:\Users\grv06\OneDrive\Desktop\git_push.bat" />
+        <File filename="C:\Users\grv06\OneDrive\Desktop\git_pull.bat" />
     </History>
     <ProjectPanels>
         <ProjectPanel id="0" workSpaceFile="" />
@@ -51,7 +51,7 @@
         <GUIConfig name="ScintillaViewsSplitter">vertical</GUIConfig>
         <GUIConfig name="UserDefineDlg" position="undocked">hide</GUIConfig>
         <GUIConfig name="TabSetting" replaceBySpace="no" size="4" backspaceUnindent="no" />
-        <GUIConfig name="AppPosition" x="864" y="41" width="738" height="943" isMaximized="yes" />
+        <GUIConfig name="AppPosition" x="429" y="256" width="738" height="943" isMaximized="yes" />
         <GUIConfig name="FindWindowPosition" left="1116" top="76" right="1853" bottom="518" isLessModeOn="no" />
         <GUIConfig name="FinderConfig" wrappedLines="no" purgeBeforeEverySearch="no" showOnlyOneEntryPerFoundLine="yes" />
         <GUIConfig name="noUpdate" intervalDays="15" nextUpdateDate="20080426" autoUpdateMode="0">yes</GUIConfig>
