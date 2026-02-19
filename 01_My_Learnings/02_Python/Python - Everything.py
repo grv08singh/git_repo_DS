@@ -2959,9 +2959,12 @@ my_list[::2]                                #every 2nd element from the list
 my_list[::-1]                               #reverse the list
 my_list + ['new item']                      #concatenate element to the list
 my_list * 2                                 #repeat the list
-my_list.append('append_me')                 #append element to the list
+my_list.append('element_1')                 #append element_1 to the list
+my_list.append('list_2')                    #append list_2 as one single element to my_list
+my_list.extend('list_2')                    #extend the list with elements of list_2
 my_list.pop()                               #remove last element from the list and return it
 my_list.pop(2)                              #remove element at index 2 from the list and return it
+my_list.remove(14)                          #remove element with value=14
 my_list.reverse()                           #reverse the list
 my_list.count(element_1)                    #count the number of element_1 in my_list
 my_list.sort()                              #sort the list - in place
@@ -3005,22 +3008,21 @@ t.count('one')                                                                  
 #### sets - Everything           
 ###############################################################################################################      
                     
-x = set()                                                                             #creating a set
-x.add(1)                                                                              #adding element to set
-x.add(2)                                                                              #adding element to set
+my_set = set()                                                                        #creating a set
+my_set.add(element)                                                                   #add element to my_set
+my_set.add(my_list)                                                                   #add my_list as one single element to my_set (just like list.append)
+my_set.update(my_list)                                                                #add elements of my_list to my_set (just like list.extend)
 set(my_list)                                                                          #convert my_list to set: show any duplicate values only once
 
 sum(x)                                                                                #sum of all elements of set x
 len(x)                                                                                #number of elements in set x
 
-x.discard(n)                                                                          #delete n without error when not found
-x.remove(n)                                                                           #delete n with error when not found
+my_set.discard(n)                                                                     #delete n without error when not found
+my_set.remove(n)                                                                      #delete n with error when not found
 
-x = set()
-y = set()
-x.union(y)                                                                            #set function union
-x.intersection(y)                                                                     #set function intersection
-x.differences(y)                                                                      #elements in x but not in y
+my_set.union(my_set2)                                                                 #set function union
+my_set.intersection(my_set2)                                                          #set function intersection
+my_set.differences(my_set2)                                                           #elements in x but not in y
 
                 
                     

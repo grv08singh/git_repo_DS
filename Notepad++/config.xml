@@ -2,16 +2,16 @@
 <NotepadPlus>
     <FindHistory nbMaxFindHistoryPath="10" nbMaxFindHistoryFilter="10" nbMaxFindHistoryFind="10" nbMaxFindHistoryReplace="10" matchWord="no" matchCase="no" wrap="yes" directionDown="yes" fifRecuisive="yes" fifInHiddenFolder="no" dlgAlwaysVisible="no" fifFilterFollowsDoc="no" fifFolderFollowsDoc="no" searchMode="1" transparencyMode="1" transparency="150" dotMatchesNewline="no" isSearch2ButtonsMode="no" fifProjectPanel1="no" fifProjectPanel2="no" fifProjectPanel3="no" regexBackward4PowerUser="no" bookmarkLine="no" purge="no">
         <Filter name="" />
+        <Find name="pop" />
+        <Find name="replace" />
+        <Find name="pivot" />
+        <Find name="unpivot" />
         <Find name="TCROPA" />
         <Find name="ax.plot" />
         <Find name="ax.axis" />
         <Find name="groupby" />
         <Find name="pandas series" />
         <Find name="series" />
-        <Find name="CNN" />
-        <Find name="dataframe" />
-        <Find name="labelencoder" />
-        <Find name="ANN" />
         <Replace name="*" />
         <Replace name="/" />
         <Replace name=")\n" />
