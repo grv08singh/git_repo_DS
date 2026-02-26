@@ -46,6 +46,7 @@ jupyter notebook --notebook-dir="<path>"
 
 jupyter notebook --notebook-dir="D:\05 GIT\01_masterRepo\01_My_Learnings\05_NSO_work"
 jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\01_masterRepo\01_My_Learnings\05_NSO_work"
+jupyter notebook --notebook-dir="C:\Users\Grv\Desktop\RC_Cleaning\00_py_script"
 
 jupyter notebook --notebook-dir="D:\05 GIT\08_WS_ML_DL_Project"
 jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\08_WS_ML_DL_Project"
