@@ -88,11 +88,5 @@ echo   Please restart your terminal / system to apply
 echo   the updated PATH environment variables.
 echo =====================================================
 
-pause
-
-cd "00_py_script"
-pip install -r requirements.txt
-python "01_RC_Cleaning_Script.py"
-cd ..
-pause
 endlocal
+pause
