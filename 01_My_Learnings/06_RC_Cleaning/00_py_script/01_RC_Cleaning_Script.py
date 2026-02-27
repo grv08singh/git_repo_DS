@@ -389,14 +389,14 @@ if __name__ == "__main__":
         os.remove(log_path)
 
     #Check if HSSN is not present
-    if (rc1['HSSN'].isna().sum() + rc1[rc1['HSSN'] == 0].shape[0]) > 0:
+    if (rc1[rc1['HSSN'].isna()].shape[0] + rc1[rc1['HSSN'] == 0].shape[0]) > 0:
         with open("log.txt", "a") as f:
             print('='*80, file=f)
             print('In RC1, HSSN is Zero or Blank. Please Correct...', file=f)
             print('='*80, file=f)
 
     #Check if GEOA is not present
-    if (rc1['GEOA'].isna().sum() + rc1[rc1['GEOA'] == 0].shape[0]) > 0:
+    if (rc1[rc1['GEOA'].isna()].shape[0] + rc1[rc1['GEOA'] == 0].shape[0]) > 0:
         with open("log.txt", "a") as f:
             print('='*80, file=f)
             print('In RC1, GEOA is Zero or Blank. Please Correct...', file=f)
@@ -450,7 +450,7 @@ if __name__ == "__main__":
     if sheet_to_remove in wb.sheetnames:
         del wb[sheet_to_remove]
     
-    wb.save('RC1237_clean.xlsx')
+    wb.save('RC1237_clean_v1.xlsx')
 
 #%%
 

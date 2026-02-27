@@ -17,10 +17,8 @@ Follow these instructions:
 	Wait for A black screen to open and close by itself.
 
 4) "RC1237.xlsx" is generated in folder "04_Clean_RCs".
-	Check "log.txt" (if exists) file for any manual change in RCs.
-
-5) After doing suggested Manual Changes in "log.txt" file,
-	Copy the file "RC1237.xslx" to "05_RCs_after_Manual_Editing" folder.
+	Check "log.txt" file for any changes to be done manually in RCs.
+	Make suggested changes in "RC1237_clean.xlsx" present in "04_Clean_RCs" folder.
 
 6) Double Click "GenerateCY_PY.bat"
 	Wait for A black screen to open and close by itself.

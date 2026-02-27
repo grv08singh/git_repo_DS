@@ -1,6 +1,64 @@
 import os
 import openpyxl
-import pandas
+from openpyxl import load_workbook
+from openpyxl.utils.dataframe import dataframe_to_rows
+import pandas as pd
+import numpy as np
+
+
+
+def handle_HSSN_GEOA():
+    
+    rc1 = pd.read_excel("RC1237_clean_v1.xlsx", sheet_name="RC1")
+    rc2 = pd.read_excel("RC1237_clean_v1.xlsx", sheet_name="RC2")
+    rc3 = pd.read_excel("RC1237_clean_v1.xlsx", sheet_name="RC3")
+    rc7 = pd.read_excel("RC1237_clean_v1.xlsx", sheet_name="RC7")
+    
+    missing_hssn_count = ((rc1[rc1['HSSN'].isna()].shape[0]) + (rc1[rc1['HSSN']==0].shape[0]))
+    missing_geoa_count = ((rc1[rc1['GEOA'].isna()].shape[0]) + (rc1[rc1['GEOA']==0].shape[0]))
+    
+    if missing_hssn_count > 0:
+        median_HSSN = int(rc1['HSSN'].median())
+        rc1['HSSN'] = rc1['HSSN'].fillna(median_HSSN)
+        rc1['HSSN'] = rc1['HSSN'].replace(0, median_HSSN)
+        rc2['HSSN'] = rc2['HSSN'].fillna(median_HSSN)
+        rc2['HSSN'] = rc2['HSSN'].replace(0, median_HSSN)
+    
+    if missing_geoa_count > 0:
+        mean_GEOA = np.round(rc1['GEOA'].mean(), 2)
+        rc1['GEOA'] = rc1['GEOA'].fillna(mean_GEOA)
+        rc1['GEOA'] = rc1['GEOA'].replace(0,mean_GEOA)
+        
+    #Create RC1237_v2 excel file
+    wb = openpyxl.Workbook()
+
+    #RC1
+    ws1 = wb.create_sheet(title='RC1')
+    for r in dataframe_to_rows(rc1, index=False, header=True):
+        ws1.append(r)
+
+    #RC2
+    ws2 = wb.create_sheet(title='RC2')
+    for r in dataframe_to_rows(rc2, index=False, header=True):
+        ws2.append(r)
+
+    #RC3
+    ws3 = wb.create_sheet(title='RC3')
+    for r in dataframe_to_rows(rc3, index=False, header=True):
+        ws3.append(r)
+
+    #RC7
+    ws7 = wb.create_sheet(title='RC7')
+    for r in dataframe_to_rows(rc7, index=False, header=True):
+        ws7.append(r)
+    
+    #remove unnecessary sheet
+    sheet_to_remove = 'Sheet'
+    if sheet_to_remove in wb.sheetnames:
+        del wb[sheet_to_remove]
+    
+    wb.save('RC1237_clean_v2.xlsx')
+    
 
 
 def empty_py(wb_py):
@@ -122,10 +180,13 @@ def fill_cy(wb_cy, wb_rc1237):
 
 if __name__ == "__main__":
     
-    #loading newly created RCs
+    #handle missing/zero HSSN, GEOA
     os.chdir('..')
     os.chdir('04_Clean_RCs')
-    wb_rc1237 = openpyxl.load_workbook("RC1237_clean.xlsx")
+    handle_HSSN_GEOA()
+    
+    #loading newly created RCs
+    wb_rc1237 = openpyxl.load_workbook("RC1237_clean_v2.xlsx")
     ws_rc1 = wb_rc1237["RC1"]
     ws_rc2 = wb_rc1237["RC2"]
     ws_rc3 = wb_rc1237["RC3"]
@@ -145,6 +206,6 @@ if __name__ == "__main__":
 
     #saving new PY, CY excel files in folder "06_PY_CY_New"
     os.chdir('..')
-    os.chdir('06_PY_CY_New')
+    os.chdir('05_PY_CY_New')
     wb_py.save("PY State Details & Capital-N .xlsx")
     wb_cy.save("CY State Details & Capital-N.xlsx")
