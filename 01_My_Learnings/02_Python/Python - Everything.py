@@ -8,17 +8,6 @@
 
 
 
-###############################################################################################################
-#### LSTM (Long Short-Term Memory)
-###############################################################################################################
-
-
-
-
-
-
-
-
 
 
 
@@ -33,7 +22,7 @@ import seaborn as sns
 import warnings as wr
 wr.filterwarnings('ignore')
 
-
+#### Machine Learning (ML): sci-kit learn, xgboost, imblearn
 from sklearn.preprocessing import LabelEncoder,OneHotEncoder,OrdinalEncoder,StandardScaler,MinMaxScaler
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import train_test_split,cross_val_score,GridSearchCV,RandomizedSearchCV
@@ -55,6 +44,28 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.feature_selection import SelectKBest,chi2
 from sklearn.compose import ColumnTransformer,make_column_transformer
 from sklearn.pipeline import Pipeline,make_pipeline
+
+####Deep Learning (DL): tensorflow, keras
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras.datasets import mnist,fashion_mnist
+from tensorflow.keras.utils import to_categorical
+from tensorflow.keras.callbacks import TensorBoard, EarlyStopping, ReduceLROnPlateau
+from tensorflow.keras import Sequential
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout, BatchNormalization, Activation, Embedding
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.regularizers import l2
+from tensorflow.keras.preprocessing import image
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+
+from tensorflow.keras.preprocessing.text import Tokenizer
+from keras.layers import TextVectorization
+from keras.preprocessing.sequence import pad_sequences
+
+####Deep Learning (DL): pytorch
+
+
+
 
 
 
@@ -650,7 +661,7 @@ for image_path in paths:
 
 
 ###############################################################################################################
-#Transfer Learning : CNN model : Learn from pre-built models (VGG16)
+#### DL - Transfer Learning : CNN model : Learn from pre-built models (VGG16)
 ###############################################################################################################
 import numpy as np
 import pandas as pd
@@ -858,8 +869,12 @@ for output in datagen.flow(input_batch, batch_size=1, save_to_dir='D:/Downloads/
 
 
 
+
+
+
+
 ###############################################################################################################
-#create RNN model : Sentiment Analysis (imdb)
+#### DL - create RNN model : Sentiment Analysis (imdb)
 ###############################################################################################################
 import numpy as np
 import pandas as pd
@@ -954,6 +969,80 @@ for i in range(n):
         pred_sentiment = 'Negative'
     actual = 'Positive' if y_test[i] == 1 else 'Negative'
     print(f"Confidence Level : {100*confidence:.0f}% | Predicted Sentiment : {pred_sentiment} | Actual Sentiment : {actual}")
+
+
+
+
+
+
+
+
+
+
+###############################################################################################################
+#### DL - LSTM (Long Short-Term Memory) - Predict next word
+###############################################################################################################
+import numpy as np
+import pandas as pd
+import tensorflow as tf
+from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Embedding, LSTM, Dense
+from tensorflow.keras.utils import to_categorical
+
+with open("2024_state_of_the_union.txt", mode='r', encoding='utf-8') as my_file:
+    my_text = my_file.read()
+
+#making tokens
+my_tokenizer = Tokenizer()
+my_tokenizer.fit_on_texts([my_text])
+total_words = len(my_tokenizer.word_index)+1
+
+#create n-gram sequence
+my_input_sequences = []
+for line in my_text.split('\n'):
+    token_list = my_tokenizer.texts_to_sequences([line])[0]
+    for i in range(1,len(token_list)):
+        my_ngram_seq = token_list[:i+1]
+        my_input_sequences.append(my_ngram_seq)
+
+#padding sequences with zeros
+max_len = max([len(seq) for seq in my_input_sequences])
+input_seq=np.array(pad_sequences(my_input_sequences,maxlen=max_len,padding='pre'))
+
+X = input_seq[:,:-1]
+y = input_seq[:,-1]
+
+#OHE of target column
+y = np.array(to_categorical(y, num_classes=total_words))
+
+#build model
+model = Sequential()
+model.add(Embedding(total_words, 100))
+model.add(LSTM(150))
+model.add(Dense(total_words, activation='softmax'))
+model.summary()
+
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+model.fit(X,y, epochs=100, verbose=1)
+
+
+#prediction
+input_text = 'Many years ago, there was a king'
+predict_next_words = 20
+for n in range(predict_next_words):
+    token_list = my_tokenizer.texts_to_sequences([input_text])[0]
+    token_list = pad_sequences([token_list], maxlen=max_len-1, padding='pre')
+    prediction = np.argmax(model.predict(token_list), axis=-1)
+    for word, index in my_tokenizer.word_index.items():
+        if index==prediction:
+            predicted_word = word
+            break
+    input_text += ' ' + predicted_word
+
+print(input_text)
 	
 	
 	
