@@ -7,6 +7,7 @@
 #E97550 #1D78B7 #0F5989 #FACE0F
 
 jupyter notebook --notebook-dir="D:\05 GIT\09_Eng_Hin_Translator_EncDec"
+jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\01_masterRepo\Eng_Hin_Translator"
 
 
 
