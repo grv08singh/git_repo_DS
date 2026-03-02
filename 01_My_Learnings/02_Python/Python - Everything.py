@@ -6,6 +6,83 @@
 
 #E97550 #1D78B7 #0F5989 #FACE0F
 
+jupyter notebook --notebook-dir="D:\05 GIT\09_Eng_Hin_Translator_EncDec"
+
+
+
+
+
+
+###############################################################################################################
+#### DL - Encoder Decoder - Eng to French Translation
+###############################################################################################################
+import numpy as np
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Input,LSTM,Embedding,Dense
+from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+
+eng = ['hi','hello','how are you','thank you']
+fr = ['salut','bonjour','comment ca va','merci']
+
+#tokenize english
+tok_eng = Tokenizer()
+tok_eng.fit_on_texts(eng)
+x = tok_eng.texts_to_sequences(eng)
+x = pad_sequences(x)
+
+#tokenize french
+tok_fr = Tokenizer()
+tok_fr.fit_on_texts(fr)
+y = tok_fr.texts_to_sequences(fr)
+y = pad_sequences(y)
+
+y_in = y[:,:-1]
+y_out = y[:,1:]
+
+#lstm - 3d - (samples,timesteps,vocab_size)
+#our labels must be in 3d shape as well
+#3d - adding 1 to it at the end
+y_out = y_out.reshape((y_out.shape[0],y_out.shape[1],1))
+
+vocab_eng = len(tok_eng.word_index)+1
+vocab_fr = len(tok_fr.word_index)+1
+
+#encoder
+enc_in =Input(shape =(x.shape[1],))                 #each english input seq
+enc_emb = Embedding(vocab_eng,8)(enc_in)            #learn word embeddings
+_,h,c  = LSTM(32,return_state= True)(enc_emb)       #_ is output, h is hidden state, c is candidate state
+
+#decoder
+dec_in= Input(shape =(y_in.shape[1],))
+dec_emb = Embedding(vocab_fr,8)(dec_in)
+dec_out = LSTM(32, return_sequences=True)(dec_emb,initial_state =[h,c])
+out = Dense(vocab_fr ,activation= 'softmax')(dec_out)
+
+#build, compile model
+model = Model([enc_in,dec_in],out)
+model.compile(optimizer = 'adam',loss ='sparse_categorical_crossentropy')
+
+#train
+model.fit([x,y_in],y_out,epochs = 300)
+
+#predict
+preds = model.predict([x,y_in])
+for i,pred in enumerate(preds):
+  ids = np.argmax(pred,axis = 1)
+  words = [tok_fr.index_word.get(idx, "??") for idx in ids]
+  print(f"English : {eng[i]} ----> pred french: {' '.join(words)}")
+
+#return_state ---> give h,c state as well along with output
+#resturn_sequences ---> tell LSTM to output at every time step ,not just at the end
+
+
+
+
+
+
+
+
 
 
 
@@ -4716,7 +4793,7 @@ jupyter notebook --notebook-dir="D:\05 GIT\01_masterRepo\01_My_Learnings\05_NSO_
 jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\01_masterRepo\01_My_Learnings\06_RC_Cleaning"
 jupyter notebook --notebook-dir="D:\05 GIT\01_masterRepo\02_EPGC_Intellipaat\01 EPGC - Live Classes\2026.01.31 - EPGC GenAI - LSTM"
 
-jupyter notebook --notebook-dir="D:\05 GIT\08_WS_ML_DL_Project"
+jupyter notebook --notebook-dir="D:\05 GIT\09_Eng_Hin_Translator_EncDec"
 jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\08_WS_ML_DL_Project"
 
 
@@ -4774,6 +4851,8 @@ pip install mlxtend
 
 conda install tensorflow
 pip install nltk
+pip install contractions
+pip install emoji
 
 pip install requests
 pip install beautifulsoup4
@@ -4791,7 +4870,7 @@ pip install pyodbc
 pip install kaggle
 conda install -c conda-forge opencv
 
-pip install emoji
+
 
 
 

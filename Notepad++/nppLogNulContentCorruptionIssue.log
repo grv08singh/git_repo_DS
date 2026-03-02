@@ -51,3 +51,21 @@
 2026-01-29 12:33:51  D:\05 GIT\01_masterRepo\Notepad++\session.xml is opened.
 2026-01-29 12:33:51  D:\05 GIT\01_masterRepo\Notepad++\session.xml  3332/3332 bytes are written.
 2026-01-29 12:33:51  D:\05 GIT\01_masterRepo\Notepad++\session.xml is closed.
+2026-03-01 01:15:57  WM_QUERYENDSESSION (lParam: 0 - ordinary system shutdown/restart) =====================================
+2026-03-01 01:15:57  WM_ENDSESSION (wParam: TRUE, lParam: 0 - ordinary system shutdown/restart)
+2026-03-01 01:15:58  D:\05 GIT\01_masterRepo\Notepad++\config.xml is opened.
+2026-03-01 01:15:58  D:\05 GIT\01_masterRepo\Notepad++\config.xml  10600/10600 bytes are written.
+2026-03-01 01:15:58  D:\05 GIT\01_masterRepo\Notepad++\config.xml is closed.
+2026-03-01 01:15:58  D:\05 GIT\01_masterRepo\Notepad++\session.xml is opened.
+2026-03-01 01:15:58  D:\05 GIT\01_masterRepo\Notepad++\session.xml  3317/3317 bytes are written.
+2026-03-01 01:15:58  D:\05 GIT\01_masterRepo\Notepad++\session.xml is closed.
+2026-03-01 01:15:58  WM_DESTROY (isEndSessionStarted == true)
+2026-03-01 02:23:26  WM_QUERYENDSESSION (lParam: 0 - ordinary system shutdown/restart) =====================================
+2026-03-01 02:23:26  WM_ENDSESSION (wParam: TRUE, lParam: 0 - ordinary system shutdown/restart)
+2026-03-01 02:23:26  D:\05 GIT\01_masterRepo\Notepad++\config.xml is opened.
+2026-03-01 02:23:26  D:\05 GIT\01_masterRepo\Notepad++\config.xml  10600/10600 bytes are written.
+2026-03-01 02:23:26  D:\05 GIT\01_masterRepo\Notepad++\config.xml is closed.
+2026-03-01 02:23:26  D:\05 GIT\01_masterRepo\Notepad++\session.xml is opened.
+2026-03-01 02:23:26  D:\05 GIT\01_masterRepo\Notepad++\session.xml  3326/3326 bytes are written.
+2026-03-01 02:23:26  D:\05 GIT\01_masterRepo\Notepad++\session.xml is closed.
+2026-03-01 02:23:26  WM_DESTROY (isEndSessionStarted == true)

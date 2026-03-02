@@ -2,16 +2,16 @@
 <NotepadPlus>
     <FindHistory nbMaxFindHistoryPath="10" nbMaxFindHistoryFilter="10" nbMaxFindHistoryFind="10" nbMaxFindHistoryReplace="10" matchWord="no" matchCase="no" wrap="yes" directionDown="yes" fifRecuisive="yes" fifInHiddenFolder="no" dlgAlwaysVisible="no" fifFilterFollowsDoc="no" fifFolderFollowsDoc="no" searchMode="1" transparencyMode="1" transparency="150" dotMatchesNewline="no" isSearch2ButtonsMode="no" fifProjectPanel1="no" fifProjectPanel2="no" fifProjectPanel3="no" regexBackward4PowerUser="no" bookmarkLine="no" purge="no">
         <Filter name="" />
+        <Find name="model.save" />
+        <Find name="conda remove" />
+        <Find name="warnings" />
+        <Find name="pip install" />
         <Find name="numpy - ever" />
         <Find name="numpy" />
         <Find name="requests" />
         <Find name="Python Ima" />
         <Find name="PIL" />
         <Find name="sys" />
-        <Find name="kaggle api" />
-        <Find name="import metho" />
-        <Find name="environment" />
-        <Find name="GIT" />
         <Replace name="*" />
         <Replace name="/" />
         <Replace name=")\n" />
@@ -24,7 +24,6 @@
         <root foldername="E:\ICS_Scheme\AS2.0\AS20242" />
     </FileBrowser>
     <History nbMaxFile="10" inSubMenu="no" customLength="-1">
-        <File filename="D:\Downloads\Sentiment Analysis Dataset 100000.csv" />
         <File filename="D:\Downloads\Tweets (1) (1) (2).csv" />
         <File filename="D:\05 GIT\01_masterRepo\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\39 EPGC - DL - Intro to NLP - Assignment\tweets.csv" />
         <File filename="D:\05 GIT\01_masterRepo\06_WebScraping_Udemy\7. Final Projects\Project 02 - Real Estate Details\01. properties-scraper.py" />
@@ -34,6 +33,7 @@
         <File filename="C:\Users\grv06\OneDrive\Desktop\git_push.bat" />
         <File filename="C:\Users\grv06\OneDrive\Desktop\git_pull.bat" />
         <File filename="D:\Downloads\logo.svg" />
+        <File filename="D:\Downloads\Eng_Hin_Translation Dataset\Dataset_English_Hindi.csv" />
     </History>
     <ProjectPanels>
         <ProjectPanel id="0" workSpaceFile="" />
