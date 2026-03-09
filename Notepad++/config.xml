@@ -2,38 +2,41 @@
 <NotepadPlus>
     <FindHistory nbMaxFindHistoryPath="10" nbMaxFindHistoryFilter="10" nbMaxFindHistoryFind="10" nbMaxFindHistoryReplace="10" matchWord="no" matchCase="no" wrap="yes" directionDown="yes" fifRecuisive="yes" fifInHiddenFolder="no" dlgAlwaysVisible="no" fifFilterFollowsDoc="no" fifFolderFollowsDoc="no" searchMode="1" transparencyMode="1" transparency="150" dotMatchesNewline="no" isSearch2ButtonsMode="no" fifProjectPanel1="no" fifProjectPanel2="no" fifProjectPanel3="no" regexBackward4PowerUser="no" bookmarkLine="no" purge="no">
         <Filter name="" />
+        <Find name="push&#x000D;&#x000A;cd" />
+        <Find name='git push&quot;' />
+        <Find name="_auto_push&apos;" />
+        <Find name="commit -m &apos;" />
+        <Find name="_projects&apos;&#x000D;&#x000A;git" />
+        <Find name='&quot;cd \&apos;' />
+        <Find name="&#x000D;&#x000A;" />
         <Find name="model.save" />
         <Find name="conda remove" />
         <Find name="warnings" />
-        <Find name="pip install" />
-        <Find name="numpy - ever" />
-        <Find name="numpy" />
-        <Find name="requests" />
-        <Find name="Python Ima" />
-        <Find name="PIL" />
-        <Find name="sys" />
+        <Replace name="push&#x000D;&#x000A;\n\ncd" />
+        <Replace name="git push" />
+        <Replace name='_auto_push&quot;' />
+        <Replace name='commit -m &quot;' />
+        <Replace name='_projects&quot;\ngit' />
+        <Replace name='cd &quot;' />
+        <Replace name=".git\n" />
         <Replace name="*" />
         <Replace name="/" />
         <Replace name=")\n" />
-        <Replace name=":" />
-        <Replace name=" " />
-        <Replace name=" 3." />
-        <Replace name=" 2.3" />
     </FindHistory>
     <FileBrowser latestSelectedItem="E:\ICS_Scheme\AS2.0\AS20242">
         <root foldername="E:\ICS_Scheme\AS2.0\AS20242" />
     </FileBrowser>
     <History nbMaxFile="10" inSubMenu="no" customLength="-1">
-        <File filename="D:\05 GIT\01_masterRepo\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\39 EPGC - DL - Intro to NLP - Assignment\tweets.csv" />
-        <File filename="D:\05 GIT\01_masterRepo\06_WebScraping_Udemy\7. Final Projects\Project 02 - Real Estate Details\01. properties-scraper.py" />
-        <File filename="D:\05 GIT\01_masterRepo\06_WebScraping_Udemy\7. Final Projects\Project 02 - Real Estate Details\02. restructured-properties-scraper.py" />
-        <File filename="D:\Downloads\TI84+CE\aaa.rom" />
-        <File filename="D:\Downloads\New folder (3)\CEmu-master\README.md" />
-        <File filename="C:\Users\grv06\OneDrive\Desktop\git_push.bat" />
+        <File filename="D:\Downloads\repo\06_Statistical_Analysis_projects\README.md" />
+        <File filename="D:\Downloads\repo\07_EDA_projects\README.md" />
+        <File filename="D:\05 GIT\old\03_g_translator\README.md" />
+        <File filename="D:\05 GIT\08_WebScraping_projects\06_selenium_ktk_v2\DEPLOYMENT_GUIDE.md" />
+        <File filename="D:\05 GIT\08_WebScraping_projects\06_selenium_ktk_v2\README.md" />
+        <File filename="D:\05 GIT\09_ML_projects\02_mlprojects\README.md" />
+        <File filename="D:\05 GIT\old\04_st_startups\app.py" />
+        <File filename="D:\05 GIT\old\07_st_censusDA\app.py" />
         <File filename="C:\Users\grv06\OneDrive\Desktop\git_pull.bat" />
-        <File filename="D:\Downloads\logo.svg" />
-        <File filename="D:\Downloads\Eng_Hin_Translation Dataset\Dataset_English_Hindi.csv" />
-        <File filename="D:\05 GIT\01_masterRepo\02_EPGC_Intellipaat\03 EPGC - Mandatory Assignments\45 EPGC - Power BI - Module 5 Assignment\LAB06.sql" />
+        <File filename="C:\Users\grv06\OneDrive\Desktop\git_push.bat" />
     </History>
     <ProjectPanels>
         <ProjectPanel id="0" workSpaceFile="" />
