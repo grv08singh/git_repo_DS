@@ -6,8 +6,13 @@
 
 #E97550 #1D78B7 #0F5989 #FACE0F
 
+<<<<<<< HEAD
+jupyter notebook --notebook-dir="D:\05 GIT\09_Eng_Hin_Translator_EncDec"
+jupyter notebook --notebook-dir="F:\Grv\Grv\01 GIT\01_masterRepo\Eng_Hin_Translator"
+=======
 jupyter notebook --notebook-dir="D:\05 GIT\12_GenAI_projects\01_EngHin_Translator_EncDec"
 jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\01_masterRepo\Eng_Hin_Translator"
+>>>>>>> a53f2108a4d57132add0b2eadc8c24575e156916
 
 
 
@@ -4783,100 +4788,6 @@ Import submodule	                import package.submodule	        Access with fu
 
 
 
-###############################################################################################################
-#### Python Environment
-###############################################################################################################
-
-## Open jupyter notebook at a specified path: Type in Anaconda Prompt
-jupyter notebook --notebook-dir="<path>"
-
-jupyter notebook --notebook-dir="D:\05 GIT\01_masterRepo\01_My_Learnings\05_NSO_work"
-jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\01_masterRepo\01_My_Learnings\06_RC_Cleaning"
-jupyter notebook --notebook-dir="D:\05 GIT\01_masterRepo\02_EPGC_Intellipaat\01 EPGC - Live Classes\2026.01.31 - EPGC GenAI - LSTM"
-
-jupyter notebook --notebook-dir="D:\05 GIT\09_Eng_Hin_Translator_EncDec"
-jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\08_WS_ML_DL_Project"
-
-
-## C:\Users\grv06\AppData\Roaming\Code\User\settings.json
-
-
-conda create --name <dummy_env> python=3.8                          #Create Python env using conda
-conda env list                                                      #list of env
-conda activate <dummy_env>                                          #activate an env
-conda deactivate                                                    #deactivate current env 
-conda list                                                          #list of installed packages in activated env
-conda env export --name <dummy_env> --file <dummy_env>.yml          #export env
-conda env create --file <dummy_env>.yml                             #import env OR create env from yml file
-conda remove --name <dummy_env> --all                               #remove / delete env
-python -m ipykernel install --user --name=<dummy_env>               #create an appropriate Jupyter Notebook kernel mapped to new environment
-
-
-
-
-python -m venv .venv                                                # Create Python environment using python
-# .\.venv\Scripts\activate.bat
-
-pip install -r requirements.txt
-
-
-######creating a GPU enabled env in cmd
-conda create --name tf-gpu python=3.9 -y
-conda activate tf-gpu
-conda install -c conda-forge cudatoolkit=11.2 cudnn=8.1.0 -y
-pip install "tensorflow<2.11"
-conda install pytorch torchvision torchaudio cudatoolkit=11.3 -c pytorch
-pip install jupyter notebook ipykernel
-python -m ipykernel install --user --name=tf-gpu --display-name "TensorFlow-GPU"
-
-import tensorflow as tf
-print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
-import torch
-print(torch.cuda.is_available())
-
-
-
-pip install numpy
-pip install pandas
-pip install matplotlib
-pip install seaborn
-pip install plotly
-
-pip install scipy
-pip install statsmodels
-
-pip install scikit-learn
-pip install xgboost
-pip install imbalanced-learn
-pip install mlxtend
-
-conda install tensorflow
-pip install nltk
-pip install contractions
-pip install emoji
-
-pip install requests
-pip install beautifulsoup4
-pip install selenium
-pip install scrapy
-pip install lxml
-pip install html5lib
-
-pip install Pillow
-pip install pytesseract
-pip install opencv-python
-
-pip install openpyxl
-pip install pyodbc
-pip install kaggle
-conda install -c conda-forge opencv
-
-
-
-
-
-
-
 
 ###############################################################################################################
 #### GIT
@@ -4956,3 +4867,99 @@ TimeTaken             : MostRecentAssessment
 WinSATAssessmentState : 1
 WinSPRLevel           : 8.1
 PSComputerName        :
+
+
+
+
+
+
+
+###############################################################################################################
+#### Python Environment
+###############################################################################################################
+
+## Open jupyter notebook at a specified path: Type in Anaconda Prompt
+jupyter notebook --notebook-dir="<path>"
+
+jupyter notebook --notebook-dir="D:\05 GIT\01_masterRepo\01_My_Learnings\05_NSO_work"
+jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\01_masterRepo\01_My_Learnings\06_RC_Cleaning"
+jupyter notebook --notebook-dir="D:\05 GIT\01_masterRepo\02_EPGC_Intellipaat\01 EPGC - Live Classes\2026.01.31 - EPGC GenAI - LSTM"
+
+jupyter notebook --notebook-dir="D:\05 GIT\09_Eng_Hin_Translator_EncDec"
+jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\08_WS_ML_DL_Project"
+
+
+## C:\Users\grv06\AppData\Roaming\Code\User\settings.json
+
+
+conda create --name <dummy_env> python=3.8                          #Create Python env using conda
+conda env list                                                      #list of env
+conda activate <dummy_env>                                          #activate an env
+conda deactivate                                                    #deactivate current env 
+conda list                                                          #list of installed packages in activated env
+conda env export --name <dummy_env> --file <dummy_env>.yml          #export env
+conda env create --file <dummy_env>.yml                             #import env OR create env from yml file
+conda remove --name <dummy_env> --all                               #remove / delete env
+python -m ipykernel install --user --name=<dummy_env>               #create an appropriate Jupyter Notebook kernel mapped to new environment
+jupyter kernelspec list                                             #list all jupyter notebook kernels for current environment
+jupyter kernelspec uninstall <kernel_name>
+
+
+
+
+python -m venv .venv                                                # Create Python environment using python
+# .\.venv\Scripts\activate.bat
+
+pip install -r requirements.txt
+
+
+######creating a GPU enabled env in cmd
+conda create --name tf-gpu python=3.9 -y
+conda activate tf-gpu
+conda install -c conda-forge cudatoolkit=11.2 cudnn=8.1.0 -y
+pip install "tensorflow<2.11"
+conda install pytorch torchvision torchaudio cudatoolkit=11.3 -c pytorch
+pip install jupyter notebook ipykernel
+python -m ipykernel install --user --name=tf-gpu --display-name "TensorFlow-GPU"
+
+import tensorflow as tf
+print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
+import torch
+print(torch.cuda.is_available())
+
+
+
+pip install numpy
+pip install pandas
+pip install matplotlib
+pip install seaborn
+pip install plotly
+
+pip install scipy
+pip install statsmodels
+
+pip install scikit-learn
+pip install xgboost
+pip install imbalanced-learn
+pip install mlxtend
+
+conda install tensorflow
+pip install nltk
+pip install contractions
+pip install emoji
+
+pip install requests
+pip install beautifulsoup4
+pip install selenium
+pip install scrapy
+pip install lxml
+pip install html5lib
+
+pip install Pillow
+pip install pytesseract
+pip install opencv-python
+
+pip install openpyxl
+pip install pyodbc
+pip install kaggle
+conda install -c conda-forge opencv
