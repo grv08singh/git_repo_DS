@@ -8,7 +8,7 @@
 
 <<<<<<< HEAD
 jupyter notebook --notebook-dir="D:\05 GIT\09_Eng_Hin_Translator_EncDec"
-jupyter notebook --notebook-dir="F:\Grv\Grv\01 GIT\01_masterRepo\Eng_Hin_Translator"
+jupyter notebook --notebook-dir="F:\Grv\Grv\01 GIT\12_GenAI_projects\01_EngHin_Translator_EncDec"
 =======
 jupyter notebook --notebook-dir="D:\05 GIT\12_GenAI_projects\01_EngHin_Translator_EncDec"
 jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\01_masterRepo\Eng_Hin_Translator"
