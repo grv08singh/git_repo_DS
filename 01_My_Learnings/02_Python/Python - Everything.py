@@ -9,6 +9,7 @@
 <<<<<<< HEAD
 jupyter notebook --notebook-dir="D:\05 GIT\09_Eng_Hin_Translator_EncDec"
 jupyter notebook --notebook-dir="F:\Grv\Grv\01 GIT\12_GenAI_projects\01_EngHin_Translator_EncDec"
+jupyter notebook --notebook-dir="F:\Grv\Grv\01 GIT\01_masterRepo\01_My_Learnings\02_Python\02_ML\03_self_ml_dl_models"
 =======
 jupyter notebook --notebook-dir="D:\05 GIT\12_GenAI_projects\01_EngHin_Translator_EncDec"
 jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\01_masterRepo\Eng_Hin_Translator"
