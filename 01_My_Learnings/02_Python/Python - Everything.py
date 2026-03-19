@@ -6,14 +6,18 @@
 
 #E97550 #1D78B7 #0F5989 #FACE0F
 
-<<<<<<< HEAD
-jupyter notebook --notebook-dir="D:\05 GIT\09_Eng_Hin_Translator_EncDec"
+
+
 jupyter notebook --notebook-dir="F:\Grv\Grv\01 GIT\12_GenAI_projects\01_EngHin_Translator_EncDec"
+<<<<<<< HEAD
 jupyter notebook --notebook-dir="F:\Grv\Grv\01 GIT\01_masterRepo\01_My_Learnings\02_Python\02_ML\03_self_ml_dl_models"
 =======
+=======
+
+>>>>>>> f2ef282126275353dbfc6d7a274dfa067bdeaad6
 jupyter notebook --notebook-dir="D:\05 GIT\12_GenAI_projects\01_EngHin_Translator_EncDec"
 jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\01_masterRepo\Eng_Hin_Translator"
->>>>>>> a53f2108a4d57132add0b2eadc8c24575e156916
+
 
 
 
