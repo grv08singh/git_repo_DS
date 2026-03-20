@@ -19,8 +19,173 @@ jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\01_masterRepo\Eng_Hi
 
 
 
+
+
+
+
+
+
 ###############################################################################################################
-#### DL - Encoder Decoder - Eng to French Translation
+#### Python Dependencies - pip/conda install
+###############################################################################################################
+
+
+pip install numpy
+pip install pandas
+pip install matplotlib
+pip install seaborn
+pip install plotly
+
+pip install scipy
+pip install statsmodels
+
+pip install scikit-learn
+pip install xgboost
+pip install imbalanced-learn
+pip install mlxtend
+
+conda install tensorflow
+pip install nltk
+pip install contractions
+pip install emoji
+
+pip install requests
+pip install beautifulsoup4
+pip install selenium
+pip install scrapy
+pip install lxml
+pip install html5lib
+
+pip install Pillow
+pip install pytesseract
+pip install opencv-python
+
+pip install openpyxl
+pip install pyodbc
+pip install kaggle
+conda install -c conda-forge opencv
+
+pip install langchain
+pip install langchain-community
+pip install langchain_openai
+pip install langchain_chroma
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###############################################################################################################
+#### Python Imports
+###############################################################################################################
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import warnings as wr
+wr.filterwarnings('ignore')
+
+#### Machine Learning (ML): sci-kit learn, xgboost, imblearn
+from sklearn.preprocessing import LabelEncoder,OneHotEncoder,OrdinalEncoder,StandardScaler,MinMaxScaler
+from sklearn.impute import SimpleImputer
+from sklearn.model_selection import train_test_split,cross_val_score,GridSearchCV,RandomizedSearchCV
+from imblearn.over_sampling import SMOTE                #SMOTE - Synthetic Minority Oversampling Technique
+
+from sklearn.linear_model import LinearRegression,LogisticRegression,SGDRegressor,SGDClassifier,Ridge,Lasso,ElasticNet
+from sklearn.tree import DecisionTreeRegressor,DecisionTreeClassifier
+from sklearn.ensemble import RandomForestRegressor,RandomForestClassifier,GradientBoostingRegressor,GradientBoostingClassifier
+from sklearn.svm import SVR,SVC
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import r2_score,accuracy_score,roc_auc_score,precision_score,recall_score,f1_score
+                            ,confusion_matrix,ConfusionMatrixDisplay,classification_report
+from xgboost import XGBRegressor, XGBClassifier
+
+from sklearn.cluster import KMeans
+from sklearn.decomposition import PCA
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+
+from sklearn.feature_selection import SelectKBest,chi2
+from sklearn.compose import ColumnTransformer,make_column_transformer
+from sklearn.pipeline import Pipeline,make_pipeline
+
+####Deep Learning (DL): tensorflow, keras
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras.datasets import mnist,fashion_mnist
+from tensorflow.keras.utils import to_categorical
+from tensorflow.keras.callbacks import TensorBoard, EarlyStopping, ReduceLROnPlateau
+from tensorflow.keras import Sequential
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout, BatchNormalization, Activation, Embedding
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.regularizers import l2
+from tensorflow.keras.preprocessing import image
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+
+from tensorflow.keras.preprocessing.text import Tokenizer
+from keras.layers import TextVectorization
+from keras.preprocessing.sequence import pad_sequences
+
+####Generative AI (GenAI): Langchain
+
+
+####Deep Learning (DL): pytorch
+
+
+
+
+
+
+
+
+
+
+
+
+###############################################################################################################
+#### GenAI (LangChain) - Build a Chatbot
+###############################################################################################################
+import os
+from langchain_chroma import Chroma                                     #Database Setup
+from langchain_core.prompts import PromptTemplate                       #to give instructions to LLM
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings               #to load encoder and model
+from langchain_text_splitters import CharacterTextSplitter              #to divide text file into smaller chunks
+from langchain_core.runnables import RunnablePassthrough                #to take input from user
+from langchain_core.output_parsers.string import StrOutputParser        #to format the output
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###############################################################################################################
+#### Generative AI (GenAI) - LSTM based Encoder Decoder in Keras - Eng to French Translation
 ###############################################################################################################
 import numpy as np
 from tensorflow.keras.models import Model
@@ -88,64 +253,1253 @@ for i,pred in enumerate(preds):
 
 
 
-
-
-
-
-
-
 ###############################################################################################################
-#### Python Imports
+#### Generative AI (GenAI) - LSTM based EncDec in Keras - Eng to Hindi Translation
 ###############################################################################################################
-
+#%%
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-import warnings as wr
-wr.filterwarnings('ignore')
-
-#### Machine Learning (ML): sci-kit learn, xgboost, imblearn
-from sklearn.preprocessing import LabelEncoder,OneHotEncoder,OrdinalEncoder,StandardScaler,MinMaxScaler
-from sklearn.impute import SimpleImputer
-from sklearn.model_selection import train_test_split,cross_val_score,GridSearchCV,RandomizedSearchCV
-from imblearn.over_sampling import SMOTE                #SMOTE - Synthetic Minority Oversampling Technique
-
-from sklearn.linear_model import LinearRegression,LogisticRegression,SGDRegressor,SGDClassifier,Ridge,Lasso,ElasticNet
-from sklearn.tree import DecisionTreeRegressor,DecisionTreeClassifier
-from sklearn.ensemble import RandomForestRegressor,RandomForestClassifier,GradientBoostingRegressor,GradientBoostingClassifier
-from sklearn.svm import SVR,SVC
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import r2_score,accuracy_score,roc_auc_score,precision_score,recall_score,f1_score
-                            ,confusion_matrix,ConfusionMatrixDisplay,classification_report
-from xgboost import XGBRegressor, XGBClassifier
-
-from sklearn.cluster import KMeans
-from sklearn.decomposition import PCA
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-
-from sklearn.feature_selection import SelectKBest,chi2
-from sklearn.compose import ColumnTransformer,make_column_transformer
-from sklearn.pipeline import Pipeline,make_pipeline
-
-####Deep Learning (DL): tensorflow, keras
+import re
+import pickle
+import json
+import time
+import os
 import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras.datasets import mnist,fashion_mnist
-from tensorflow.keras.utils import to_categorical
-from tensorflow.keras.callbacks import TensorBoard, EarlyStopping, ReduceLROnPlateau
-from tensorflow.keras import Sequential
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout, BatchNormalization, Activation, Embedding
-from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.regularizers import l2
-from tensorflow.keras.preprocessing import image
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
-
+from tensorflow.keras.layers import Embedding, LSTM, Dense, Layer, Input
+from tensorflow.keras.models import Model
 from tensorflow.keras.preprocessing.text import Tokenizer
-from keras.layers import TextVectorization
-from keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+#%%
+tf.random.set_seed(42)
+np.random.seed(42)
+#%%
+df = pd.read_csv("Dataset_English_Hindi.csv")
+df.drop_duplicates(inplace=True)
+df = df.dropna()
+df["English"] = df["English"].astype(str)
+df["Hindi"]   = df["Hindi"].astype(str)
+print(f"Total pairs: {len(df)}")
+#%%
+def clean_english(sentence):
+    sentence = sentence.lower().strip()
+    sentence = re.sub(r'[^a-zA-Z0-9\s]', '', sentence)
+    sentence = re.sub(r'https?://\S+|www\.\S+', '', sentence)
+    emoji_pattern = re.compile("["
+                           u"\U0001F600-\U0001F64F"  # emoticons
+                           u"\U0001F300-\U0001F5FF"  # symbols & pictographs
+                           u"\U0001F680-\U0001F6FF"  # transport & map symbols
+                           u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
+                           u"\U00002702-\U000027B0"
+                           u"\U000024C2-\U0001F251"
+                           "]+", flags=re.UNICODE)
+    sentence = emoji_pattern.sub(r'', sentence)
+    return sentence.strip()
+#%%
+def clean_hindi(sentence):
+    sentence = sentence.strip()
+    sentence = re.sub(r'[^\u0900-\u097F\s]', '', sentence)
+    sentence = re.sub(r'https?://\S+|www\.\S+', '', sentence)
+    return sentence.strip()
+#%%
+df["English"] = df["English"].apply(clean_english)
+df["Hindi"]   = df["Hindi"].apply(clean_hindi)
+#%%
+# Filter by sentence length for efficient training
+MAX_ENG_WORDS = 25
+MAX_HIN_WORDS = 30
+mask = (
+    df["English"].str.split().str.len().between(5, MAX_ENG_WORDS) &
+    df["Hindi"].str.split().str.len().between(5, MAX_HIN_WORDS)
+)
+df = df[mask].reset_index(drop=True)
+print(f"Pairs after length filter: {len(df)}")
+#%%
+# Add <start> / <end> tokens to Hindi
+df["Hindi_in"]  = "<sos> " + df["Hindi"]          # decoder input
+df["Hindi_out"] = df["Hindi"] + " <eos>"          # decoder target
+#%%
+# English tokenizer
+eng_tok = Tokenizer(filters="", lower=True, oov_token="<OOV>")
+eng_tok.fit_on_texts(df["English"])
+ENG_VOCAB = len(eng_tok.word_index) + 1
+#%%
+# Hindi tokenizer  (case-sensitive for Devanagari)
+hin_tok = Tokenizer(filters="", lower=False, oov_token="<OOV>")
+hin_tok.fit_on_texts(df["Hindi_in"].tolist() + df["Hindi_out"].tolist())
+HIN_VOCAB = len(hin_tok.word_index) + 1
+#%%
+print(f"English vocab: {ENG_VOCAB}  |  Hindi vocab: {HIN_VOCAB}")
+#%%
+df_enc_inp = pad_sequences(
+    eng_tok.texts_to_sequences(df["English"]),
+    maxlen = MAX_ENG_WORDS, padding="post"
+)
+df_dec_inp = pad_sequences(
+    hin_tok.texts_to_sequences(df["Hindi_in"]),
+    maxlen = MAX_HIN_WORDS + 1, padding="post"
+)
+df_dec_out = pad_sequences(
+    hin_tok.texts_to_sequences(df["Hindi_out"]),
+    maxlen = MAX_HIN_WORDS + 1, padding="post"
+)
+#%%
+ENG_SEQ_LEN = df_enc_inp.shape[1]
+HIN_SEQ_LEN = df_dec_inp.shape[1]
+print(f"Encoder seq len: {ENG_SEQ_LEN}  |  Decoder seq len: {HIN_SEQ_LEN}")
+print(f"df_enc_inp shape: {df_enc_inp.shape}")
+print(f"df_dec_out shape: {df_dec_out.shape}")
+#%%
+#Model Hyper Parameters
+EMBED_DIM = 512
+BATCH_SIZE = 32
+EPOCHS = 50
+#%%
+#Encoder
+enc_input = Input(shape=(ENG_SEQ_LEN,))
+enc_embed = Embedding(ENG_VOCAB, EMBED_DIM)(enc_input)
+enc_lstm = LSTM(EMBED_DIM, return_state=True)
+enc_out, enc_h, enc_c = enc_lstm(enc_embed)
+enc_model = Model(enc_input, [enc_out, enc_h, enc_c])
+#%%
+#Decoder
+dec_input = Input(shape=(HIN_SEQ_LEN,))
+dec_embed  = Embedding(HIN_VOCAB, EMBED_DIM, name="dec_embedding")(dec_input)
+dec_lstm = LSTM(EMBED_DIM, return_sequences=True, return_state=True)
+dec_out, dec_h, dec_c = dec_lstm(dec_embed, initial_state=[enc_h, enc_c])
+dec_dense  = Dense(HIN_VOCAB, activation='softmax', name="dec_dense")(dec_out)
+#%%
+#Model
+model = Model([enc_input, dec_input], dec_dense)
+model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+model.summary()
+#%%
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+early_stopping = EarlyStopping(monitor='accuracy', patience=5, restore_best_weights=True)
+#%%
+#Training
+history = model.fit(
+    x=[df_enc_inp, df_dec_inp],
+    y=df_dec_out,
+    batch_size=BATCH_SIZE,
+    epochs=EPOCHS,
+    callbacks = [early_stopping]
+)
+#%%
+#model.save("my_model.keras")
+#model.save_weights("my_model.weights.h5")
+#with open("my_model_architecture.json", 'w') as f:
+#    f.write(model.to_json())
 
-####Deep Learning (DL): pytorch
+history_df = pd.DataFrame(history.history)
+history_df.index      = range(1, len(history_df) + 1)   # epochs start from 1
+history_df.index.name = "epoch"
+history_df.to_csv("training_history.csv")
+#%%
+#Inference
+encoder_inf_model = Model(enc_input, [enc_h, enc_c])
+dec_emb_layer   = model.get_layer("dec_embedding")
+dec_dense_layer = model.get_layer("dec_dense")
+
+dec_inf_input   = Input(shape=(1,))
+dec_state_inp_h = Input(shape=(EMBED_DIM,))
+dec_state_inp_c = Input(shape=(EMBED_DIM,))
+
+dec_inf_embed = dec_emb_layer(dec_inf_input)
+dec_inf_out, dec_inf_h, dec_inf_c = dec_lstm(dec_inf_embed, initial_state=[dec_state_inp_h, dec_state_inp_c])
+dec_inf_dense = dec_dense_layer(dec_inf_out)
+
+decoder_inf_model = Model(
+    inputs  = [dec_inf_input, dec_state_inp_h, dec_state_inp_c],
+    outputs = [dec_inf_dense, dec_inf_h, dec_inf_c]
+)
+#%%
+#Translate
+hin_idx2word = {idx: word for word, idx in hin_tok.word_index.items()}
+sos_token    = hin_tok.word_index["<sos>"]
+eos_token    = hin_tok.word_index["<eos>"]
+#%%
+def translate(english_sentence, max_len=MAX_HIN_WORDS):
+    # Step 1: Clean and pad English input
+    eng_clean = clean_english(english_sentence)
+    eng_seq   = eng_tok.texts_to_sequences([eng_clean])
+    eng_pad   = pad_sequences(eng_seq, maxlen=ENG_SEQ_LEN, padding="post")
+
+    # Step 2: Encode → get initial states
+    h, c = encoder_inf_model.predict(eng_pad, verbose=0)
+
+    # Step 3: Start decoding with <sos>
+    target_token    = np.zeros((1, 1))
+    target_token[0, 0] = sos_token
+
+    translated = []
+
+    # Step 4: Decode one token at a time
+    for _ in range(max_len):
+        pred, h, c = decoder_inf_model.predict(
+            [target_token, h, c], verbose=0
+        )
+
+        predicted_id   = np.argmax(pred[0, 0, :])
+        predicted_word = hin_idx2word.get(predicted_id, "")
+
+        if predicted_id == eos_token or predicted_word == "":
+            break
+
+        translated.append(predicted_word)
+        target_token[0, 0] = predicted_id   # feed output as next input
+
+    return " ".join(translated)
+#%%
+#Test
+test_sentences = [
+    "How are you doing today",
+    "I want to eat food",
+    "The weather is very cold outside",
+    "She is going to the market",
+    "My name is Rahul",
+    "I love my country",
+    "He is a very good student",
+    "Please open the door",
+    "I am feeling very tired today",
+    "The dog is running in the park",
+    "Can you help me please",
+    "I want to drink water",
+    "She loves to read books",
+    "The sun rises in the east",
+    "I go to school every day",
+    "He does not like cold weather",
+    "We are going to the temple",
+    "The train is very late today",
+    "I want to sleep now",
+    "My mother cooks very delicious food"
+]
+
+for s in test_sentences:
+    print(f"English : {s}")
+    print(f"Hindi   : {translate(s)}")
+    print("-" * 40)
+#%%
+
+
+
+
+
+
+
+
+
+
+
+
+###############################################################################################################
+#### Generative AI (GenAI) - LSTM based EncDec in Keras with Bahdanau Attention - Eng to Hindi Translation
+###############################################################################################################
+#%%
+import numpy as np
+import pandas as pd
+import re
+import pickle
+import json
+import time
+import os
+import tensorflow as tf
+from tensorflow.keras.layers import Embedding, LSTM, Dense, Layer, Input, Concatenate
+from tensorflow.keras.models import Model
+from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+#%%
+tf.random.set_seed(42)
+np.random.seed(42)
+#%%
+df = pd.read_csv("Dataset_English_Hindi.csv")
+df.drop_duplicates(inplace=True)
+df = df.dropna()
+df["English"] = df["English"].astype(str)
+df["Hindi"]   = df["Hindi"].astype(str)
+print(f"Total pairs: {len(df)}")
+#%%
+def clean_english(sentence):
+    sentence = sentence.lower().strip()
+    sentence = re.sub(r'[^a-zA-Z0-9\s]', '', sentence)
+    sentence = re.sub(r'https?://\S+|www\.\S+', '', sentence)
+    emoji_pattern = re.compile("["
+                           u"\U0001F600-\U0001F64F"  # emoticons
+                           u"\U0001F300-\U0001F5FF"  # symbols & pictographs
+                           u"\U0001F680-\U0001F6FF"  # transport & map symbols
+                           u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
+                           u"\U00002702-\U000027B0"
+                           u"\U000024C2-\U0001F251"
+                           "]+", flags=re.UNICODE)
+    sentence = emoji_pattern.sub(r'', sentence)
+    return sentence.strip()
+#%%
+def clean_hindi(sentence):
+    sentence = sentence.strip()
+    sentence = re.sub(r'[^\u0900-\u097F\s]', '', sentence)
+    sentence = re.sub(r'https?://\S+|www\.\S+', '', sentence)
+    return sentence.strip()
+#%%
+df["English"] = df["English"].apply(clean_english)
+df["Hindi"]   = df["Hindi"].apply(clean_hindi)
+#%%
+# Filter by sentence length for efficient training
+
+
+MAX_ENG_WORDS = 25
+MAX_HIN_WORDS = 30
+
+
+mask = (
+    df["English"].str.split().str.len().between(5, MAX_ENG_WORDS) &
+    df["Hindi"].str.split().str.len().between(5, MAX_HIN_WORDS)
+)
+df = df[mask].reset_index(drop=True)
+print(f"Pairs after length filter: {len(df)}")
+#%%
+# Add <start> / <end> tokens to Hindi
+df["Hindi_in"]  = "<sos> " + df["Hindi"]          # decoder input
+df["Hindi_out"] = df["Hindi"] + " <eos>"          # decoder target
+#%%
+# English tokenizer
+eng_tok = Tokenizer(filters="", lower=True, oov_token="<OOV>")
+eng_tok.fit_on_texts(df["English"])
+ENG_VOCAB = len(eng_tok.word_index) + 1
+#%%
+# Hindi tokenizer  (case-sensitive for Devanagari)
+hin_tok = Tokenizer(filters="", lower=False, oov_token="<OOV>")
+hin_tok.fit_on_texts(df["Hindi_in"].tolist() + df["Hindi_out"].tolist())
+HIN_VOCAB = len(hin_tok.word_index) + 1
+#%%
+print(f"English vocab: {ENG_VOCAB}  |  Hindi vocab: {HIN_VOCAB}")
+#%%
+df_enc_inp = pad_sequences(
+    eng_tok.texts_to_sequences(df["English"]),
+    maxlen = MAX_ENG_WORDS, padding="post"
+)
+df_dec_inp = pad_sequences(
+    hin_tok.texts_to_sequences(df["Hindi_in"]),
+    maxlen = MAX_HIN_WORDS + 1, padding="post"
+)
+df_dec_out = pad_sequences(
+    hin_tok.texts_to_sequences(df["Hindi_out"]),
+    maxlen = MAX_HIN_WORDS + 1, padding="post"
+)
+#%%
+ENG_SEQ_LEN = df_enc_inp.shape[1]
+HIN_SEQ_LEN = df_dec_inp.shape[1]
+print(f"Encoder seq len: {ENG_SEQ_LEN}  |  Decoder seq len: {HIN_SEQ_LEN}")
+print(f"df_enc_inp shape: {df_enc_inp.shape}")
+print(f"df_dec_out shape: {df_dec_out.shape}")
+#%%
+#Model Hyper Parameters
+EMBED_DIM = 512
+BATCH_SIZE = 32
+EPOCHS = 50
+#%%
+#as Keras doesn't have an in-built Bahdanau Attention Class
+#here is a custom class for the same
+class BahdanauAttention(Layer):
+    def __init__(self, units, **kwargs):
+        super().__init__(**kwargs)
+        self.units = units
+        self.W1 = Dense(units, name="attn_W1")   # projects encoder states
+        self.W2 = Dense(units, name="attn_W2")   # projects decoder states
+        self.V  = Dense(1,     name="attn_V")    # scalar score per enc step
+
+    def call(self, query, values):
+        # query  : (batch, dec_len, EMBED_DIM)  — decoder hidden states
+        # values : (batch, enc_len, EMBED_DIM)  — encoder hidden states
+
+        # Expand for broadcasting over both sequence axes
+        query_exp  = tf.expand_dims(query,  2)   # (batch, dec_len, 1,       EMBED_DIM)
+        values_exp = tf.expand_dims(values, 1)   # (batch, 1,       enc_len, EMBED_DIM)
+
+        # score : (batch, dec_len, enc_len)
+        score = self.V(tf.nn.tanh(self.W1(values_exp) + self.W2(query_exp)))
+        score = tf.squeeze(score, axis=-1)
+
+        # Softmax over the encoder-length axis
+        attn_weights = tf.nn.softmax(score, axis=-1)   # (batch, dec_len, enc_len)
+
+        # Weighted sum of encoder states → context
+        context = tf.matmul(attn_weights, values)      # (batch, dec_len, EMBED_DIM)
+        return context, attn_weights
+
+    def get_config(self):
+        config = super().get_config()
+        config.update({"units": self.units})
+        return config
+#%%
+#Encoder Model
+enc_input = Input(shape=(ENG_SEQ_LEN,), name="enc_input")
+
+enc_embedding_layer = Embedding(ENG_VOCAB, EMBED_DIM, name="enc_embedding") #shared layer
+enc_embed = enc_embedding_layer(enc_input)
+
+enc_lstm = LSTM(EMBED_DIM, return_sequences=True, return_state=True, name="enc_lstm") #shared layer
+enc_out, enc_h, enc_c = enc_lstm(enc_embed)
+
+enc_model = Model(enc_input, [enc_out, enc_h, enc_c])
+#%%
+#Decoder Model
+dec_input = Input(shape=(HIN_SEQ_LEN,), name="dec_input")
+
+dec_embedding_layer = Embedding(HIN_VOCAB, EMBED_DIM, name="dec_embedding") #shared layer
+dec_embed = dec_embedding_layer(dec_input)
+
+dec_lstm = LSTM(EMBED_DIM, return_sequences=True, return_state=True, name="dec_lstm") #shared layer
+dec_out, dec_h, dec_c = dec_lstm(dec_embed, initial_state=[enc_h, enc_c])
+
+#dec_dense  = Dense(HIN_VOCAB, activation='softmax', name="dec_dense")(dec_out)
+#%%
+#Bahdanau Attention Model
+attn_layer = BahdanauAttention(EMBED_DIM, name="bahdanau_attention") #shared layer
+context_vector, _ = attn_layer(dec_out, enc_out)
+
+concat_layer = Concatenate(axis=-1, name="context_concat") #shared layer
+dec_combined = concat_layer([dec_out, context_vector])
+#%%
+#Dense Layer
+dec_dense_layer = Dense(HIN_VOCAB, activation='softmax', name="dec_dense") #shared layer
+dec_dense = dec_dense_layer(dec_combined)
+#%%
+#Model
+model = Model([enc_input, dec_input], dec_dense)
+model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+model.summary()
+#%%
+from tensorflow.keras.callbacks import EarlyStopping
+early_stopping = EarlyStopping(monitor='accuracy', patience=5, restore_best_weights=True)
+#%%
+#Training
+history = model.fit(
+    x=[df_enc_inp, df_dec_inp],
+    y=df_dec_out,
+    batch_size=BATCH_SIZE,
+    epochs=EPOCHS,
+    callbacks = [early_stopping]
+)
+#%%
+#model.save("my_model.keras")
+#model.save_weights("my_model.weights.h5")
+#with open("my_model_architecture.json", 'w') as f:
+#    f.write(model.to_json())
+
+history_df = pd.DataFrame(history.history)
+history_df.index = range(1, len(history_df) + 1)   # epochs start from 1
+history_df.index.name = "epoch"
+history_df.to_csv("training_history.csv")
+#%%
+# Inference — Encoder Model
+encoder_inf_model = Model(enc_input, [enc_out, enc_h, enc_c])
+
+# Inference — Decoder Model (one token at a time)
+dec_inf_input = Input(shape=(1,), name="dec_inf_input")
+dec_state_inp_h = Input(shape=(EMBED_DIM,), name="dec_state_inp_h")
+dec_state_inp_c = Input(shape=(EMBED_DIM,), name="dec_state_inp_c")
+enc_outputs_inp = Input(shape=(ENG_SEQ_LEN, EMBED_DIM), name="enc_outputs_inp")
+
+dec_inf_embed = dec_embedding_layer(dec_inf_input)    # (batch, 1, EMBED_DIM)
+
+dec_inf_out, dec_inf_h, dec_inf_c = dec_lstm(
+    dec_inf_embed, initial_state=[dec_state_inp_h, dec_state_inp_c]
+)  # dec_inf_out : (batch, 1, EMBED_DIM)
+
+# Attend over the full encoder output sequence at every decode step
+context_inf, attn_inf = attn_layer(dec_inf_out, enc_outputs_inp)
+# context_inf : (batch, 1, EMBED_DIM)
+
+dec_inf_combined = concat_layer([dec_inf_out, context_inf])
+dec_inf_dense    = dec_dense_layer(dec_inf_combined)
+# dec_inf_dense : (batch, 1, HIN_VOCAB)
+
+decoder_inf_model = Model(
+    inputs  = [dec_inf_input, dec_state_inp_h, dec_state_inp_c, enc_outputs_inp],
+    outputs = [dec_inf_dense, dec_inf_h, dec_inf_c]
+)
+#%%
+#Translate
+hin_idx2word = {idx: word for word, idx in hin_tok.word_index.items()}
+sos_token    = hin_tok.word_index["<sos>"]
+eos_token    = hin_tok.word_index["<eos>"]
+#%%
+def translate(english_sentence, max_len=MAX_HIN_WORDS):
+    # Step 1: Clean and pad English input
+    eng_clean = clean_english(english_sentence)
+    eng_seq   = eng_tok.texts_to_sequences([eng_clean])
+    eng_pad   = pad_sequences(eng_seq, maxlen=ENG_SEQ_LEN, padding="post")
+
+    # Step 2: Encode → all encoder hidden states + initial decoder states
+    enc_outs, h, c = encoder_inf_model.predict(eng_pad, verbose=0)
+
+    # Step 3: Start decoding with <sos>
+    target_token = np.zeros((1, 1))
+    target_token[0, 0] = sos_token
+
+    translated = []
+
+    # Step 4: Decode one token at a time, attending over enc_outs each step
+    for _ in range(max_len):
+        pred, h, c = decoder_inf_model.predict(
+            [target_token, h, c, enc_outs], verbose=0
+        )
+
+        predicted_id   = np.argmax(pred[0, 0, :])
+        predicted_word = hin_idx2word.get(predicted_id, "")
+
+        if predicted_id == eos_token or predicted_word == "":
+            break
+
+        translated.append(predicted_word)
+        target_token[0, 0] = predicted_id   # feed output as next input
+
+    return " ".join(translated)
+#%%
+#Test
+test_sentences = [
+    "How are you doing today",
+    "I want to eat food",
+    "The weather is very cold outside",
+    "She is going to the market",
+    "My name is Rahul",
+    "I love my country",
+    "He is a very good student",
+    "Please open the door",
+    "I am feeling very tired today",
+    "The dog is running in the park",
+    "Can you help me please",
+    "I want to drink water",
+    "She loves to read books",
+    "The sun rises in the east",
+    "I go to school every day",
+    "He does not like cold weather",
+    "We are going to the temple",
+    "The train is very late today",
+    "I want to sleep now",
+    "My mother cooks very delicious food"
+]
+
+for s in test_sentences:
+    print(f"English : {s}")
+    print(f"Hindi   : {translate(s)}")
+    print("-" * 40)
+#%%
+
+#%%
+
+#%%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###############################################################################################################
+#### Generative AI (GenAI) - LSTM based EncDec in Keras with Luong Attention - Eng to Hindi Translation
+###############################################################################################################
+#%%
+import numpy as np
+import pandas as pd
+import re
+import pickle
+import json
+import time
+import os
+import tensorflow as tf
+from tensorflow.keras.layers import Embedding, LSTM, Dense, Layer, Input
+from tensorflow.keras.models import Model
+from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+#%%
+tf.random.set_seed(42)
+np.random.seed(42)
+#%%
+df = pd.read_csv("Dataset_English_Hindi.csv")
+df.drop_duplicates(inplace=True)
+df = df.dropna()
+df["English"] = df["English"].astype(str)
+df["Hindi"] = df["Hindi"].astype(str)
+print(f"Total pairs: {len(df)}")
+#%%
+def clean_english(sentence):
+    sentence = sentence.lower().strip()
+    sentence = re.sub(r'[^a-zA-Z0-9\s]', '', sentence)
+    sentence = re.sub(r'https?://\S+|www\.\S+', '', sentence)
+    emoji_pattern = re.compile("["
+        u"\U0001F600-\U0001F64F"
+        u"\U0001F300-\U0001F5FF"
+        u"\U0001F680-\U0001F6FF"
+        u"\U0001F1E0-\U0001F1FF"
+        u"\U00002702-\U000027B0"
+        u"\U000024C2-\U0001F251"
+        "]+", flags=re.UNICODE)
+    sentence = emoji_pattern.sub(r'', sentence)
+    return sentence.strip()
+#%%
+def clean_hindi(sentence):
+    sentence = sentence.strip()
+    sentence = re.sub(r'[^\u0900-\u097F\s]', '', sentence)
+    sentence = re.sub(r'https?://\S+|www\.\S+', '', sentence)
+    return sentence.strip()
+#%%
+df["English"] = df["English"].apply(clean_english)
+df["Hindi"] = df["Hindi"].apply(clean_hindi)
+#%%
+MAX_ENG_WORDS = 25
+MAX_HIN_WORDS = 30
+mask = (
+    df["English"].str.split().str.len().between(5, MAX_ENG_WORDS) &
+    df["Hindi"].str.split().str.len().between(5, MAX_HIN_WORDS)
+)
+df = df[mask].reset_index(drop=True)
+print(f"Pairs after length filter: {len(df)}")
+#%%
+# Add <start> / <end> tokens to Hindi
+df["Hindi_in"] = "<sos> " + df["Hindi"]   # decoder input
+df["Hindi_out"] = df["Hindi"] + " <eos>"  # decoder target
+#%%
+# English tokenizer
+eng_tok = Tokenizer(filters="", lower=True, oov_token="<OOV>")
+eng_tok.fit_on_texts(df["English"])
+ENG_VOCAB = len(eng_tok.word_index) + 1
+#%%
+# Hindi tokenizer (case-sensitive for Devanagari)
+hin_tok = Tokenizer(filters="", lower=False, oov_token="<OOV>")
+hin_tok.fit_on_texts(df["Hindi_in"].tolist() + df["Hindi_out"].tolist())
+HIN_VOCAB = len(hin_tok.word_index) + 1
+#%%
+print(f"English vocab: {ENG_VOCAB} | Hindi vocab: {HIN_VOCAB}")
+#%%
+df_enc_inp = pad_sequences(
+    eng_tok.texts_to_sequences(df["English"]),
+    maxlen=MAX_ENG_WORDS, padding="post"
+)
+df_dec_inp = pad_sequences(
+    hin_tok.texts_to_sequences(df["Hindi_in"]),
+    maxlen=MAX_HIN_WORDS + 1, padding="post"
+)
+df_dec_out = pad_sequences(
+    hin_tok.texts_to_sequences(df["Hindi_out"]),
+    maxlen=MAX_HIN_WORDS + 1, padding="post"
+)
+#%%
+ENG_SEQ_LEN = df_enc_inp.shape[1]
+HIN_SEQ_LEN = df_dec_inp.shape[1]
+print(f"Encoder seq len: {ENG_SEQ_LEN} | Decoder seq len: {HIN_SEQ_LEN}")
+print(f"df_enc_inp shape: {df_enc_inp.shape}")
+print(f"df_dec_out shape: {df_dec_out.shape}")
+#%%
+EMBED_DIM = 512
+BATCH_SIZE = 32
+EPOCHS = 25
+#%%
+# Custom Luong Attention Layer
+class LuongAttention(Layer):
+    """
+    Luong 'general' attention:
+        score(s_t, h_i) = s_t^T * W_a * h_i
+        alpha            = softmax(scores)
+        context          = sum(alpha * encoder_outputs)
+    """
+    def __init__(self, units, **kwargs):
+        super(LuongAttention, self).__init__(**kwargs)
+        self.units = units
+        self.W = Dense(units, use_bias=False, name="attention_W")
+
+    def call(self, decoder_outputs, encoder_outputs):
+        # decoder_outputs : (batch, dec_len, units)
+        # encoder_outputs : (batch, enc_len, units)
+
+        # Linear transform on decoder side → (batch, dec_len, units)
+        query = self.W(decoder_outputs)
+
+        # Dot with encoder outputs → scores (batch, dec_len, enc_len)
+        scores = tf.matmul(query, encoder_outputs, transpose_b=True)
+        attention_weights = tf.nn.softmax(scores, axis=-1)
+
+        # Weighted sum of encoder outputs → (batch, dec_len, units)
+        context = tf.matmul(attention_weights, encoder_outputs)
+
+        return context, attention_weights
+
+    def get_config(self):
+        config = super().get_config()
+        config.update({"units": self.units})
+        return config
+#%%
+# Encoder
+# CHANGED: return_sequences=True  →  gives all timestep outputs for attention
+enc_input = Input(shape=(ENG_SEQ_LEN,))
+enc_embed = Embedding(ENG_VOCAB, EMBED_DIM)(enc_input)
+enc_lstm  = LSTM(EMBED_DIM, return_sequences=True, return_state=True, name="enc_lstm")
+enc_all_out, enc_h, enc_c = enc_lstm(enc_embed)
+
+enc_model = Model(enc_input, [enc_all_out, enc_h, enc_c])
+#%%
+# Decoder
+dec_input = Input(shape=(HIN_SEQ_LEN,))
+dec_embed = Embedding(HIN_VOCAB, EMBED_DIM, name="dec_embedding")(dec_input)
+dec_lstm  = LSTM(EMBED_DIM, return_sequences=True, return_state=True, name="dec_lstm")
+dec_out, dec_h, dec_c = dec_lstm(dec_embed, initial_state=[enc_h, enc_c])
+#%%
+# Luong Attention
+attention_layer = LuongAttention(EMBED_DIM, name="luong_attention")
+context, _ = attention_layer(dec_out, enc_all_out)
+#%%
+#concat_out = tf.concat([dec_out, context], axis=-1)        # (batch, dec_len, 2*EMBED_DIM)
+concat_out = tf.keras.layers.Concatenate(axis=-1, name="concat_attn_train")([dec_out, context])
+attn_dense = Dense(EMBED_DIM, activation='tanh', name="attn_dense")
+attn_out   = attn_dense(concat_out)                        # (batch, dec_len, EMBED_DIM)
+
+dec_dense    = Dense(HIN_VOCAB, activation='softmax', name="dec_dense")
+dec_final_out = dec_dense(attn_out)
+#%%
+#Model
+model = Model([enc_input, dec_input], dec_final_out)
+model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+model.summary()
+#%%
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+early_stopping = EarlyStopping(monitor='accuracy', patience=5, restore_best_weights=True)
+#%%
+# Training
+history = model.fit(
+    x=[df_enc_inp, df_dec_inp],
+    y=df_dec_out,
+    batch_size=BATCH_SIZE,
+    epochs=EPOCHS,
+    callbacks=[early_stopping]
+)
+#%%
+model.save("my_model.keras")
+model.save_weights("my_model.weights.h5")
+with open("my_model_architecture.json", 'w') as f:
+    f.write(model.to_json())
+
+history_df = pd.DataFrame(history.history)
+history_df.index = range(1, len(history_df) + 1)
+history_df.index.name = "epoch"
+history_df.to_csv("training_history.csv")
+#%%
+# Inference
+# Encoder inference: returns all outputs + final states
+encoder_inf_model = Model(enc_input, [enc_all_out, enc_h, enc_c])
+
+# Reuse trained layers
+dec_emb_layer   = model.get_layer("dec_embedding")
+dec_dense_layer = model.get_layer("dec_dense")
+attn_dense_layer = model.get_layer("attn_dense")
+
+# Decoder inference inputs
+dec_inf_input      = Input(shape=(1,))
+dec_state_inp_h    = Input(shape=(EMBED_DIM,))
+dec_state_inp_c    = Input(shape=(EMBED_DIM,))
+enc_outputs_input  = Input(shape=(ENG_SEQ_LEN, EMBED_DIM), name="enc_outputs_input")  # NEW
+
+dec_inf_embed = dec_emb_layer(dec_inf_input)
+dec_inf_out, dec_inf_h, dec_inf_c = dec_lstm(
+    dec_inf_embed, initial_state=[dec_state_inp_h, dec_state_inp_c]
+)
+
+# Single-step attention
+context_inf, _ = attention_layer(dec_inf_out, enc_outputs_input)
+concat_inf = tf.keras.layers.Concatenate(axis=-1, name="concat_attn_inf")([dec_inf_out, context_inf])
+attn_inf_out    = attn_dense_layer(concat_inf)
+dec_inf_dense   = dec_dense_layer(attn_inf_out)
+
+decoder_inf_model = Model(
+    inputs  = [dec_inf_input, dec_state_inp_h, dec_state_inp_c, enc_outputs_input],
+    outputs = [dec_inf_dense, dec_inf_h, dec_inf_c]
+)
+#%%
+# Translate
+hin_idx2word = {idx: word for word, idx in hin_tok.word_index.items()}
+sos_token    = hin_tok.word_index["<sos>"]
+eos_token    = hin_tok.word_index["<eos>"]
+#%%
+def translate(english_sentence, max_len=MAX_HIN_WORDS):
+    # Step 1: Clean and pad English input
+    eng_clean = clean_english(english_sentence)
+    eng_seq   = eng_tok.texts_to_sequences([eng_clean])
+    eng_pad   = pad_sequences(eng_seq, maxlen=ENG_SEQ_LEN, padding="post")
+
+    # Step 2: Encode → get all outputs + initial states
+    enc_all_outputs, h, c = encoder_inf_model.predict(eng_pad, verbose=0)
+
+    # Step 3: Start decoding with <sos>
+    target_token = np.zeros((1, 1))
+    target_token[0, 0] = sos_token
+
+    translated = []
+
+    # Step 4: Decode one token at a time
+    for _ in range(max_len):
+        pred, h, c = decoder_inf_model.predict(
+            [target_token, h, c, enc_all_outputs], verbose=0
+        )
+
+        predicted_id   = np.argmax(pred[0, 0, :])
+        predicted_word = hin_idx2word.get(predicted_id, "")
+
+        if predicted_id == eos_token or predicted_word == "":
+            break
+
+        translated.append(predicted_word)
+        target_token[0, 0] = predicted_id  # feed output as next input
+
+    return " ".join(translated)
+#%%
+# Test
+test_sentences = [
+    "How are you doing today",
+    "I want to eat food",
+    "The weather is very cold outside",
+    "She is going to the market",
+    "My name is Rahul",
+    "I love my country",
+    "He is a very good student",
+    "Please open the door",
+    "I am feeling very tired today",
+    "The dog is running in the park",
+    "Can you help me please",
+    "I want to drink water",
+    "She loves to read books",
+    "The sun rises in the east",
+    "I go to school every day",
+    "He does not like cold weather",
+    "We are going to the temple",
+    "The train is very late today",
+    "I want to sleep now",
+    "My mother cooks very delicious food"
+]
+
+for s in test_sentences:
+    print(f"English : {s}")
+    print(f"Hindi   : {translate(s)}")
+    print("-" * 80)
+#%%
+
+
+
+
+
+
+
+
+
+
+
+
+###############################################################################################################
+#### Generative AI (GenAI) - LSTM based EncDec in Keras with with Transformers - Eng to Hindi Translation
+###############################################################################################################
+#%%
+import numpy as np
+import pandas as pd
+import re
+import pickle
+import json
+import time
+import os
+import tensorflow as tf
+from tensorflow.keras.layers import Embedding, Dense, Layer, Input, Dropout, LayerNormalization
+from tensorflow.keras.models import Model
+from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+#%%
+tf.random.set_seed(42)
+np.random.seed(42)
+#%%
+df = pd.read_csv("Dataset_English_Hindi.csv")
+df.drop_duplicates(inplace=True)
+df = df.dropna()
+df["English"] = df["English"].astype(str)
+df["Hindi"]   = df["Hindi"].astype(str)
+print(f"Total pairs: {len(df)}")
+#%%
+def clean_english(sentence):
+    sentence = sentence.lower().strip()
+    sentence = re.sub(r'[^a-zA-Z0-9\s]', '', sentence)
+    sentence = re.sub(r'https?://\S+|www\.\S+', '', sentence)
+    emoji_pattern = re.compile("["
+        u"\U0001F600-\U0001F64F"
+        u"\U0001F300-\U0001F5FF"
+        u"\U0001F680-\U0001F6FF"
+        u"\U0001F1E0-\U0001F1FF"
+        u"\U00002702-\U000027B0"
+        u"\U000024C2-\U0001F251"
+        "]+", flags=re.UNICODE)
+    sentence = emoji_pattern.sub(r'', sentence)
+    return sentence.strip()
+#%%
+def clean_hindi(sentence):
+    sentence = sentence.strip()
+    sentence = re.sub(r'[^\u0900-\u097F\s]', '', sentence)
+    sentence = re.sub(r'https?://\S+|www\.\S+', '', sentence)
+    return sentence.strip()
+#%%
+df["English"] = df["English"].apply(clean_english)
+df["Hindi"]   = df["Hindi"].apply(clean_hindi)
+#%%
+MAX_ENG_WORDS = 25
+MAX_HIN_WORDS = 30
+mask = (
+    df["English"].str.split().str.len().between(5, MAX_ENG_WORDS) &
+    df["Hindi"].str.split().str.len().between(5, MAX_HIN_WORDS)
+)
+df = df[mask].reset_index(drop=True)
+print(f"Pairs after length filter: {len(df)}")
+#%%
+df["Hindi_in"]  = "<sos> " + df["Hindi"]
+df["Hindi_out"] = df["Hindi"] + " <eos>"
+#%%
+eng_tok = Tokenizer(filters="", lower=True, oov_token="<OOV>")
+eng_tok.fit_on_texts(df["English"])
+ENG_VOCAB = len(eng_tok.word_index) + 1
+#%%
+hin_tok = Tokenizer(filters="", lower=False, oov_token="<OOV>")
+hin_tok.fit_on_texts(df["Hindi_in"].tolist() + df["Hindi_out"].tolist())
+HIN_VOCAB = len(hin_tok.word_index) + 1
+#%%
+print(f"English vocab: {ENG_VOCAB} | Hindi vocab: {HIN_VOCAB}")
+#%%
+df_enc_inp = pad_sequences(
+    eng_tok.texts_to_sequences(df["English"]),
+    maxlen=MAX_ENG_WORDS, padding="post"
+)
+df_dec_inp = pad_sequences(
+    hin_tok.texts_to_sequences(df["Hindi_in"]),
+    maxlen=MAX_HIN_WORDS + 1, padding="post"
+)
+df_dec_out = pad_sequences(
+    hin_tok.texts_to_sequences(df["Hindi_out"]),
+    maxlen=MAX_HIN_WORDS + 1, padding="post"
+)
+#%%
+ENG_SEQ_LEN = df_enc_inp.shape[1]
+HIN_SEQ_LEN = df_dec_inp.shape[1]
+print(f"Encoder seq len: {ENG_SEQ_LEN} | Decoder seq len: {HIN_SEQ_LEN}")
+print(f"df_enc_inp shape: {df_enc_inp.shape}")
+print(f"df_dec_out shape: {df_dec_out.shape}")
+#%%
+EMBED_DIM    = 256
+NUM_HEADS    = 8
+DFF          = 512
+NUM_LAYERS   = 4
+DROPOUT_RATE = 0.1
+BATCH_SIZE   = 64
+EPOCHS       = 30
+#%%
+def get_positional_encoding(max_len, embed_dim):
+    positions = np.arange(max_len)[:, np.newaxis]
+    dims      = np.arange(embed_dim)[np.newaxis, :]
+    angles    = positions / np.power(10000, (2 * (dims // 2)) / np.float32(embed_dim))
+    angles[:, 0::2] = np.sin(angles[:, 0::2])
+    angles[:, 1::2] = np.cos(angles[:, 1::2])
+    return tf.cast(angles[np.newaxis, :, :], dtype=tf.float32)
+#%%
+class PositionalEmbedding(Layer):
+    """Token embedding scaled by sqrt(embed_dim) + fixed sinusoidal positional encoding."""
+    def __init__(self, vocab_size, embed_dim, max_len, dropout_rate=0.1, **kwargs):
+        super().__init__(**kwargs)
+        self.vocab_size   = vocab_size
+        self.embed_dim    = embed_dim
+        self.max_len      = max_len
+        self.dropout_rate = dropout_rate
+        # mask_zero=True → padding mask auto-propagates into MultiHeadAttention (TF ≥ 2.10)
+        self.embedding    = Embedding(vocab_size, embed_dim, mask_zero=True)
+        self.pos_enc      = get_positional_encoding(max_len, embed_dim)
+        self.dropout      = Dropout(dropout_rate)
+
+    def call(self, x, training=False):
+        seq_len = tf.shape(x)[1]
+        x  = self.embedding(x)
+        x *= tf.math.sqrt(tf.cast(self.embed_dim, tf.float32))  # scale as in "Attention Is All You Need"
+        x += self.pos_enc[:, :seq_len, :]
+        return self.dropout(x, training=training)
+
+    # Propagate the padding mask from the embedding through subsequent layers
+    def compute_mask(self, inputs, mask=None):
+        return self.embedding.compute_mask(inputs)
+
+    def get_config(self):
+        config = super().get_config()
+        config.update({"vocab_size": self.vocab_size, "embed_dim": self.embed_dim,
+                        "max_len": self.max_len, "dropout_rate": self.dropout_rate})
+        return config
+#%%
+class EncoderLayer(Layer):
+    """One Transformer encoder block: self-attention + position-wise FFN (both with Add & Norm)."""
+    def __init__(self, embed_dim, num_heads, dff, dropout_rate=0.1, **kwargs):
+        super().__init__(**kwargs)
+        self.embed_dim    = embed_dim
+        self.num_heads    = num_heads
+        self.dff          = dff
+        self.dropout_rate = dropout_rate
+        self.self_attn    = tf.keras.layers.MultiHeadAttention(
+            num_heads=num_heads, key_dim=embed_dim // num_heads, dropout=dropout_rate
+        )
+        self.ffn_dense1   = Dense(dff, activation='relu')
+        self.ffn_dense2   = Dense(embed_dim)
+        self.norm1        = LayerNormalization(epsilon=1e-6)
+        self.norm2        = LayerNormalization(epsilon=1e-6)
+        self.dropout1     = Dropout(dropout_rate)
+        self.dropout2     = Dropout(dropout_rate)
+
+    def call(self, x, training=False):
+        attn_out = self.self_attn(x, x, training=training)         # padding mask auto-applied from x's mask
+        x = self.norm1(x + self.dropout1(attn_out, training=training))
+        ffn_out = self.ffn_dense2(self.ffn_dense1(x))
+        x = self.norm2(x + self.dropout2(ffn_out, training=training))
+        return x
+
+    def get_config(self):
+        config = super().get_config()
+        config.update({"embed_dim": self.embed_dim, "num_heads": self.num_heads,
+                        "dff": self.dff, "dropout_rate": self.dropout_rate})
+        return config
+#%%
+class DecoderLayer(Layer):
+    """
+    One Transformer decoder block:
+      1. Masked self-attention  (causal — prevents peeking at future tokens)
+      2. Cross-attention        (attends to encoder output)
+      3. Position-wise FFN
+    All three sub-layers wrapped with Add & Norm.
+    """
+    def __init__(self, embed_dim, num_heads, dff, dropout_rate=0.1, **kwargs):
+        super().__init__(**kwargs)
+        self.embed_dim    = embed_dim
+        self.num_heads    = num_heads
+        self.dff          = dff
+        self.dropout_rate = dropout_rate
+        self.self_attn    = tf.keras.layers.MultiHeadAttention(
+            num_heads=num_heads, key_dim=embed_dim // num_heads, dropout=dropout_rate
+        )
+        self.cross_attn   = tf.keras.layers.MultiHeadAttention(
+            num_heads=num_heads, key_dim=embed_dim // num_heads, dropout=dropout_rate
+        )
+        self.ffn_dense1   = Dense(dff, activation='relu')
+        self.ffn_dense2   = Dense(embed_dim)
+        self.norm1        = LayerNormalization(epsilon=1e-6)
+        self.norm2        = LayerNormalization(epsilon=1e-6)
+        self.norm3        = LayerNormalization(epsilon=1e-6)
+        self.dropout1     = Dropout(dropout_rate)
+        self.dropout2     = Dropout(dropout_rate)
+        self.dropout3     = Dropout(dropout_rate)
+
+    def call(self, x, enc_output, training=False):
+        # 1. Masked self-attention: use_causal_mask=True prevents future-token leakage
+        attn1 = self.self_attn(x, x, use_causal_mask=True, training=training)
+        x = self.norm1(x + self.dropout1(attn1, training=training))
+
+        # 2. Cross-attention: query = decoder state, key/value = encoder output
+        attn2 = self.cross_attn(x, enc_output, training=training)  # encoder padding mask auto-applied
+        x = self.norm2(x + self.dropout2(attn2, training=training))
+
+        # 3. Position-wise FFN
+        ffn_out = self.ffn_dense2(self.ffn_dense1(x))
+        x = self.norm3(x + self.dropout3(ffn_out, training=training))
+        return x
+
+    def get_config(self):
+        config = super().get_config()
+        config.update({"embed_dim": self.embed_dim, "num_heads": self.num_heads,
+                        "dff": self.dff, "dropout_rate": self.dropout_rate})
+        return config
+#%%
+class TransformerEncoder(Layer):
+    def __init__(self, num_layers, embed_dim, num_heads, dff,
+                 vocab_size, max_len, dropout_rate=0.1, **kwargs):
+        super().__init__(**kwargs)
+        self.num_layers = num_layers; self.embed_dim = embed_dim
+        self.num_heads  = num_heads;  self.dff       = dff
+        self.vocab_size = vocab_size; self.max_len   = max_len
+        self.dropout_rate = dropout_rate
+        self.pos_emb    = PositionalEmbedding(vocab_size, embed_dim, max_len, dropout_rate)
+        self.enc_layers = [
+            EncoderLayer(embed_dim, num_heads, dff, dropout_rate, name=f"enc_layer_{i}")
+            for i in range(num_layers)
+        ]
+
+    def call(self, x, training=False):
+        x = self.pos_emb(x, training=training)
+        for layer in self.enc_layers:
+            x = layer(x, training=training)
+        return x
+
+    def get_config(self):
+        config = super().get_config()
+        config.update({"num_layers": self.num_layers, "embed_dim": self.embed_dim,
+                        "num_heads": self.num_heads,  "dff": self.dff,
+                        "vocab_size": self.vocab_size,"max_len": self.max_len,
+                        "dropout_rate": self.dropout_rate})
+        return config
+#%%
+class TransformerDecoder(Layer):
+    def __init__(self, num_layers, embed_dim, num_heads, dff,
+                 vocab_size, max_len, dropout_rate=0.1, **kwargs):
+        super().__init__(**kwargs)
+        self.num_layers = num_layers; self.embed_dim = embed_dim
+        self.num_heads  = num_heads;  self.dff       = dff
+        self.vocab_size = vocab_size; self.max_len   = max_len
+        self.dropout_rate = dropout_rate
+        self.pos_emb    = PositionalEmbedding(vocab_size, embed_dim, max_len, dropout_rate)
+        self.dec_layers = [
+            DecoderLayer(embed_dim, num_heads, dff, dropout_rate, name=f"dec_layer_{i}")
+            for i in range(num_layers)
+        ]
+
+    def call(self, x, enc_output, training=False):
+        x = self.pos_emb(x, training=training)
+        for layer in self.dec_layers:
+            x = layer(x, enc_output, training=training)
+        return x
+
+    def get_config(self):
+        config = super().get_config()
+        config.update({"num_layers": self.num_layers, "embed_dim": self.embed_dim,
+                        "num_heads": self.num_heads,  "dff": self.dff,
+                        "vocab_size": self.vocab_size,"max_len": self.max_len,
+                        "dropout_rate": self.dropout_rate})
+        return config
+#%%
+enc_input = Input(shape=(ENG_SEQ_LEN,), name="enc_input")
+dec_input = Input(shape=(HIN_SEQ_LEN,), name="dec_input")
+
+transformer_encoder = TransformerEncoder(
+    NUM_LAYERS, EMBED_DIM, NUM_HEADS, DFF,
+    ENG_VOCAB, ENG_SEQ_LEN, DROPOUT_RATE,
+    name="transformer_encoder"
+)
+transformer_decoder = TransformerDecoder(
+    NUM_LAYERS, EMBED_DIM, NUM_HEADS, DFF,
+    HIN_VOCAB, HIN_SEQ_LEN, DROPOUT_RATE,
+    name="transformer_decoder"
+)
+
+enc_output    = transformer_encoder(enc_input)
+dec_output    = transformer_decoder(dec_input, enc_output)
+
+dec_dense     = Dense(HIN_VOCAB, activation='softmax', name="dec_dense")
+dec_final_out = dec_dense(dec_output)
+
+model = Model([enc_input, dec_input], dec_final_out)
+#%%
+class TransformerLRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
+    """Warmup then inverse-square-root decay as in Vaswani et al. 2017."""
+    def __init__(self, embed_dim, warmup_steps=4000):
+        super().__init__()
+        self.embed_dim    = embed_dim
+        self.warmup_steps = warmup_steps
+
+    def __call__(self, step):
+        step  = tf.cast(step, tf.float32)
+        d     = tf.cast(self.embed_dim, tf.float32)
+        arg1  = tf.math.rsqrt(step)
+        arg2  = step * (self.warmup_steps ** -1.5)
+        return tf.math.rsqrt(d) * tf.math.minimum(arg1, arg2)
+
+    def get_config(self):
+        return {"embed_dim": self.embed_dim, "warmup_steps": self.warmup_steps}
+#%%
+lr_schedule = TransformerLRSchedule(EMBED_DIM, warmup_steps=4000)
+optimizer   = tf.keras.optimizers.Adam(lr_schedule, beta_1=0.9, beta_2=0.98, epsilon=1e-9)
+
+model.compile(
+    optimizer=optimizer,
+    loss='sparse_categorical_crossentropy',
+    metrics=['accuracy']
+)
+model.summary()
+#%%
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+
+early_stopping = EarlyStopping(monitor='accuracy', patience=5, restore_best_weights=True)
+checkpoint     = ModelCheckpoint("best_transformer.keras", monitor='accuracy', save_best_only=True)
+#%%
+history = model.fit(
+    x=[df_enc_inp, df_dec_inp],
+    y=df_dec_out,
+    batch_size=BATCH_SIZE,
+    epochs=EPOCHS,
+    callbacks=[early_stopping, checkpoint]
+)
+#%%
+#model.save("my_model.keras")
+#model.save_weights("my_model.weights.h5")
+#with open("my_model_architecture.json", 'w') as f:
+#    f.write(model.to_json())
+
+history_df = pd.DataFrame(history.history)
+history_df.index = range(1, len(history_df) + 1)
+history_df.index.name = "epoch"
+history_df.to_csv("training_history.csv")
+#%%
+hin_idx2word = {idx: word for word, idx in hin_tok.word_index.items()}
+sos_token    = hin_tok.word_index["<sos>"]
+eos_token    = hin_tok.word_index["<eos>"]
+#%%
+def translate(english_sentence, max_len=MAX_HIN_WORDS):
+    # Step 1: Clean and encode the English sentence
+    eng_clean = clean_english(english_sentence)
+    eng_seq   = eng_tok.texts_to_sequences([eng_clean])
+    eng_pad   = pad_sequences(eng_seq, maxlen=ENG_SEQ_LEN, padding="post")
+
+    # Step 2: Start decoder input with <sos>
+    dec_input_ids = [sos_token]
+
+    # Step 3: Autoregressively generate one token at a time
+    for _ in range(max_len):
+        dec_pad     = pad_sequences([dec_input_ids], maxlen=HIN_SEQ_LEN, padding="post")
+        predictions = model.predict([eng_pad, dec_pad], verbose=0)
+
+        # Read prediction at the position of the last real token
+        next_token_id = int(np.argmax(predictions[0, len(dec_input_ids) - 1, :]))
+
+        if next_token_id == eos_token or next_token_id == 0:
+            break
+
+        dec_input_ids.append(next_token_id)
+
+    translated_words = [hin_idx2word.get(idx, "") for idx in dec_input_ids[1:]]
+    return " ".join([w for w in translated_words if w])
+#%%
+test_sentences = [
+    "How are you doing today",
+    "I want to eat food",
+    "The weather is very cold outside",
+    "She is going to the market",
+    "My name is Rahul",
+    "I love my country",
+    "He is a very good student",
+    "Please open the door",
+    "I am feeling very tired today",
+    "The dog is running in the park",
+    "Can you help me please",
+    "I want to drink water",
+    "She loves to read books",
+    "The sun rises in the east",
+    "I go to school every day",
+    "He does not like cold weather",
+    "We are going to the temple",
+    "The train is very late today",
+    "I want to sleep now",
+    "My mother cooks very delicious food"
+]
+
+for s in test_sentences:
+    print(f"English : {s}")
+    print(f"Hindi   : {translate(s)}")
+    print("-" * 80)
 
 
 
@@ -1126,7 +2480,6 @@ for n in range(predict_next_words):
     input_text += ' ' + predicted_word
 
 print(input_text)
-	
 	
 	
 	
@@ -4927,39 +6280,3 @@ print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 import torch
 print(torch.cuda.is_available())
 
-
-
-pip install numpy
-pip install pandas
-pip install matplotlib
-pip install seaborn
-pip install plotly
-
-pip install scipy
-pip install statsmodels
-
-pip install scikit-learn
-pip install xgboost
-pip install imbalanced-learn
-pip install mlxtend
-
-conda install tensorflow
-pip install nltk
-pip install contractions
-pip install emoji
-
-pip install requests
-pip install beautifulsoup4
-pip install selenium
-pip install scrapy
-pip install lxml
-pip install html5lib
-
-pip install Pillow
-pip install pytesseract
-pip install opencv-python
-
-pip install openpyxl
-pip install pyodbc
-pip install kaggle
-conda install -c conda-forge opencv
