@@ -2,6 +2,8 @@
 <NotepadPlus>
     <FindHistory nbMaxFindHistoryPath="10" nbMaxFindHistoryFilter="10" nbMaxFindHistoryFind="10" nbMaxFindHistoryReplace="10" matchWord="no" matchCase="no" wrap="yes" directionDown="yes" fifRecuisive="yes" fifInHiddenFolder="no" dlgAlwaysVisible="no" fifFilterFollowsDoc="no" fifFolderFollowsDoc="no" searchMode="1" transparencyMode="1" transparency="150" dotMatchesNewline="no" isSearch2ButtonsMode="no" fifProjectPanel1="no" fifProjectPanel2="no" fifProjectPanel3="no" regexBackward4PowerUser="no" bookmarkLine="no" purge="no">
         <Filter name="" />
+        <Find name="[cite_start]" />
+        <Find name="[cite_start]&#x2022; " />
         <Find name="push&#x000D;&#x000A;cd" />
         <Find name='git push&quot;' />
         <Find name="_auto_push&apos;" />
@@ -10,8 +12,7 @@
         <Find name='&quot;cd \&apos;' />
         <Find name="&#x000D;&#x000A;" />
         <Find name="model.save" />
-        <Find name="conda remove" />
-        <Find name="warnings" />
+        <Replace name="" />
         <Replace name="push&#x000D;&#x000A;\n\ncd" />
         <Replace name="git push" />
         <Replace name='_auto_push&quot;' />
@@ -36,7 +37,11 @@
         <File filename="D:\05 GIT\old\07_st_censusDA\app.py" />
         <File filename="C:\Users\grv06\OneDrive\Desktop\git_pull.bat" />
         <File filename="C:\Users\grv06\OneDrive\Desktop\git_push.bat" />
+<<<<<<< HEAD
         <File filename="D:\05 GIT\01_masterRepo\VS Code My Theme\settings.json" />
+=======
+        <File filename="C:\Users\Dex\Desktop\git_push.bat" />
+>>>>>>> 31a24fb170f8e1f6067794a953de67bde65e175c
     </History>
     <ProjectPanels>
         <ProjectPanel id="0" workSpaceFile="" />
