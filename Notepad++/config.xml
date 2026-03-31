@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <NotepadPlus>
-    <FindHistory nbMaxFindHistoryPath="10" nbMaxFindHistoryFilter="10" nbMaxFindHistoryFind="10" nbMaxFindHistoryReplace="10" matchWord="no" matchCase="no" wrap="yes" directionDown="yes" fifRecuisive="yes" fifInHiddenFolder="no" dlgAlwaysVisible="no" fifFilterFollowsDoc="no" fifFolderFollowsDoc="no" searchMode="1" transparencyMode="1" transparency="150" dotMatchesNewline="no" isSearch2ButtonsMode="no" fifProjectPanel1="no" fifProjectPanel2="no" fifProjectPanel3="no" regexBackward4PowerUser="no" bookmarkLine="no" purge="no">
+    <FindHistory nbMaxFindHistoryPath="10" nbMaxFindHistoryFilter="10" nbMaxFindHistoryFind="10" nbMaxFindHistoryReplace="10" matchWord="no" matchCase="no" wrap="yes" directionDown="yes" fifRecuisive="yes" fifInHiddenFolder="no" dlgAlwaysVisible="no" fifFilterFollowsDoc="no" fifFolderFollowsDoc="no" searchMode="0" transparencyMode="1" transparency="150" dotMatchesNewline="no" isSearch2ButtonsMode="no" fifProjectPanel1="no" fifProjectPanel2="no" fifProjectPanel3="no" regexBackward4PowerUser="no" bookmarkLine="no" purge="no">
         <Filter name="" />
+        <Find name="na()" />
+        <Find name="na" />
+        <Find name="isna" />
+        <Find name="notna" />
+        <Find name="regex" />
         <Find name="ipykernel" />
         <Find name="conda create" />
         <Find name="hugging" />
         <Find name="conda rem" />
         <Find name="[cite_start]" />
-        <Find name="[cite_start]&#x2022; " />
-        <Find name="push&#x000D;&#x000A;cd" />
-        <Find name='git push&quot;' />
-        <Find name="_auto_push&apos;" />
-        <Find name="commit -m &apos;" />
         <Replace name="" />
         <Replace name="push&#x000D;&#x000A;\n\ncd" />
         <Replace name="git push" />
@@ -28,16 +28,16 @@
         <root foldername="E:\ICS_Scheme\AS2.0\AS20242" />
     </FileBrowser>
     <History nbMaxFile="10" inSubMenu="no" customLength="-1">
-        <File filename="D:\05 GIT\old\04_st_startups\app.py" />
         <File filename="D:\05 GIT\old\07_st_censusDA\app.py" />
         <File filename="C:\Users\grv06\OneDrive\Desktop\git_pull.bat" />
         <File filename="C:\Users\grv06\OneDrive\Desktop\git_push.bat" />
-        <File filename="C:\Users\Dex\Desktop\git_push.bat" />
         <File filename="D:\05 GIT\13_Misc_projects\04_YT_Timestamp_Gen\generate_timestamp.py" />
         <File filename="D:\05 GIT\13_Misc_projects\04_YT_Timestamp_Gen\build.sh" />
         <File filename="D:\05 GIT\13_Misc_projects\04_YT_Timestamp_Gen\vercel.json" />
         <File filename="D:\05 GIT\13_Misc_projects\04_YT_Timestamp_Gen\app.py" />
         <File filename="D:\05 GIT\12_GenAI_projects\01_EngHin_Translator_EncDec\requirements.txt" />
+        <File filename="D:\05 GIT\01_masterRepo\VS Code My Theme\settings.json" />
+        <File filename="C:\Users\Dex\Desktop\git_push.bat" />
     </History>
     <ProjectPanels>
         <ProjectPanel id="0" workSpaceFile="" />
