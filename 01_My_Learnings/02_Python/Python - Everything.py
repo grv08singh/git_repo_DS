@@ -8,8 +8,9 @@
 
 
 
-jupyter notebook --notebook-dir="F:\Grv\Grv\01 GIT\12_GenAI_projects\01_EngHin_Translator_EncDec"
+jupyter notebook --notebook-dir="D:\05 GIT\14_Proj_ML_99Acres"
 jupyter notebook --notebook-dir="F:\Grv\Grv\01 GIT\01_masterRepo\01_My_Learnings\02_Python\02_ML\03_self_ml_dl_models"
+jupyter notebook --notebook-dir="D:\05 GIT\12_GenAI_projects\01_EngHin_Translator_EncDec"
 jupyter notebook --notebook-dir="D:\05 GIT\12_GenAI_projects\01_EngHin_Translator_EncDec"
 jupyter notebook --notebook-dir="D:\05 GIT\13_Misc_projects\04_YT_Timestamp_Gen"
 jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\01_masterRepo\Eng_Hin_Translator"
@@ -6249,16 +6250,6 @@ PSComputerName        :
 ###############################################################################################################
 #### Python Environment
 ###############################################################################################################
-
-## Open jupyter notebook at a specified path: Type in Anaconda Prompt
-jupyter notebook --notebook-dir="<path>"
-
-jupyter notebook --notebook-dir="D:\05 GIT\01_masterRepo\01_My_Learnings\05_NSO_work"
-jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\01_masterRepo\01_My_Learnings\06_RC_Cleaning"
-jupyter notebook --notebook-dir="D:\05 GIT\01_masterRepo\02_EPGC_Intellipaat\01 EPGC - Live Classes\2026.01.31 - EPGC GenAI - LSTM"
-
-jupyter notebook --notebook-dir="D:\05 GIT\12_GenAI_projects\01_EngHin_Translator_EncDec"
-jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\08_WS_ML_DL_Project"
 
 
 ## C:\Users\grv06\AppData\Roaming\Code\User\settings.json
