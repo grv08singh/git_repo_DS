@@ -11,7 +11,26 @@
 jupyter notebook --notebook-dir="F:\Grv\Grv\01 GIT\12_GenAI_projects\01_EngHin_Translator_EncDec"
 jupyter notebook --notebook-dir="F:\Grv\Grv\01 GIT\01_masterRepo\01_My_Learnings\02_Python\02_ML\03_self_ml_dl_models"
 jupyter notebook --notebook-dir="D:\05 GIT\12_GenAI_projects\01_EngHin_Translator_EncDec"
+jupyter notebook --notebook-dir="D:\05 GIT\13_Misc_projects\04_YT_Timestamp_Gen"
 jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\01_masterRepo\Eng_Hin_Translator"
+
+
+
+
+
+Projects:
+    ML:
+        1) 99Acres data:
+            1) Price Prediction
+            2) Apartment Recommendation
+            3) Analytics
+    DL:
+        2) Real Time Object Detection
+        3) Medical Image Analysis
+        4) DeepFake Video detection
+    GenAI:
+        5) Eng-Hin Translator
+        6) RAG based Organization chatbot
 
 
 
@@ -6238,7 +6257,7 @@ jupyter notebook --notebook-dir="D:\05 GIT\01_masterRepo\01_My_Learnings\05_NSO_
 jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\01_masterRepo\01_My_Learnings\06_RC_Cleaning"
 jupyter notebook --notebook-dir="D:\05 GIT\01_masterRepo\02_EPGC_Intellipaat\01 EPGC - Live Classes\2026.01.31 - EPGC GenAI - LSTM"
 
-jupyter notebook --notebook-dir="D:\05 GIT\09_Eng_Hin_Translator_EncDec"
+jupyter notebook --notebook-dir="D:\05 GIT\12_GenAI_projects\01_EngHin_Translator_EncDec"
 jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\08_WS_ML_DL_Project"
 
 
