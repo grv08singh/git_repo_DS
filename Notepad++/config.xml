@@ -28,7 +28,6 @@
         <root foldername="E:\ICS_Scheme\AS2.0\AS20242" />
     </FileBrowser>
     <History nbMaxFile="10" inSubMenu="no" customLength="-1">
-        <File filename="D:\05 GIT\old\07_st_censusDA\app.py" />
         <File filename="C:\Users\grv06\OneDrive\Desktop\git_pull.bat" />
         <File filename="C:\Users\grv06\OneDrive\Desktop\git_push.bat" />
         <File filename="D:\05 GIT\13_Misc_projects\04_YT_Timestamp_Gen\generate_timestamp.py" />
@@ -37,6 +36,7 @@
         <File filename="D:\05 GIT\13_Misc_projects\04_YT_Timestamp_Gen\app.py" />
         <File filename="D:\05 GIT\12_GenAI_projects\01_EngHin_Translator_EncDec\requirements.txt" />
         <File filename="D:\05 GIT\01_masterRepo\VS Code My Theme\settings.json" />
+        <File filename="C:\Users\Dex\.jupyter\custom\custom.css" />
         <File filename="C:\Users\Dex\Desktop\git_push.bat" />
     </History>
     <ProjectPanels>
