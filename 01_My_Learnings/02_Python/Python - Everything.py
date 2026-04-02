@@ -15,6 +15,7 @@ jupyter notebook --notebook-dir="D:\05 GIT\13_Misc_projects\04_YT_Timestamp_Gen"
 
 
 jupyter notebook --notebook-dir="F:\Grv\Grv\01 GIT\14_Proj_ML_99Acres"
+jupyter notebook --notebook-dir="F:\Grv\Grv\01 GIT\13_Misc_projects\05_Email_ID_Extractor"
 jupyter notebook --notebook-dir="F:\Grv\Grv\01 GIT\01_masterRepo\01_My_Learnings\02_Python\02_ML\03_self_ml_dl_models"
 jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\01_masterRepo\Eng_Hin_Translator"
 
@@ -53,7 +54,7 @@ Projects:
 ###############################################################################################################
 
 base:
-    pip install numpy pandas matplotlib seaborn plotly scipy statsmodels scikit-learn xgboost imbalanced-learn mlxtend emoji contractions nltk
+    pip install numpy pandas matplotlib seaborn plotly scipy statsmodels scikit-learn xgboost imbalanced-learn mlxtend emoji contractions nltk openpyxl pyodbc kaggle
 
 gpu_tf:
     
