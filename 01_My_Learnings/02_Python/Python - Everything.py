@@ -5920,12 +5920,13 @@ import re
 # \.^$*+?{}[]()|
 
 \                       #special meta character
-\.                      #any character
+\.                      #dot
+.                       #any character
 ^                       #start after this meta character
 $                       #end after this meta character
-*                       #Repeating Meta character, match previous character or class any number of times
-+                       #Repeating Meta character, match previous character or class at least once
-?                       #Repeating operator or quantifier, match previous character either once or zero times.
+*                       #match previous character or class any number of times
++                       #match previous character or class at least once
+?                       #match previous character either once or zero times.
 {}                      #quantifier
 {m,n}                   #match previous character m through n times
 {m}                     #match previous character exactly m times
