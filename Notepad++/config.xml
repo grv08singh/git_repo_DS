@@ -2,6 +2,8 @@
 <NotepadPlus>
     <FindHistory nbMaxFindHistoryPath="10" nbMaxFindHistoryFilter="10" nbMaxFindHistoryFind="10" nbMaxFindHistoryReplace="10" matchWord="no" matchCase="no" wrap="yes" directionDown="yes" fifRecuisive="yes" fifInHiddenFolder="no" dlgAlwaysVisible="no" fifFilterFollowsDoc="no" fifFolderFollowsDoc="no" searchMode="1" transparencyMode="1" transparency="150" dotMatchesNewline="no" isSearch2ButtonsMode="no" fifProjectPanel1="no" fifProjectPanel2="no" fifProjectPanel3="no" regexBackward4PowerUser="no" bookmarkLine="no" purge="no">
         <Filter name="" />
+        <Find name="KEY" />
+        <Find name="streamlit" />
         <Find name="concat" />
         <Find name="regex" />
         <Find name="ohe" />
@@ -10,8 +12,6 @@
         <Find name="na()" />
         <Find name="na" />
         <Find name="isna" />
-        <Find name="notna" />
-        <Find name="ipykernel" />
         <Replace name="&apos;)\n" />
         <Replace name="&apos;,&apos;sector " />
         <Replace name="push&#x000D;&#x000A;\n\ncd" />
@@ -27,8 +27,6 @@
         <root foldername="E:\ICS_Scheme\AS2.0\AS20242" />
     </FileBrowser>
     <History nbMaxFile="10" inSubMenu="no" customLength="-1">
-        <File filename="D:\05 GIT\13_Misc_projects\04_YT_Timestamp_Gen\build.sh" />
-        <File filename="D:\05 GIT\13_Misc_projects\04_YT_Timestamp_Gen\vercel.json" />
         <File filename="D:\05 GIT\13_Misc_projects\04_YT_Timestamp_Gen\app.py" />
         <File filename="D:\05 GIT\12_GenAI_projects\01_EngHin_Translator_EncDec\requirements.txt" />
         <File filename="C:\Users\Dex\.jupyter\custom\custom.css" />
@@ -36,7 +34,9 @@
         <File filename="D:\05 GIT\14_Proj_ML_99Acres\main.py" />
         <File filename="D:\05 GIT\14_Proj_ML_99Acres\README.md" />
         <File filename="D:\05 GIT\01_masterRepo\04_CampusX_100_Days_of_ML\99Acres_Capstone Project\baseline model.ipynb" />
+        <File filename="D:\05 GIT\01_masterRepo\git_push.bat" />
         <File filename="D:\05 GIT\01_masterRepo\VS Code My Theme\settings.json" />
+        <File filename="D:\Downloads\travel_itinerary.md" />
     </History>
     <ProjectPanels>
         <ProjectPanel id="0" workSpaceFile="" />
