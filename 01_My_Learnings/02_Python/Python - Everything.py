@@ -53,7 +53,7 @@ Projects:
 #### GenAI
 ###############################################################################################################
 import google.generativeai as genai
-genai.configure(api_key="AIzaSyB9cVJK81JYqNHlGHlnEnyNvp2NTrjDxqg")
+genai.configure(api_key=<__________>)
 available_models = genai.list_models()
 print("Available models:")
 for model in available_models:
