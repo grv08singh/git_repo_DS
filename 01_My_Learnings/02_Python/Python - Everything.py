@@ -50,6 +50,27 @@ Projects:
 
 
 ###############################################################################################################
+#### GenAI
+###############################################################################################################
+import google.generativeai as genai
+genai.configure(api_key="AIzaSyB9cVJK81JYqNHlGHlnEnyNvp2NTrjDxqg")
+available_models = genai.list_models()
+print("Available models:")
+for model in available_models:
+    print(model.name)
+
+
+
+
+
+
+
+
+
+
+
+
+###############################################################################################################
 #### Python Dependencies - pip/conda install
 ###############################################################################################################
 
@@ -102,7 +123,7 @@ pip install langchain-community
 pip install langchain_openai
 pip install langchain_chroma
 
-
+pip install google-generativeai
 
 
 

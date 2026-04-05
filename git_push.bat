@@ -2,6 +2,12 @@
 
 D:
 
+cd "D:\05 GIT\15_AI_Travel_Agent"
+git pull
+git add .
+git commit -m "15_AI_Travel_Agent_auto_push"
+git push
+
 cd "D:\05 GIT\01_masterRepo"
 git pull
 git add .

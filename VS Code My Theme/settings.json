@@ -1,26 +1,41 @@
 {
     "workbench.colorCustomizations": {
-        "titleBar.activeBackground":"#0085b6",
+        "titleBar.activeBackground":"#006ca5",
         "titleBar.activeForeground":"#FFFFFF",
 
-        "activityBar.background": "#79c0c0",
+        "activityBar.background": "#44a8a8",
         "activityBar.foreground":"#000000",
         "activityBar.inactiveForeground": "#005858",
+
+        "sideBarTitle.background":"#69c3c3",
+        "sideBarTitle.foreground":"#000000",
+
+        "sideBarSectionHeader.background":"#a4dbdb",
+        "sideBarSectionHeader.foreground": "#000000",
         
-        "sideBar.background": "#b9ebeb",
-        "sideBar.foreground": "#000000db",
+        "sideBar.background": "#cbeeee",
+        "sideBar.foreground": "#000000ea",
 
-        "tab.activeBorder": "#006363",
-        "tab.activeForeground": "#006363",
+        "tab.activeBorder": "#000000",
+        "tab.activeBackground": "#cbeeee",
+        "tab.activeForeground": "#018378",
 
+        "tab.border": "#000000",
         "tab.inactiveBackground": "#e6e6e6",
-        "tab.inactiveForeground": "#000000",
+        "tab.inactiveForeground": "#606060",
 
         "editor.foreground": "#007070",        
-        "editor.background": "#e1fcfc",
+        "editor.background": "#ecf8f8",
         
-        "editor.lineHighlightBackground": "#b7f0f0",
-        "editor.selectionBackground": "#afeeee",
+        "editor.lineHighlightBackground": "#cbeeee",
+        "editor.selectionBackground": "#aee9e9",
+
+        "notebook.cellEditorBackground": "#ecf8f8",
+        "notebook.editorBackground": "#f9ffff"
     },
-    "workbench.colorTheme": "Default Light+"
+    "workbench.colorTheme": "Light+",
+    "amazonQ.suppressPrompts": {
+        "amazonQChatDisclaimer": true,
+        "amazonQChatPairProgramming": true
+    }
 }
