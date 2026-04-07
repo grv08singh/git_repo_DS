@@ -23,6 +23,36 @@ jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\01_masterRepo\Eng_Hi
 
 
 
+
+'has_hospital_clinic': ['hospital','nursing','clinic'],
+'has_police_stn': ['police'],
+'has_fire_stn': ['fire'],
+'has_mall': ['mall'],
+'has_market': ['pharmacy','market'],
+'has_park': ['park'],
+'has_bank_atm': ['bank','atm'],
+'has_institute': ['school','institute','college','university','academy'],
+'has_airport': ['airport'],
+'has_rly_stn': ['railway','rly'],
+'has_metro_stn': ['metro'],
+'has_expy': ['expressway','expy'],
+'has_fuel_stn': ['petrol','cng'],
+'has_hotel': ['hotel','inn'],
+'has_temple': ['temple','mandir'],
+'has_famous_chowk': ['chowk'],
+'has_club': ['club'],
+'has_stadium': ['stadium'],
+'has_restro_cafe': ['restaurant','cafe']
+
+
+
+
+
+
+
+
+
+
 Projects:
     ML:
         1) 99Acres data:
@@ -5926,7 +5956,8 @@ sorted(my_list)                             #just show the sorted list, not sort
 [i**2 if i>5 else i**3 for i in my_list]    #list comprehension
 my_list = list(tuple_1)                     #convert tuple_1 to list
 
-
+from collections import Counter
+groupby_count = Counter(my_list)            #SQL groupby count
 
 
 
