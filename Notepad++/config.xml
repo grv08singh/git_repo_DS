@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <NotepadPlus>
-    <FindHistory nbMaxFindHistoryPath="10" nbMaxFindHistoryFilter="10" nbMaxFindHistoryFind="10" nbMaxFindHistoryReplace="10" matchWord="no" matchCase="no" wrap="yes" directionDown="yes" fifRecuisive="yes" fifInHiddenFolder="no" dlgAlwaysVisible="no" fifFilterFollowsDoc="no" fifFolderFollowsDoc="no" searchMode="1" transparencyMode="1" transparency="150" dotMatchesNewline="no" isSearch2ButtonsMode="no" fifProjectPanel1="no" fifProjectPanel2="no" fifProjectPanel3="no" regexBackward4PowerUser="no" bookmarkLine="no" purge="no">
+    <FindHistory nbMaxFindHistoryPath="10" nbMaxFindHistoryFilter="10" nbMaxFindHistoryFind="10" nbMaxFindHistoryReplace="10" matchWord="no" matchCase="no" wrap="yes" directionDown="yes" fifRecuisive="yes" fifInHiddenFolder="no" dlgAlwaysVisible="no" fifFilterFollowsDoc="no" fifFolderFollowsDoc="no" searchMode="0" transparencyMode="1" transparency="150" dotMatchesNewline="no" isSearch2ButtonsMode="no" fifProjectPanel1="no" fifProjectPanel2="no" fifProjectPanel3="no" regexBackward4PowerUser="no" bookmarkLine="no" purge="no">
         <Filter name="" />
-        <Find name="KEY" />
-        <Find name="streamlit" />
-        <Find name="concat" />
-        <Find name="regex" />
-        <Find name="ohe" />
-        <Find name="&#x000D;&#x000A;" />
-        <Find name="," />
-        <Find name="na()" />
-        <Find name="na" />
-        <Find name="isna" />
+        <Find name="Exploratory" />
+        <Find name="EDA" />
+        <Find name="label" />
+        <Find name="LE" />
+        <Find name="&apos;, &apos;" />
+        <Find name="&#x000D;&#x000A;       " />
+        <Find name="df.*mean" />
+        <Find name="mean" />
+        <Find name="E4F4F4" />
+        <Find name="FFFFFF" />
+        <Replace name="&apos;,&apos;" />
+        <Replace name="FFFFFF" />
+        <Replace name="E4F4F4" />
         <Replace name="&apos;)\n" />
         <Replace name="&apos;,&apos;sector " />
         <Replace name="push&#x000D;&#x000A;\n\ncd" />
@@ -19,15 +22,11 @@
         <Replace name='_auto_push&quot;' />
         <Replace name='commit -m &quot;' />
         <Replace name='_projects&quot;\ngit' />
-        <Replace name='cd &quot;' />
-        <Replace name=".git\n" />
-        <Replace name="*" />
     </FindHistory>
     <FileBrowser latestSelectedItem="E:\ICS_Scheme\AS2.0\AS20242">
         <root foldername="E:\ICS_Scheme\AS2.0\AS20242" />
     </FileBrowser>
     <History nbMaxFile="10" inSubMenu="no" customLength="-1">
-        <File filename="D:\05 GIT\13_Misc_projects\04_YT_Timestamp_Gen\app.py" />
         <File filename="D:\05 GIT\12_GenAI_projects\01_EngHin_Translator_EncDec\requirements.txt" />
         <File filename="C:\Users\Dex\.jupyter\custom\custom.css" />
         <File filename="C:\Users\Dex\Desktop\git_push.bat" />
@@ -37,6 +36,7 @@
         <File filename="D:\05 GIT\01_masterRepo\git_push.bat" />
         <File filename="D:\05 GIT\01_masterRepo\VS Code My Theme\settings.json" />
         <File filename="D:\Downloads\travel_itinerary.md" />
+        <File filename="D:\05 GIT\01_masterRepo\Notepad++\stylers.xml" />
     </History>
     <ProjectPanels>
         <ProjectPanel id="0" workSpaceFile="" />

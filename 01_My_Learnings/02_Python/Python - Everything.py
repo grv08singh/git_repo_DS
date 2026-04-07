@@ -24,32 +24,6 @@ jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\01_masterRepo\Eng_Hi
 
 
 
-'has_hospital_clinic': ['hospital','nursing','clinic'],
-'has_police_stn': ['police'],
-'has_fire_stn': ['fire'],
-'has_mall': ['mall'],
-'has_market': ['pharmacy','market'],
-'has_park': ['park'],
-'has_bank_atm': ['bank','atm'],
-'has_institute': ['school','institute','college','university','academy'],
-'has_airport': ['airport'],
-'has_rly_stn': ['railway','rly'],
-'has_metro_stn': ['metro'],
-'has_expy': ['expressway','expy'],
-'has_fuel_stn': ['petrol','cng'],
-'has_hotel': ['hotel','inn'],
-'has_temple': ['temple','mandir'],
-'has_famous_chowk': ['chowk'],
-'has_club': ['club'],
-'has_stadium': ['stadium'],
-'has_restro_cafe': ['restaurant','cafe']
-
-
-
-
-
-
-
 
 
 
@@ -3227,8 +3201,8 @@ rfe.ranking_
 
 # 1 Cleaning
 df.shape
-df.columns.tolist()
 df.info()
+df.columns.tolist()
 df.describe().T
 df.isnull().sum()
 df.isnull().sum().sum()
