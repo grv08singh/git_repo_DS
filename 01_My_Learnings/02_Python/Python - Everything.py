@@ -3489,6 +3489,12 @@ px.line(df,
             y=df.columns,
             title='chart_title')
 
+#bar chart with count of values in a col
+px.histogram(df,
+            x='cat_col',
+            title='chart_title',
+            text_auto=True)
+
 #bar chart
 px.bar(df,
             x='cat_col',
