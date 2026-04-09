@@ -209,6 +209,201 @@ from keras.preprocessing.sequence import pad_sequences
 
 
 ###############################################################################################################
+#### Natural Language Processing (NLP) - Everything
+###############################################################################################################
+
+#important terms:
+#word = word
+#corpus = all words from all sentences [definitely contains duplicates]
+#vocabulary = unique words from corpus
+#document = a complete sentence
+
+
+
+
+#### Techniques of Converting Words into Numbers
+
+#1) One Hot Encoding (OHE)
+#OHE working: one feature is created for each category, feature_val=1 or 0 based on whether that category is present in data.
+#using pandas
+pd.get_dummies(df,columns=['col1','col2'],drop_first=True)      #OHE for col1 and col2
+
+#using sklearn
+from sklearn.preprocessing import OneHotEncoder
+ohe = OneHotEncoder(drop='First', sparse_output=False, handle_unknown='ignore')
+df['col1'] = pd.DataFrame(ohe.fit_transform(df[['col1']]))
+
+#using keras
+from keras.utils import to_categorical
+y_train_ohe = to_categorical(y_train, num_classes)
+
+
+
+#2) Bag Of Words (BOW) = aka bag-of-uni-grams
+#3) N-grams / Ngrams = aka bag-of-n-grams
+#N-grams working: group of N-consecutive words is taken as feature, feature_val=count of that group of consecutive words.
+#Bi-gram working: group of 2-consecutive words is taken as feature, feature_val=count of those 2 consecutive words.
+#Tri-gram working: group of 3-consecutive words is taken as feature, feature_val=count of those 3 consecutive words.
+#BOW working: one feature is created for each word in sentence, feature_val=count of that word in document/sentence.
+from sklearn.feature_extraction.text import CountVectorizer
+
+cv = CountVectorizer(max_features=1000)                         #Bag of words / Bag of Uni-gram, with max features=1000
+cv = CountVectorizer(ngram_range=(2,2))                         #Bi-gram [number cannot be greater than #words in sentence
+cv = CountVectorizer(ngram_range=(3,3))                         #Tri-gram
+cv = CountVectorizer(ngram_range=(1,3))                         #Uni-gram, Bi-gram and Tri-gram
+cv = CountVectorizer(ngram_range=(2,3))                         #Bi-gram and Tri-gram
+
+bow = cv.fit_transform(df['text'])
+print(cv.vocabulary_)                                           #prints complete vocabulary
+print(bow[0].toarray())                                         #sentence at index 0 converted to vector
+cv.transform(["this is a new sentence"]).toarray()              #transforming a new sentence into vector
+
+
+
+#4) Term Frequency Inverse Document Frequence (TFIDF)
+#TF(t,d) = (count of a term t in a document)/(total #words in document d)
+#IDF(t) = LOG[(total #documents in corpus)/(#documents with term t)]
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+tfidf = TfidfVectorizer()
+tfidf_model = tfidf.fit_transform(df['text'])
+
+tfidf_model.toarray()                                           #print transformed vectors
+print(tfidf.idf_)                                               #inverse document frequency vectors
+print(tfidf.get_feature_names_out())                            #newly created feature names    
+
+
+
+#5) Word2Vec : advanced embedding technique
+
+####Word2Vec using pre-trained model from google
+####300 dimensional embedding
+import gensim
+from gensim.models import Word2Vec, KeyedVectors
+
+!pip install wget
+!wget -c "https://s3.amazonaws.com/dl4j-distribution/GoogleNews-vectors-negative300.bin.gz"
+
+model = KeyedVectors.load_word2vec_format('GoogleNews-vectors-negative300.bin.gz',binary=True,limit=500000)
+model['cricket']                                                #print the embedding of the word 'cricket'
+model['man']                                                    #print the embedding of the word 'man'
+model.most_similar('man')                                       #print words that are similar to the word 'man'
+model.similarity('man','woman')                                 #print similarity score between 'man' and 'woman' btwn 0 and 1
+model.doesnt_match(['PHP','java','monkey'])                     #from the given list of words, print the odd word out
+vec = model['king'] - model['man'] + model['woman']             #create a vector = king - man + woman, must be similar to queen
+model.most_similar([vec])                                       #print the above vec
+vec = model['INR'] - model ['India'] + model['England']         #create a vector = INR - India + England, must be similar to GBP
+model.most_similar([vec])                                       #print it
+
+
+####Word2Vec using own model
+!pip install gensim
+import gensim
+import os
+from nltk import sent_tokenize
+from gensim.utils import simple_preprocess
+from gensim.models import Word2Vec
+
+story = []
+#from a directory named data present in cwd, load all files
+for filename in os.listdir('data'):
+    f = open(os.path.join('data',filename))
+    corpus = f.read()
+    raw_sentence = sent_tokenize(corpus)                        #tokenize sentences
+    for sentence in raw_sentence:
+        story.append(simple_preprocess(sentence))               #simple_preprocess = sentence.split().strip()
+story                                                           #a 2-d list, [[words in sentence1],[words in sentence2],...]
+
+model = Word2Vec(vector_size=100,                               #final vector size for each word
+                min_count=2,                                    #ignore words with frequency lower than 2
+                workers=4)                                      #use 4 processor threads
+model.build_vocab(story)
+model.train(story, total_examples=model.corpus_count, epochs=model.epochs)
+model.wv.most_similar('daenerys')           #result below, because the corpus is from GOT books
+                                            [('stormborn', 0.824600100517273),
+                                            ('unburnt', 0.7458840608596802),
+                                            ('targaryen', 0.7374287247657776),
+                                            ('princess', 0.7150521278381348),
+                                            ('queen', 0.7111046314239502),
+                                            ('myrcella', 0.6616984605789185),
+                                            ('elia', 0.6537615656852722),
+                                            ('viserys', 0.6392196416854858),
+                                            ('margaery', 0.6376862525939941),
+                                            ('prince', 0.6282042264938354)]
+
+model.wv.doesnt_match(['jon','rikon','robb','arya','sansa','bran'])     #prints the odd one i.e. jon
+model.wv.doesnt_match(['cersei', 'jaime', 'bronn', 'tyrion'])           #prints the odd one i.e. bronn
+
+model.wv['king']                                                        #embedding of the word king
+
+model.wv.similarity('arya','sansa')                                     #similarity score of arya and sansa
+
+model.wv.get_normed_vectors()                                           #normalized vectors
+
+
+
+
+#### remove stop words
+from nltk.corpus import stopwords
+sw_list = stopwords.words('english')
+df['review'] = df['review'].apply(
+                lambda x: [item for item in x.split() if item not in sw_list]
+            ).apply(lambda x:" ".join(x))
+
+
+#### preprocess using spacy
+!pip install spacy
+!pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.2.0/en_core_web_sm-2.2.5.tar.gz
+!python -m spacy download en_core_web_sm
+
+import spacy
+import en_core_web_sm
+
+nlp = en_core_web_sm.load()                                             #load spacy model
+
+doc = nlp(u"I will google about facebook")                              #Process a sentence using the model
+doc.text                                                                #'I will google about facebook'
+doc[-1]                                                                 #facebook
+doc[2].pos_                                                             #'VERB'
+doc[2].tag_                                                             #'VB'
+spacy.explain('VB')                                                     #'verb, base form'
+
+for word in doc:
+    print(word.text,"------>", word.pos_,word.tag_,spacy.explain(word.tag_))
+    #I ------> PRON PRP pronoun, personal
+    #will ------> AUX MD verb, modal auxiliary
+    #google ------> VERB VB verb, base form
+    #about ------> ADP IN conjunction, subordinating or preposition
+    #facebook ------> PROPN NNP noun, proper singular
+    
+doc2 = nlp(u"I left the room")
+for word in doc2:
+    print(word.text,"------>", word.pos_,word.tag_,spacy.explain(word.tag_))
+    #I ------> PRON PRP pronoun, personal
+    #left ------> VERB VBD verb, past tense
+    #the ------> DET DT determiner
+    #room ------> NOUN NN noun, singular or mass
+
+from spacy import displacy
+displacy.render(doc6,style='dep',jupyter=True)
+options={
+    'distance':80,
+    'compact':True,
+    'color':'#fff',
+    'bg':'#00a65a'
+}
+displacy.render(doc6,style='dep',jupyter=True,options=options)
+    
+    
+print(doc.vector)                                                       #gives vectorized form of a word
+
+
+
+
+
+
+
+###############################################################################################################
 #### GenAI (LangChain) - Build a Chatbot
 ###############################################################################################################
 import os
