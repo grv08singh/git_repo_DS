@@ -4693,6 +4693,7 @@ df[df['col1'] > 5]                                                  #rows where 
 df[(df['col1'] > 5) & (df['col2'] < 10)]                            #rows where both the conditions meet
 df[df['col1'].isin(['Alice', 'David'])]                             #True if col1.value is either 'Alice' or 'David'
 
+df = df.query('index2 > 5 and col3 != "apple"')                     #filter using a query string
 df = df.query('col1 > 2 and col2 != "apple"')                       #filter using a query string
 a, b = 2, 'apple'
 df = df.query('col1 > @a and col2 == @b')                           #filter using a query string
