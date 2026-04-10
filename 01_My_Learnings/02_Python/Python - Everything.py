@@ -220,6 +220,9 @@ from keras.preprocessing.sequence import pad_sequences
 
 
 
+#################################################
+#sklearn, keras, pandas
+#################################################
 
 #### Techniques of Converting Words into Numbers
 
@@ -274,6 +277,11 @@ print(tfidf.get_feature_names_out())                            #newly created f
 
 
 
+
+
+#################################################
+#gensim.Word2Vec
+#################################################
 #5) Word2Vec : advanced embedding technique
 
 ####Word2Vec using pre-trained model from google
@@ -343,6 +351,9 @@ model.wv.get_normed_vectors()                                           #normali
 
 
 
+#################################################
+#nltk
+#################################################
 #### remove stop words
 from nltk.corpus import stopwords
 sw_list = stopwords.words('english')
@@ -351,6 +362,9 @@ df['review'] = df['review'].apply(
             ).apply(lambda x:" ".join(x))
 
 
+#################################################
+#spacy
+#################################################
 #### preprocess using spacy
 !pip install spacy
 !pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.2.0/en_core_web_sm-2.2.5.tar.gz
