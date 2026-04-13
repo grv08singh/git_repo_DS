@@ -2904,7 +2904,7 @@ from sklearn.preprocessing import LabelEncoder
 le = LabelEncoder()
 for col in df.columns:
     if df[col].dtype == 'object':
-        df[col] = pd.DataFrame(le.fit_transform(df[[col]]))
+        df[col] = pd.DataFrame(le.fit_transform(df[col]))
 
 # 3.1.2 Ordinal Encoding
 from sklearn.preprocessing import OrdinalEncoder
