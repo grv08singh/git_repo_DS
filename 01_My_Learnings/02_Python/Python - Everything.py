@@ -2904,7 +2904,7 @@ from sklearn.preprocessing import LabelEncoder
 le = LabelEncoder()
 for col in df.columns:
     if df[col].dtype == 'object':
-        df[col] = pd.DataFrame(le.fit_transform(df[col]))
+        df[col] = le.fit_transform(df[col])
 
 # 3.1.2 Ordinal Encoding
 from sklearn.preprocessing import OrdinalEncoder
@@ -2973,7 +2973,7 @@ pc = eigen_vectors[:2]
 transformed_df = np.dot(df.iloc[:,:3],pc.T)
 new_df = pd.DataFrame(transformed_df,columns=['PC1','PC2'])
 
-#sklearn implementation
+#PCA with sklearn implementation
 from sklearn.decomposition import PCA
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
@@ -3050,7 +3050,7 @@ rf_r = RandomForestRegressor(n_estimators=100, random_state=42)
 ## 7.10 Gradient Boosting Regressor
 from sklearn.ensemble import GradientBoostingRegressor
 gb_r = GradientBoostingRegressor(n_estimators=500, learning_rate=0.01,
-                                    max_depth=4, loss='ls', random_state=42)
+                                    max_depth=4, loss='squared_error', random_state=42)
 
 ## 7.11 XGBoost Regressor
 from xgboost import XGBRegressor
