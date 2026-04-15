@@ -3126,24 +3126,34 @@ r2_score = r2_score(y_test, y_pred)
 adjusted_r2 = 1 - (1 - r2) * ((n - 1) / (n - p - 1))
 
 ## 8.2 Classification
-## 8.2.1 automatic calculation
+## 8.2.1 manual calculation
+from sklearn.metrics import confusion_matrix
+[tn, fp], [fn, tp] = confusion_matrix(y_test, y_pred).ravel()
+PPV_or_precision = tp / (tp + fp)                                       #PPV=Positive Predictive Value
+TPR_or_recall_or_sensitivity = tp / (tp + fn)                           #TPR=True Positive Rate #Probability of Detection
+f1_score = 2 * precision * recall / (precision + recall)
+
+NPV_or_negativePrecision = tn / (tn + fn)                               #NPV=Negative Predictive Value #Negative Precision
+TNR_or_specificity_or_selectivityOfModel = tn / (tn + fp)               #TNR=True Negative Rate #Specificity #Selectivity of Model
+
+total_support_value = tp + tn + fp + fn
+
+## 8.2.2 automatic calculation
 from sklearn.metrics import confusion_matrix,accuracy_score,roc_auc_score,precision_score,recall_score,f1_score,classification_report
 confusion_matrix(y_test, y_pred)
+
 accuracy_score(y_test, y_pred)
 precision_score(y_test, y_pred)
 recall_score(y_test, y_pred)
 f1_score(y_test, y_pred)
-classification_report(y_test, y_pred)
+
+diff_thresholds = [0.01,0.02,0.03,0.04,0.05,0.1,0.2,0.3,0.5,0.7,0.8,0.9,0.95,0.96,0.97,0.98,0.99]
+FPR, TPR, diff_thresholds = roc_curve(y_test, y_pred)
 roc_auc_score(y_test, y_pred)   #better measure of accuracy in unbalanced dataset
 
-## 8.2.2 manual calculation
-[tn, fp], [fn, tp] = confusion_matrix(y_test, y_pred).ravel()
-precision = tp / (tp + fp)
-recall_or_sensitivity = tp / (tp + fn)
-f1_score = 2 * precision * recall / (precision + recall)
-negative_precision = tn / (tn + fn)
-specificity = tn / (tn + fp)
-total_support_value = tp + tn + fp + fn
+classification_report(y_test, y_pred)
+
+
 
 
 ## 9 Finding Best Hyper Parameters

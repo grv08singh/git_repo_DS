@@ -2,16 +2,16 @@
 <NotepadPlus>
     <FindHistory nbMaxFindHistoryPath="10" nbMaxFindHistoryFilter="10" nbMaxFindHistoryFind="10" nbMaxFindHistoryReplace="10" matchWord="no" matchCase="no" wrap="yes" directionDown="yes" fifRecuisive="yes" fifInHiddenFolder="no" dlgAlwaysVisible="no" fifFilterFollowsDoc="no" fifFolderFollowsDoc="no" searchMode="0" transparencyMode="1" transparency="150" dotMatchesNewline="no" isSearch2ButtonsMode="no" fifProjectPanel1="no" fifProjectPanel2="no" fifProjectPanel3="no" regexBackward4PowerUser="no" bookmarkLine="no" purge="no">
         <Filter name="" />
+        <Find name="machine learning" />
+        <Find name="machine" />
+        <Find name="auc" />
+        <Find name="roc" />
         <Find name="Exploratory" />
         <Find name="EDA" />
         <Find name="label" />
         <Find name="LE" />
         <Find name="&apos;, &apos;" />
         <Find name="&#x000D;&#x000A;       " />
-        <Find name="df.*mean" />
-        <Find name="mean" />
-        <Find name="E4F4F4" />
-        <Find name="FFFFFF" />
         <Replace name="&apos;,&apos;" />
         <Replace name="FFFFFF" />
         <Replace name="E4F4F4" />
@@ -54,7 +54,7 @@
         <GUIConfig name="ScintillaViewsSplitter">vertical</GUIConfig>
         <GUIConfig name="UserDefineDlg" position="undocked">hide</GUIConfig>
         <GUIConfig name="TabSetting" replaceBySpace="no" size="4" backspaceUnindent="no" />
-        <GUIConfig name="AppPosition" x="429" y="85" width="738" height="943" isMaximized="yes" />
+        <GUIConfig name="AppPosition" x="574" y="126" width="738" height="943" isMaximized="yes" />
         <GUIConfig name="FindWindowPosition" left="1116" top="76" right="1853" bottom="462" isLessModeOn="no" />
         <GUIConfig name="FinderConfig" wrappedLines="no" purgeBeforeEverySearch="no" showOnlyOneEntryPerFoundLine="yes" />
         <GUIConfig name="noUpdate" intervalDays="15" nextUpdateDate="20080426" autoUpdateMode="0">yes</GUIConfig>

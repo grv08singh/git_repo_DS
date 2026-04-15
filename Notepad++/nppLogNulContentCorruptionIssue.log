@@ -131,3 +131,11 @@
 2026-03-31 16:42:52  D:\05 GIT\01_masterRepo\Notepad++\session.xml is opened.
 2026-03-31 16:42:52  D:\05 GIT\01_masterRepo\Notepad++\session.xml  845/845 bytes are written.
 2026-03-31 16:42:52  D:\05 GIT\01_masterRepo\Notepad++\session.xml is closed.
+2026-04-12 14:07:17  WM_QUERYENDSESSION (lParam: 2147483648 - ENDSESSION_LOGOFF) =====================================
+2026-04-12 14:07:17  WM_ENDSESSION (wParam: TRUE, lParam: 2147483648 - ENDSESSION_LOGOFF)
+2026-04-12 14:07:18  D:\05 GIT\01_masterRepo\Notepad++\config.xml is opened.
+2026-04-12 14:07:18  D:\05 GIT\01_masterRepo\Notepad++\config.xml  10629/10629 bytes are written.
+2026-04-12 14:07:18  D:\05 GIT\01_masterRepo\Notepad++\config.xml is closed.
+2026-04-12 14:07:18  D:\05 GIT\01_masterRepo\Notepad++\session.xml is opened.
+2026-04-12 14:07:18  D:\05 GIT\01_masterRepo\Notepad++\session.xml  1459/1459 bytes are written.
+2026-04-12 14:07:18  D:\05 GIT\01_masterRepo\Notepad++\session.xml is closed.
