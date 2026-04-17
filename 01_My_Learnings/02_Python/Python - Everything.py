@@ -220,6 +220,9 @@ from keras.preprocessing.sequence import pad_sequences
 
 
 
+#################################################
+#sklearn, keras, pandas
+#################################################
 
 #### Techniques of Converting Words into Numbers
 
@@ -274,6 +277,11 @@ print(tfidf.get_feature_names_out())                            #newly created f
 
 
 
+
+
+#################################################
+#gensim.Word2Vec
+#################################################
 #5) Word2Vec : advanced embedding technique
 
 ####Word2Vec using pre-trained model from google
@@ -343,6 +351,9 @@ model.wv.get_normed_vectors()                                           #normali
 
 
 
+#################################################
+#nltk
+#################################################
 #### remove stop words
 from nltk.corpus import stopwords
 sw_list = stopwords.words('english')
@@ -351,6 +362,9 @@ df['review'] = df['review'].apply(
             ).apply(lambda x:" ".join(x))
 
 
+#################################################
+#spacy
+#################################################
 #### preprocess using spacy
 !pip install spacy
 !pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.2.0/en_core_web_sm-2.2.5.tar.gz
@@ -2890,7 +2904,7 @@ from sklearn.preprocessing import LabelEncoder
 le = LabelEncoder()
 for col in df.columns:
     if df[col].dtype == 'object':
-        df[col] = pd.DataFrame(le.fit_transform(df[[col]]))
+        df[col] = le.fit_transform(df[col])
 
 # 3.1.2 Ordinal Encoding
 from sklearn.preprocessing import OrdinalEncoder
@@ -2959,7 +2973,7 @@ pc = eigen_vectors[:2]
 transformed_df = np.dot(df.iloc[:,:3],pc.T)
 new_df = pd.DataFrame(transformed_df,columns=['PC1','PC2'])
 
-#sklearn implementation
+#PCA with sklearn implementation
 from sklearn.decomposition import PCA
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
@@ -3036,7 +3050,7 @@ rf_r = RandomForestRegressor(n_estimators=100, random_state=42)
 ## 7.10 Gradient Boosting Regressor
 from sklearn.ensemble import GradientBoostingRegressor
 gb_r = GradientBoostingRegressor(n_estimators=500, learning_rate=0.01,
-                                    max_depth=4, loss='ls', random_state=42)
+                                    max_depth=4, loss='squared_error', random_state=42)
 
 ## 7.11 XGBoost Regressor
 from xgboost import XGBRegressor
@@ -4898,6 +4912,7 @@ df[df['col1'] > 5]                                                  #rows where 
 df[(df['col1'] > 5) & (df['col2'] < 10)]                            #rows where both the conditions meet
 df[df['col1'].isin(['Alice', 'David'])]                             #True if col1.value is either 'Alice' or 'David'
 
+df = df.query('index2 > 5 and col3 != "apple"')                     #filter using a query string
 df = df.query('col1 > 2 and col2 != "apple"')                       #filter using a query string
 a, b = 2, 'apple'
 df = df.query('col1 > @a and col2 == @b')                           #filter using a query string

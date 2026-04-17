@@ -1,13 +1,13 @@
 {
     "editor.fontFamily": "Courier New",
-    "editor.fontSize": 16,
+    "editor.fontSize": 15,
     "editor.fontLigatures": true,
     "editor.fontWeight": 600,
-    "terminal.integrated.fontSize": 16,
+    "terminal.integrated.fontSize": 15,
     "terminal.integrated.fontWeight": 600,
     
     "workbench.colorCustomizations": {
-        "titleBar.activeBackground":"#006ca5",
+        "titleBar.activeBackground":"#004cbf",
         "titleBar.activeForeground":"#FFFFFF",
 
         "activityBar.background": "#008e8e",
@@ -26,12 +26,12 @@
         //"editorGroupHeader.tabsBackground":"#e4f4f4",
         "tab.border":"#000000",
 
-        "tab.activeBackground": "#b0e0e0",
-        "tab.activeForeground": "#007777",
-        "tab.activeBorder":"#007777",
+        "tab.activeBackground": "#e4f4f4",
+        "tab.activeForeground": "#000000",
+        //"tab.activeBorder":"#007777",
 
-        "tab.inactiveBackground": "#e4f4f4",
-        "tab.inactiveForeground": "#000000",
+        "tab.inactiveBackground": "#b0e0e0",
+        "tab.inactiveForeground": "#007777",
 
         "breadcrumb.background":"#ffffff",
         "breadcrumb.foreground":"#008e8e",
@@ -98,6 +98,10 @@
         }
     },
     "explorer.confirmDelete": false,
-    "terminal.integrated.enableMultiLinePasteWarning": "never"
+    "terminal.integrated.enableMultiLinePasteWarning": "never",
+    "editor.minimap.enabled": false,
+    "claudeCode.preferredLocation": "panel",
+    "python.terminal.useEnvFile": true,
+    "explorer.confirmDragAndDrop": false
 
 }
