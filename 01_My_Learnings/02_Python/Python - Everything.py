@@ -42,9 +42,123 @@ Projects:
         6) RAG based Organization chatbot
 
 
+ML Project Checks:
+    1) Problem Statement
+    2) Data Collection
+        2.1) Import Data and Required Packages
+        2.2) Dataset Info
+    3) Data Checks
+        3.1) Import numpy, pandas
+        3.2) Import dataset from csv (df = pd.read_csv('file_name.csv')
+        3.3) Check Missing Values - df.isna.sum()
+        3.4) Check Duplicates - df.duplicated(), df.drop_duplicates()
+        3.5) Check data type - df.info()
+        3.6) Check number of unique values of each column - df.nunique()
+        3.7) Check statistics of dataset - df.describe()
+        3.8) Check various categories present in different categorical columns - df['col1'].unique(), df['col1'].value_counts()
+        3.9) Use Pandas Dataset Profiling for further inspection of data
+    4) Exploratory Data Analysis (Visualization)
+        4.1) Import numpy, pandas, matplotlib, seaborn, plotly
+        4.2) Import dataset from csv
+        4.3) Numerical Features: Visualize Mean (Avg.)/ Median/ Mode on Histograms/ KDE for frequency distribution
+        4.4) Categorical Features: Visualize if data is balanced or not
+        4.5)  
+    5) Model Building
+        5.01) Import numpy, pandas, sklearn, catboost, xgboost
+        5.02) Import dataset from csv
+        5.03) X-y split
+        5.04) Create ColumnTransformer for Encoding, Scaling, Imputing missing values
+                from sklearn.compose import ColumnTransformer
+                num_features = df.select_dtypes(exclude='object').columns           #numerical features
+                cat_features = df.select_dtypes(include='object').columns           #categorical features
+                ssc_tnf = StandardScaler()
+                ohe_tnf = OneHotEncoder(drop='First', sparse=False)
+                ord_tnf = OrdinalEncoder(categories=[['low','medium','high']])
+
+                ct = ColumnTransformer(
+                        transformers=[
+                            ('tnf1', ssc_tnf, num_features),
+                            ('tnf2', ohe_tnf, cat_features),
+                            ('tnf3', ord_tnf, ['col1']),
+                            ('tnf4', SimpleImputer(), ['col4'])
+                        ],
+                        remainder = 'passthrough'))
+                ct.fit_transform(df)
+        5.05) Train-Test split
+        5.06) Create an Evaluation Method for after training evaluation on test data
+                def evaluate_model(y_test, y_pred):
+                    mae = mean_absolute_error(y_test, y_pred)
+                    mse = mean_squared_error(y_test, y_pred)
+                    rmse = np.sqrt(mse)
+                    r2_val = r2_score(y_test, y_pred)
+                    return mae, mse, rmse, r2_val
+        5.07) Create a list of models
+                models = {
+                    'Linear Regression': LinearRegression(),
+                    'Ridge Regression': Ridge(),
+                    'Lasso Regression': Lasso(),
+                    'KNN Regressor': KNeighborsRegressor(),
+                    'Decision Tree': DecisionTreeRegressor(),
+                    'Random Forest': RandomForestRegressor(),
+                    'Gradient Boosting': GradientBoostingRegressor(),
+                    'Ada Boost': AdaBoostRegressor(),
+                    'SVM': SVR(),
+                    'XGBoost': XGBRegressor(),
+                    'CatBoost': CatBoostRegressor(verbose=False)
+                }
+        5.08) 
+        5.09) 
+        5.10) 
+        
 
 
-
+###############################################################################################################
+#### End-to-End ML Flow
+###############################################################################################################
+# ML Flow:
+#
+## 01) Data Gathering
+##      01.01) df.info
+##      01.02) df.shape
+##      01.03) df.describe()
+##      01.04) df.duplicated()
+##      01.05) df['col1'].info() - check null vals
+## 02) Data Wrangling / Cleaning / Preprocessing
+##      02.01) df.drop_duplicates()
+##      02.02) df.fillna(mean) / Missing Value Imputation
+##      02.03) df['col1'].astype(int)
+##      02.04) Outlier Detection & Removal
+## 03) Exploratory Data Analysis (EDA)
+##      03.01) Explore Data
+##          03.01.01) Univariate Analysis:
+##                          Histogram
+##                          Frequency plot
+##                          Pie chart
+##                          Box plot
+##                          Frequency distribution
+##          03.01.02) Bivariate Analysis:
+##                          Scatter plot
+##                          Bar chart
+##                          Line chart
+##                          Pie chart
+##          03.01.03) Multivariate Analysis:
+##                          3D Scatter plot
+##                          Heatmap
+##                          Pair plot
+##                          Bar chart with hue
+##                          Histogram with hue
+##          03.01.04) Correlation
+##          03.01.05) Covariance
+##      03.02) Augment Data / Feature Engineering
+##          03.02.01) Merging DataFrames
+##          03.02.02) Adding New Cols
+## 04) Feature Selection
+## 05) Model Building
+## 06) Model Selection
+## 07) Hyper Parameter Tuning
+## 08) Convert to Website/App
+## 09) Deploy
+## 10) Monitor
 
 
 
@@ -154,7 +268,6 @@ wr.filterwarnings('ignore')
 
 #### Machine Learning (ML): sci-kit learn, xgboost, imblearn
 from sklearn.preprocessing import LabelEncoder,OneHotEncoder,OrdinalEncoder,StandardScaler,MinMaxScaler
-from sklearn.impute import SimpleImputer
 from sklearn.model_selection import train_test_split,cross_val_score,GridSearchCV,RandomizedSearchCV
 from imblearn.over_sampling import SMOTE                #SMOTE - Synthetic Minority Oversampling Technique
 
@@ -165,15 +278,17 @@ from sklearn.svm import SVR,SVC
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import r2_score,accuracy_score,roc_auc_score,precision_score,recall_score,f1_score
                             ,confusion_matrix,ConfusionMatrixDisplay,classification_report
-from xgboost import XGBRegressor, XGBClassifier
-
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+from sklearn.feature_selection import SelectKBest, chi2
 
-from sklearn.feature_selection import SelectKBest,chi2
-from sklearn.compose import ColumnTransformer,make_column_transformer
-from sklearn.pipeline import Pipeline,make_pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.compose import ColumnTransformer, make_column_transformer
+from sklearn.pipeline import Pipeline, make_pipeline
+
+from xgboost import XGBRegressor, XGBClassifier
+
 
 ####Deep Learning (DL): tensorflow, keras
 import tensorflow as tf
@@ -2760,59 +2875,6 @@ print(input_text)
 
 
 
-###############################################################################################################
-#### End-to-End ML Flow
-###############################################################################################################
-# ML Flow:
-#
-## 01) Data Gathering
-##      01.01) df.info
-##      01.02) df.shape
-##      01.03) df.describe()
-##      01.04) df.duplicated()
-##      01.05) df['col1'].info() - check null vals
-## 02) Data Wrangling / Cleaning / Preprocessing
-##      02.01) df.drop_duplicates()
-##      02.02) df.fillna(mean) / Missing Value Imputation
-##      02.03) df['col1'].astype(int)
-##      02.04) Outlier Detection & Removal
-## 03) Exploratory Data Analysis (EDA)
-##      03.01) Explore Data
-##          03.01.01) Univariate Analysis:
-##                          Histogram
-##                          Frequency plot
-##                          Pie chart
-##                          Box plot
-##                          Frequency distribution
-##          03.01.02) Bivariate Analysis:
-##                          Scatter plot
-##                          Bar chart
-##                          Line chart
-##                          Pie chart
-##          03.01.03) Multivariate Analysis:
-##                          3D Scatter plot
-##                          Heatmap
-##                          Pair plot
-##                          Bar chart with hue
-##                          Histogram with hue
-##          03.01.04) Correlation
-##          03.01.05) Covariance
-##      03.02) Augment Data / Feature Engineering
-##          03.02.01) Merging DataFrames
-##          03.02.02) Adding New Cols
-## 04) Feature Selection
-## 05) Model Building
-## 06) Model Selection
-## 07) Hyper Parameter Tuning
-## 08) Convert to Website/App
-## 09) Deploy
-## 10) Monitor
-
-
-
-
-
-
 
 
 
@@ -2916,23 +2978,33 @@ from sklearn.preprocessing import OneHotEncoder
 ohe = OneHotEncoder(drop='First', sparse_output=False, handle_unknown='ignore')
 df['col1'] = pd.DataFrame(ohe.fit_transform(df[['col1']]))
 ## One Hot Encoding - using Pandas [column names retained]
-pd.get_dummies(df,columns=['col1','col2'],drop_first=True)      #OHE for col1 and col2
+pd.get_dummies(df,columns=['col1','col2'],drop_first=True)          #OHE for col1 and col2
 
 # 3.1.4 Simple Imputer [replace missing values with col mean]
 from sklearn.impute import SimpleImputer
-si = SimpleImputer()                                            #mean by default
-si = SimpleImputer(strategy = 'median')                         #median
-si = SimpleImputer(strategy = 'most_frequent')                  #mode
+si = SimpleImputer()                                                #mean by default
+si = SimpleImputer(strategy = 'median')                             #median
+si = SimpleImputer(strategy = 'most_frequent')                      #mode
 df['col1'] = pd.DataFrame(si.fit_transform(df[['col1']]))
 
 # 3.1.5 Encoding - Using Column Transformer [task of above steps becomes easier]
 from sklearn.compose import ColumnTransformer
-ct = ColumnTransformer(transformers=[
-                                        ('tnf1', OrdinalEncoder(categories=[['low','medium','high']]), ['col1']),
-                                        ('tnf2', OneHotEncoder(drop='First', sparse=False), ['col2', 'col3']),
-                                        ('tnf3', SimpleImputer(), ['col4'])
-                                    ],
-                        remainder = 'passthrough'))
+
+num_features = df.select_dtypes(exclude='object').columns           #numerical features
+cat_features = df.select_dtypes(include='object').columns           #categorical features
+
+ssc_tnf = StandardScaler()
+ohe_tnf = OneHotEncoder(drop='First', sparse=False)
+ord_tnf = OrdinalEncoder(categories=[['low','medium','high']])
+
+ct = ColumnTransformer(
+        transformers=[
+            ('tnf1', ssc_tnf, num_features),
+            ('tnf2', ohe_tnf, cat_features),
+            ('tnf3', ord_tnf, ['col1']),
+            ('tnf4', SimpleImputer(), ['col4'])
+        ],
+        remainder = 'passthrough'))
 ct.fit_transform(df)
 
 
@@ -4926,6 +4998,8 @@ df.filter(regex = '^N', axis = 1)                                   #selects col
 df['col1'].dtype                                                    #col1 dtype
 df['col1'].hasnans                                                  #True if col1 has NaNsr.size                                                             
 df['col1'].size                                                     #col1 item counts (inc. NaN)
+num_features = df.select_dtypes(exclude='object').columns           #numerical features
+cat_features = df.select_dtypes(include='object').columns           #categorical features
 
 #col methods
 df['col1'].value_counts()                                           #col1 (in pd.Series form) unique value count [sr & df both]

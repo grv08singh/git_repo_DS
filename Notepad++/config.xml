@@ -2,16 +2,16 @@
 <NotepadPlus>
     <FindHistory nbMaxFindHistoryPath="10" nbMaxFindHistoryFilter="10" nbMaxFindHistoryFind="10" nbMaxFindHistoryReplace="10" matchWord="no" matchCase="no" wrap="yes" directionDown="yes" fifRecuisive="yes" fifInHiddenFolder="no" dlgAlwaysVisible="no" fifFilterFollowsDoc="no" fifFolderFollowsDoc="no" searchMode="0" transparencyMode="1" transparency="150" dotMatchesNewline="no" isSearch2ButtonsMode="no" fifProjectPanel1="no" fifProjectPanel2="no" fifProjectPanel3="no" regexBackward4PowerUser="no" bookmarkLine="no" purge="no">
         <Filter name="" />
+        <Find name="," />
+        <Find name="numpy" />
+        <Find name="compose" />
+        <Find name="column transformer" />
+        <Find name="num_features" />
+        <Find name="dtype" />
+        <Find name="pd.read_csv" />
+        <Find name="ipykernel" />
         <Find name="machine learning" />
         <Find name="machine" />
-        <Find name="auc" />
-        <Find name="roc" />
-        <Find name="Exploratory" />
-        <Find name="EDA" />
-        <Find name="label" />
-        <Find name="LE" />
-        <Find name="&apos;, &apos;" />
-        <Find name="&#x000D;&#x000A;       " />
         <Replace name="&apos;,&apos;" />
         <Replace name="FFFFFF" />
         <Replace name="E4F4F4" />
