@@ -6,7 +6,8 @@
 
 #E97550 #1D78B7 #0F5989 #FACE0F
 
-
+F:
+cd "F:\Grv\Grv\01 GIT\14_Proj_ML_99Acres"
 
 jupyter notebook --notebook-dir="D:\05 GIT\14_Proj_ML_99Acres"
 jupyter notebook --notebook-dir="D:\05 GIT\12_GenAI_projects\01_EngHin_Translator_EncDec"
@@ -6520,14 +6521,15 @@ PSComputerName        :
 ## C:\Users\grv06\AppData\Roaming\Code\User\settings.json
 
 
-conda create --name <dummy_env> python=3.8                          #Create Python env using conda
+conda create --name venv python=3.11                                #Create Python env using conda
+conda create -p venv python=3.11 -y                                 #Create Python env in current directory
 conda env list                                                      #list of env
-conda activate <dummy_env>                                          #activate an env
+conda activate venv                                                 #activate an env
 conda deactivate                                                    #deactivate current env 
 conda list                                                          #list of installed packages in activated env
 conda env export --name <dummy_env> --file <dummy_env>.yml          #export env
 conda env create --file <dummy_env>.yml                             #import env OR create env from yml file
-conda remove --name <dummy_env> --all                               #remove / delete env
+conda remove --name venv --all                                      #remove / delete env
 python -m ipykernel install --user --name=<dummy_env>               #create an appropriate Jupyter Notebook kernel mapped to new environment
 jupyter kernelspec list                                             #list all jupyter notebook kernels for current environment
 jupyter kernelspec uninstall <kernel_name>
