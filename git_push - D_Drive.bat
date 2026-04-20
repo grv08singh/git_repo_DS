@@ -39,12 +39,12 @@ SET REPO_COUNT=0
         GOTO COUNT_LOOP
     )
 
-ECHO.
-ECHO +------------------------------------------------------+
-ECHO ¦           MULTI-REPO GIT SYNC STARTED               ¦
-ECHO ¦   Total Repositories Found: %REPO_COUNT%                        ¦
-ECHO +------------------------------------------------------+
-ECHO.
+:: ECHO.
+:: ECHO +------------------------------------------------------+
+:: ECHO ¦           MULTI-REPO GIT SYNC STARTED               ¦
+:: ECHO ¦   Total Repositories Found: %REPO_COUNT%                        ¦
+:: ECHO +------------------------------------------------------+
+:: ECHO.
 
 :: Loop through each repo
 SET INDEX=0
@@ -148,7 +148,7 @@ ECHO ¦  ? Pushed Successfully : !PASS!                              ¦
 ECHO ¦  - No Changes (Skipped): !SKIPPED!                              ¦
 ECHO ¦  ? Failed              : !FAIL!                              ¦
 ECHO +------------------------------------------------------+
-ECHO.
+:: ECHO.
 
 PAUSE
 ENDLOCAL
