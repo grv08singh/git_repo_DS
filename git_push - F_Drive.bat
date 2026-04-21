@@ -49,6 +49,7 @@ ECHO.
 :: Loop through each repo
 SET INDEX=0
 :REPO_LOOP
+	ECHO +***************************************************************************
 	SET COMMIT_MSG=Auto-Push:__%DATE%__%TIME%
     IF NOT DEFINED REPOS[%INDEX%] GOTO SUMMARY
 
