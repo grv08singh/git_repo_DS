@@ -2,33 +2,32 @@
 SETLOCAL ENABLEDELAYEDEXPANSION
 
 :: ---------------------------------------------------------------
-::  MULTI-REPO GIT SYNC SCRIPT
-::  Add your repository paths below (one per line, no trailing \)
+::  MULTI-REPO GIT SYNC SCRIPT — Gaurav's Repositories
 :: ---------------------------------------------------------------
 
+SET BASE_PATH=F:\Grv\Grv\01 GIT
 SET BRANCH=main
+SET COMMIT_MSG=Auto-sync: %DATE% %TIME%
 SET PASS=0
 SET FAIL=0
 SET SKIPPED=0
 
-:: --- ADD YOUR REPO PATHS HERE -----------------------------------
-SET REPOS[0]="F:\Grv\Grv\01 GIT\01_masterRepo"
-SET REPOS[1]="F:\Grv\Grv\01 GIT\14_Proj_ML_99Acres"
-SET REPOS[2]="F:\Grv\Grv\01 GIT\15_AI_Travel_Agent"
-SET REPOS[3]="F:\Grv\Grv\01 GIT\13_Misc_projects"
-SET REPOS[4]="F:\Grv\Grv\01 GIT\12_GenAI_projects"
-SET REPOS[5]="F:\Grv\Grv\01 GIT\11_NLP_projects"
-SET REPOS[6]="F:\Grv\Grv\01 GIT\10_DL_projects"
-SET REPOS[7]="F:\Grv\Grv\01 GIT\09_ML_projects"
-SET REPOS[8]="F:\Grv\Grv\01 GIT\08_WebScraping_projects"
-SET REPOS[9]="F:\Grv\Grv\01 GIT\07_EDA_projects"
-SET REPOS[10]="F:\Grv\Grv\01 GIT\06_Statistical_Analysis_projects"
-SET REPOS[11]="F:\Grv\Grv\01 GIT\05_Python_projects"
-SET REPOS[12]="F:\Grv\Grv\01 GIT\04_PowerBI_projects"
-SET REPOS[13]="F:\Grv\Grv\01 GIT\03_SQL_projects"
-SET REPOS[13]="F:\Grv\Grv\01 GIT\02_Excel_projects"
-:: Add more as needed:
-:: SET REPOS[3]=C:\path\to\repo4
+:: --- REPOSITORY NAMES ------------------------------------------
+SET REPOS[0]=01_masterRepo
+SET REPOS[1]=14_Proj_ML_99Acres
+SET REPOS[2]=15_AI_Travel_Agent
+SET REPOS[3]=13_Misc_projects
+SET REPOS[4]=12_GenAI_projects
+SET REPOS[5]=11_NLP_projects
+SET REPOS[6]=10_DL_projects
+SET REPOS[7]=09_ML_projects
+SET REPOS[8]=08_WebScraping_projects
+SET REPOS[9]=07_EDA_projects
+SET REPOS[10]=06_Statistical_Analysis_projects
+SET REPOS[11]=05_Python_projects
+SET REPOS[12]=04_PowerBI_projects
+SET REPOS[13]=03_SQL_projects
+SET REPOS[14]=02_Excel_projects
 :: ----------------------------------------------------------------
 
 :: Count repos
@@ -40,81 +39,82 @@ SET REPO_COUNT=0
     )
 
 ECHO.
-ECHO +------------------------------------------------------+
-ECHO ¦           MULTI-REPO GIT SYNC STARTED               ¦
-ECHO ¦   Total Repositories Found: %REPO_COUNT%                        ¦
-ECHO +------------------------------------------------------+
+ECHO +----------------------------------------------------------+
+ECHO ¦            MULTI-REPO GIT SYNC STARTED                  ¦
+ECHO ¦   Base Path : %BASE_PATH%
+ECHO ¦   Branch    : %BRANCH%
+ECHO ¦   Repos     : %REPO_COUNT%
+ECHO +----------------------------------------------------------+
 ECHO.
 
-:: Loop through each repo
+:: --- MAIN LOOP -------------------------------------------------
 SET INDEX=0
 :REPO_LOOP
-	ECHO +***************************************************************************
-	SET COMMIT_MSG=Auto-Push:__%DATE%__%TIME%
     IF NOT DEFINED REPOS[%INDEX%] GOTO SUMMARY
 
-    SET CURRENT_REPO=!REPOS[%INDEX%]!
+    :: Build full path by concatenating BASE_PATH + REPO NAME
+    SET REPO_NAME=!REPOS[%INDEX%]!
+    SET FULL_PATH=%BASE_PATH%\!REPO_NAME!
+    SET /A DISPLAY_NUM=%INDEX%+1
     SET /A INDEX+=1
 
-    ECHO +------------------------------------------------------
-    ECHO ¦ [REPO %INDEX%] !CURRENT_REPO!
-    ECHO +------------------------------------------------------
+    ECHO +----------------------------------------------------------
+    ECHO ¦ [%DISPLAY_NUM%/%REPO_COUNT%] !REPO_NAME!
+    ECHO ¦ Path: !FULL_PATH!
+    ECHO +----------------------------------------------------------
 
-    :: Check if folder exists
-    IF NOT EXIST "!CURRENT_REPO!" (
-        ECHO   [ERROR] Path does not exist: !CURRENT_REPO!
+    :: -- Validate path exists ----------------------------------
+    IF NOT EXIST "!FULL_PATH!" (
+        ECHO   [ERROR] Path does not exist: !FULL_PATH!
         SET /A FAIL+=1
         ECHO.
         GOTO REPO_LOOP
     )
 
-    :: Navigate to repo
-    cd /d "!CURRENT_REPO!"
+    :: -- Navigate to repo --------------------------------------
+    cd /d "!FULL_PATH!"
     IF ERRORLEVEL 1 (
-        ECHO   [ERROR] Could not navigate to: !CURRENT_REPO!
+        ECHO   [ERROR] Could not navigate to: !FULL_PATH!
         SET /A FAIL+=1
         ECHO.
         GOTO REPO_LOOP
     )
 
-    :: Validate it's a git repo
+    :: -- Validate it's a git repo ------------------------------
     git rev-parse --is-inside-work-tree >NUL 2>&1
     IF ERRORLEVEL 1 (
-        ECHO   [ERROR] Not a git repository: !CURRENT_REPO!
+        ECHO   [ERROR] Not a valid git repository: !FULL_PATH!
         SET /A FAIL+=1
         ECHO.
         GOTO REPO_LOOP
     )
 
     :: -- STEP 1: Pull ------------------------------------------
-    ECHO   ^> Pulling from origin/%BRANCH%...
+    ECHO   ^> [1/3] Pulling from origin/%BRANCH%...
     git pull origin %BRANCH% 2>&1
     IF ERRORLEVEL 1 (
-        ECHO   [ERROR] git pull failed. Skipping commit/push for this repo.
+        ECHO   [ERROR] git pull failed. Skipping commit/push.
         SET /A FAIL+=1
         ECHO.
         GOTO REPO_LOOP
     )
 
-    :: -- STEP 2: Status ----------------------------------------
-    ECHO.
-    ECHO   ^> Checking status...
+    :: -- STEP 2: Check Status ----------------------------------
+    ECHO   ^> [2/3] Checking status...
     git status
 
-    :: Detect changes using --porcelain
-    git status --porcelain > "%TEMP%\git_status_%INDEX%.txt" 2>&1
-    FOR /F %%A IN ("%TEMP%\git_status_%INDEX%.txt") DO SET FILE_SIZE=%%~zA
+    git status --porcelain > "%TEMP%\git_status_!INDEX!.txt" 2>&1
+    FOR /F %%A IN ("%TEMP%\git_status_!INDEX!.txt") DO SET FILE_SIZE=%%~zA
 
     IF "!FILE_SIZE!"=="0" (
-        ECHO   [INFO] No changes. Nothing to commit.
+        ECHO   [SKIPPED] No local changes detected.
         SET /A SKIPPED+=1
         ECHO.
         GOTO REPO_LOOP
     )
 
     :: -- STEP 3: Add, Commit, Push -----------------------------
-    ECHO.
-    ECHO   ^> Changes detected! Staging all files...
+    ECHO   ^> [3/3] Staging all changes...
     git add .
 
     ECHO   ^> Committing...
@@ -129,26 +129,28 @@ SET INDEX=0
     ECHO   ^> Pushing to origin/%BRANCH%...
     git push origin %BRANCH% 2>&1
     IF ERRORLEVEL 1 (
-        ECHO   [ERROR] git push failed. Check credentials/remote.
+        ECHO   [ERROR] git push failed. Check your credentials/remote.
         SET /A FAIL+=1
         ECHO.
         GOTO REPO_LOOP
     )
 
-    ECHO   [SUCCESS] Synced successfully!
+    ECHO   [SUCCESS] !REPO_NAME! synced successfully!
     SET /A PASS+=1
     ECHO.
     GOTO REPO_LOOP
 
-:: -- SUMMARY ---------------------------------------------------
+:: --- SUMMARY ---------------------------------------------------
 :SUMMARY
-ECHO +------------------------------------------------------+
-ECHO ¦                    SYNC SUMMARY                     ¦
-ECHO ¦------------------------------------------------------¦
-ECHO ¦  ? Pushed Successfully : !PASS!                              ¦
-ECHO ¦  - No Changes (Skipped): !SKIPPED!                              ¦
-ECHO ¦  ? Failed              : !FAIL!                              ¦
-ECHO +------------------------------------------------------+
+ECHO.
+ECHO +----------------------------------------------------------+
+ECHO ¦                     SYNC SUMMARY                        ¦
+ECHO ¦----------------------------------------------------------¦
+ECHO ¦  Total Repositories  : %REPO_COUNT%
+ECHO ¦  Pushed Successfully : !PASS!
+ECHO ¦  No Changes (Skipped): !SKIPPED!
+ECHO ¦  Failed               : !FAIL!
+ECHO +----------------------------------------------------------+
 ECHO.
 
 PAUSE
