@@ -50,6 +50,7 @@ ECHO.
 :: --- MAIN LOOP -------------------------------------------------
 SET INDEX=0
 :REPO_LOOP
+	ECHO ******************************************************************************************
     IF NOT DEFINED REPOS[%INDEX%] GOTO SUMMARY
 
     :: Build full path by concatenating BASE_PATH + REPO NAME
