@@ -2,6 +2,7 @@
 <NotepadPlus>
     <FindHistory nbMaxFindHistoryPath="10" nbMaxFindHistoryFilter="10" nbMaxFindHistoryFind="10" nbMaxFindHistoryReplace="10" matchWord="no" matchCase="no" wrap="yes" directionDown="yes" fifRecuisive="yes" fifInHiddenFolder="no" dlgAlwaysVisible="no" fifFilterFollowsDoc="no" fifFolderFollowsDoc="no" searchMode="0" transparencyMode="1" transparency="150" dotMatchesNewline="no" isSearch2ButtonsMode="no" fifProjectPanel1="no" fifProjectPanel2="no" fifProjectPanel3="no" regexBackward4PowerUser="no" bookmarkLine="no" purge="no">
         <Filter name="" />
+        <Find name="streamlit" />
         <Find name="git push" />
         <Find name="," />
         <Find name="numpy" />
@@ -11,7 +12,6 @@
         <Find name="dtype" />
         <Find name="pd.read_csv" />
         <Find name="ipykernel" />
-        <Find name="machine learning" />
         <Replace name="git push -u origin main" />
         <Replace name="&apos;,&apos;" />
         <Replace name="FFFFFF" />
@@ -27,16 +27,16 @@
         <root foldername="E:\ICS_Scheme\AS2.0\AS20242" />
     </FileBrowser>
     <History nbMaxFile="10" inSubMenu="no" customLength="-1">
-        <File filename="C:\Users\Dex\Desktop\git_push.bat" />
-        <File filename="D:\05 GIT\14_Proj_ML_99Acres\main.py" />
-        <File filename="D:\05 GIT\14_Proj_ML_99Acres\README.md" />
         <File filename="D:\05 GIT\01_masterRepo\04_CampusX_100_Days_of_ML\99Acres_Capstone Project\baseline model.ipynb" />
         <File filename="D:\05 GIT\01_masterRepo\VS Code My Theme\settings.json" />
         <File filename="D:\Downloads\travel_itinerary.md" />
         <File filename="D:\05 GIT\01_masterRepo\Notepad++\stylers.xml" />
         <File filename="C:\Users\Dex\Desktop\aa.bat" />
-        <File filename="D:\05 GIT\01_masterRepo\git_push - F_Drive.bat" />
         <File filename="D:\05 GIT\01_masterRepo\git_push.bat" />
+        <File filename="D:\05 GIT\01_masterRepo\git_push - F_Drive.bat" />
+        <File filename="D:\05 GIT\01_masterRepo\git_push - D_Drive.bat" />
+        <File filename="D:\05 GIT\15_AI_Travel_Agent\app.py" />
+        <File filename="D:\05 GIT\01_masterRepo\04_CampusX_100_Days_of_ML\kmeans\app.py" />
     </History>
     <ProjectPanels>
         <ProjectPanel id="0" workSpaceFile="" />

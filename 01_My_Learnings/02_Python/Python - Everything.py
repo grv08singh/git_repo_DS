@@ -7,8 +7,8 @@
 
 #E97550 #1D78B7 #0F5989 #FACE0F
 
-F:
-cd "F:\Grv\Grv\01 GIT\14_Proj_ML_99Acres"
+D:
+cd "D:\05 GIT\14_Proj_ML_99Acres"
 
 jupyter notebook --notebook-dir="D:\05 GIT\14_Proj_ML_99Acres"
 jupyter notebook --notebook-dir="D:\05 GIT\12_GenAI_projects\01_EngHin_Translator_EncDec"
@@ -16,9 +16,12 @@ jupyter notebook --notebook-dir="D:\05 GIT\12_GenAI_projects\01_EngHin_Translato
 jupyter notebook --notebook-dir="D:\05 GIT\13_Misc_projects\04_YT_Timestamp_Gen"
 
 
-jupyter notebook --notebook-dir="F:\Grv\Grv\01 GIT\14_Proj_ML_99Acres"
-jupyter notebook --notebook-dir="F:\Grv\Grv\01 GIT\13_Misc_projects\05_Email_ID_Extractor"
-jupyter notebook --notebook-dir="F:\Grv\Grv\01 GIT\01_masterRepo\01_My_Learnings\02_Python\02_ML\03_self_ml_dl_models"
+F:
+cd "F:\Grv\Grv\05 GIT\14_Proj_ML_99Acres"
+
+jupyter notebook --notebook-dir="F:\Grv\Grv\05 GIT\14_Proj_ML_99Acres"
+jupyter notebook --notebook-dir="F:\Grv\Grv\05 GIT\13_Misc_projects\05_Email_ID_Extractor"
+jupyter notebook --notebook-dir="F:\Grv\Grv\05 GIT\01_masterRepo\01_My_Learnings\02_Python\02_ML\03_self_ml_dl_models"
 jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\01_masterRepo\Eng_Hin_Translator"
 
 
@@ -162,6 +165,182 @@ ML Project Checks:
 ## 09) Deploy
 ## 10) Monitor
 
+
+
+
+
+
+
+
+###############################################################################################################
+#### streamlit - st online cloud deployment
+###############################################################################################################
+import streamlit as st
+import pandas as pd
+import matplotlib.pyplot as plt
+
+def load_overall_analysis():
+    st.title('Overall Analysis')
+    # total invested amount
+    total = round(df['amount'].sum())
+    # max amount infused in a startup
+    max_funding = df.groupby('startup')['amount'].max().sort_values(ascending=False).head(1).values[0]
+    # avg ticket size
+    avg_funding = df.groupby('startup')['amount'].sum().mean()
+    # total funded startups
+    num_startups = df['startup'].nunique()
+
+    col1,col2,col3,col4 = st.columns(4)
+    with col1:
+        st.metric('Total',str(total) + ' Cr')
+    with col2:
+        st.metric('Max', str(max_funding) + ' Cr')
+    with col3:
+        st.metric('Avg',str(round(avg_funding)) + ' Cr')
+    with col4:
+        st.metric('Funded Startups',num_startups)
+
+    st.header('MoM graph')
+    selected_option = st.selectbox('Select Type',['Total','Count'])
+    if selected_option == 'Total':
+        temp_df = df.groupby(['year', 'month'])['amount'].sum().reset_index()
+    else:
+        temp_df = df.groupby(['year', 'month'])['amount'].count().reset_index()
+    temp_df['x_axis'] = temp_df['month'].astype('str') + '-' + temp_df['year'].astype('str')
+    fig3, ax3 = plt.subplots()
+    ax3.plot(temp_df['x_axis'], temp_df['amount'])
+    st.pyplot(fig3)
+
+
+def load_investor_details(investor):
+    st.title(investor)
+    # load the recent 5 investments of the investor
+    last5_df = df[df['investors'].str.contains(investor)].head()[['date', 'startup', 'vertical', 'city', 'round', 'amount']]
+    st.subheader('Most Recent Investments')
+    st.dataframe(last5_df)
+    col1, col2 = st.columns(2)
+    with col1:
+        # biggest investments
+        big_series = df[df['investors'].str.contains(investor)].groupby('startup')['amount'].sum().sort_values(ascending=False).head()
+        st.subheader('Biggest Investments')
+        fig, ax = plt.subplots()
+        ax.bar(big_series.index,big_series.values)
+        st.pyplot(fig)
+
+    with col2:
+        verical_series = df[df['investors'].str.contains(investor)].groupby('vertical')['amount'].sum()
+        st.subheader('Sectors invested in')
+        fig1, ax1 = plt.subplots()
+        ax1.pie(verical_series,labels=verical_series.index,autopct="%0.01f%%")
+        st.pyplot(fig1)
+        
+    print(df.info())
+    df['year'] = df['date'].dt.year
+    year_series = df[df['investors'].str.contains(investor)].groupby('year')['amount'].sum()
+    st.subheader('YoY Investment')
+    fig2, ax2 = plt.subplots()
+    ax2.plot(year_series.index,year_series.values)
+    st.pyplot(fig2)
+
+
+
+st.set_page_config(layout='wide',page_title='StartUp Analysis')
+df = pd.read_csv('startup_cleaned.csv')
+df['date'] = pd.to_datetime(df['date'],errors='coerce')
+df['month'] = df['date'].dt.month
+df['year'] = df['date'].dt.year
+st.sidebar.title('Startup Funding Analysis')
+option = st.sidebar.selectbox('Select One',['Overall Analysis','StartUp','Investor'])
+if option == 'Overall Analysis':
+    load_overall_analysis()
+elif option == 'StartUp':
+    st.sidebar.selectbox('Select StartUp',sorted(df['startup'].unique().tolist()))
+    btn1 = st.sidebar.button('Find StartUp Details')
+    st.title('StartUp Analysis')
+else:
+    selected_investor = st.sidebar.selectbox('Select StartUp',sorted(set(df['investors'].str.split(',').sum())))
+    btn2 = st.sidebar.button('Find Investor Details')
+    if btn2:
+        load_investor_details(selected_investor)
+ 
+
+
+
+##########################################################
+
+import streamlit as st
+import pandas as pd
+import time
+
+st.title('Startup Dashboard')
+st.header('I am learning Streamlit')
+st.subheader('Salman Khan!')
+
+st.write('This is a normal text')
+
+st.markdown("""
+### My favorite movies
+- Race 3
+- Humshakals
+- Housefull
+""")
+
+st.code("""
+def foo(input):
+    return foo**2
+
+x = foo(2)
+""")
+
+st.latex('x^2 + y^2 + 2 = 0')
+df = pd.DataFrame({
+    'name': ['Nitish', 'Ankit', 'Anupam'],
+    'marks': [50, 60, 70],
+    'package': [10, 12, 14]
+})
+st.dataframe(df)
+st.metric('Revenue', 'Rs 3L', '-3%')
+st.json({
+    'name': ['Nitish', 'Ankit', 'Anupam'],
+    'marks': [50, 60, 70],
+    'package': [10, 12, 14]
+})
+st.image('unnamed.jpg')
+st.video('Task12.m4v')
+st.sidebar.title('Sidebar ka Title')
+col1, col2, col3 = st.columns(3)
+with col1:
+    st.image('unnamed.jpg')
+with col2:
+    st.image('unnamed.jpg')
+with col3:
+    st.image('unnamed.jpg')
+st.error('Login Failed')
+st.success('Login Successful')
+st.info('Login Successful')
+st.warning('Login Successful')
+bar = st.progress(0)
+for i in range(1, 101):
+    bar.progress(i)
+email = st.text_input('Enter email')
+number = st.number_input('Enter age')
+st.date_input('Enter regis date')
+email = st.text_input('Enter email')
+password = st.text_input('Enter password')
+gender = st.selectbox('Select gender',['male','female','others'])
+btn = st.button('Login Karo')
+
+# if the button is clicked
+if btn:
+    if email == 'nitish@gmail.com' and password == '1234':
+        st.balloons()
+        st.write(gender)
+    else:
+        st.error('Login Failed')
+file = st.file_uploader('Upload a csv file')
+if file is not None:
+    df = pd.read_csv(file)
+    st.dataframe(df.describe())
 
 
 
