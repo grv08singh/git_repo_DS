@@ -1,0 +1,72 @@
+
+
+class CustomData:
+    def __init__(self,
+                    bedroom: int,
+                    sector: str,
+                    floor_rise: str,
+                    age: str,
+                    has_hospital_or_clinic: bool,
+                    has_mall: bool,
+                    has_market: bool,
+                    has_park: bool,
+                    has_bank_or_atm: bool,
+                    has_institute: bool,
+                    has_airport: bool,
+                    has_metro_stn: bool):
+
+        self.bedroom = bedroom
+        self.sector = sector
+        self.floor_rise = floor_rise
+        self.age = age
+        self.has_hospital_or_clinic = has_hospital_or_clinic
+        self.has_mall = has_mall
+        self.has_market = has_market
+        self.has_park = has_park
+        self.has_bank_or_atm = has_bank_or_atm
+        self.has_institute = has_institute
+        self.has_airport = has_airport
+        self.has_metro_stn = has_metro_stn
+
+
+    def get_data_as_dataframe(self):
+        try:
+            custom_data_input_dict = {
+                "area_sqm": [],
+                "bedroom": [self.bedroom],
+                "bathroom": [],
+                "balcony": [],
+                "addl_room": [],
+                "sector": [self.sector],
+                "landmark_count": [],
+                "has_hospital_or_clinic": [self.has_hospital_or_clinic],
+                "has_police_stn": [0],
+                "has_fire_stn": [0],
+                "has_mall": [self.has_mall],
+                "has_market": [self.has_market],
+                "has_park": [self.has_park],
+                "has_bank_or_atm": [self.has_bank_or_atm],
+                "has_institute": [self.has_institute],
+                "has_airport": [self.has_airport],
+                "has_rly_stn": [0],
+                "has_metro_stn": [self.has_metro_stn],
+                "has_expy": [0],
+                "has_petrol_pump": [0],
+                "has_hotel": [0],
+                "has_temple_or_church": [0],
+                "has_famous_chowk": [0],
+                "has_club": [0],
+                "has_stadium": [0],
+                "has_restro_cafe": [0],
+                "area_type": ['super built up'],
+                "floor_rise": [self.floor_rise],
+                "age": [self.age],
+                "society": [],
+                "city": ['gurgaon']
+            }
+
+            return pd.DataFrame(custom_data_input_dict)
+
+        except Exception as e:
+            logging.info("Exception occurred in get_data_as_dataframe method of CustomData class")
+            raise CustomException(e, sys)
