@@ -5,7 +5,7 @@ SETLOCAL ENABLEDELAYEDEXPANSION
 ::  MULTI-REPO GIT SYNC SCRIPT — Gaurav's Repositories
 :: ---------------------------------------------------------------
 
-SET BASE_PATH=F:\Grv\Grv\01 GIT
+SET BASE_PATH=F:\Grv\Grv\05 GIT
 SET BRANCH=main
 SET COMMIT_MSG=Auto-sync: %DATE% %TIME%
 SET PASS=0
