@@ -38,15 +38,6 @@ SET REPO_COUNT=0
         GOTO COUNT_LOOP
     )
 
-ECHO.
-ECHO +----------------------------------------------------------+
-ECHO ¦            MULTI-REPO GIT SYNC STARTED                  ¦
-ECHO ¦   Base Path : %BASE_PATH%
-ECHO ¦   Branch    : %BRANCH%
-ECHO ¦   Repos     : %REPO_COUNT%
-ECHO +----------------------------------------------------------+
-ECHO.
-
 :: --- MAIN LOOP -------------------------------------------------
 SET INDEX=0
 :REPO_LOOP
@@ -59,9 +50,7 @@ SET INDEX=0
     SET /A DISPLAY_NUM=%INDEX%+1
     SET /A INDEX+=1
 
-    ECHO +----------------------------------------------------------
     ECHO ¦ [%DISPLAY_NUM%/%REPO_COUNT%] !REPO_NAME!
-    ECHO ¦ Path: !FULL_PATH!
     ECHO +----------------------------------------------------------
 
     :: -- Validate path exists ----------------------------------
@@ -143,9 +132,6 @@ SET INDEX=0
 
 :: --- SUMMARY ---------------------------------------------------
 :SUMMARY
-ECHO.
-ECHO +----------------------------------------------------------+
-ECHO ¦                     SYNC SUMMARY                        ¦
 ECHO ¦----------------------------------------------------------¦
 ECHO ¦  Total Repositories  : %REPO_COUNT%
 ECHO ¦  Pushed Successfully : !PASS!
