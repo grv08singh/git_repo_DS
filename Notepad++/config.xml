@@ -27,9 +27,6 @@
         <root foldername="E:\ICS_Scheme\AS2.0\AS20242" />
     </FileBrowser>
     <History nbMaxFile="10" inSubMenu="no" customLength="-1">
-        <File filename="D:\Downloads\travel_itinerary.md" />
-        <File filename="D:\05 GIT\01_masterRepo\Notepad++\stylers.xml" />
-        <File filename="C:\Users\Dex\Desktop\aa.bat" />
         <File filename="D:\05 GIT\01_masterRepo\git_push.bat" />
         <File filename="D:\05 GIT\01_masterRepo\git_push - F_Drive.bat" />
         <File filename="D:\05 GIT\01_masterRepo\git_push - D_Drive.bat" />
@@ -37,6 +34,9 @@
         <File filename="D:\05 GIT\01_masterRepo\04_CampusX_100_Days_of_ML\kmeans\app.py" />
         <File filename="D:\05 GIT\01_masterRepo\01_My_Learnings\01_SQL\SQL - Everything.sql" />
         <File filename="D:\05 GIT\01_masterRepo\07_Project_of_Others\Kidney-Disease-Classification-DL-Project-KrishNaik\.gitignore" />
+        <File filename="D:\05 GIT\01_masterRepo\Notepad++\config.xml" />
+        <File filename="D:\05 GIT\01_masterRepo\.gitignore" />
+        <File filename="D:\05 GIT\14_Proj_ML_99Acres\.gitignore" />
     </History>
     <ProjectPanels>
         <ProjectPanel id="0" workSpaceFile="" />
