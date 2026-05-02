@@ -6697,6 +6697,24 @@ git clone https://github.com/grv08singh/06_selenium_ktk_v2.git
 git clone https://github.com/grv08singh/07_st_censusDA.git
 git clone https://github.com/grv08singh/01_Docs.git
 
+#### GIT LFS (Large File System)
+winget install -e --id GitHub.GitLFS
+git lfs install
+
+git lfs track "*.pdf"
+git lfs track "*.h5"
+
+cd <directory containing large file>
+
+git add model.h5
+git commit -m "large file commit message"
+git push origin main
+
+
+
+
+
+
 
 
 
