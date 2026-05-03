@@ -28,6 +28,19 @@ jupyter notebook --notebook-dir="F:\Grv\Grv\06 Personal\GIT\01_masterRepo\Eng_Hi
 
 
 
+#### production ready project steps:
+01) Create GitHub repository & clone it onto local.
+02) Open VS Code in project repo.
+03) Create a Python Environment and activate it.
+04) Add Python env path to .gitignore
+05) Create template.py and run it
+06) write README.md
+07) write code for logger and CustomException
+08) write code for setup.py
+09) write requirements.txt and pip install
+10) write source code
+11) write app.py code
+
 
 
 
@@ -6822,19 +6835,37 @@ PSComputerName        :
 
 ## C:\Users\grv06\AppData\Roaming\Code\User\settings.json
 
+#### create conda env at default path
+conda create -n venv python=3.9 -y
+conda activate venv
 
-conda create --name venv python=3.11                                #Create Python env using conda
-conda create -p venv python=3.11 -y                                 #Create Python env in current directory
-conda env list                                                      #list of env
-conda activate venv                                                 #activate an env
-conda deactivate                                                    #deactivate current env 
-conda list                                                          #list of installed packages in activated env
-conda env export --name <dummy_env> --file <dummy_env>.yml          #export env
-conda env create --file <dummy_env>.yml                             #import env OR create env from yml file
-conda remove --name venv --all                                      #remove / delete env
-python -m ipykernel install --user --name=<dummy_env>               #create an appropriate Jupyter Notebook kernel mapped to new environment
-jupyter kernelspec list                                             #list all jupyter notebook kernels for current environment
-jupyter kernelspec uninstall <kernel_name>
+#### create conda env in current directory
+conda create -p venv python=3.9 -y
+conda activate venv/
+
+#### export environment
+conda env export --name venv --file venv.yml
+conda env create --file venv.yml
+
+#### remove environment
+conda deactivate
+conda remove --name venv --all
+conda remove --p venv --all
+
+#### list all conda environments
+conda env list
+
+#### list all installed packages in selected conda environment
+conda list
+
+#### create a Jupyter Notebook kernel mapped to new environment
+python -m ipykernel install --user --name=venv_ipykernel
+
+#### list all jupyter notebook kernels for current environment
+jupyter kernelspec list
+
+#### uninstall jupyter notebook kernel
+jupyter kernelspec uninstall venv_ipykernel
 
 
 
@@ -6849,10 +6880,13 @@ pip install -r requirements.txt
 conda create --name tf-gpu python=3.9 -y
 conda activate tf-gpu
 conda install -c conda-forge cudatoolkit=11.2 cudnn=8.1.0 -y
-pip install "tensorflow<2.11"
+pip install tensorflow-gpu==2.10.1
+#pip install tensorflow==2.10.1
+pip uninstall -y numpy
+pip install numpy==1.23.5
 conda install pytorch torchvision torchaudio cudatoolkit=11.3 -c pytorch
 pip install jupyter notebook ipykernel
-python -m ipykernel install --user --name=tf-gpu --display-name "TensorFlow-GPU"
+python -m ipykernel install --user --name=tf-gpu --display-name "tf-gpu-ipykernel"
 
 import tensorflow as tf
 print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
