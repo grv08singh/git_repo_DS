@@ -6683,32 +6683,62 @@ Import submodule	                import package.submodule	        Access with fu
 
 
 ###############################################################################################################
-#### GIT
+#### GIT - version management
 ###############################################################################################################
+
+#### GIT Setup
 git config --global user.name "Gaurav Singh"
 git config --global user.email "grv08singh@gmail.com"
 git config --list --global
 
-git clone https://github.com/grv08singh/02_mlprojects.git
-git clone https://github.com/grv08singh/03_g_translator.git
-git clone https://github.com/grv08singh/04_st_startups.git
-git clone https://github.com/grv08singh/05_selenium_ktk_v1.git
-git clone https://github.com/grv08singh/06_selenium_ktk_v2.git
-git clone https://github.com/grv08singh/07_st_censusDA.git
-git clone https://github.com/grv08singh/01_Docs.git
-
-#### GIT LFS (Large File System)
+#### GIT LFS (Large File System) setup
 winget install -e --id GitHub.GitLFS
 git lfs install
 
-git lfs track "*.pdf"
-git lfs track "*.h5"
+git lfs track "*.pdf"           #keep pdf files on LFS
+git lfs track "*.h5"            #keep h5 files on LFS
 
 cd <directory containing large file>
 
 git add model.h5
 git commit -m "large file commit message"
 git push origin main
+
+
+#######################################################
+#### Clone a Repository
+git clone https://github.com/grv08singh/02_mlprojects.git
+
+#### Push local changes onto GIT
+git pull
+git add .
+git commit -m "<commit message>"
+git push -u origin main
+
+#### 
+
+
+
+#######################################################
+#### Resolving Conflict
+
+#### 1) Keep Local Changes
+git stash
+git pull
+git stash pop
+
+#### 2) Keep Remote Changes (Overwrite Local Changes)
+git checkout -- <file path>
+git pull
+
+#### 3) To manually check the file which changes to keep
+git add <file path>
+git commit -m "<commit message>"
+git pull                                #both the changes will be in the file, remove one manually 
+
+
+
+
 
 
 
