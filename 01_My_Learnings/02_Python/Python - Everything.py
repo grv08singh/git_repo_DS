@@ -2569,7 +2569,10 @@ train_ds = train_ds.map(process)
 validation_ds = validation_ds.map(process)
 
 #with Data Augmentation [optional]
+
+
 #Data Augmentation process (create new images from existing ones)
+#training on all data - No validation split
 train_datagen = ImageDataGenerator(
     rotation_range = 30,
     rescale = 1/255,
@@ -2593,6 +2596,50 @@ test_generator = test_datagen.flow_from_directory(
     target_size = (256,256),
     batch_size = 32,
     class_mode = 'binary'
+)
+
+#Data Augmentation process - with validation split
+datagenerator = ImageDataGenerator(
+    rotation_range = 40,
+    width_shift_range = 0.2,
+    height_shift_range = 0.2,
+    shear_range = 0.2,
+    zoom_range = 0.2,
+    horizontal_flip = True,
+    fill_mode = 'nearest',
+    rescale = 1./255,
+    validation_split = 0.2
+)
+
+dataflow_kwargs = dict(
+    directory=train_dir,
+    target_size = image_size[:-1],
+    batch_size = batch_size,
+    class_mode="categorical",
+    interpolation = "bilinear"
+)
+
+train_generator = datagenerator.flow_from_directory(
+    subset="training",
+    shuffle=True,
+    **dataflow_kwargs
+)
+
+valid_generator = datagenerator.flow_from_directory(
+    subset="validation",
+    shuffle=False,
+    **dataflow_kwargs
+)
+
+steps_per_epoch = train_generator.samples // train_generator.batch_size
+validation_steps = valid_generator.samples // valid_generator.batch_size
+
+model.fit(
+    train_generator,
+    epochs=50,
+    steps_per_epoch=steps_per_epoch,
+    validation_data=valid_generator,
+    validation_steps=validation_steps
 )
 
 #build model
@@ -6677,6 +6724,81 @@ api.dataset_download_files(dataset=dataset_slug, path=download_path, unzip=True)
 
 
 ###############################################################################################################
+#### Create Production Grade Project Directory Structure - template.py
+###############################################################################################################
+import os
+from pathlib import Path
+import logging
+
+logging.basicConfig(level=logging.INFO, format='[%(asctime)s]: %(message)s:')
+
+project_name = "facial-expression-recognition"
+
+list_of_files = [
+    ".github/workflows/.gitkeep",
+    "artifacts/.gitkeep",
+    "logs/.gitkeep",
+    "notebooks/data/.gitkeep",
+    "notebooks/01_test.ipynb",
+    "src/components/__init__.py",
+    "src/components/data_ingestion.py",
+    "src/components/model_training.py",
+    "src/components/prepare_base_model.py",
+    "src/config/__init__.py",
+    "src/config/configuration.py",
+    "src/constants/__init__.py",
+    "src/entities/__init__.py",
+    "src/entities/config_entity.py",
+    "src/pipelines/__init__.py",
+    "src/pipelines/data_ingestion_pipeline.py",
+    "src/pipelines/model_evaluation_pipeline.py",
+    "src/pipelines/model_training_pipeline.py",
+    "src/pipelines/prepare_base_model_pipeline.py",
+    "src/utils/__init__.py",
+    "src/utils/common.py",
+    "src/__init__.py",
+    "src/exception.py",
+    "src/logger.py",
+    "src/utils.py",
+    "templates/index.html",
+    ".gitignore",
+    "config.yaml",
+    "dvc.yaml",
+    "main.py",
+    "params.yaml",
+    "README.md",
+    "requirements.txt",
+    "setup_tf_gpu_env.txt",
+    "setup.py",
+    "template.py",
+    "verify_gpu.py"
+]
+
+for filepath in list_of_files:
+    filepath = Path(filepath)
+    filedir, filename = os.path.split(filepath)
+    if filedir !="":
+        os.makedirs(filedir, exist_ok=True)
+        logging.info(f"Creating directory; {filedir} for the file: {filename}")
+
+    if (not os.path.exists(filepath)) or (os.path.getsize(filepath) == 0):
+        with open(filepath, "w") as f:
+            pass
+            logging.info(f"Creating empty file: {filepath}")
+    else:
+        logging.info(f"{filename} is already exists")
+
+
+
+
+
+
+
+
+
+
+
+###############################################################################################################
 #### Import Methodology
 ###############################################################################################################
 
@@ -6755,6 +6877,55 @@ git pull                                #both the changes will be in the file, r
 
 
 
+
+
+
+
+
+
+
+
+
+
+###############################################################################################################
+#### cmd - create last tensorflow env with GPU
+###############################################################################################################
+:: Remove Previous Environment if Exists ::
+conda deactivate
+conda env remove -p tf_gpu -y
+
+:: Create New Environment ::
+conda create -p tf_gpu python=3.9 -y
+conda activate tf_gpu
+
+:: Install Cuda Toolkit and cuDNN ::
+conda install -c conda-forge cudatoolkit=11.2 cudnn=8.1.0 -y
+
+:: Install TensorFlow GPU and Required Libraries ::
+pip install tensorflow-gpu==2.10.1
+pip uninstall -y numpy
+pip install numpy==1.23.5
+conda install -c conda-forge greenlet -y
+pip install -r requirements.txt
+
+
+
+
+:: Verify GPU Installation ::
+import tensorflow as tf
+import sys
+print(f"\nPython Version: {sys.version}")
+print(f"TensorFlow Version: {tf.__version__}")
+
+# Check GPU availability
+gpus = tf.config.list_physical_devices('GPU')
+print(f"\nGPU Devices Found: {len(gpus)}")
+if gpus:
+    for i, gpu in enumerate(gpus):
+        print(f"  GPU {i}: {gpu.name}")
+        print(f"  Device Type: {gpu.device_type}")
+else:
+    print("\n⚠ No GPU detected. TensorFlow will run on CPU only.")
 
 
 
@@ -6859,6 +7030,7 @@ conda env list
 conda list
 
 #### create a Jupyter Notebook kernel mapped to new environment
+pip install ipykernel
 python -m ipykernel install --user --name=venv_ipykernel
 
 #### list all jupyter notebook kernels for current environment

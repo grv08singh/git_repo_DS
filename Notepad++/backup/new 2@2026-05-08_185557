@@ -1,0 +1,18 @@
+CREATE TABLE emp AS
+(emp_id int, emp_name VARCHAR, emp_dob DATE)
+
+ALTER TABLE emp ADD CONSTRAINT PRIMARY_KEY(emp_id)
+
+
+COUNT(*)
+COUNT(NULL)
+COUNT(emp_dept)
+
+
+
+CREATE METHOD calc_age(tbl_nm) 
+AS
+
+ALTER TABLE tbl_nm
+ADD age = DATEDIFF(SYSDATE(),dob)
+RETURN tbl_nm
