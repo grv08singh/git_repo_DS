@@ -1,3 +1,14 @@
+-- DDL: CREATE, ALTER, DROP, TRUNCATE, sp_rename
+-- DML: INSERT, UPDATE, DELETE, MERGE
+-- DQL: SELECT, JOIN, GROUP BY, HAVING, ORDER BY, DISTINCT, TOP
+-- DCL: GRANT, REVOKE, DENY
+-- TCL: BEGIN TRANSACTION, COMMIT, ROLLBACK, SAVE TRANSACTION
+-- Programmability: Procedures, Functions, Triggers, Views
+-- Advanced: CTE, Window Functions, APPLY, Cursors, Dynamic SQL, DMVs
+-- Utilities: Temp Tables, Table Variables, CASE, STRING_AGG, STRING_SPLIT
+
+
+
 
 ---------------------------------------------------------------
 -- Create a database
@@ -415,7 +426,6 @@ END;
 ---------------------------------------------------------------
 -- Create User Defined Functions
 ---------------------------------------------------------------
-
 -----------------------------
 -- Get Customer Full Name
 -----------------------------
@@ -531,138 +541,683 @@ BEGIN
 END;
 
 
+-------------------------------------------
+-- How do procedures differ from functions?
+-- Procedures:
+-- 1. Can perform INSERT/UPDATE/DELETE
+-- 2. Can use transactions
+-- 3. returns NONE or MULTIPLE result sets
+-- 4. used with EXEC
+-- Functions:
+-- 1. READ ONLY nature
+-- 2. NO TRANSACTIONS
+-- 3. returns SINGLE VALUE or TABLE
+-- 4. used in SELECT statement
+-------------------------------------------
+
+
 ---------------------------------------------------------------
 -- DML
 ---------------------------------------------------------------
 
 -------------------------------------------
--- add a single row
+-- insert a single row
 -------------------------------------------
 INSERT INTO Customers 
 	(FirstName, LastName, Email, City, ContactNumber)
 VALUES
 	('Test', 'User', 'testuser@example.com', 'Gurgaon', '9999999910');
+	
+
+-------------------------------------------
+-- insert multiple rows
+-------------------------------------------
+INSERT INTO Products
+	(ProductName, Category, Price, StockQty)
+VALUES
+	('USB Cable', 'Electronics', 250, 150),
+	('Whiteboard', 'Office', 2200, 25);
 
 
+
+	
+-------------------------------------------
+-- update rows with a condition
+-------------------------------------------
+UPDATE Products
+SET Price = Price * 0.95
+WHERE Category = 'Electronics';
+
+
+-------------------------------------------
+-- update using a subquery
+-------------------------------------------
+UPDATE Orders
+SET Status = 'Flagged'
+WHERE CustomerID IN
+(
+    SELECT CustomerID
+    FROM Customers
+    WHERE City = 'Unknown'
+);
+
+
+-------------------------------------------
+-- delete rows with a condition
+-------------------------------------------
+DELETE FROM Customers
+WHERE Email = 'testuser@example.com';
+
+
+-------------------------------------------
+-- capture deleted rows using OUTPUT *****
+-------------------------------------------
+DELETE FROM OrderItems
+OUTPUT DELETED.ItemID, DELETED.OrderID, DELETED.ProductID
+WHERE OrderID IN
+(
+    SELECT OrderID
+    FROM Orders
+    WHERE Status = 'Cancelled'
+);
+
+
+-------------------------------------------
+-- insert data from another table *****
+-------------------------------------------
+INSERT INTO OrdersArchive 
+	(OrderID, CustomerID, OrderDate, TotalAmount, Status)
+SELECT 
+	OrderID, CustomerID, OrderDate, TotalAmount, Status
+FROM Orders
+WHERE Status = 'Completed';
+
+
+-------------------------------------------
+-- perform UPSERT using MERGE *****
+-------------------------------------------
+MERGE Products AS Target
+USING
+(
+    SELECT
+        1000 AS ProductID,
+        'Gaming Mouse' AS ProductName,
+        'Electronics' AS Category,
+        1800.00 AS Price,
+        60 AS StockQty
+) AS Source
+ON Target.ProductID = Source.ProductID
+WHEN MATCHED THEN
+    UPDATE SET
+        ProductName = Source.ProductName,
+        Category = Source.Category,
+        Price = Source.Price,
+        StockQty = Source.StockQty
+WHEN NOT MATCHED THEN
+    INSERT 
+		(ProductID, ProductName, Category, Price, StockQty)
+    VALUES 
+		(Source.ProductID, Source.ProductName, Source.Category, Source.Price, Source.StockQty);
+
+
+---------------------------------------------------------------
+-- DQL
+---------------------------------------------------------------
+
+-------------------------------------------
+-- INNER JOIN
+-------------------------------------------
+SELECT
+    c.FirstName,
+    o.OrderID,
+    o.TotalAmount
+FROM Customers c
+INNER JOIN Orders o
+    ON c.CustomerID = o.CustomerID;
+
+-------------------------------------------
+-- LEFT JOIN
+-------------------------------------------
+SELECT
+    c.FirstName,
+    o.OrderID
+FROM Customers c
+LEFT JOIN Orders o
+    ON c.CustomerID = o.CustomerID;
+
+
+
+-------------------------------------------
+-- SELF JOIN
+-------------------------------------------
+SELECT
+    e.Name AS Employee,
+    m.Name AS Manager
+FROM Employees e
+LEFT JOIN Employees m
+    ON e.ManagerID = m.EmployeeID;
+
+
+
+
+-------------------------------------------
+-- GROUP BY and aggregate
+-------------------------------------------
+SELECT
+    c.City,
+    COUNT(o.OrderID) AS TotalOrders,
+    SUM(o.TotalAmount) AS Revenue,
+    AVG(o.TotalAmount) AS AvgOrderValue
+FROM Customers c
+INNER JOIN Orders o
+    ON c.CustomerID = o.CustomerID
+GROUP BY c.City;
+
+
+
+
+-------------------------------------------
+-- filter aggregated data using HAVING
+-------------------------------------------
+SELECT
+    c.City,
+    SUM(o.TotalAmount) AS Revenue
+FROM Customers c
+INNER JOIN Orders o
+    ON c.CustomerID = o.CustomerID
+GROUP BY c.City
+HAVING SUM(o.TotalAmount) > 1000;
+
+
+
+
+-------------------------------------------
+-- ORDER BY
+-------------------------------------------
+SELECT
+    OrderID,
+    TotalAmount
+FROM Orders
+ORDER BY TotalAmount DESC;
+
+
+-------------------------------------------
+-- non-correlated subquery *****
+-------------------------------------------
+SELECT *
+FROM Products
+WHERE Price > (SELECT AVG(Price) FROM Products);
+
+
+-------------------------------------------
+-- correlated subquery *****
+-------------------------------------------
+SELECT
+    c.FirstName,
+    c.Email
+FROM Customers c
+WHERE EXISTS
+(
+    SELECT 1
+    FROM Orders o
+    WHERE o.CustomerID = c.CustomerID
+      AND o.TotalAmount > 50000
+);
+
+
+
+
+-------------------------------------------
+-- use DISTINCT
+-------------------------------------------
+SELECT DISTINCT City
+FROM Customers;
+
+
+
+
+-------------------------------------------
+-- TOP N
+-------------------------------------------
+SELECT TOP 3 *
+FROM Products
+ORDER BY Price DESC;
+
+
+
+
+-------------------------------------------
+-- CTE (Common Table Expressions)
+-------------------------------------------
+-- Basic CTE
+WITH cte AS
+(
+    SELECT
+        CustomerID,
+        SUM(TotalAmount) AS TotalSpent
+    FROM Orders
+    GROUP BY CustomerID
+)
+SELECT *
+FROM cte
+WHERE TotalSpent > 1000;
+GO
+
+-- CTE with join
+WITH cte AS
+(
+    SELECT
+        CustomerID,
+        SUM(TotalAmount) AS Revenue
+    FROM Orders
+    GROUP BY CustomerID
+)
+SELECT
+    c.FirstName,
+    c.LastName,
+    cr.Revenue
+FROM Customers c
+INNER JOIN cte cr
+    ON c.CustomerID = cr.CustomerID;
+GO
+
+-- Recursive CTE for hierarchy
+WITH EmpHierarchy AS
+(
+    SELECT
+        EmployeeID,
+        Name,
+        ManagerID,
+        0 AS LevelNo
+    FROM Employees
+    WHERE ManagerID IS NULL
+
+    UNION ALL
+
+    SELECT
+        e.EmployeeID,
+        e.Name,
+        e.ManagerID,
+        eh.LevelNo + 1
+    FROM Employees e
+    INNER JOIN EmpHierarchy eh
+        ON e.ManagerID = eh.EmployeeID
+)
+SELECT *
+FROM EmpHierarchy;
+GO
+
+-- Q4. Multiple CTEs in one query
+WITH CityRevenue AS
+(
+    SELECT
+        c.City,
+        SUM(o.TotalAmount) AS Revenue
+    FROM Customers c
+    INNER JOIN Orders o
+        ON c.CustomerID = o.CustomerID
+    GROUP BY c.City
+),
+RankedCities AS
+(
+    SELECT
+        City,
+        Revenue,
+        RANK() OVER (ORDER BY Revenue DESC) AS RevenueRank
+    FROM CityRevenue
+)
+SELECT *
+FROM RankedCities;
+
+
+
+
+-------------------------------------------
+-- WINDOW FUNCTION
+-------------------------------------------
+-- WINDOW FUNCTION: ROW_NUMBER
+SELECT
+    OrderID,
+    CustomerID,
+    TotalAmount,
+    ROW_NUMBER() OVER (ORDER BY TotalAmount DESC) AS RowNum
+FROM Orders;
+
+-- WINDOW FUNCTION: RANK
+SELECT
+    OrderID,
+    TotalAmount,
+    RANK() OVER (ORDER BY TotalAmount DESC) AS Rnk
+FROM Orders;
+
+-- WINDOW FUNCTION: DENSE_RANK
+SELECT
+    OrderID,
+    TotalAmount,
+    DENSE_RANK() OVER (ORDER BY TotalAmount DESC) AS DenseRnk
+FROM Orders;
+
+-- WINDOW FUNCTION: NTILE *****
+SELECT
+    OrderID,
+    TotalAmount,
+    NTILE(4) OVER (ORDER BY TotalAmount DESC) AS Quartile
+FROM Orders;
+
+-- WINDOW FUNCTION: PARTITION BY
+SELECT
+    CustomerID,
+    OrderID,
+    TotalAmount,
+    RANK() OVER (
+		PARTITION BY CustomerID 
+		ORDER BY TotalAmount DESC
+	) AS RankPerCustomer
+FROM Orders;
+
+-- WINDOW FUNCTION: Running total *****
+SELECT
+    OrderID,
+    OrderDate,
+    TotalAmount,
+    SUM(TotalAmount) OVER
+    (
+        ORDER BY OrderDate
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+    ) AS RunningTotal
+FROM Orders;
+
+-- WINDOW FUNCTION: LAG and LEAD
+SELECT
+    OrderID,
+    OrderDate,
+    TotalAmount,
+    LAG(TotalAmount, 1, 0) OVER (ORDER BY OrderDate) AS PrevOrderAmount,
+    LEAD(TotalAmount, 1, 0) OVER (ORDER BY OrderDate) AS NextOrderAmount
+FROM Orders;
+
+-- WINDOW FUNCTION: FIRST_VALUE and LAST_VALUE *****
+SELECT
+    CustomerID,
+    OrderID,
+    OrderDate,
+    TotalAmount,
+    FIRST_VALUE(TotalAmount) OVER
+    (
+        PARTITION BY CustomerID
+        ORDER BY OrderDate
+    ) AS FirstOrderAmount,
+    LAST_VALUE(TotalAmount) OVER
+    (
+        PARTITION BY CustomerID
+        ORDER BY OrderDate
+        ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+    ) AS LastOrderAmount
+FROM Orders;
+
+
+
+
+-------------------------------------------
+-- PIVOT / UNPIVOT *****
+-------------------------------------------
+SELECT *
+FROM
+(
+    SELECT
+        p.Category,
+        YEAR(o.OrderDate) AS OrderYear,
+        oi.Quantity * oi.UnitPrice AS Revenue
+    FROM Orders o
+    INNER JOIN OrderItems oi
+        ON o.OrderID = oi.OrderID
+    INNER JOIN Products p
+        ON oi.ProductID = p.ProductID
+) AS SourceData
+PIVOT
+(
+    SUM(Revenue)
+    FOR Category IN ([Electronics], [Furniture], [Stationery], [Office])
+) AS PivotTable;
+
+
+
+
+-------------------------------------------
+-- DCL
+-------------------------------------------
+
+-- Q1. How do you create a login and user?
+-- Run in a real SQL Server instance with proper security permissions.
+-- CREATE LOGIN AnalystUser WITH PASSWORD = 'Str0ng@Pass123';
+-- USE ECommerceDB;
+-- CREATE USER AnalystUser FOR LOGIN AnalystUser;
+
+-- Q2. How do you GRANT SELECT permission?
+-- GRANT SELECT ON dbo.Customers TO AnalystUser;
+
+-- Q3. How do you GRANT multiple permissions?
+-- GRANT SELECT, INSERT, UPDATE ON dbo.Products TO AnalystUser;
+
+-- Q4. How do you GRANT EXECUTE on a procedure?
+-- GRANT EXECUTE ON dbo.usp_GetCustomerOrders TO AnalystUser;
+
+-- Q5. How do you REVOKE permission?
+-- REVOKE INSERT ON dbo.Products FROM AnalystUser;
+
+-- Q6. How do you DENY permission?
+-- DENY DELETE ON dbo.Orders TO AnalystUser;
+
+-- Q7. How do you create a role and assign permissions?
+-- CREATE ROLE SalesRole;
+-- GRANT SELECT, INSERT, UPDATE ON dbo.Orders TO SalesRole;
+-- EXEC sp_addrolemember 'SalesRole', 'AnalystUser';
+
+-- Q8. How do you grant schema-level permission?
+-- GRANT SELECT ON SCHEMA::dbo TO AnalystUser;
+
+
+
+
+-------------------------------------------
+-- TCL
+-------------------------------------------
+-- Q1. Basic transaction with COMMIT / ROLLBACK
+BEGIN TRANSACTION;
+
+    UPDATE Products
+    SET StockQty = StockQty - 1
+    WHERE ProductID = 1;
+
+    IF @@ERROR <> 0
+        ROLLBACK TRANSACTION;
+    ELSE
+        COMMIT TRANSACTION;
+
+-- Q2. Transaction with savepoint
+BEGIN TRANSACTION;
+
+    INSERT INTO Orders (CustomerID, OrderDate, TotalAmount, Status)
+    VALUES (1, GETDATE(), 5000, 'Pending');
+
+    SAVE TRANSACTION SP1;
+
+    UPDATE Customers
+    SET City = 'Mumbai'
+    WHERE CustomerID = 1;
+
+    ROLLBACK TRANSACTION SP1;
+
+COMMIT TRANSACTION;
+
+-- Q3. TRY...CATCH with transaction
+BEGIN TRY
+    BEGIN TRANSACTION;
+
+    UPDATE Products
+    SET StockQty = StockQty - 2
+    WHERE ProductID = 2;
+
+    UPDATE Orders
+    SET Status = 'Shipped'
+    WHERE OrderID = 2;
+
+    COMMIT TRANSACTION;
+END TRY
+BEGIN CATCH
+    IF @@TRANCOUNT > 0
+        ROLLBACK TRANSACTION;
+
+    SELECT
+        ERROR_NUMBER() AS ErrorNumber,
+        ERROR_MESSAGE() AS ErrorMessage;
+END CATCH;
+
+-- Q4. Isolation level examples
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+
+SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+
+SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+
+-- Q5. Snapshot isolation
+-- ALTER DATABASE ECommerceDB SET ALLOW_SNAPSHOT_ISOLATION ON;
+-- SET TRANSACTION ISOLATION LEVEL SNAPSHOT;
+
+
+
+---------------------------------------------------------------
+-- DATA TYPES functions
+---------------------------------------------------------------
+SELECT ISNULL('abc', 'DefaultValue')
+SELECT ISNULL('NULL', 'DefaultValue')
+SELECT ISNULL(NULL, 'DefaultValue')
+
+SELECT COALESCE('abc', NULL, 'ThirdValue')
+SELECT COALESCE(NULL, NULL, 'ThirdValue')
+SELECT COALESCE(NULL, 'abc', 'ThirdValue')
+
+SELECT NULLIF(1, 0)
+SELECT NULLIF(0, 0)
+SELECT NULLIF(0, 1)
+
+SELECT CAST('2026-05-10' AS DATE)
+SELECT CONVERT(VARCHAR(10), GETDATE(), 103)
+SELECT CONVERT(VARCHAR(10), GETDATE(), 104)
+SELECT CONVERT(VARCHAR(10), GETDATE(), 105)
+SELECT CONVERT(VARCHAR(10), GETDATE(), 106)
+SELECT CONVERT(VARCHAR(10), GETDATE(), 107)
+
+SELECT TRY_CAST('abc' AS INT)
+SELECT TRY_CAST('abc' AS VARCHAR)
+SELECT TRY_CAST('123' AS INT)
+SELECT TRY_CAST(123 AS VARCHAR)
+
+SELECT TRY_CONVERT(INT, 'abc')
+SELECT TRY_CONVERT(VARCHAR, 'abc')
+SELECT TRY_CONVERT(INT, '123')
+SELECT TRY_CONVERT(VARCHAR, 123)
+
+
+---------------------------------------------------------------
+-- DATE and TIME functions
+---------------------------------------------------------------
+SELECT GETDATE()                                   -- current date and time
+SELECT GETUTCDATE()                                -- current UTC date and time
+SELECT SYSDATETIME()                               -- high precision date and time
+
+SELECT DATEADD(DAY, 3, GETDATE())                  -- add 3 days to current date
+SELECT DATEDIFF(MONTH,'2025-01-01',GETDATE())      -- date diff in months
+
+SELECT DATEPART(YEAR, GETDATE())                   -- current year
+SELECT DATENAME(WEEKDAY, GETDATE())                -- weekday name
+
+SELECT EOMONTH(GETDATE())                          -- current month end date
+SELECT FORMAT(GETDATE(), 'dd-MMM-yyyy')            -- change date format
+
+
+
+---------------------------------------------------------------
+-- STRING functions
+---------------------------------------------------------------
+SELECT LEN('Gaurav')                    -- #characters
+SELECT DATALENGTH('Gaurav')             -- #bytes
+
+SELECT UPPER('Gaurav')                  -- upper case GAURAV
+SELECT LOWER('Gaurav')                  -- lower case gaurav
+
+SELECT LTRIM('   Gaurav')               -- trim spaces from left
+SELECT RTRIM('Gaurav   ')               -- trim spaces from right
+SELECT TRIM('  Gaurav  ')               -- trim start & end spaces
+
+SELECT SUBSTRING('Gaurav', 1, 3)        -- Gau
+SELECT LEFT('Gaurav', 2)                -- Ga
+SELECT RIGHT('Gaurav', 4)               -- urav
+
+SELECT CHARINDEX('u', 'Gaurav')         -- position of 'u' in 'Gaurav'
+
+SELECT REPLACE('Gaurav', 'au', 'o')     -- Gorav
+SELECT REVERSE('Gaurav')                -- varuaG
+
+SELECT REPLICATE('*', 5)                -- *****
+SELECT STUFF('SQL2026',4,4,'Server')    -- 
+
+
+SELECT VALUE FROM STRING_SPLIT('SQL,Python,PowerBI,Azure', ',')
+
+SELECT STRING_AGG(ProductName, ', ') FROM Products
+
+
+
+---------------------------------------------------------------
+-- MATHEMATICAL functions
+---------------------------------------------------------------
+SELECT ROUND(15.678, 2)    -- round to 2 decimal place
+SELECT CEILING(15.2)       -- 16
+SELECT FLOOR(15.9)         -- 15
+SELECT ABS(-100)           -- 100
+SELECT POWER(2, 10)        -- 2^10 = 1024
+SELECT SQRT(144)           -- 12
+SELECT RAND()              -- any random number b/w 0 & 1
+
+
+
+---------------------------------------------------------------
+-- CASE WHEN THEN END
+---------------------------------------------------------------
+SELECT
+    ProductName,
+    Price,
+    CASE
+        WHEN Price >= 50000 THEN 'Premium'
+        WHEN Price >= 1000 THEN 'Mid'
+        ELSE 'Budget'
+    END AS ProductSegment
+FROM Products;
 
 
 
 
 ---------------------------------------------------------------
--- 
+-- SET OPERATORS
 ---------------------------------------------------------------
+-- UNION
+SELECT City
+FROM Customers
+UNION
+SELECT Department
+FROM Employees;
 
 
----------------------------------------------------------------
--- 
----------------------------------------------------------------
+-- UNION ALL
+SELECT City
+FROM Customers
+UNION ALL
+SELECT Department
+FROM Employees;
 
 
----------------------------------------------------------------
--- 
----------------------------------------------------------------
 
-
----------------------------------------------------------------
--- 
----------------------------------------------------------------
-
-
----------------------------------------------------------------
--- 
----------------------------------------------------------------
-
-
----------------------------------------------------------------
--- 
----------------------------------------------------------------
-
-
----------------------------------------------------------------
--- 
----------------------------------------------------------------
-
-
----------------------------------------------------------------
--- 
----------------------------------------------------------------
-
-
----------------------------------------------------------------
--- 
----------------------------------------------------------------
-
-
----------------------------------------------------------------
--- 
----------------------------------------------------------------
-
-
----------------------------------------------------------------
--- 
----------------------------------------------------------------
-
-
----------------------------------------------------------------
--- 
----------------------------------------------------------------
-
-
----------------------------------------------------------------
--- 
----------------------------------------------------------------
-
-
----------------------------------------------------------------
--- 
----------------------------------------------------------------
-
-
----------------------------------------------------------------
--- 
----------------------------------------------------------------
-
-
----------------------------------------------------------------
--- 
----------------------------------------------------------------
-
-
----------------------------------------------------------------
--- 
----------------------------------------------------------------
-
-
----------------------------------------------------------------
--- 
----------------------------------------------------------------
-
-
----------------------------------------------------------------
--- 
----------------------------------------------------------------
-
-
----------------------------------------------------------------
--- 
----------------------------------------------------------------
-
-
----------------------------------------------------------------
--- 
----------------------------------------------------------------
-
-
----------------------------------------------------------------
--- 
----------------------------------------------------------------
-
-
----------------------------------------------------------------
--- 
----------------------------------------------------------------
-
-
----------------------------------------------------------------
--- 
 ---------------------------------------------------------------
