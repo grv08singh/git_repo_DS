@@ -1,5 +1,7 @@
 Follow these instructions:
 
+0) install python/anaconda Distribution and update environment path variable.
+
 1) In folder "01_software", copy and paste from "ASSOFTWARE" and "ICS_Scheme" folders.
 	(i) "RC123kharif.accdb"
 	(ii) "RC123Rabi.accdb"
