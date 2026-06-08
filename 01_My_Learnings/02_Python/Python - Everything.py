@@ -1,6 +1,25 @@
 # AWS : 
-# Acc ID: 676206921654
-# Username: grv08singh@gmail.com / 
+# Root User
+# 
+# Account name
+# grv08singh
+# 
+# AWS account ID
+# 676206921654
+# 
+# Email address
+# grv08singh@gmail.com
+# 
+# Canonical user ID
+# f739ae74a5939eb618aed0b1ce6fb5b1946e95f9a1083dfbdc014a6e326cef90
+# 
+# MFA Device Name for google authenticator
+# aws_grv08singh
+
+
+
+#linkedin
+#https://www.linkedin.com/in/grv08singh
 
 
 #Power BI: Divya@intellipaatsoft.onmicrosoft.com / Hadoop#4585
@@ -436,6 +455,236 @@ pip install langchain_openai
 pip install langchain_chroma
 
 pip install google-generativeai
+
+
+
+
+
+
+
+
+
+
+
+
+
+###############################################################################################################
+#### PyTorch - Everything
+###############################################################################################################
+import torch
+
+# Create tensor in torch:
+## empty tensor of shape (2,3) - values are from previously stored at those locations
+x = torch.empty(2,3)
+## check type - torch.Tensor
+type(x)
+## using zeros
+torch.zeros(2,3)
+## using ones
+torch.ones(2,3)
+## using rand
+torch.rand(2,3)
+## use of seed
+torch.manual_seed(100)
+torch.rand(2,3)
+## using tensor
+torch.tensor([[1,2,3],[4,5,6]])
+## using arange
+torch.arange(0,19,2)
+## using linspace
+torch.linspace(1,10,10)
+## using eye
+torch.eye(5)
+## using full
+torch.full((3,3),5)
+
+# Data Types in Torch
+x.dtype             #torch.int64, torch.float32, etc..
+
+## this will create integer tensor
+torch.tensor([[1.0,2.0,3.0],[4.0,5.0,6.0]], dtype=torch.int32)
+## this will create float tensor
+torch.tensor([[1,2,3],[4,5,6]], dtype=torch.float64)
+## change dtype of existing tensor
+x.to(torch.float32)
+
+# Tensor Shape
+x.shape
+
+## empty tensor with shape that of x
+torch.empty_like(x)
+## zeros tensor with shape that of x
+torch.zeros_like(x)
+## ones tensor with shape that of x
+torch.ones_like(x)
+## random tensor with shape that of x
+torch.rand_like(x)          #error - coz x is INT, rand creates float
+torch.rand_like(x,dtype=torch.float64)
+
+# Mathematical Scalar Operations
+## addition
+x + 2
+## subtraction
+x - 2
+## multiplication
+x * 3
+## division
+x / 3
+## int division
+(x * 100)//3
+## mod
+(x * 100)%2
+## power
+x**2
+
+# Mathematical tensor Operations (element-by-element)
+## addition
+x + y
+## subtraction
+x - y
+## multiplication
+x * y
+## division
+x / y
+## int division
+x//y
+## mod
+x%y
+## power
+x**y
+
+# other Mathematical operations
+## absolute values of elements
+torch.abs(x)
+## negative of all values in a tensor
+torch.neg(x)
+## round all numbers in a tensor
+torch.round(x)
+## ceil all numbers in a tensor
+torch.ceil(x)
+## floor all numbers in a tensor
+torch.floor(x)
+## clamp all numbers in a range, 2 for <=2, 3 for >=3
+torch.clamp(x, min=2, max=3)
+## sum of all numbers in a tensor
+torch.sum(x)
+## sum along columns in a tensor
+torch.sum(x, dim=0)
+## sum along rows in a tensor
+torch.sum(x, dim=1)
+## mean of all numbers in a tensor - d.type(x) must be torch.float
+torch.mean(x)
+## mean along columns in a tensor
+torch.mean(x, dim=0)
+## mean along rows in a tensor
+torch.mean(x, dim=1)
+## maximum along columns in a tensor
+torch.max(x, dim=0)
+## minimum along rows in a tensor
+torch.min(x, dim=1)
+## product of all numbers in a tensor
+torch.product(x)
+## standard deviation of all numbers in a tensor
+torch.std(x)
+## variance of all numbers in a tensor
+torch.var(x)
+## position of maximum in a tensor
+torch.argmax(x)
+## position of minimum in a tensor
+torch.argmin(x)
+
+# Matrix Operations
+## Matrix Multiplication
+torch.matmul(x,y) #no.of cols in x must be = no. of rows in y
+## dot product
+torch.dot(x, y) #x and y are two vectors
+## Transpose --> swap 0th dimension with 1st
+torch.transpose(f,0,1)
+## determinant - only possible for square matrix
+torch.det(a)
+## inverse - only possible for square matrix
+torch.inverse(a)
+
+# Comparison Operations
+## greater than
+x > y
+## less than
+x < y
+## greater than or equal to
+x >= y
+## less than or equal to
+x <= y
+## equal to
+x == y
+
+# Special Functions
+## random numbers tensor in range(0,10)
+torch.randint(size=(2,3), low=0, high=10)
+## log
+torch.log(x)
+## exponent
+torch.exp(x)
+## square root
+torch.sqrt(x)
+## sigmoid
+torch.sigmoid(x)
+## softmax
+torch.softmax(x, dim=0)
+## relu
+torch.relu(x)
+
+# all the above functions return a tensor, that occupies space
+# what if we don't want to save the resultant tensor at a new place
+# what if we wanna save resultant tensor in x itself.
+# This is called inplace=True operation
+
+## add x and y and save the resultant in x
+x.add_(y)
+## relu of x saved to x
+x.relu_()
+## copy tensor x to y
+y = x.clone()
+id(x)   #memory location of where x is pointing
+id(y)   #memory location of where y is pointing
+
+
+# GPU operations
+## check if gpu is available
+torch.cuda.is_available()
+## create new tensor on GPU
+device = torch.device('cuda')
+torch.rand((2,3), device=device)
+## move existing CPU tensors to GPU
+a.to(device)    #after moving to GPU, all operations happen on GPU
+
+## Reshape
+a = torch.ones(4,4)
+a.reshape(2,2,2,2)
+## Flatten
+a.flatten()
+## permute - change the index of the shape
+a = torch.rand(2,3,4)
+a.permute(2,0,1).shape  #(4,2,3) changed the shape sequence
+## unsqueeze - add a new dimension at a position
+a = torch.rand(226,226,3)
+a.unsqueeze(0).shape    #(1,226,226,3) added a new dim at position 0
+## squeeze - remove a dimension
+a = torch.rand(1,20)    #2-D tensor
+a.squeeze(0).shape      #([20]) 1-D tensor
+
+# Moving tensors between NumPy and PyTorch
+## convert a PyTorch Tensor to NumPy Tensor
+a = torch.tensor([1,2,3])
+b = a.numpy()
+## convert a NumPy Tensor to PyTorch Tensor
+c = torch.from_numpy(b)
+
+
+
+
+
+
+
 
 
 
@@ -6876,6 +7125,14 @@ git pull                                #both the changes will be in the file, r
 
 
 
+#######################################################
+#### removing already pushed files from git and future push
+git rm --cached notebooks/data/data.zip             #file
+git rm --cached -r artifacts/evaluation             #directory
+git commit -m "files removed from git"
+git push origin main
+
+
 
 
 
@@ -6912,6 +7169,10 @@ pip install -r requirements.txt
 
 
 :: Verify GPU Installation ::
+    
+python -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
+
+
 import tensorflow as tf
 import sys
 print(f"\nPython Version: {sys.version}")
