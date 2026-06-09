@@ -680,6 +680,45 @@ b = a.numpy()
 c = torch.from_numpy(b)
 
 
+# Autograd - Automatic Gradient in PyTorch
+## example 1
+x = torch.tensor(3, requires_grad=True)
+y = x**2                #relationship between x and y
+y.backward()            #calculating gradient in backward direction
+x.grad                  #gives gradient automatically
+
+## example 2
+x = torch.tensor(3, requires_grad=True)
+y = x**2                #relationship between x and y
+z = torch.sin(y)        #relationship between y and z
+z.backward()            #calculating gradient in backward direction
+x.grad                  #gives gradient automatically
+
+## example 3
+x = torch.tensor([1,2,3], requires_grad=True)
+z = x**2.mean()                         #relationship between x and z
+y_hat = torch.sigmoid(z)                #relationship between y and z
+L = ylog(y_hat) - (1-y)log(1-y_hat)     #Binary CrossEntropy Loss
+L.backward()                            #calculating gradient in backward direction
+x.grad                                  #gives gradient automatically
+
+## Autograd keeps accumulating gradients over multiple runs
+## therefore, it is necessary to clear the gradients before each run.
+x.grad.zero_()
+
+## Turn off gradient tracking
+## method 1, backward() function doesn't work anymore, gradient tracking OFF
+x.requires_grad_(False)
+## method 2, detach() function
+z = x.detach()
+y1 = x**2       #gradient tracking ON
+y2 = z**2       #gradient tracking OFF
+y1.backward()   #POSSIBLE
+y2.backward()   #NOT POSSIBLE
+## method 3, with torch.no_grad()
+with torch.no_grad:
+    y = x**2    #gradient tracking OFF
+
 
 
 
