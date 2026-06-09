@@ -718,8 +718,320 @@ y2.backward()   #NOT POSSIBLE
 ## method 3, with torch.no_grad()
 with torch.no_grad:
     y = x**2    #gradient tracking OFF
+    
+
+##################################################################
+# Create a Simple Neural Network from scratch in PyTorch
+##################################################################
+import numpy as np
+import pandas as pd
+import torch
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import LabelEncoder
+
+df = pd.read_csv('https://raw.githubusercontent.com/gscdit/Breast-Cancer-Detection/refs/heads/master/data.csv')
+df.head()
+df.shape
+df.drop(columns=['id', 'Unnamed: 32'], inplace= True)
+df.head()
+
+X_train, X_test, y_train, y_test = train_test_split(df.iloc[:, 1:], df.iloc[:, 0], test_size=0.2)
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+X_train
+y_train
+
+encoder = LabelEncoder()
+y_train = encoder.fit_transform(y_train)
+y_test = encoder.transform(y_test)
+y_train
+
+## Numpy arrays to PyTorch tensors
+X_train_tensor = torch.from_numpy(X_train)
+X_test_tensor = torch.from_numpy(X_test)
+y_train_tensor = torch.from_numpy(y_train)
+y_test_tensor = torch.from_numpy(y_test)
+
+X_train_tensor.shape
+y_train_tensor.shape
+
+## Defining the model
+class MySimpleNN():
+def __init__(self, X):
+    self.weights = torch.rand(X.shape[1], 1, dtype=torch.float64, requires_grad=True)
+    self.bias = torch.zeros(1, dtype=torch.float64, requires_grad=True)
+
+def forward(self, X):
+    z = torch.matmul(X, self.weights) + self.bias
+    y_pred = torch.sigmoid(z)
+    return y_pred
+
+def loss_function(self, y_pred, y):
+    # Clamp predictions to avoid log(0)
+    epsilon = 1e-7
+    y_pred = torch.clamp(y_pred, epsilon, 1 - epsilon)
+    # Calculate loss
+    loss = -(y_train_tensor * torch.log(y_pred) + (1 - y_train_tensor) * torch.log(1 - y_pred)).mean()
+    return loss
+
+## Important Parameters
+learning_rate = 0.1
+epochs = 25
+
+## Training Pipeline
+### create model
+model = MySimpleNN(X_train_tensor)
+### define loop
+for epoch in range(epochs):
+    ### forward pass
+    y_pred = model.forward(X_train_tensor)
+    ### loss calculate
+    loss = model.loss_function(y_pred, y_train_tensor)
+    ### backward pass
+    loss.backward()
+    ### parameters update
+    with torch.no_grad():
+        model.weights -= learning_rate * model.weights.grad
+        model.bias -= learning_rate * model.bias.grad
+    ### zero gradients
+    model.weights.grad.zero_()
+    model.bias.grad.zero_()
+    ### print loss in each epoch
+    print(f'Epoch: {epoch + 1}, Loss: {loss.item()}')
+
+model.bias
+
+## model evaluation
+with torch.no_grad():
+    y_pred = model.forward(X_test_tensor)
+    y_pred = (y_pred > 0.9).float()
+    accuracy = (y_pred == y_test_tensor).float().mean()
+    print(f'Accuracy: {accuracy.item()}')
+  
+  
+  
+  
+##################################################################
+# Create a Neural Network using PyTorch NN Module
+##################################################################
+import torch
+import torch.nn as nn
+
+## create model class: basic implementation
+class Model(nn.Module):
+    def __init__(self, num_features):
+        super().__init__()
+        self.linear1 = nn.Linear(num_features, 3)   #num_features=input branches, 3=output branches
+        self.relu = nn.ReLU()
+        self.linear2 = nn.Linear(3,1)
+        self.sigmoid = nn.Sigmoid()
+       
+    def forward(self, features):
+        out = self.linear1(features)
+        out = self.relu(out)
+        out = self.linear2(out)
+        out = self.sigmoid(out)
+        return out
+        
+## create model class: using sequential container
+class Model(nn.Module):
+    def __init__(self, num_features):
+        super().__init__()
+        self.network = nn.Sequential(
+            nn.Linear(num_features, 3),
+            nn.ReLU(),
+            nn.Linear(3,1),
+            nn.Sigmoid()
+        )
+
+    def forward(self, features):
+        out = self.network(features)
+        return out
+    
+## create dataset
+data = torch.rand(10,5)
+## create model object
+model = Model(data.shape[1])
+## call model for forward pass
+model.forward(data)             #not recommended by PyTorch
+model(data)                     #recommended by PyTorch, calling the object of class automatically triggers the forward method
+## show model weights
+model.linear1.weights
+model.linear1.bias
+model.linear1.weights
+model.linear1.bias
+## to check model summary
+!pip install torchinfo
+from torchinfo import summary
+summary(model, input_size=(10,5))
+    
+
+##################################################################
+# Create a Simple Neural Network from scratch using torch.nn
+##################################################################
+import numpy as np
+import pandas as pd
+import torch
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import LabelEncoder
+
+df = pd.read_csv('https://raw.githubusercontent.com/gscdit/Breast-Cancer-Detection/refs/heads/master/data.csv')
+df.head()
+df.shape
+df.drop(columns=['id', 'Unnamed: 32'], inplace= True)
+df.head()
+
+X_train, X_test, y_train, y_test = train_test_split(df.iloc[:, 1:], df.iloc[:, 0], test_size=0.2)
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+X_train
+y_train
+
+encoder = LabelEncoder()
+y_train = encoder.fit_transform(y_train)
+y_test = encoder.transform(y_test)
+y_train
+
+## Numpy arrays to PyTorch tensors
+X_train_tensor = torch.from_numpy(X_train)
+X_test_tensor = torch.from_numpy(X_test)
+y_train_tensor = torch.from_numpy(y_train)
+y_test_tensor = torch.from_numpy(y_test)
+
+X_train_tensor.shape
+y_train_tensor.shape
+
+## Defining the model
+import torch.nn as nn
+class MySimpleNN():
+    def __init__(self, X):
+        super.__init__()
+        self.linear = nn.Linear(num_features, 1)
+        self.sigmoid = nn.Sigmoid()
+    
+    def forward(self, X):
+        out = self.linear(features)
+        out = self.sigmoid(out)
+        return out
+
+## Important Parameters
+learning_rate = 0.1
+epochs = 25
+
+## Define Loss Function - Binary Cross Entropy
+loss_function = nn.BCELoss()
+
+## Training Pipeline
+### create model
+model = MySimpleNN(X_train_tensor.shape[1])
+## Define Optimizer
+optimizer = torch.optim.SGD(model.parameters, lr=learning_rate)
+### define loop
+for epoch in range(epochs):
+    ### forward pass
+    y_pred = model(X_train_tensor)
+    ### loss calculate
+    loss = loss_function(y_pred, y_train_tensor.view(-1,1)) #view as one less row, and 1 column
+    ### zero gradients
+    optimizer.zero_grad()
+    ### backward pass
+    loss.backward()
+    ### parameters update
+    optimizer.step()
+    ### print loss in each epoch
+    print(f'Epoch: {epoch + 1}, Loss: {loss.item()}')
+
+## model evaluation
+with torch.no_grad():
+    y_pred = model.forward(X_test_tensor)
+    y_pred = (y_pred > 0.9).float()
+    accuracy = (y_pred == y_test_tensor).float().mean()
+    print(f'Accuracy: {accuracy.item()}')
 
 
+    
+
+##################################################################
+# Dataset and Dataloader Class - better management of data and code.
+##################################################################
+from torch.utils.data import Dataset, DataLoader
+
+class CustomDataset(Dataset):
+    def __init__(self, features, labels):
+        self.features = features
+        self.labels = labels
+
+    def __len__(self):
+        len(self.features)
+
+    def __getitem__(self, idx):
+        return self.features[idx], self.labels[idx]
+
+train_dataset = CustomDataset(X_train_tensor, y_train_tensor)
+test_dataset = CustomDataset(X_test_tensor, y_test_tensor)
+
+train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
+test_loader = DataLoader(test_dataset, batch_size=32, shuffle=True)
+
+import torch.nn as nn
+
+
+class MySimpleNN(nn.Module):
+    def __init__(self, num_features):
+        super().__init__()
+        self.linear = nn.Linear(num_features, 1)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, features):
+        out = self.linear(features)
+        out = self.sigmoid(out)
+        return out
+
+learning_rate = 0.1
+epochs = 25
+
+## create model
+model = MySimpleNN(X_train_tensor.shape[1])
+## define optimizer
+optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
+## define loss function
+loss_function = nn.BCELoss()
+
+
+# define loop
+for epoch in range(epochs):
+    for batch_features, batch_labels in train_loader:
+        # forward pass
+        y_pred = model(batch_features)
+        # loss calculate
+        loss = loss_function(y_pred, batch_labels.view(-1,1))
+        # clear gradients
+        optimizer.zero_grad()
+        # backward pass
+        loss.backward()
+        # parameters update
+        optimizer.step()
+    # print loss in each epoch
+    print(f'Epoch: {epoch + 1}, Loss: {loss.item()}')
+
+# Model evaluation using test_loader
+model.eval()  # Set the model to evaluation mode
+accuracy_list = []
+with torch.no_grad():
+    for batch_features, batch_labels in test_loader:
+        # Forward pass
+        y_pred = model(batch_features)
+        y_pred = (y_pred > 0.8).float()  # Convert probabilities to binary predictions
+        # Calculate accuracy for the current batch
+        batch_accuracy = (y_pred.view(-1) == batch_labels).float().mean().item()
+        accuracy_list.append(batch_accuracy)
+# Calculate overall accuracy
+overall_accuracy = sum(accuracy_list) / len(accuracy_list)
+print(f'Accuracy: {overall_accuracy:.4f}')
 
 
 
