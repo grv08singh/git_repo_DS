@@ -1034,6 +1034,271 @@ overall_accuracy = sum(accuracy_list) / len(accuracy_list)
 print(f'Accuracy: {overall_accuracy:.4f}')
 
 
+    
+
+##################################################################
+# Create ANN / MLP using PyTorch [on CPU & GPU]
+##################################################################
+# Dataset => Fashion MNIST
+# Input Layer => 784 Neurons
+# Hidden Layer 1 => 128 Neurons => ReLU
+# Hidden Layer => 64 Neurons => ReLU
+# Output Layer => 10 Neurons (for 10 Classes) => Softmax
+# 
+# WorkFlow =>
+#     1) create Dataloader obj for Training & Testing data
+#     2) create Traing loop
+#     3) create Evaluation code
+# 
+# 
+# Code =>
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+import torch
+from torch.utils.data import Dataset, DataLoader
+import torch.nn as nn
+import torch.optim as optim
+import matplotlib.pyplot as plt
+
+# [Optional Code 1]: use GPU if available
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+# Set seed
+torch.manual_seed(42)
+
+# load data
+df = pd.read_csv("fmnist_small.csv")
+df.head()
+
+# create a 4x4 grid of images
+fig, axes = plt.subplots(4,4,figsize=(10,10))
+for i, ax in enumerate(axes.flat):
+    img = df.iloc[i, 1:].values.reshape(28,28)
+    ax.imshow(img)
+    ax.axis("off")
+    ax.set_title(f"Label: {df.iloc[i,0]}")
+plt.tight_layout(rect=[0,0,1,0.96])
+plt.show()
+
+# train test split
+X = df.iloc[:,1:].values()
+y = df.iloc[:,0].values()
+
+X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2, random_state=42)
+
+# scaling the features
+X_train = X_train/255.0
+X_test = X_test/255.0
+
+# create Custom Dataset class
+class CustomDataset(Dataset):
+    def __init__(self, features, labels):
+        self.features = torch.tensor(features, dtype=torch.float32)
+        self.labels = torch.tensor(labels, dtype=torch.long)
+    
+    def __len__(self):
+        return len(self.features)
+    
+    def __getitem__(self, index):
+        return self.features[index], self.labels[index]
+
+# create train dataset object
+train_dataset = CustomDataset(X_train, y_train)
+# create test dataset object
+test_dataset = CustomDataset(X_test, y_test)
+
+# create train and test loader
+train_loader = Dataloader(train_dataset,batch_size=32,shuffle=True)
+test_dataloader=Dataloader(test_dataset,batch_size=32,shuffle=False)
+
+# create model / define NN class
+class MyNN(nn.Module):
+    def __init__(self, num_features):
+        super().__init__()
+        self.model = nn.Sequential(
+            nn.Linear(num_features, 128),
+            nn.ReLU(),
+            nn.Linear(128, 64),
+            nn.ReLU(),
+            nn.Linear(64, 10)
+            #no need to add softmax
+            #softmax already built in nn.Module
+        )
+    def forwar(self, X):
+        return self.model(x)
+
+# set learning rate & epochs
+epochs = 100
+learning_rate = 0.1
+
+# instantiate the model
+model = MyNN(X_train.shape[1])
+# [optional code 2]: move model to gpu
+model = model.to(device)
+
+# loss function
+criterion = nn.CrossEntropyLoss()
+# optimizer
+optimizer = optim.SGD(model.parameters(), lr=learning_rate)
+
+# training loop
+for epoch in epochs:
+    total_epoch_loss = 0
+    for batch_features, batch_labels in train_loader:
+        # [optional code 3]: move each batch of dataset to GPU
+        batch_features = batch_features.to(device)
+        batch_labels = batch_labels.to(device)
+        # forward pass
+        outputs = model(batch_features)
+        # calculate loss
+        loss = criterion(outputs, batch_labels)
+        # back pass
+        optimizer.zero_grad()
+        loss.backward()
+        # update grads
+        optimizer.step()
+        # update total epoch loss
+        total_epoch_loss += loss
+    avg_loss = total_epoch_loss / len(train_loader)
+    print(f"Epoch: {epoch + 1}, Loss: {avg_loss}")
+    
+# set model to eval mode
+model.eval()
+
+# evaluation code on test data
+total = 0
+correct  = 0
+with torch.no_grad():
+    for batch_features, batch_labels in test_loader:
+        # [optional code 4]: move to GPU
+        batch_features = batch_features.to(device)
+        batch_labels = batch_labels.to(device)
+        # tensor of 10 probabilities for all rows
+        outputs = model(batch_features)
+        # extracting the argmax of probabilities of each row
+        _, predicted = torch.max(outputs, 1)
+        # calculating the number of rows predicted so far
+        total += batch_labels.shape[0]
+        # finding the number of correct predictions
+        correct += (predicted == batch_labels).sum().item()
+print(f"Accuracy: {correct/total}"
+
+# evaluation code on train data
+total = 0
+correct  = 0
+with torch.no_grad():
+    for batch_features, batch_labels in train_loader:
+        # [optional code 4]: move to GPU
+        batch_features = batch_features.to(device)
+        batch_labels = batch_labels.to(device)
+        # tensor of 10 probabilities for all rows
+        outputs = model(batch_features)
+        # extracting the argmax of probabilities of each row
+        _, predicted = torch.max(outputs, 1)
+        # calculating the number of rows predicted so far
+        total += batch_labels.shape[0]
+        # finding the number of correct predictions
+        correct += (predicted == batch_labels).sum().item()
+print(f"Accuracy: {correct/total}"
+
+
+
+    
+
+##################################################################
+# Reduce Overfitting in PyTorch
+##################################################################
+# 1) Add more data
+# 2) Reduce complexity of NN Architecture
+# 3) Regularization (L2)
+    ## applied to weights of the model to penalize large values
+    ## adds penalty term to the loss function
+    ## PyTorch also applies Regularization using Weight Decay
+model = MyNN(X_train.shape[1])
+model = model.to(device)
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.SGD(model.parameters(), lr=learning_rate, weight_decay=1e-4)
+
+# 4) Dropouts
+    ## Applied to Hidden Layers only
+    ## Applied after ReLU activation function
+    ## Randomly turns off p% neurons in the hidden layers during each pass
+    ## This has regularization effect
+    ## During evaluation, dropout is not used
+class MyNN(nn.Module):
+    def __init__(self, num_features):
+        super().__init__()
+        self.model = nn.Sequential(
+            nn.Linear(num_features, 128),
+            nn.ReLU(),
+            nn.Dropout(p=0.3),          #dropout code added
+            nn.Linear(128, 64),
+            nn.ReLU(),
+            nn.Dropout(p=0.3),          #dropout code added
+            nn.Linear(64, 10)
+            #no need to add softmax
+            #softmax already built in nn.Module
+        )
+    def forwar(self, X):
+        return self.model(x)
+
+
+# 5) Data Augmentation (CNN mainly)
+# 6) Batch Normalization
+    ## Applied to Hidden Layers only
+    ## Applied after Linear & before Activation Function
+    ## Improves Training stability by reducing Internal Covariance Shift (ICS) & allowing the use of higher learning rate
+    ## output of each layer before activation is normalized using mean and standard deviation of that layer's output
+    ## includes Learnable Parameters - gamma (scaling) & beta (shifting)
+    ## creates the effect of regularization
+    ## During evaluation, Batch Normalization is not used
+class MyNN(nn.Module):
+    def __init__(self, num_features):
+        super().__init__()
+        self.model = nn.Sequential(
+            nn.Linear(num_features, 128),
+            nn.BatchNorm1d(128),        #Batch Norm code added
+            nn.ReLU(),
+            nn.Dropout(p=0.3),
+            nn.Linear(128, 64),
+            nn.BatchNorm1d(64),         #Batch Norm code added
+            nn.ReLU(),
+            nn.Dropout(p=0.3),
+            nn.Linear(64, 10)
+            #no need to add softmax
+            #softmax already built in nn.Module
+        )
+    def forwar(self, X):
+        return self.model(x)
+    
+
+# 7) Early Stopping
+
+
+
+    
+
+##################################################################
+# Hyperparameter Tuning in PyTorch
+##################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2771,7 +3036,7 @@ plt.show()
 
 
 ###############################################################################################################
-#### DL - Artificial Neural Network (ANN) Architecture
+#### DL - Artificial Neural Network (ANN / MLP) Architecture
 ###############################################################################################################
 import warnings as wr
 wr.filterwarnings('ignore')
