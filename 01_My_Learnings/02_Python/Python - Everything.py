@@ -29,7 +29,7 @@
 D:
 cd "D:\05 GIT\14_Proj_ML_99Acres"
 
-jupyter notebook --notebook-dir="D:\05 GIT\14_Proj_ML_99Acres"
+jupyter notebook --notebook-dir="D:\05 GIT\01_masterRepo\01_My_Learnings\02_Python\04_DL_PyTorch"
 jupyter notebook --notebook-dir="D:\05 GIT\12_GenAI_projects\01_EngHin_Translator_EncDec"
 jupyter notebook --notebook-dir="D:\05 GIT\12_GenAI_projects\01_EngHin_Translator_EncDec"
 jupyter notebook --notebook-dir="D:\05 GIT\13_Misc_projects\04_YT_Timestamp_Gen"
@@ -1126,7 +1126,7 @@ class MyNN(nn.Module):
             #softmax already built in nn.Module
         )
     def forwar(self, X):
-        return self.model(x)
+        return self.model(X)
 
 # set learning rate & epochs
 epochs = 100
@@ -1143,7 +1143,7 @@ criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=learning_rate)
 
 # training loop
-for epoch in epochs:
+for epoch in range(epochs):
     total_epoch_loss = 0
     for batch_features, batch_labels in train_loader:
         # [optional code 3]: move each batch of dataset to GPU
@@ -1214,7 +1214,7 @@ print(f"Accuracy: {correct/total}"
 # 3) Regularization (L2)
     ## applied to weights of the model to penalize large values
     ## adds penalty term to the loss function
-    ## PyTorch also applies Regularization using Weight Decay
+    ## PyTorch also applies Regularization using weight_decay
 model = MyNN(X_train.shape[1])
 model = model.to(device)
 criterion = nn.CrossEntropyLoss()
@@ -1241,7 +1241,7 @@ class MyNN(nn.Module):
             #softmax already built in nn.Module
         )
     def forwar(self, X):
-        return self.model(x)
+        return self.model(X)
 
 
 # 5) Data Augmentation (CNN mainly)
@@ -1270,7 +1270,7 @@ class MyNN(nn.Module):
             #softmax already built in nn.Module
         )
     def forwar(self, X):
-        return self.model(x)
+        return self.model(X)
     
 
 # 7) Early Stopping
@@ -1280,11 +1280,136 @@ class MyNN(nn.Module):
     
 
 ##################################################################
-# Hyperparameter Tuning in PyTorch
+# Hyperparameter Tuning in PyTorch - using Optuna [complete code]
 ##################################################################
+# 1) Number of Hidden Layers
+# 2) Neurons in each Layer
+# 3) Number of Epochs
+# 4) Optimizer
+# 5) Learning Rate
+# 6) Batch Size
+# 7) Dropout Rate
+# 8) Weight Decay(Lambda)
 
+import pandas as pd
+from sklearn.model_selection import train_test_split
+import torch
+from torch.utils.data import Dataset, DataLoader
+import torch.nn as nn
+import torch.optim as optim
+import optuna
 
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+torch.manual_seed(42)
+df = pd.read_csv("fmnist_small.csv")
 
+X = df.iloc[:,1:].values()
+y = df.iloc[:,0].values()
+X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2, random_state=42)
+
+X_train = X_train/255.0
+X_test = X_test/255.0
+
+class CustomDataset(Dataset):
+    def __init__(self, features, labels):
+        self.features = torch.tensor(features, dtype=torch.float32)
+        self.labels = torch.tensor(labels, dtype=torch.long)
+    
+    def __len__(self):
+        return len(self.features)
+    
+    def __getitem__(self, index):
+        return self.features[index], self.labels[index]
+
+train_dataset = CustomDataset(X_train, y_train)
+test_dataset = CustomDataset(X_test, y_test)
+
+# create NN model
+class MyNN(nn.Module):
+    def __init__(self, input_dim, output_dim, num_hidden_layers, neurons_per_layer, dropout_rate):
+        super().__init__()
+        layers = []
+        for i in range(num_hidden_layers):
+            layers.append(nn.Linear(input_dim, neurons_per_layer))
+            layers.append(nn.BatchNorm1d(neurons_per_layer)
+            layers.append(nn.ReLU())
+            layers.append(nn.Dropout(dropout_rate))
+            input_dim = neurons_per_layer
+        layers.append(nn.Linear(neurons_per_layer, output_dim)
+        self.model = nn.Sequential(*layers)
+        
+    def forward(self, X):
+        return self.model(X)
+
+# create objective function
+def objective(trial):
+    # next hyperparameter values from the search space
+    num_hidden_layers = trial.suggest_int("num_hidden_layers",1,5)
+    neurons_per_layer = trial.suggest_int("neurons_per_layer",8,128,step=8)
+    epochs = trial.suggest_int("epochs",10,50,step=10)
+    learning_rate = trial.suggest_float("learning_rate", 1e-5, 1e-1, log=True)
+    dropout_rate = trial.suggest_float("dropout_rate", 0.1,0.5,step=0.1)
+    batch_size = trial.suggest_categorical("batch_size",[16,32,64,128])
+    optimizer_name = trial.suggest_categorical("optimizer",["Adam","SGD","RMSprop"])
+    weight_decay = trial.suggest_float("weight_decay",1e-5,1e-3,log=True)
+    
+    train_loader = Dataloader(train_dataset,batch_size=batch_size,shuffle=True)
+    test_dataloader=Dataloader(test_dataset,batch_size=batch_size,shuffle=False)
+    
+    # model init
+    input_dim = 784
+    output_dim = 10
+    
+    model = MyNN(input_dim, output_dim, num_hidden_layers, neurons_per_layer, dropout_rate)
+    model.to(device)
+    
+    # optimizer selection
+    criterion = nn.CrossEntropyLoss()    
+    if optimizer_name == "Adam":
+        optimizer = optim.Adam(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
+    elif optimizer_name == "SGD":
+        optimizer = optim.SGD(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
+    else:
+        optimizer = optim.RMSprop(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
+    
+    # training loop
+    for epoch in range(epochs):
+        for batch_features, batch_labels in train_loader:
+            batch_features = batch_features.to(device)
+            batch_labels = batch_labels.to(device)
+            
+            outputs = model(batch_features)
+            loss = criterion(outputs, batch_labels)
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+    
+    # evaluation
+    model.eval()
+    total = 0
+    correct = 0
+    with torch.no_grad():
+        for batch_features, batch_labels in test_loader:
+            batch_features = batch_features.to(device)
+            batch_labels = batch_labels.to(device)
+            
+            outputs = model(batch_features)
+            _, predicted = torch.max(outputs, 1)
+            total += batch_labels.shape[0]
+            correct += (predicted == batch_labels).sum().item()
+        accuracy = correct/total
+    
+    return accuracy
+
+# create study
+
+study = optuna.create_study(direction='maximize')
+study.optimize(objective, n_trials=10)
+
+# find best accuracy from study object
+study.best_value
+# find best parameters from study object
+study.best_params
 
 
 
@@ -7760,51 +7885,6 @@ git push origin main
 
 
 
-###############################################################################################################
-#### cmd - create last tensorflow env with GPU
-###############################################################################################################
-:: Remove Previous Environment if Exists ::
-conda deactivate
-conda env remove -p tf_gpu -y
-
-:: Create New Environment ::
-conda create -p tf_gpu python=3.9 -y
-conda activate tf_gpu
-
-:: Install Cuda Toolkit and cuDNN ::
-conda install -c conda-forge cudatoolkit=11.2 cudnn=8.1.0 -y
-
-:: Install TensorFlow GPU and Required Libraries ::
-pip install tensorflow-gpu==2.10.1
-pip uninstall -y numpy
-pip install numpy==1.23.5
-conda install -c conda-forge greenlet -y
-pip install -r requirements.txt
-
-
-
-
-:: Verify GPU Installation ::
-    
-python -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
-
-
-import tensorflow as tf
-import sys
-print(f"\nPython Version: {sys.version}")
-print(f"TensorFlow Version: {tf.__version__}")
-
-# Check GPU availability
-gpus = tf.config.list_physical_devices('GPU')
-print(f"\nGPU Devices Found: {len(gpus)}")
-if gpus:
-    for i, gpu in enumerate(gpus):
-        print(f"  GPU {i}: {gpu.name}")
-        print(f"  Device Type: {gpu.device_type}")
-else:
-    print("\n⚠ No GPU detected. TensorFlow will run on CPU only.")
-
-
 
 
 
@@ -7880,7 +7960,6 @@ PSComputerName        :
 #### Python Environment
 ###############################################################################################################
 
-
 ## C:\Users\grv06\AppData\Roaming\Code\User\settings.json
 
 #### create conda env at default path
@@ -7925,7 +8004,7 @@ python -m venv .venv                                                # Create Pyt
 pip install -r requirements.txt
 
 
-######creating a GPU enabled env in cmd
+######Tensorflow-GPU env in cmd
 conda create --name tf-gpu python=3.9 -y
 conda activate tf-gpu
 conda install -c conda-forge cudatoolkit=11.2 cudnn=8.1.0 -y
@@ -7937,8 +8016,14 @@ conda install pytorch torchvision torchaudio cudatoolkit=11.3 -c pytorch
 pip install jupyter notebook ipykernel
 python -m ipykernel install --user --name=tf-gpu --display-name "tf-gpu-ipykernel"
 
-import tensorflow as tf
-print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
-import torch
-print(torch.cuda.is_available())
+#:: Verify GPU Installation ::
+python -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
 
+
+###### PyTorch-GPU env in cmd
+conda create -n env_PyTorch_gpu python=3.11 -y
+conda activate env_PyTorch_gpu
+conda install pytorch torchvision torchaudio pytorch-cuda=12.4 -c pytorch -c nvidia -y
+
+#:: Verify GPU Installation ::
+python -c "import torch; print(torch.cuda.is_available())"
