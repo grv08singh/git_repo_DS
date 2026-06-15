@@ -1117,7 +1117,7 @@ class MyNN(nn.Module):
     def __init__(self, num_features):
         super().__init__()
         self.model = nn.Sequential(
-            nn.Linear(num_features, 128),
+            nn.Linear(in_features=num_features, out_features=128),
             nn.ReLU(),
             nn.Linear(128, 64),
             nn.ReLU(),
@@ -1230,13 +1230,13 @@ class MyNN(nn.Module):
     def __init__(self, num_features):
         super().__init__()
         self.model = nn.Sequential(
-            nn.Linear(num_features, 128),
+            nn.Linear(in_features=num_features, out_features=128),
             nn.ReLU(),
             nn.Dropout(p=0.3),          #dropout code added
-            nn.Linear(128, 64),
+            nn.Linear(in_features=128, out_features=64),
             nn.ReLU(),
             nn.Dropout(p=0.3),          #dropout code added
-            nn.Linear(64, 10)
+            nn.Linear(in_features=64, out_features=10)
             #no need to add softmax
             #softmax already built in nn.Module
         )
@@ -1257,15 +1257,15 @@ class MyNN(nn.Module):
     def __init__(self, num_features):
         super().__init__()
         self.model = nn.Sequential(
-            nn.Linear(num_features, 128),
-            nn.BatchNorm1d(128),        #Batch Norm code added
+            nn.Linear(in_features=num_features, out_features=128),
+            nn.BatchNorm1d(num_features=128),        #Batch Norm code added
             nn.ReLU(),
             nn.Dropout(p=0.3),
-            nn.Linear(128, 64),
-            nn.BatchNorm1d(64),         #Batch Norm code added
+            nn.Linear(in_features=128, out_features=64),
+            nn.BatchNorm1d(num_features=64),         #Batch Norm code added
             nn.ReLU(),
             nn.Dropout(p=0.3),
-            nn.Linear(64, 10)
+            nn.Linear(in_features=64, out_features=10)
             #no need to add softmax
             #softmax already built in nn.Module
         )
@@ -1414,6 +1414,309 @@ study.best_params
 
 
 
+
+
+
+
+
+
+
+
+##################################################################
+# Create basic CNN in PyTorch
+##################################################################
+
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+import torch
+from torch.utils.data import Dataset, DataLoader
+import torch.nn as nn
+import torch.optim as optim
+import matplotlib.pyplot as plt
+
+
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+torch.manual_seed(42)
+
+df = pd.read_csv("fmnist_small.csv")
+df.head()
+
+X = df.iloc[:,1:].values()
+y = df.iloc[:,0].values()
+X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2, random_state=42)
+X_train = X_train/255.0
+X_test = X_test/255.0
+
+class CustomDataset(Dataset):
+    def __init__(self, features, labels):
+        #self.features = torch.tensor(features, dtype=torch.float32)
+        self.features = torch.tensor(features, dtype=torch.float32).reshape(-1,1,28,28)
+        self.labels = torch.tensor(labels, dtype=torch.long)
+    
+    def __len__(self):
+        return len(self.features)
+    
+    def __getitem__(self, index):
+        return self.features[index], self.labels[index]
+
+train_dataset = CustomDataset(X_train, y_train)
+test_dataset = CustomDataset(X_test, y_test)
+train_loader = Dataloader(train_dataset,batch_size=32,shuffle=True)
+test_dataloader=Dataloader(test_dataset,batch_size=32,shuffle=False)
+
+# create model / define NN class
+class MyNN(nn.Module):
+    def __init__(self, input_channels):
+        super().__init__()
+        #CNN - feature extraction
+        self.features = nn.Sequential(
+            nn.Conv2d(in_channels=input_channels,out_channels=32,kernel_size=3,padding='same'), #out_channels = Number of filters
+            nn.ReLU(),
+            nn.BatchNorm2d(num_features=32),
+            nn.MaxPool2d(kernel_size=2,stride=2),
+            
+            nn.Conv2d(in_channels=32,out_channels=64,kernel_size=3,padding='same'),
+            nn.ReLU(),
+            nn.BatchNorm2d(num_features=64),
+            nn.MaxPool2d(kernel_size=2,stride=2)
+        )
+        #ANN
+        self.classifier = nn.Sequential(
+            nn.Flatten(),
+            nn.Linear(in_features=64*7*7, out_features=128),
+            nn.ReLU(),
+            nn.Dropout(p=0.4),
+            
+            nn.Linear(in_features=128, out_features=64),
+            nn.ReLU(),
+            nn.Dropout(p=0.4),
+            
+            nn.Linear(in_features=64, out_features=10),
+        )
+
+    def forward(self, X):
+        X = self.features(X)
+        X = self.classifier(X)
+        return X
+
+epochs = 100
+learning_rate = 0.01
+
+model = MyNN(input_channels=1)
+model = model.to(device)
+
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.SGD(model.parameters(), lr=learning_rate, weight_decay=1e-4)
+
+for epoch in range(epochs):
+    total_epoch_loss = 0
+    for batch_features, batch_labels in train_loader:
+        batch_features = batch_features.to(device)
+        batch_labels = batch_labels.to(device)
+        outputs = model(batch_features)
+        loss = criterion(outputs, batch_labels)
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+        total_epoch_loss += loss
+    avg_loss = total_epoch_loss / len(train_loader)
+    print(f"Epoch: {epoch + 1}, Loss: {avg_loss}")
+    
+model.eval()
+
+total = 0
+correct  = 0
+with torch.no_grad():
+    for batch_features, batch_labels in test_loader:
+        batch_features = batch_features.to(device)
+        batch_labels = batch_labels.to(device)
+        outputs = model(batch_features)
+        _, predicted = torch.max(outputs, 1)
+        total += batch_labels.shape[0]
+        correct += (predicted == batch_labels).sum().item()
+print(f"Accuracy: {correct/total}"
+
+# evaluation code on train data
+total = 0
+correct  = 0
+with torch.no_grad():
+    for batch_features, batch_labels in train_loader:
+        batch_features = batch_features.to(device)
+        batch_labels = batch_labels.to(device)
+        outputs = model(batch_features)
+        _, predicted = torch.max(outputs, 1)
+        total += batch_labels.shape[0]
+        correct += (predicted == batch_labels).sum().item()
+print(f"Accuracy: {correct/total}"
+
+
+
+
+
+
+
+
+
+
+
+
+##################################################################
+# CNN Transfer Learning using PyTorch
+##################################################################
+# 1) import pre trained model. e.g. VGG16
+# 2) detach classifier
+# 3) attach own classifier (ANN)
+# 4) freeze features extraction (CNN) layers 
+# 5) train for fine-tuning 
+
+# VGG16 requires image in certain format,
+# transformation required on fMNIST dataset:
+# 1) reshape 1-d data to 2-d --> (28,28)
+# 2) change datatype to np.uint8 --> required for PIL image
+# 3) 1-d to 3-d tensor --> from (1,28,28) to (3,28,28)
+# 4) convert to PIL Image --> (3,28,28)
+# 5) resize to (3,256,256) --> input requirement of VGG16
+# 6) centre crop (3,224,224)
+# 7) convert to PyTorch.tensor & scale --> (0,1)
+# 8) normalize using documentation mean & std for each channel
+
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+import torch
+from torch.utils.data import Dataset, DataLoader
+import torch.nn as nn
+import torch.optim as optim
+import matplotlib.pyplot as plt
+
+
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+torch.manual_seed(42)
+
+df = pd.read_csv("fmnist_small.csv")
+df.head()
+
+X = df.iloc[:,1:].values()
+y = df.iloc[:,0].values()
+X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2, random_state=42)
+#X_train = X_train/255.0
+#X_test = X_test/255.0
+
+#required transformations
+from torchvision.transforms import transforms
+custom_transform = transforms.Compose([
+    transforms.Resize(256),
+    transforms.CenterCrop(224),
+    transforms.ToTensor(),
+    #normalize and scale 0 to 1
+    transforms.Normalize(mean=[0.485,0.456,0.406],std=[0.229,0.224,0.225])
+])
+
+
+from PIL import Image
+import numpy as np
+
+class CustomDataset(Dataset):
+    #def __init__(self, features, labels):
+    def __init__(self, features, labels, transform):
+        self.features = torch.tensor(features, dtype=torch.float32).reshape(-1,1,28,28)
+        self.labels = torch.tensor(labels, dtype=torch.long)
+        self.transform = transform
+    
+    def __len__(self):
+        return len(self.features)
+    
+    def __getitem__(self, index):
+        #resize to (28,28)
+        image = self.features[index].reshape(28,28)
+        #change datatype to np.uint8
+        image = image.astype(np.uint8)
+        #change Black&White to Color, Channel x Height x Width
+        #image = np.stack([image]*3)
+        #PIL requirement is Height x Width x Channel
+        image = np.stack([image]*3, axis=-1)
+        #convert array to PIL image
+        image = Image.fromarray(image)
+        #apply transforms
+        image = self.transform(image)
+        #return
+        return image, torch.tensor(self.labels[index], dtype=torch.long)
+        
+
+train_dataset = CustomDataset(X_train,y_train,transform=custom_transform)
+test_dataset = CustomDataset(X_test, y_test,transform=custom_transform)
+train_loader = Dataloader(train_dataset,batch_size=32,shuffle=True)
+test_dataloader=Dataloader(test_dataset,batch_size=32,shuffle=False)
+
+# fetch pretrained model
+import torchvision.models as models
+vgg16 =  models.vgg16(pretrained=True)
+vgg16.features      #CNN part
+vgg16.classifier    #ANN part
+
+#freeze CNN weights
+for param in vgg16.features.parameters():
+    param.requires_grad=False
+
+vgg16.classifier = nn.Sequential(
+                            nn.Linear(25088, 1024),
+                            nn.ReLU(),
+                            nn.Dropout(0.5),
+                            nn.Linear(1024, 512),
+                            nn.ReLU(),
+                            nn.Dropout(0.5),
+                            nn.Linear(512, 10)
+                        )
+
+
+epochs = 10
+learning_rate = 0.0001
+vgg16 = vgg16.to(device)
+
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.Adam(vgg16.classifier.parameters(), lr=learning_rate)
+
+for epoch in range(epochs):
+    total_epoch_loss = 0
+    for batch_features, batch_labels in train_loader:
+        batch_features = batch_features.to(device)
+        batch_labels = batch_labels.to(device)
+        outputs = vgg16(batch_features)
+        loss = criterion(outputs, batch_labels)
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+        total_epoch_loss += loss
+    avg_loss = total_epoch_loss / len(train_loader)
+    print(f"Epoch: {epoch + 1}, Loss: {avg_loss}")
+    
+vgg16.eval()
+
+total = 0
+correct  = 0
+with torch.no_grad():
+    for batch_features, batch_labels in test_loader:
+        batch_features = batch_features.to(device)
+        batch_labels = batch_labels.to(device)
+        outputs = vgg16(batch_features)
+        _, predicted = torch.max(outputs, 1)
+        total += batch_labels.shape[0]
+        correct += (predicted == batch_labels).sum().item()
+print(f"Accuracy: {correct/total}"
+
+# evaluation code on train data
+total = 0
+correct  = 0
+with torch.no_grad():
+    for batch_features, batch_labels in train_loader:
+        batch_features = batch_features.to(device)
+        batch_labels = batch_labels.to(device)
+        outputs = vgg16(batch_features)
+        _, predicted = torch.max(outputs, 1)
+        total += batch_labels.shape[0]
+        correct += (predicted == batch_labels).sum().item()
+print(f"Accuracy: {correct/total}"
 
 
 
