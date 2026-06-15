@@ -8111,7 +8111,7 @@ Import submodule	                import package.submodule	        Access with fu
 
 
 ###############################################################################################################
-#### GIT - version management
+#### GIT Everything - version management
 ###############################################################################################################
 
 #### GIT Setup
@@ -8172,7 +8172,7 @@ git pull                                #both the changes will be in the file, r
 #######################################################
 #### removing already pushed files from git and future push
 git rm --cached notebooks/data/data.zip             #file
-git rm --cached -r artifacts/evaluation             #directory
+git rm --cached -r artifacts/evaluation/            #directory
 git commit -m "files removed from git"
 git push origin main
 
