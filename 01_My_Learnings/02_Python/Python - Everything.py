@@ -468,1450 +468,6 @@ pip install google-generativeai
 
 
 
-###############################################################################################################
-#### Deep Learning DL in PyTorch - Everything
-###############################################################################################################
-import torch
-
-# Create tensor in torch:
-## empty tensor of shape (2,3) - values are from previously stored at those locations
-x = torch.empty(2,3)
-## check type - torch.Tensor
-type(x)
-## using zeros
-torch.zeros(2,3)
-## using ones
-torch.ones(2,3)
-## using rand
-torch.rand(2,3)
-## use of seed
-torch.manual_seed(100)
-torch.rand(2,3)
-## using tensor
-torch.tensor([[1,2,3],[4,5,6]])
-## using arange
-torch.arange(0,19,2)
-## using linspace
-torch.linspace(1,10,10)
-## using eye
-torch.eye(5)
-## using full
-torch.full((3,3),5)
-
-# Data Types in Torch
-x.dtype             #torch.int64, torch.float32, etc..
-
-## this will create integer tensor
-torch.tensor([[1.0,2.0,3.0],[4.0,5.0,6.0]], dtype=torch.int32)
-## this will create float tensor
-torch.tensor([[1,2,3],[4,5,6]], dtype=torch.float64)
-## change dtype of existing tensor
-x.to(torch.float32)
-
-# Tensor Shape
-x.shape
-
-## empty tensor with shape that of x
-torch.empty_like(x)
-## zeros tensor with shape that of x
-torch.zeros_like(x)
-## ones tensor with shape that of x
-torch.ones_like(x)
-## random tensor with shape that of x
-torch.rand_like(x)          #error - coz x is INT, rand creates float
-torch.rand_like(x,dtype=torch.float64)
-
-# Mathematical Scalar Operations
-## addition
-x + 2
-## subtraction
-x - 2
-## multiplication
-x * 3
-## division
-x / 3
-## int division
-(x * 100)//3
-## mod
-(x * 100)%2
-## power
-x**2
-
-# Mathematical tensor Operations (element-by-element)
-## addition
-x + y
-## subtraction
-x - y
-## multiplication
-x * y
-## division
-x / y
-## int division
-x//y
-## mod
-x%y
-## power
-x**y
-
-# other Mathematical operations
-## absolute values of elements
-torch.abs(x)
-## negative of all values in a tensor
-torch.neg(x)
-## round all numbers in a tensor
-torch.round(x)
-## ceil all numbers in a tensor
-torch.ceil(x)
-## floor all numbers in a tensor
-torch.floor(x)
-## clamp all numbers in a range, 2 for <=2, 3 for >=3
-torch.clamp(x, min=2, max=3)
-## sum of all numbers in a tensor
-torch.sum(x)
-## sum along columns in a tensor
-torch.sum(x, dim=0)
-## sum along rows in a tensor
-torch.sum(x, dim=1)
-## mean of all numbers in a tensor - d.type(x) must be torch.float
-torch.mean(x)
-## mean along columns in a tensor
-torch.mean(x, dim=0)
-## mean along rows in a tensor
-torch.mean(x, dim=1)
-## maximum along columns in a tensor
-torch.max(x, dim=0)
-## minimum along rows in a tensor
-torch.min(x, dim=1)
-## product of all numbers in a tensor
-torch.product(x)
-## standard deviation of all numbers in a tensor
-torch.std(x)
-## variance of all numbers in a tensor
-torch.var(x)
-## position of maximum in a tensor
-torch.argmax(x)
-## position of minimum in a tensor
-torch.argmin(x)
-
-# Matrix Operations
-## Matrix Multiplication
-torch.matmul(x,y) #no.of cols in x must be = no. of rows in y
-## dot product
-torch.dot(x, y) #x and y are two vectors
-## Transpose --> swap 0th dimension with 1st
-torch.transpose(f,0,1)
-## determinant - only possible for square matrix
-torch.det(a)
-## inverse - only possible for square matrix
-torch.inverse(a)
-
-# Comparison Operations
-## greater than
-x > y
-## less than
-x < y
-## greater than or equal to
-x >= y
-## less than or equal to
-x <= y
-## equal to
-x == y
-
-# Special Functions
-## random numbers tensor in range(0,10)
-torch.randint(size=(2,3), low=0, high=10)
-## log
-torch.log(x)
-## exponent
-torch.exp(x)
-## square root
-torch.sqrt(x)
-## sigmoid
-torch.sigmoid(x)
-## softmax
-torch.softmax(x, dim=0)
-## relu
-torch.relu(x)
-
-# all the above functions return a tensor, that occupies space
-# what if we don't want to save the resultant tensor at a new place
-# what if we wanna save resultant tensor in x itself.
-# This is called inplace=True operation
-
-## add x and y and save the resultant in x
-x.add_(y)
-## relu of x saved to x
-x.relu_()
-## copy tensor x to y
-y = x.clone()
-id(x)   #memory location of where x is pointing
-id(y)   #memory location of where y is pointing
-
-
-# GPU operations
-## check if gpu is available
-torch.cuda.is_available()
-## create new tensor on GPU
-device = torch.device('cuda')
-torch.rand((2,3), device=device)
-## move existing CPU tensors to GPU
-a.to(device)    #after moving to GPU, all operations happen on GPU
-
-## Reshape
-a = torch.ones(4,4)
-a.reshape(2,2,2,2)
-## Flatten
-a.flatten()
-## permute - change the index of the shape
-a = torch.rand(2,3,4)
-a.permute(2,0,1).shape  #(4,2,3) changed the shape sequence
-## unsqueeze - add a new dimension at a position
-a = torch.rand(226,226,3)
-a.unsqueeze(0).shape    #(1,226,226,3) added a new dim at position 0
-## squeeze - remove a dimension
-a = torch.rand(1,20)    #2-D tensor
-a.squeeze(0).shape      #([20]) 1-D tensor
-
-# Moving tensors between NumPy and PyTorch
-## convert a PyTorch Tensor to NumPy Tensor
-a = torch.tensor([1,2,3])
-b = a.numpy()
-## convert a NumPy Tensor to PyTorch Tensor
-c = torch.from_numpy(b)
-
-
-# Autograd - Automatic Gradient in PyTorch
-## example 1
-x = torch.tensor(3, requires_grad=True)
-y = x**2                #relationship between x and y
-y.backward()            #calculating gradient in backward direction
-x.grad                  #gives gradient automatically
-
-## example 2
-x = torch.tensor(3, requires_grad=True)
-y = x**2                #relationship between x and y
-z = torch.sin(y)        #relationship between y and z
-z.backward()            #calculating gradient in backward direction
-x.grad                  #gives gradient automatically
-
-## example 3
-x = torch.tensor([1,2,3], requires_grad=True)
-z = x**2.mean()                         #relationship between x and z
-y_hat = torch.sigmoid(z)                #relationship between y and z
-L = ylog(y_hat) - (1-y)log(1-y_hat)     #Binary CrossEntropy Loss
-L.backward()                            #calculating gradient in backward direction
-x.grad                                  #gives gradient automatically
-
-## Autograd keeps accumulating gradients over multiple runs
-## therefore, it is necessary to clear the gradients before each run.
-x.grad.zero_()
-
-## Turn off gradient tracking
-## method 1, backward() function doesn't work anymore, gradient tracking OFF
-x.requires_grad_(False)
-## method 2, detach() function
-z = x.detach()
-y1 = x**2       #gradient tracking ON
-y2 = z**2       #gradient tracking OFF
-y1.backward()   #POSSIBLE
-y2.backward()   #NOT POSSIBLE
-## method 3, with torch.no_grad()
-with torch.no_grad:
-    y = x**2    #gradient tracking OFF
-    
-
-
-
-
-
-
-##################################################################
-# DL in PyTorch - Simple Neural Network from scratch
-##################################################################
-import numpy as np
-import pandas as pd
-import torch
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from sklearn.preprocessing import LabelEncoder
-
-df = pd.read_csv('https://raw.githubusercontent.com/gscdit/Breast-Cancer-Detection/refs/heads/master/data.csv')
-df.head()
-df.shape
-df.drop(columns=['id', 'Unnamed: 32'], inplace= True)
-df.head()
-
-X_train, X_test, y_train, y_test = train_test_split(df.iloc[:, 1:], df.iloc[:, 0], test_size=0.2)
-scaler = StandardScaler()
-X_train = scaler.fit_transform(X_train)
-X_test = scaler.transform(X_test)
-X_train
-y_train
-
-encoder = LabelEncoder()
-y_train = encoder.fit_transform(y_train)
-y_test = encoder.transform(y_test)
-y_train
-
-## Numpy arrays to PyTorch tensors
-X_train_tensor = torch.from_numpy(X_train)
-X_test_tensor = torch.from_numpy(X_test)
-y_train_tensor = torch.from_numpy(y_train)
-y_test_tensor = torch.from_numpy(y_test)
-
-X_train_tensor.shape
-y_train_tensor.shape
-
-## Defining the model
-class MySimpleNN():
-def __init__(self, X):
-    self.weights = torch.rand(X.shape[1], 1, dtype=torch.float64, requires_grad=True)
-    self.bias = torch.zeros(1, dtype=torch.float64, requires_grad=True)
-
-def forward(self, X):
-    z = torch.matmul(X, self.weights) + self.bias
-    y_pred = torch.sigmoid(z)
-    return y_pred
-
-def loss_function(self, y_pred, y):
-    # Clamp predictions to avoid log(0)
-    epsilon = 1e-7
-    y_pred = torch.clamp(y_pred, epsilon, 1 - epsilon)
-    # Calculate loss
-    loss = -(y_train_tensor * torch.log(y_pred) + (1 - y_train_tensor) * torch.log(1 - y_pred)).mean()
-    return loss
-
-## Important Parameters
-learning_rate = 0.1
-epochs = 25
-
-## Training Pipeline
-### create model
-model = MySimpleNN(X_train_tensor)
-### define loop
-for epoch in range(epochs):
-    ### forward pass
-    y_pred = model.forward(X_train_tensor)
-    ### loss calculate
-    loss = model.loss_function(y_pred, y_train_tensor)
-    ### backward pass
-    loss.backward()
-    ### parameters update
-    with torch.no_grad():
-        model.weights -= learning_rate * model.weights.grad
-        model.bias -= learning_rate * model.bias.grad
-    ### zero gradients
-    model.weights.grad.zero_()
-    model.bias.grad.zero_()
-    ### print loss in each epoch
-    print(f'Epoch: {epoch + 1}, Loss: {loss.item()}')
-
-model.bias
-
-## model evaluation
-with torch.no_grad():
-    y_pred = model.forward(X_test_tensor)
-    y_pred = (y_pred > 0.9).float()
-    accuracy = (y_pred == y_test_tensor).float().mean()
-    print(f'Accuracy: {accuracy.item()}')
-  
-  
-  
-  
-  
-  
-  
-  
-##################################################################
-# DL in PyTorch - Neural Network using torch.nn
-##################################################################
-import torch
-import torch.nn as nn
-
-## create model class: basic implementation
-class Model(nn.Module):
-    def __init__(self, num_features):
-        super().__init__()
-        self.linear1 = nn.Linear(num_features, 3)   #num_features=input branches, 3=output branches
-        self.relu = nn.ReLU()
-        self.linear2 = nn.Linear(3,1)
-        self.sigmoid = nn.Sigmoid()
-       
-    def forward(self, features):
-        out = self.linear1(features)
-        out = self.relu(out)
-        out = self.linear2(out)
-        out = self.sigmoid(out)
-        return out
-        
-## create model class: using sequential container
-class Model(nn.Module):
-    def __init__(self, num_features):
-        super().__init__()
-        self.network = nn.Sequential(
-            nn.Linear(num_features, 3),
-            nn.ReLU(),
-            nn.Linear(3,1),
-            nn.Sigmoid()
-        )
-
-    def forward(self, features):
-        out = self.network(features)
-        return out
-    
-## create dataset
-data = torch.rand(10,5)
-## create model object
-model = Model(data.shape[1])
-## call model for forward pass
-model.forward(data)             #not recommended by PyTorch
-model(data)                     #recommended by PyTorch, calling the object of class automatically triggers the forward method
-## show model weights
-model.linear1.weights
-model.linear1.bias
-model.linear1.weights
-model.linear1.bias
-## to check model summary
-!pip install torchinfo
-from torchinfo import summary
-summary(model, input_size=(10,5))
-    
-
-
-
-
-
-
-
-
-##################################################################
-# DL in PyTorch - Simple Neural Network from scratch using torch.nn
-##################################################################
-import numpy as np
-import pandas as pd
-import torch
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from sklearn.preprocessing import LabelEncoder
-
-df = pd.read_csv('https://raw.githubusercontent.com/gscdit/Breast-Cancer-Detection/refs/heads/master/data.csv')
-df.head()
-df.shape
-df.drop(columns=['id', 'Unnamed: 32'], inplace= True)
-df.head()
-
-X_train, X_test, y_train, y_test = train_test_split(df.iloc[:, 1:], df.iloc[:, 0], test_size=0.2)
-scaler = StandardScaler()
-X_train = scaler.fit_transform(X_train)
-X_test = scaler.transform(X_test)
-X_train
-y_train
-
-encoder = LabelEncoder()
-y_train = encoder.fit_transform(y_train)
-y_test = encoder.transform(y_test)
-y_train
-
-## Numpy arrays to PyTorch tensors
-X_train_tensor = torch.from_numpy(X_train)
-X_test_tensor = torch.from_numpy(X_test)
-y_train_tensor = torch.from_numpy(y_train)
-y_test_tensor = torch.from_numpy(y_test)
-
-X_train_tensor.shape
-y_train_tensor.shape
-
-## Defining the model
-import torch.nn as nn
-class MySimpleNN():
-    def __init__(self, X):
-        super.__init__()
-        self.linear = nn.Linear(num_features, 1)
-        self.sigmoid = nn.Sigmoid()
-    
-    def forward(self, X):
-        out = self.linear(features)
-        out = self.sigmoid(out)
-        return out
-
-## Important Parameters
-learning_rate = 0.1
-epochs = 25
-
-## Define Loss Function - Binary Cross Entropy
-loss_function = nn.BCELoss()
-
-## Training Pipeline
-### create model
-model = MySimpleNN(X_train_tensor.shape[1])
-## Define Optimizer
-optimizer = torch.optim.SGD(model.parameters, lr=learning_rate)
-### define loop
-for epoch in range(epochs):
-    ### forward pass
-    y_pred = model(X_train_tensor)
-    ### loss calculate
-    loss = loss_function(y_pred, y_train_tensor.view(-1,1)) #view as one less row, and 1 column
-    ### zero gradients
-    optimizer.zero_grad()
-    ### backward pass
-    loss.backward()
-    ### parameters update
-    optimizer.step()
-    ### print loss in each epoch
-    print(f'Epoch: {epoch + 1}, Loss: {loss.item()}')
-
-## model evaluation
-with torch.no_grad():
-    y_pred = model.forward(X_test_tensor)
-    y_pred = (y_pred > 0.9).float()
-    accuracy = (y_pred == y_test_tensor).float().mean()
-    print(f'Accuracy: {accuracy.item()}')
-
-
-    
-
-
-
-
-
-
-##################################################################
-# DL in PyTorch
-# Dataset & Dataloader Class (better management of data and code)
-##################################################################
-from torch.utils.data import Dataset, DataLoader
-
-class CustomDataset(Dataset):
-    def __init__(self, features, labels):
-        self.features = features
-        self.labels = labels
-
-    def __len__(self):
-        len(self.features)
-
-    def __getitem__(self, idx):
-        return self.features[idx], self.labels[idx]
-
-train_dataset = CustomDataset(X_train_tensor, y_train_tensor)
-test_dataset = CustomDataset(X_test_tensor, y_test_tensor)
-
-train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
-test_loader = DataLoader(test_dataset, batch_size=32, shuffle=True)
-
-import torch.nn as nn
-
-
-class MySimpleNN(nn.Module):
-    def __init__(self, num_features):
-        super().__init__()
-        self.linear = nn.Linear(num_features, 1)
-        self.sigmoid = nn.Sigmoid()
-
-    def forward(self, features):
-        out = self.linear(features)
-        out = self.sigmoid(out)
-        return out
-
-learning_rate = 0.1
-epochs = 25
-
-## create model
-model = MySimpleNN(X_train_tensor.shape[1])
-## define optimizer
-optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
-## define loss function
-loss_function = nn.BCELoss()
-
-
-# define loop
-for epoch in range(epochs):
-    for batch_features, batch_labels in train_loader:
-        # forward pass
-        y_pred = model(batch_features)
-        # loss calculate
-        loss = loss_function(y_pred, batch_labels.view(-1,1))
-        # clear gradients
-        optimizer.zero_grad()
-        # backward pass
-        loss.backward()
-        # parameters update
-        optimizer.step()
-    # print loss in each epoch
-    print(f'Epoch: {epoch + 1}, Loss: {loss.item()}')
-
-# Model evaluation using test_loader
-model.eval()  # Set the model to evaluation mode
-accuracy_list = []
-with torch.no_grad():
-    for batch_features, batch_labels in test_loader:
-        # Forward pass
-        y_pred = model(batch_features)
-        y_pred = (y_pred > 0.8).float()  # Convert probabilities to binary predictions
-        # Calculate accuracy for the current batch
-        batch_accuracy = (y_pred.view(-1) == batch_labels).float().mean().item()
-        accuracy_list.append(batch_accuracy)
-# Calculate overall accuracy
-overall_accuracy = sum(accuracy_list) / len(accuracy_list)
-print(f'Accuracy: {overall_accuracy:.4f}')
-
-
-    
-
-
-
-
-
-
-
-
-##################################################################
-# DL in PyTorch - ANN/MLP using PyTorch [on CPU & GPU]
-##################################################################
-# Dataset => Fashion MNIST
-# Input Layer => 784 Neurons
-# Hidden Layer 1 => 128 Neurons => ReLU
-# Hidden Layer => 64 Neurons => ReLU
-# Output Layer => 10 Neurons (for 10 Classes) => Softmax
-# 
-# WorkFlow =>
-#     1) create Dataloader obj for Training & Testing data
-#     2) create Traing loop
-#     3) create Evaluation code
-# 
-# 
-# Code =>
-
-import pandas as pd
-from sklearn.model_selection import train_test_split
-import torch
-from torch.utils.data import Dataset, DataLoader
-import torch.nn as nn
-import torch.optim as optim
-import matplotlib.pyplot as plt
-
-# [Optional Code 1]: use GPU if available
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
-# Set seed
-torch.manual_seed(42)
-
-# load data
-df = pd.read_csv("fmnist_small.csv")
-df.head()
-
-# create a 4x4 grid of images
-fig, axes = plt.subplots(4,4,figsize=(10,10))
-for i, ax in enumerate(axes.flat):
-    img = df.iloc[i, 1:].values.reshape(28,28)
-    ax.imshow(img)
-    ax.axis("off")
-    ax.set_title(f"Label: {df.iloc[i,0]}")
-plt.tight_layout(rect=[0,0,1,0.96])
-plt.show()
-
-# train test split
-X = df.iloc[:,1:].values()
-y = df.iloc[:,0].values()
-
-X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2, random_state=42)
-
-# scaling the features
-X_train = X_train/255.0
-X_test = X_test/255.0
-
-# create Custom Dataset class
-class CustomDataset(Dataset):
-    def __init__(self, features, labels):
-        self.features = torch.tensor(features, dtype=torch.float32)
-        self.labels = torch.tensor(labels, dtype=torch.long)
-    
-    def __len__(self):
-        return len(self.features)
-    
-    def __getitem__(self, index):
-        return self.features[index], self.labels[index]
-
-# create train dataset object
-train_dataset = CustomDataset(X_train, y_train)
-# create test dataset object
-test_dataset = CustomDataset(X_test, y_test)
-
-# create train and test loader
-train_loader = Dataloader(train_dataset,batch_size=32,shuffle=True)
-test_dataloader=Dataloader(test_dataset,batch_size=32,shuffle=False)
-
-# create model / define NN class
-class MyNN(nn.Module):
-    def __init__(self, num_features):
-        super().__init__()
-        self.model = nn.Sequential(
-            nn.Linear(in_features=num_features, out_features=128),
-            nn.ReLU(),
-            nn.Linear(128, 64),
-            nn.ReLU(),
-            nn.Linear(64, 10)
-            #no need to add softmax
-            #softmax already built in nn.Module
-        )
-    def forwar(self, X):
-        return self.model(X)
-
-# set learning rate & epochs
-epochs = 100
-learning_rate = 0.1
-
-# instantiate the model
-model = MyNN(X_train.shape[1])
-# [optional code 2]: move model to gpu
-model = model.to(device)
-
-# loss function
-criterion = nn.CrossEntropyLoss()
-# optimizer
-optimizer = optim.SGD(model.parameters(), lr=learning_rate)
-
-# training loop
-for epoch in range(epochs):
-    total_epoch_loss = 0
-    for batch_features, batch_labels in train_loader:
-        # [optional code 3]: move each batch of dataset to GPU
-        batch_features = batch_features.to(device)
-        batch_labels = batch_labels.to(device)
-        # forward pass
-        outputs = model(batch_features)
-        # calculate loss
-        loss = criterion(outputs, batch_labels)
-        # back pass
-        optimizer.zero_grad()
-        loss.backward()
-        # update grads
-        optimizer.step()
-        # update total epoch loss
-        total_epoch_loss += loss
-    avg_loss = total_epoch_loss / len(train_loader)
-    print(f"Epoch: {epoch + 1}, Loss: {avg_loss}")
-    
-# set model to eval mode
-model.eval()
-
-# evaluation code on test data
-total = 0
-correct  = 0
-with torch.no_grad():
-    for batch_features, batch_labels in test_loader:
-        # [optional code 4]: move to GPU
-        batch_features = batch_features.to(device)
-        batch_labels = batch_labels.to(device)
-        # tensor of 10 probabilities for all rows
-        outputs = model(batch_features)
-        # extracting the argmax of probabilities of each row
-        _, predicted = torch.max(outputs, 1)
-        # calculating the number of rows predicted so far
-        total += batch_labels.shape[0]
-        # finding the number of correct predictions
-        correct += (predicted == batch_labels).sum().item()
-print(f"Accuracy: {correct/total}"
-
-# evaluation code on train data
-total = 0
-correct  = 0
-with torch.no_grad():
-    for batch_features, batch_labels in train_loader:
-        # [optional code 4]: move to GPU
-        batch_features = batch_features.to(device)
-        batch_labels = batch_labels.to(device)
-        # tensor of 10 probabilities for all rows
-        outputs = model(batch_features)
-        # extracting the argmax of probabilities of each row
-        _, predicted = torch.max(outputs, 1)
-        # calculating the number of rows predicted so far
-        total += batch_labels.shape[0]
-        # finding the number of correct predictions
-        correct += (predicted == batch_labels).sum().item()
-print(f"Accuracy: {correct/total}"
-
-
-
-    
-
-
-
-
-
-
-
-
-##################################################################
-# DL in PyTorch - Reduce Overfitting
-##################################################################
-# 1) Add more data
-# 2) Reduce complexity of NN Architecture
-# 3) Regularization (L2)
-    ## applied to weights of the model to penalize large values
-    ## adds penalty term to the loss function
-    ## PyTorch also applies Regularization using weight_decay
-model = MyNN(X_train.shape[1])
-model = model.to(device)
-criterion = nn.CrossEntropyLoss()
-optimizer = optim.SGD(model.parameters(), lr=learning_rate, weight_decay=1e-4)
-
-# 4) Dropouts
-    ## Applied to Hidden Layers only
-    ## Applied after ReLU activation function
-    ## Randomly turns off p% neurons in the hidden layers during each pass
-    ## This has regularization effect
-    ## During evaluation, dropout is not used
-class MyNN(nn.Module):
-    def __init__(self, num_features):
-        super().__init__()
-        self.model = nn.Sequential(
-            nn.Linear(in_features=num_features, out_features=128),
-            nn.ReLU(),
-            nn.Dropout(p=0.3),          #dropout code added
-            nn.Linear(in_features=128, out_features=64),
-            nn.ReLU(),
-            nn.Dropout(p=0.3),          #dropout code added
-            nn.Linear(in_features=64, out_features=10)
-            #no need to add softmax
-            #softmax already built in nn.Module
-        )
-    def forwar(self, X):
-        return self.model(X)
-
-
-# 5) Data Augmentation (CNN mainly)
-# 6) Batch Normalization
-    ## Applied to Hidden Layers only
-    ## Applied after Linear & before Activation Function
-    ## Improves Training stability by reducing Internal Covariance Shift (ICS) & allowing the use of higher learning rate
-    ## output of each layer before activation is normalized using mean and standard deviation of that layer's output
-    ## includes Learnable Parameters - gamma (scaling) & beta (shifting)
-    ## creates the effect of regularization
-    ## During evaluation, Batch Normalization is not used
-class MyNN(nn.Module):
-    def __init__(self, num_features):
-        super().__init__()
-        self.model = nn.Sequential(
-            nn.Linear(in_features=num_features, out_features=128),
-            nn.BatchNorm1d(num_features=128),        #Batch Norm code added
-            nn.ReLU(),
-            nn.Dropout(p=0.3),
-            nn.Linear(in_features=128, out_features=64),
-            nn.BatchNorm1d(num_features=64),         #Batch Norm code added
-            nn.ReLU(),
-            nn.Dropout(p=0.3),
-            nn.Linear(in_features=64, out_features=10)
-            #no need to add softmax
-            #softmax already built in nn.Module
-        )
-    def forwar(self, X):
-        return self.model(X)
-    
-
-# 7) Early Stopping
-
-
-
-    
-
-
-
-
-
-##################################################################
-# DL in PyTorch - Hyperparameter Tuning using Optuna
-##################################################################
-# 1) Number of Hidden Layers
-# 2) Neurons in each Layer
-# 3) Number of Epochs
-# 4) Optimizer
-# 5) Learning Rate
-# 6) Batch Size
-# 7) Dropout Rate
-# 8) Weight Decay(Lambda)
-
-import pandas as pd
-from sklearn.model_selection import train_test_split
-import torch
-from torch.utils.data import Dataset, DataLoader
-import torch.nn as nn
-import torch.optim as optim
-import optuna
-
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-torch.manual_seed(42)
-df = pd.read_csv("fmnist_small.csv")
-
-X = df.iloc[:,1:].values()
-y = df.iloc[:,0].values()
-X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2, random_state=42)
-
-X_train = X_train/255.0
-X_test = X_test/255.0
-
-class CustomDataset(Dataset):
-    def __init__(self, features, labels):
-        self.features = torch.tensor(features, dtype=torch.float32)
-        self.labels = torch.tensor(labels, dtype=torch.long)
-    
-    def __len__(self):
-        return len(self.features)
-    
-    def __getitem__(self, index):
-        return self.features[index], self.labels[index]
-
-train_dataset = CustomDataset(X_train, y_train)
-test_dataset = CustomDataset(X_test, y_test)
-
-# create NN model
-class MyNN(nn.Module):
-    def __init__(self, input_dim, output_dim, num_hidden_layers, neurons_per_layer, dropout_rate):
-        super().__init__()
-        layers = []
-        for i in range(num_hidden_layers):
-            layers.append(nn.Linear(input_dim, neurons_per_layer))
-            layers.append(nn.BatchNorm1d(neurons_per_layer)
-            layers.append(nn.ReLU())
-            layers.append(nn.Dropout(dropout_rate))
-            input_dim = neurons_per_layer
-        layers.append(nn.Linear(neurons_per_layer, output_dim)
-        self.model = nn.Sequential(*layers)
-        
-    def forward(self, X):
-        return self.model(X)
-
-# create objective function
-def objective(trial):
-    # next hyperparameter values from the search space
-    num_hidden_layers = trial.suggest_int("num_hidden_layers",1,5)
-    neurons_per_layer = trial.suggest_int("neurons_per_layer",8,128,step=8)
-    epochs = trial.suggest_int("epochs",10,50,step=10)
-    learning_rate = trial.suggest_float("learning_rate", 1e-5, 1e-1, log=True)
-    dropout_rate = trial.suggest_float("dropout_rate", 0.1,0.5,step=0.1)
-    batch_size = trial.suggest_categorical("batch_size",[16,32,64,128])
-    optimizer_name = trial.suggest_categorical("optimizer",["Adam","SGD","RMSprop"])
-    weight_decay = trial.suggest_float("weight_decay",1e-5,1e-3,log=True)
-    
-    train_loader = Dataloader(train_dataset,batch_size=batch_size,shuffle=True)
-    test_dataloader=Dataloader(test_dataset,batch_size=batch_size,shuffle=False)
-    
-    # model init
-    input_dim = 784
-    output_dim = 10
-    
-    model = MyNN(input_dim, output_dim, num_hidden_layers, neurons_per_layer, dropout_rate)
-    model.to(device)
-    
-    # optimizer selection
-    criterion = nn.CrossEntropyLoss()    
-    if optimizer_name == "Adam":
-        optimizer = optim.Adam(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
-    elif optimizer_name == "SGD":
-        optimizer = optim.SGD(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
-    else:
-        optimizer = optim.RMSprop(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
-    
-    # training loop
-    for epoch in range(epochs):
-        for batch_features, batch_labels in train_loader:
-            batch_features = batch_features.to(device)
-            batch_labels = batch_labels.to(device)
-            
-            outputs = model(batch_features)
-            loss = criterion(outputs, batch_labels)
-            optimizer.zero_grad()
-            loss.backward()
-            optimizer.step()
-    
-    # evaluation
-    model.eval()
-    total = 0
-    correct = 0
-    with torch.no_grad():
-        for batch_features, batch_labels in test_loader:
-            batch_features = batch_features.to(device)
-            batch_labels = batch_labels.to(device)
-            
-            outputs = model(batch_features)
-            _, predicted = torch.max(outputs, 1)
-            total += batch_labels.shape[0]
-            correct += (predicted == batch_labels).sum().item()
-        accuracy = correct/total
-    
-    return accuracy
-
-# create study
-
-study = optuna.create_study(direction='maximize')
-study.optimize(objective, n_trials=10)
-
-# find best accuracy from study object
-study.best_value
-# find best parameters from study object
-study.best_params
-
-
-
-
-
-
-
-
-
-
-
-
-##################################################################
-# DL in PyTorch - Basic CNN
-##################################################################
-
-
-import pandas as pd
-from sklearn.model_selection import train_test_split
-import torch
-from torch.utils.data import Dataset, DataLoader
-import torch.nn as nn
-import torch.optim as optim
-import matplotlib.pyplot as plt
-
-
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-torch.manual_seed(42)
-
-df = pd.read_csv("fmnist_small.csv")
-df.head()
-
-X = df.iloc[:,1:].values()
-y = df.iloc[:,0].values()
-X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2, random_state=42)
-X_train = X_train/255.0
-X_test = X_test/255.0
-
-class CustomDataset(Dataset):
-    def __init__(self, features, labels):
-        #self.features = torch.tensor(features, dtype=torch.float32)
-        self.features = torch.tensor(features, dtype=torch.float32).reshape(-1,1,28,28)
-        self.labels = torch.tensor(labels, dtype=torch.long)
-    
-    def __len__(self):
-        return len(self.features)
-    
-    def __getitem__(self, index):
-        return self.features[index], self.labels[index]
-
-train_dataset = CustomDataset(X_train, y_train)
-test_dataset = CustomDataset(X_test, y_test)
-train_loader = Dataloader(train_dataset,batch_size=32,shuffle=True)
-test_dataloader=Dataloader(test_dataset,batch_size=32,shuffle=False)
-
-# create model / define NN class
-class MyNN(nn.Module):
-    def __init__(self, input_channels):
-        super().__init__()
-        #CNN - feature extraction
-        self.features = nn.Sequential(
-            nn.Conv2d(in_channels=input_channels,out_channels=32,kernel_size=3,padding='same'), #out_channels = Number of filters
-            nn.ReLU(),
-            nn.BatchNorm2d(num_features=32),
-            nn.MaxPool2d(kernel_size=2,stride=2),
-            
-            nn.Conv2d(in_channels=32,out_channels=64,kernel_size=3,padding='same'),
-            nn.ReLU(),
-            nn.BatchNorm2d(num_features=64),
-            nn.MaxPool2d(kernel_size=2,stride=2)
-        )
-        #ANN
-        self.classifier = nn.Sequential(
-            nn.Flatten(),
-            nn.Linear(in_features=64*7*7, out_features=128),
-            nn.ReLU(),
-            nn.Dropout(p=0.4),
-            
-            nn.Linear(in_features=128, out_features=64),
-            nn.ReLU(),
-            nn.Dropout(p=0.4),
-            
-            nn.Linear(in_features=64, out_features=10),
-        )
-
-    def forward(self, X):
-        X = self.features(X)
-        X = self.classifier(X)
-        return X
-
-epochs = 100
-learning_rate = 0.01
-
-model = MyNN(input_channels=1)
-model = model.to(device)
-
-criterion = nn.CrossEntropyLoss()
-optimizer = optim.SGD(model.parameters(), lr=learning_rate, weight_decay=1e-4)
-
-for epoch in range(epochs):
-    total_epoch_loss = 0
-    for batch_features, batch_labels in train_loader:
-        batch_features = batch_features.to(device)
-        batch_labels = batch_labels.to(device)
-        outputs = model(batch_features)
-        loss = criterion(outputs, batch_labels)
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
-        total_epoch_loss += loss
-    avg_loss = total_epoch_loss / len(train_loader)
-    print(f"Epoch: {epoch + 1}, Loss: {avg_loss}")
-    
-model.eval()
-
-total = 0
-correct  = 0
-with torch.no_grad():
-    for batch_features, batch_labels in test_loader:
-        batch_features = batch_features.to(device)
-        batch_labels = batch_labels.to(device)
-        outputs = model(batch_features)
-        _, predicted = torch.max(outputs, 1)
-        total += batch_labels.shape[0]
-        correct += (predicted == batch_labels).sum().item()
-print(f"Accuracy: {correct/total}"
-
-# evaluation code on train data
-total = 0
-correct  = 0
-with torch.no_grad():
-    for batch_features, batch_labels in train_loader:
-        batch_features = batch_features.to(device)
-        batch_labels = batch_labels.to(device)
-        outputs = model(batch_features)
-        _, predicted = torch.max(outputs, 1)
-        total += batch_labels.shape[0]
-        correct += (predicted == batch_labels).sum().item()
-print(f"Accuracy: {correct/total}"
-
-
-
-
-
-
-
-
-
-
-
-
-##################################################################
-# DL in PyTorch - CNN Transfer Learning
-##################################################################
-# 1) import pre trained model. e.g. VGG16
-# 2) detach classifier
-# 3) attach own classifier (ANN)
-# 4) freeze features extraction (CNN) layers 
-# 5) train for fine-tuning 
-
-# VGG16 requires image in certain format,
-# transformation required on fMNIST dataset:
-# 1) reshape 1-d data to 2-d --> (28,28)
-# 2) change datatype to np.uint8 --> required for PIL image
-# 3) 1-d to 3-d tensor --> from (1,28,28) to (3,28,28)
-# 4) convert to PIL Image --> (3,28,28)
-# 5) resize to (3,256,256) --> input requirement of VGG16
-# 6) centre crop (3,224,224)
-# 7) convert to PyTorch.tensor & scale --> (0,1)
-# 8) normalize using documentation mean & std for each channel
-
-
-import pandas as pd
-from sklearn.model_selection import train_test_split
-import torch
-from torch.utils.data import Dataset, DataLoader
-import torch.nn as nn
-import torch.optim as optim
-import matplotlib.pyplot as plt
-
-
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-torch.manual_seed(42)
-
-df = pd.read_csv("fmnist_small.csv")
-df.head()
-
-X = df.iloc[:,1:].values()
-y = df.iloc[:,0].values()
-X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2, random_state=42)
-#X_train = X_train/255.0
-#X_test = X_test/255.0
-
-#required transformations
-from torchvision.transforms import transforms
-custom_transform = transforms.Compose([
-    transforms.Resize(256),
-    transforms.CenterCrop(224),
-    transforms.ToTensor(),
-    #normalize and scale 0 to 1
-    transforms.Normalize(mean=[0.485,0.456,0.406],std=[0.229,0.224,0.225])
-])
-
-
-from PIL import Image
-import numpy as np
-
-class CustomDataset(Dataset):
-    #def __init__(self, features, labels):
-    def __init__(self, features, labels, transform):
-        self.features = torch.tensor(features, dtype=torch.float32).reshape(-1,1,28,28)
-        self.labels = torch.tensor(labels, dtype=torch.long)
-        self.transform = transform
-    
-    def __len__(self):
-        return len(self.features)
-    
-    def __getitem__(self, index):
-        #resize to (28,28)
-        image = self.features[index].reshape(28,28)
-        #change datatype to np.uint8
-        image = image.astype(np.uint8)
-        #change Black&White to Color, Channel x Height x Width
-        #image = np.stack([image]*3)
-        #PIL requirement is Height x Width x Channel
-        image = np.stack([image]*3, axis=-1)
-        #convert array to PIL image
-        image = Image.fromarray(image)
-        #apply transforms
-        image = self.transform(image)
-        #return
-        return image, torch.tensor(self.labels[index], dtype=torch.long)
-        
-
-train_dataset = CustomDataset(X_train,y_train,transform=custom_transform)
-test_dataset = CustomDataset(X_test, y_test,transform=custom_transform)
-train_loader = Dataloader(train_dataset,batch_size=32,shuffle=True)
-test_dataloader=Dataloader(test_dataset,batch_size=32,shuffle=False)
-
-# fetch pretrained model
-import torchvision.models as models
-vgg16 =  models.vgg16(pretrained=True)
-vgg16.features      #CNN part
-vgg16.classifier    #ANN part
-
-#freeze CNN weights
-for param in vgg16.features.parameters():
-    param.requires_grad=False
-
-vgg16.classifier = nn.Sequential(
-                            nn.Linear(25088, 1024),
-                            nn.ReLU(),
-                            nn.Dropout(0.5),
-                            nn.Linear(1024, 512),
-                            nn.ReLU(),
-                            nn.Dropout(0.5),
-                            nn.Linear(512, 10)
-                        )
-
-
-epochs = 10
-learning_rate = 0.0001
-vgg16 = vgg16.to(device)
-
-criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(vgg16.classifier.parameters(), lr=learning_rate)
-
-for epoch in range(epochs):
-    total_epoch_loss = 0
-    for batch_features, batch_labels in train_loader:
-        batch_features = batch_features.to(device)
-        batch_labels = batch_labels.to(device)
-        outputs = vgg16(batch_features)
-        loss = criterion(outputs, batch_labels)
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
-        total_epoch_loss += loss
-    avg_loss = total_epoch_loss / len(train_loader)
-    print(f"Epoch: {epoch + 1}, Loss: {avg_loss}")
-    
-vgg16.eval()
-
-total = 0
-correct  = 0
-with torch.no_grad():
-    for batch_features, batch_labels in test_loader:
-        batch_features = batch_features.to(device)
-        batch_labels = batch_labels.to(device)
-        outputs = vgg16(batch_features)
-        _, predicted = torch.max(outputs, 1)
-        total += batch_labels.shape[0]
-        correct += (predicted == batch_labels).sum().item()
-print(f"Accuracy: {correct/total}"
-
-# evaluation code on train data
-total = 0
-correct  = 0
-with torch.no_grad():
-    for batch_features, batch_labels in train_loader:
-        batch_features = batch_features.to(device)
-        batch_labels = batch_labels.to(device)
-        outputs = vgg16(batch_features)
-        _, predicted = torch.max(outputs, 1)
-        total += batch_labels.shape[0]
-        correct += (predicted == batch_labels).sum().item()
-print(f"Accuracy: {correct/total}"
-
-
-
-
-
-
-
-
-
-
-
-
-##################################################################
-# DL in PyTorch - RNN [Question Answer System]
-##################################################################
-import pandas as pd
-# a dataset containing 100 Questions and Answers
-df = pd.read_csv('/content/100_Unique_QA_Dataset.csv')
-
-# tokenize
-def tokenize(text):
-    text = text.lower()
-    text = text.replace('?','')
-    text = text.replace("'","")
-    return text.split()
-
-# vocab
-vocab = {'<UNK>':0}
-def build_vocab(row):
-    tokenized_question = tokenize(row['question'])
-    tokenized_answer = tokenize(row['answer'])
-    merged_tokens = tokenized_question + tokenized_answer
-    for token in merged_tokens:
-        if token not in vocab:
-            vocab[token] = len(vocab)
-
-df.apply(build_vocab, axis=1)
-len(vocab)
-
-# convert words to numerical indices
-def text_to_indices(text, vocab):
-    indexed_text = []
-    for token in tokenize(text):
-        if token in vocab:
-            indexed_text.append(vocab[token])
-        else:
-            indexed_text.append(vocab['<UNK>'])
-    return indexed_text
-
-text_to_indices("What is campusx", vocab)
-
-import torch
-from torch.utils.data import Dataset, DataLoader
-# Custom Dataset Class
-class QADataset(Dataset):
-    def __init__(self, df, vocab):
-        self.df = df
-        self.vocab = vocab
-
-    def __len__(self):
-        return self.df.shape[0]
-
-    def __getitem__(self, index):
-        numerical_question = text_to_indices(self.df.iloc[index]['question'], self.vocab)
-        numerical_answer = text_to_indices(self.df.iloc[index]['answer'], self.vocab)
-        return torch.tensor(numerical_question), torch.tensor(numerical_answer)
-
-dataset = QADataset(df, vocab)
-dataloader = DataLoader(dataset, batch_size=1, shuffle=True)
-
-for question, answer in dataloader:
-    print(question, answer[0])
-
-import torch.nn as nn
-class SimpleRNN(nn.Module):
-    def __init__(self, vocab_size):
-        super().__init__()
-        self.embedding = nn.Embedding(vocab_size, embedding_dim=50)
-        self.rnn = nn.RNN(50, 64, batch_first=True)
-        self.fc = nn.Linear(64, vocab_size)
-
-    def forward(self, question):
-        embedded_question = self.embedding(question)
-        hidden, final = self.rnn(embedded_question)
-        output = self.fc(final.squeeze(0))
-        return output
-
-# 
-x = nn.Embedding(324, embedding_dim=50)
-y = nn.RNN(50, 64, batch_first=True)
-z = nn.Linear(64, 324)
-
-a = dataset[0][0].reshape(1,6)
-print("shape of a:", a.shape)
-b = x(a)
-print("shape of b:", b.shape)
-c, d = y(b)
-print("shape of c:", c.shape)
-print("shape of d:", d.shape)
-
-e = z(d.squeeze(0))
-
-print("shape of e:", e.shape)
-
-
-learning_rate = 0.001
-epochs = 20
-model = SimpleRNN(len(vocab))
-criterion = nn.CrossEntropyLoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
-
-# training loop
-for epoch in range(epochs):
-    total_loss = 0
-    for question, answer in dataloader:
-        optimizer.zero_grad()
-        # forward pass
-        output = model(question)
-        # loss -> output shape (1,324) - (1)
-        loss = criterion(output, answer[0])
-        # gradients
-        loss.backward()
-        # update
-        optimizer.step()
-        total_loss = total_loss + loss.item()
-    print(f"Epoch: {epoch+1}, Loss: {total_loss:4f}")
-
-def predict(model, question, threshold=0.5):
-    # convert question to numbers
-    numerical_question = text_to_indices(question, vocab)
-    # tensor
-    question_tensor = torch.tensor(numerical_question).unsqueeze(0)
-    # send to model
-    output = model(question_tensor)
-    # convert logits to probs
-    probs = torch.nn.functional.softmax(output, dim=1)
-    # find index of max prob
-    value, index = torch.max(probs, dim=1)
-    if value < threshold:
-        print("I don't know")
-    print(list(vocab.keys())[index])
-
-predict(model, "What is the largest planet in our solar system?")
-
-list(vocab.keys())[7]
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -3542,6 +2098,1716 @@ for s in test_sentences:
     print(f"English : {s}")
     print(f"Hindi   : {translate(s)}")
     print("-" * 80)
+
+
+
+
+
+
+
+
+
+
+
+
+###############################################################################################################
+#### Deep Learning DL in PyTorch - Everything
+###############################################################################################################
+import torch
+
+# Create tensor in torch:
+## empty tensor of shape (2,3) - values are from previously stored at those locations
+x = torch.empty(2,3)
+## check type - torch.Tensor
+type(x)
+## using zeros
+torch.zeros(2,3)
+## using ones
+torch.ones(2,3)
+## using rand
+torch.rand(2,3)
+## use of seed
+torch.manual_seed(100)
+torch.rand(2,3)
+## using tensor
+torch.tensor([[1,2,3],[4,5,6]])
+## using arange
+torch.arange(0,19,2)
+## using linspace
+torch.linspace(1,10,10)
+## using eye
+torch.eye(5)
+## using full
+torch.full((3,3),5)
+
+# Data Types in Torch
+x.dtype             #torch.int64, torch.float32, etc..
+
+## this will create integer tensor
+torch.tensor([[1.0,2.0,3.0],[4.0,5.0,6.0]], dtype=torch.int32)
+## this will create float tensor
+torch.tensor([[1,2,3],[4,5,6]], dtype=torch.float64)
+## change dtype of existing tensor
+x.to(torch.float32)
+
+# Tensor Shape
+x.shape
+
+## empty tensor with shape that of x
+torch.empty_like(x)
+## zeros tensor with shape that of x
+torch.zeros_like(x)
+## ones tensor with shape that of x
+torch.ones_like(x)
+## random tensor with shape that of x
+torch.rand_like(x)          #error - coz x is INT, rand creates float
+torch.rand_like(x,dtype=torch.float64)
+
+# Mathematical Scalar Operations
+## addition
+x + 2
+## subtraction
+x - 2
+## multiplication
+x * 3
+## division
+x / 3
+## int division
+(x * 100)//3
+## mod
+(x * 100)%2
+## power
+x**2
+
+# Mathematical tensor Operations (element-by-element)
+## addition
+x + y
+## subtraction
+x - y
+## multiplication
+x * y
+## division
+x / y
+## int division
+x//y
+## mod
+x%y
+## power
+x**y
+
+# other Mathematical operations
+## absolute values of elements
+torch.abs(x)
+## negative of all values in a tensor
+torch.neg(x)
+## round all numbers in a tensor
+torch.round(x)
+## ceil all numbers in a tensor
+torch.ceil(x)
+## floor all numbers in a tensor
+torch.floor(x)
+## clamp all numbers in a range, 2 for <=2, 3 for >=3
+torch.clamp(x, min=2, max=3)
+## sum of all numbers in a tensor
+torch.sum(x)
+## sum along columns in a tensor
+torch.sum(x, dim=0)
+## sum along rows in a tensor
+torch.sum(x, dim=1)
+## mean of all numbers in a tensor - d.type(x) must be torch.float
+torch.mean(x)
+## mean along columns in a tensor
+torch.mean(x, dim=0)
+## mean along rows in a tensor
+torch.mean(x, dim=1)
+## maximum along columns in a tensor
+torch.max(x, dim=0)
+## minimum along rows in a tensor
+torch.min(x, dim=1)
+## product of all numbers in a tensor
+torch.product(x)
+## standard deviation of all numbers in a tensor
+torch.std(x)
+## variance of all numbers in a tensor
+torch.var(x)
+## position of maximum in a tensor
+torch.argmax(x)
+## position of minimum in a tensor
+torch.argmin(x)
+
+# Matrix Operations
+## Matrix Multiplication
+torch.matmul(x,y) #no.of cols in x must be = no. of rows in y
+## dot product
+torch.dot(x, y) #x and y are two vectors
+## Transpose --> swap 0th dimension with 1st
+torch.transpose(f,0,1)
+## determinant - only possible for square matrix
+torch.det(a)
+## inverse - only possible for square matrix
+torch.inverse(a)
+
+# Comparison Operations
+## greater than
+x > y
+## less than
+x < y
+## greater than or equal to
+x >= y
+## less than or equal to
+x <= y
+## equal to
+x == y
+
+# Special Functions
+## random numbers tensor in range(0,10)
+torch.randint(size=(2,3), low=0, high=10)
+## log
+torch.log(x)
+## exponent
+torch.exp(x)
+## square root
+torch.sqrt(x)
+## sigmoid
+torch.sigmoid(x)
+## softmax
+torch.softmax(x, dim=0)
+## relu
+torch.relu(x)
+
+# all the above functions return a tensor, that occupies space
+# what if we don't want to save the resultant tensor at a new place
+# what if we wanna save resultant tensor in x itself.
+# This is called inplace=True operation
+
+## add x and y and save the resultant in x
+x.add_(y)
+## relu of x saved to x
+x.relu_()
+## copy tensor x to y
+y = x.clone()
+id(x)   #memory location of where x is pointing
+id(y)   #memory location of where y is pointing
+
+
+# GPU operations
+## check if gpu is available
+torch.cuda.is_available()
+## create new tensor on GPU
+device = torch.device('cuda')
+torch.rand((2,3), device=device)
+## move existing CPU tensors to GPU
+a.to(device)    #after moving to GPU, all operations happen on GPU
+
+## Reshape
+a = torch.ones(4,4)
+a.reshape(2,2,2,2)
+## Flatten
+a.flatten()
+## permute - change the index of the shape
+a = torch.rand(2,3,4)
+a.permute(2,0,1).shape  #(4,2,3) changed the shape sequence
+## unsqueeze - add a new dimension at a position
+a = torch.rand(226,226,3)
+a.unsqueeze(0).shape    #(1,226,226,3) added a new dim at position 0
+## squeeze - remove a dimension
+a = torch.rand(1,20)    #2-D tensor
+a.squeeze(0).shape      #([20]) 1-D tensor
+
+# Moving tensors between NumPy and PyTorch
+## convert a PyTorch Tensor to NumPy Tensor
+a = torch.tensor([1,2,3])
+b = a.numpy()
+## convert a NumPy Tensor to PyTorch Tensor
+c = torch.from_numpy(b)
+
+
+# Autograd - Automatic Gradient in PyTorch
+## example 1
+x = torch.tensor(3, requires_grad=True)
+y = x**2                #relationship between x and y
+y.backward()            #calculating gradient in backward direction
+x.grad                  #gives gradient automatically
+
+## example 2
+x = torch.tensor(3, requires_grad=True)
+y = x**2                #relationship between x and y
+z = torch.sin(y)        #relationship between y and z
+z.backward()            #calculating gradient in backward direction
+x.grad                  #gives gradient automatically
+
+## example 3
+x = torch.tensor([1,2,3], requires_grad=True)
+z = x**2.mean()                         #relationship between x and z
+y_hat = torch.sigmoid(z)                #relationship between y and z
+L = ylog(y_hat) - (1-y)log(1-y_hat)     #Binary CrossEntropy Loss
+L.backward()                            #calculating gradient in backward direction
+x.grad                                  #gives gradient automatically
+
+## Autograd keeps accumulating gradients over multiple runs
+## therefore, it is necessary to clear the gradients before each run.
+x.grad.zero_()
+
+## Turn off gradient tracking
+## method 1, backward() function doesn't work anymore, gradient tracking OFF
+x.requires_grad_(False)
+## method 2, detach() function
+z = x.detach()
+y1 = x**2       #gradient tracking ON
+y2 = z**2       #gradient tracking OFF
+y1.backward()   #POSSIBLE
+y2.backward()   #NOT POSSIBLE
+## method 3, with torch.no_grad()
+with torch.no_grad:
+    y = x**2    #gradient tracking OFF
+    
+
+
+
+
+
+
+##################################################################
+# DL in PyTorch - Simple Neural Network from scratch
+##################################################################
+import numpy as np
+import pandas as pd
+import torch
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import LabelEncoder
+
+df = pd.read_csv('https://raw.githubusercontent.com/gscdit/Breast-Cancer-Detection/refs/heads/master/data.csv')
+df.head()
+df.shape
+df.drop(columns=['id', 'Unnamed: 32'], inplace= True)
+df.head()
+
+X_train, X_test, y_train, y_test = train_test_split(df.iloc[:, 1:], df.iloc[:, 0], test_size=0.2)
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+X_train
+y_train
+
+encoder = LabelEncoder()
+y_train = encoder.fit_transform(y_train)
+y_test = encoder.transform(y_test)
+y_train
+
+## Numpy arrays to PyTorch tensors
+X_train_tensor = torch.from_numpy(X_train)
+X_test_tensor = torch.from_numpy(X_test)
+y_train_tensor = torch.from_numpy(y_train)
+y_test_tensor = torch.from_numpy(y_test)
+
+X_train_tensor.shape
+y_train_tensor.shape
+
+## Defining the model
+class MySimpleNN():
+def __init__(self, X):
+    self.weights = torch.rand(X.shape[1], 1, dtype=torch.float64, requires_grad=True)
+    self.bias = torch.zeros(1, dtype=torch.float64, requires_grad=True)
+
+def forward(self, X):
+    z = torch.matmul(X, self.weights) + self.bias
+    y_pred = torch.sigmoid(z)
+    return y_pred
+
+def loss_function(self, y_pred, y):
+    # Clamp predictions to avoid log(0)
+    epsilon = 1e-7
+    y_pred = torch.clamp(y_pred, epsilon, 1 - epsilon)
+    # Calculate loss
+    loss = -(y_train_tensor * torch.log(y_pred) + (1 - y_train_tensor) * torch.log(1 - y_pred)).mean()
+    return loss
+
+## Important Parameters
+learning_rate = 0.1
+epochs = 25
+
+## Training Pipeline
+### create model
+model = MySimpleNN(X_train_tensor)
+### define loop
+for epoch in range(epochs):
+    ### forward pass
+    y_pred = model.forward(X_train_tensor)
+    ### loss calculate
+    loss = model.loss_function(y_pred, y_train_tensor)
+    ### backward pass
+    loss.backward()
+    ### parameters update
+    with torch.no_grad():
+        model.weights -= learning_rate * model.weights.grad
+        model.bias -= learning_rate * model.bias.grad
+    ### zero gradients
+    model.weights.grad.zero_()
+    model.bias.grad.zero_()
+    ### print loss in each epoch
+    print(f'Epoch: {epoch + 1}, Loss: {loss.item()}')
+
+model.bias
+
+## model evaluation
+with torch.no_grad():
+    y_pred = model.forward(X_test_tensor)
+    y_pred = (y_pred > 0.9).float()
+    accuracy = (y_pred == y_test_tensor).float().mean()
+    print(f'Accuracy: {accuracy.item()}')
+  
+  
+  
+  
+  
+  
+  
+  
+##################################################################
+# DL in PyTorch - Neural Network using torch.nn
+##################################################################
+import torch
+import torch.nn as nn
+
+## create model class: basic implementation
+class Model(nn.Module):
+    def __init__(self, num_features):
+        super().__init__()
+        self.linear1 = nn.Linear(num_features, 3)   #num_features=input branches, 3=output branches
+        self.relu = nn.ReLU()
+        self.linear2 = nn.Linear(3,1)
+        self.sigmoid = nn.Sigmoid()
+       
+    def forward(self, features):
+        out = self.linear1(features)
+        out = self.relu(out)
+        out = self.linear2(out)
+        out = self.sigmoid(out)
+        return out
+        
+## create model class: using sequential container
+class Model(nn.Module):
+    def __init__(self, num_features):
+        super().__init__()
+        self.network = nn.Sequential(
+            nn.Linear(num_features, 3),
+            nn.ReLU(),
+            nn.Linear(3,1),
+            nn.Sigmoid()
+        )
+
+    def forward(self, features):
+        out = self.network(features)
+        return out
+    
+## create dataset
+data = torch.rand(10,5)
+## create model object
+model = Model(data.shape[1])
+## call model for forward pass
+model.forward(data)             #not recommended by PyTorch
+model(data)                     #recommended by PyTorch, calling the object of class automatically triggers the forward method
+## show model weights
+model.linear1.weights
+model.linear1.bias
+model.linear1.weights
+model.linear1.bias
+## to check model summary
+!pip install torchinfo
+from torchinfo import summary
+summary(model, input_size=(10,5))
+    
+
+
+
+
+
+
+
+
+##################################################################
+# DL in PyTorch - Simple Neural Network from scratch using torch.nn
+##################################################################
+import numpy as np
+import pandas as pd
+import torch
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import LabelEncoder
+
+df = pd.read_csv('https://raw.githubusercontent.com/gscdit/Breast-Cancer-Detection/refs/heads/master/data.csv')
+df.head()
+df.shape
+df.drop(columns=['id', 'Unnamed: 32'], inplace= True)
+df.head()
+
+X_train, X_test, y_train, y_test = train_test_split(df.iloc[:, 1:], df.iloc[:, 0], test_size=0.2)
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+X_train
+y_train
+
+encoder = LabelEncoder()
+y_train = encoder.fit_transform(y_train)
+y_test = encoder.transform(y_test)
+y_train
+
+## Numpy arrays to PyTorch tensors
+X_train_tensor = torch.from_numpy(X_train)
+X_test_tensor = torch.from_numpy(X_test)
+y_train_tensor = torch.from_numpy(y_train)
+y_test_tensor = torch.from_numpy(y_test)
+
+X_train_tensor.shape
+y_train_tensor.shape
+
+## Defining the model
+import torch.nn as nn
+class MySimpleNN():
+    def __init__(self, X):
+        super.__init__()
+        self.linear = nn.Linear(num_features, 1)
+        self.sigmoid = nn.Sigmoid()
+    
+    def forward(self, X):
+        out = self.linear(features)
+        out = self.sigmoid(out)
+        return out
+
+## Important Parameters
+learning_rate = 0.1
+epochs = 25
+
+## Define Loss Function - Binary Cross Entropy
+loss_function = nn.BCELoss()
+
+## Training Pipeline
+### create model
+model = MySimpleNN(X_train_tensor.shape[1])
+## Define Optimizer
+optimizer = torch.optim.SGD(model.parameters, lr=learning_rate)
+### define loop
+for epoch in range(epochs):
+    ### forward pass
+    y_pred = model(X_train_tensor)
+    ### loss calculate
+    loss = loss_function(y_pred, y_train_tensor.view(-1,1)) #view as one less row, and 1 column
+    ### zero gradients
+    optimizer.zero_grad()
+    ### backward pass
+    loss.backward()
+    ### parameters update
+    optimizer.step()
+    ### print loss in each epoch
+    print(f'Epoch: {epoch + 1}, Loss: {loss.item()}')
+
+## model evaluation
+with torch.no_grad():
+    y_pred = model.forward(X_test_tensor)
+    y_pred = (y_pred > 0.9).float()
+    accuracy = (y_pred == y_test_tensor).float().mean()
+    print(f'Accuracy: {accuracy.item()}')
+
+
+    
+
+
+
+
+
+
+##################################################################
+# DL in PyTorch
+# Dataset & Dataloader Class (better management of data and code)
+##################################################################
+from torch.utils.data import Dataset, DataLoader
+
+class CustomDataset(Dataset):
+    def __init__(self, features, labels):
+        self.features = features
+        self.labels = labels
+
+    def __len__(self):
+        len(self.features)
+
+    def __getitem__(self, idx):
+        return self.features[idx], self.labels[idx]
+
+train_dataset = CustomDataset(X_train_tensor, y_train_tensor)
+test_dataset = CustomDataset(X_test_tensor, y_test_tensor)
+
+train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
+test_loader = DataLoader(test_dataset, batch_size=32, shuffle=True)
+
+import torch.nn as nn
+
+
+class MySimpleNN(nn.Module):
+    def __init__(self, num_features):
+        super().__init__()
+        self.linear = nn.Linear(num_features, 1)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, features):
+        out = self.linear(features)
+        out = self.sigmoid(out)
+        return out
+
+learning_rate = 0.1
+epochs = 25
+
+## create model
+model = MySimpleNN(X_train_tensor.shape[1])
+## define optimizer
+optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
+## define loss function
+loss_function = nn.BCELoss()
+
+
+# define loop
+for epoch in range(epochs):
+    for batch_features, batch_labels in train_loader:
+        # forward pass
+        y_pred = model(batch_features)
+        # loss calculate
+        loss = loss_function(y_pred, batch_labels.view(-1,1))
+        # clear gradients
+        optimizer.zero_grad()
+        # backward pass
+        loss.backward()
+        # parameters update
+        optimizer.step()
+    # print loss in each epoch
+    print(f'Epoch: {epoch + 1}, Loss: {loss.item()}')
+
+# Model evaluation using test_loader
+model.eval()  # Set the model to evaluation mode
+accuracy_list = []
+with torch.no_grad():
+    for batch_features, batch_labels in test_loader:
+        # Forward pass
+        y_pred = model(batch_features)
+        y_pred = (y_pred > 0.8).float()  # Convert probabilities to binary predictions
+        # Calculate accuracy for the current batch
+        batch_accuracy = (y_pred.view(-1) == batch_labels).float().mean().item()
+        accuracy_list.append(batch_accuracy)
+# Calculate overall accuracy
+overall_accuracy = sum(accuracy_list) / len(accuracy_list)
+print(f'Accuracy: {overall_accuracy:.4f}')
+
+
+    
+
+
+
+
+
+
+
+
+##################################################################
+# DL in PyTorch - ANN/MLP using PyTorch [on CPU & GPU]
+##################################################################
+# Dataset => Fashion MNIST
+# Input Layer => 784 Neurons
+# Hidden Layer 1 => 128 Neurons => ReLU
+# Hidden Layer => 64 Neurons => ReLU
+# Output Layer => 10 Neurons (for 10 Classes) => Softmax
+# 
+# WorkFlow =>
+#     1) create Dataloader obj for Training & Testing data
+#     2) create Traing loop
+#     3) create Evaluation code
+# 
+# 
+# Code =>
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+import torch
+from torch.utils.data import Dataset, DataLoader
+import torch.nn as nn
+import torch.optim as optim
+import matplotlib.pyplot as plt
+
+# [Optional Code 1]: use GPU if available
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+# Set seed
+torch.manual_seed(42)
+
+# load data
+df = pd.read_csv("fmnist_small.csv")
+df.head()
+
+# create a 4x4 grid of images
+fig, axes = plt.subplots(4,4,figsize=(10,10))
+for i, ax in enumerate(axes.flat):
+    img = df.iloc[i, 1:].values.reshape(28,28)
+    ax.imshow(img)
+    ax.axis("off")
+    ax.set_title(f"Label: {df.iloc[i,0]}")
+plt.tight_layout(rect=[0,0,1,0.96])
+plt.show()
+
+# train test split
+X = df.iloc[:,1:].values()
+y = df.iloc[:,0].values()
+
+X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2, random_state=42)
+
+# scaling the features
+X_train = X_train/255.0
+X_test = X_test/255.0
+
+# create Custom Dataset class
+class CustomDataset(Dataset):
+    def __init__(self, features, labels):
+        self.features = torch.tensor(features, dtype=torch.float32)
+        self.labels = torch.tensor(labels, dtype=torch.long)
+    
+    def __len__(self):
+        return len(self.features)
+    
+    def __getitem__(self, index):
+        return self.features[index], self.labels[index]
+
+# create train dataset object
+train_dataset = CustomDataset(X_train, y_train)
+# create test dataset object
+test_dataset = CustomDataset(X_test, y_test)
+
+# create train and test loader
+train_loader = Dataloader(train_dataset,batch_size=32,shuffle=True)
+test_dataloader=Dataloader(test_dataset,batch_size=32,shuffle=False)
+
+# create model / define NN class
+class MyNN(nn.Module):
+    def __init__(self, num_features):
+        super().__init__()
+        self.model = nn.Sequential(
+            nn.Linear(in_features=num_features, out_features=128),
+            nn.ReLU(),
+            nn.Linear(128, 64),
+            nn.ReLU(),
+            nn.Linear(64, 10)
+            #no need to add softmax
+            #softmax already built in nn.Module
+        )
+    def forwar(self, X):
+        return self.model(X)
+
+# set learning rate & epochs
+epochs = 100
+learning_rate = 0.1
+
+# instantiate the model
+model = MyNN(X_train.shape[1])
+# [optional code 2]: move model to gpu
+model = model.to(device)
+
+# loss function
+criterion = nn.CrossEntropyLoss()
+# optimizer
+optimizer = optim.SGD(model.parameters(), lr=learning_rate)
+
+# training loop
+for epoch in range(epochs):
+    total_epoch_loss = 0
+    for batch_features, batch_labels in train_loader:
+        # [optional code 3]: move each batch of dataset to GPU
+        batch_features = batch_features.to(device)
+        batch_labels = batch_labels.to(device)
+        # forward pass
+        outputs = model(batch_features)
+        # calculate loss
+        loss = criterion(outputs, batch_labels)
+        # back pass
+        optimizer.zero_grad()
+        loss.backward()
+        # update grads
+        optimizer.step()
+        # update total epoch loss
+        total_epoch_loss += loss
+    avg_loss = total_epoch_loss / len(train_loader)
+    print(f"Epoch: {epoch + 1}, Loss: {avg_loss}")
+    
+# set model to eval mode
+model.eval()
+
+# evaluation code on test data
+total = 0
+correct  = 0
+with torch.no_grad():
+    for batch_features, batch_labels in test_loader:
+        # [optional code 4]: move to GPU
+        batch_features = batch_features.to(device)
+        batch_labels = batch_labels.to(device)
+        # tensor of 10 probabilities for all rows
+        outputs = model(batch_features)
+        # extracting the argmax of probabilities of each row
+        _, predicted = torch.max(outputs, 1)
+        # calculating the number of rows predicted so far
+        total += batch_labels.shape[0]
+        # finding the number of correct predictions
+        correct += (predicted == batch_labels).sum().item()
+print(f"Accuracy: {correct/total}"
+
+# evaluation code on train data
+total = 0
+correct  = 0
+with torch.no_grad():
+    for batch_features, batch_labels in train_loader:
+        # [optional code 4]: move to GPU
+        batch_features = batch_features.to(device)
+        batch_labels = batch_labels.to(device)
+        # tensor of 10 probabilities for all rows
+        outputs = model(batch_features)
+        # extracting the argmax of probabilities of each row
+        _, predicted = torch.max(outputs, 1)
+        # calculating the number of rows predicted so far
+        total += batch_labels.shape[0]
+        # finding the number of correct predictions
+        correct += (predicted == batch_labels).sum().item()
+print(f"Accuracy: {correct/total}"
+
+
+
+    
+
+
+
+
+
+
+
+
+##################################################################
+# DL in PyTorch - Reduce Overfitting
+##################################################################
+# 1) Add more data
+# 2) Reduce complexity of NN Architecture
+# 3) Regularization (L2)
+    ## applied to weights of the model to penalize large values
+    ## adds penalty term to the loss function
+    ## PyTorch also applies Regularization using weight_decay
+model = MyNN(X_train.shape[1])
+model = model.to(device)
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.SGD(model.parameters(), lr=learning_rate, weight_decay=1e-4)
+
+# 4) Dropouts
+    ## Applied to Hidden Layers only
+    ## Applied after ReLU activation function
+    ## Randomly turns off p% neurons in the hidden layers during each pass
+    ## This has regularization effect
+    ## During evaluation, dropout is not used
+class MyNN(nn.Module):
+    def __init__(self, num_features):
+        super().__init__()
+        self.model = nn.Sequential(
+            nn.Linear(in_features=num_features, out_features=128),
+            nn.ReLU(),
+            nn.Dropout(p=0.3),          #dropout code added
+            nn.Linear(in_features=128, out_features=64),
+            nn.ReLU(),
+            nn.Dropout(p=0.3),          #dropout code added
+            nn.Linear(in_features=64, out_features=10)
+            #no need to add softmax
+            #softmax already built in nn.Module
+        )
+    def forwar(self, X):
+        return self.model(X)
+
+
+# 5) Data Augmentation (CNN mainly)
+# 6) Batch Normalization
+    ## Applied to Hidden Layers only
+    ## Applied after Linear & before Activation Function
+    ## Improves Training stability by reducing Internal Covariance Shift (ICS) & allowing the use of higher learning rate
+    ## output of each layer before activation is normalized using mean and standard deviation of that layer's output
+    ## includes Learnable Parameters - gamma (scaling) & beta (shifting)
+    ## creates the effect of regularization
+    ## During evaluation, Batch Normalization is not used
+class MyNN(nn.Module):
+    def __init__(self, num_features):
+        super().__init__()
+        self.model = nn.Sequential(
+            nn.Linear(in_features=num_features, out_features=128),
+            nn.BatchNorm1d(num_features=128),        #Batch Norm code added
+            nn.ReLU(),
+            nn.Dropout(p=0.3),
+            nn.Linear(in_features=128, out_features=64),
+            nn.BatchNorm1d(num_features=64),         #Batch Norm code added
+            nn.ReLU(),
+            nn.Dropout(p=0.3),
+            nn.Linear(in_features=64, out_features=10)
+            #no need to add softmax
+            #softmax already built in nn.Module
+        )
+    def forwar(self, X):
+        return self.model(X)
+    
+
+# 7) Early Stopping
+
+
+
+    
+
+
+
+
+
+##################################################################
+# DL in PyTorch - Hyperparameter Tuning using Optuna
+##################################################################
+# 1) Number of Hidden Layers
+# 2) Neurons in each Layer
+# 3) Number of Epochs
+# 4) Optimizer
+# 5) Learning Rate
+# 6) Batch Size
+# 7) Dropout Rate
+# 8) Weight Decay(Lambda)
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+import torch
+from torch.utils.data import Dataset, DataLoader
+import torch.nn as nn
+import torch.optim as optim
+import optuna
+
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+torch.manual_seed(42)
+df = pd.read_csv("fmnist_small.csv")
+
+X = df.iloc[:,1:].values()
+y = df.iloc[:,0].values()
+X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2, random_state=42)
+
+X_train = X_train/255.0
+X_test = X_test/255.0
+
+class CustomDataset(Dataset):
+    def __init__(self, features, labels):
+        self.features = torch.tensor(features, dtype=torch.float32)
+        self.labels = torch.tensor(labels, dtype=torch.long)
+    
+    def __len__(self):
+        return len(self.features)
+    
+    def __getitem__(self, index):
+        return self.features[index], self.labels[index]
+
+train_dataset = CustomDataset(X_train, y_train)
+test_dataset = CustomDataset(X_test, y_test)
+
+# create NN model
+class MyNN(nn.Module):
+    def __init__(self, input_dim, output_dim, num_hidden_layers, neurons_per_layer, dropout_rate):
+        super().__init__()
+        layers = []
+        for i in range(num_hidden_layers):
+            layers.append(nn.Linear(input_dim, neurons_per_layer))
+            layers.append(nn.BatchNorm1d(neurons_per_layer)
+            layers.append(nn.ReLU())
+            layers.append(nn.Dropout(dropout_rate))
+            input_dim = neurons_per_layer
+        layers.append(nn.Linear(neurons_per_layer, output_dim)
+        self.model = nn.Sequential(*layers)
+        
+    def forward(self, X):
+        return self.model(X)
+
+# create objective function
+def objective(trial):
+    # next hyperparameter values from the search space
+    num_hidden_layers = trial.suggest_int("num_hidden_layers",1,5)
+    neurons_per_layer = trial.suggest_int("neurons_per_layer",8,128,step=8)
+    epochs = trial.suggest_int("epochs",10,50,step=10)
+    learning_rate = trial.suggest_float("learning_rate", 1e-5, 1e-1, log=True)
+    dropout_rate = trial.suggest_float("dropout_rate", 0.1,0.5,step=0.1)
+    batch_size = trial.suggest_categorical("batch_size",[16,32,64,128])
+    optimizer_name = trial.suggest_categorical("optimizer",["Adam","SGD","RMSprop"])
+    weight_decay = trial.suggest_float("weight_decay",1e-5,1e-3,log=True)
+    
+    train_loader = Dataloader(train_dataset,batch_size=batch_size,shuffle=True)
+    test_dataloader=Dataloader(test_dataset,batch_size=batch_size,shuffle=False)
+    
+    # model init
+    input_dim = 784
+    output_dim = 10
+    
+    model = MyNN(input_dim, output_dim, num_hidden_layers, neurons_per_layer, dropout_rate)
+    model.to(device)
+    
+    # optimizer selection
+    criterion = nn.CrossEntropyLoss()    
+    if optimizer_name == "Adam":
+        optimizer = optim.Adam(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
+    elif optimizer_name == "SGD":
+        optimizer = optim.SGD(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
+    else:
+        optimizer = optim.RMSprop(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
+    
+    # training loop
+    for epoch in range(epochs):
+        for batch_features, batch_labels in train_loader:
+            batch_features = batch_features.to(device)
+            batch_labels = batch_labels.to(device)
+            
+            outputs = model(batch_features)
+            loss = criterion(outputs, batch_labels)
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+    
+    # evaluation
+    model.eval()
+    total = 0
+    correct = 0
+    with torch.no_grad():
+        for batch_features, batch_labels in test_loader:
+            batch_features = batch_features.to(device)
+            batch_labels = batch_labels.to(device)
+            
+            outputs = model(batch_features)
+            _, predicted = torch.max(outputs, 1)
+            total += batch_labels.shape[0]
+            correct += (predicted == batch_labels).sum().item()
+        accuracy = correct/total
+    
+    return accuracy
+
+# create study
+
+study = optuna.create_study(direction='maximize')
+study.optimize(objective, n_trials=10)
+
+# find best accuracy from study object
+study.best_value
+# find best parameters from study object
+study.best_params
+
+
+
+
+
+
+
+
+
+
+
+
+##################################################################
+# DL in PyTorch - Basic CNN
+##################################################################
+
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+import torch
+from torch.utils.data import Dataset, DataLoader
+import torch.nn as nn
+import torch.optim as optim
+import matplotlib.pyplot as plt
+
+
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+torch.manual_seed(42)
+
+df = pd.read_csv("fmnist_small.csv")
+df.head()
+
+X = df.iloc[:,1:].values()
+y = df.iloc[:,0].values()
+X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2, random_state=42)
+X_train = X_train/255.0
+X_test = X_test/255.0
+
+class CustomDataset(Dataset):
+    def __init__(self, features, labels):
+        #self.features = torch.tensor(features, dtype=torch.float32)
+        self.features = torch.tensor(features, dtype=torch.float32).reshape(-1,1,28,28)
+        self.labels = torch.tensor(labels, dtype=torch.long)
+    
+    def __len__(self):
+        return len(self.features)
+    
+    def __getitem__(self, index):
+        return self.features[index], self.labels[index]
+
+train_dataset = CustomDataset(X_train, y_train)
+test_dataset = CustomDataset(X_test, y_test)
+train_loader = Dataloader(train_dataset,batch_size=32,shuffle=True)
+test_dataloader=Dataloader(test_dataset,batch_size=32,shuffle=False)
+
+# create model / define NN class
+class MyNN(nn.Module):
+    def __init__(self, input_channels):
+        super().__init__()
+        #CNN - feature extraction
+        self.features = nn.Sequential(
+            nn.Conv2d(in_channels=input_channels,out_channels=32,kernel_size=3,padding='same'), #out_channels = Number of filters
+            nn.ReLU(),
+            nn.BatchNorm2d(num_features=32),
+            nn.MaxPool2d(kernel_size=2,stride=2),
+            
+            nn.Conv2d(in_channels=32,out_channels=64,kernel_size=3,padding='same'),
+            nn.ReLU(),
+            nn.BatchNorm2d(num_features=64),
+            nn.MaxPool2d(kernel_size=2,stride=2)
+        )
+        #ANN
+        self.classifier = nn.Sequential(
+            nn.Flatten(),
+            nn.Linear(in_features=64*7*7, out_features=128),
+            nn.ReLU(),
+            nn.Dropout(p=0.4),
+            
+            nn.Linear(in_features=128, out_features=64),
+            nn.ReLU(),
+            nn.Dropout(p=0.4),
+            
+            nn.Linear(in_features=64, out_features=10),
+        )
+
+    def forward(self, X):
+        X = self.features(X)
+        X = self.classifier(X)
+        return X
+
+epochs = 100
+learning_rate = 0.01
+
+model = MyNN(input_channels=1)
+model = model.to(device)
+
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.SGD(model.parameters(), lr=learning_rate, weight_decay=1e-4)
+
+for epoch in range(epochs):
+    total_epoch_loss = 0
+    for batch_features, batch_labels in train_loader:
+        batch_features = batch_features.to(device)
+        batch_labels = batch_labels.to(device)
+        outputs = model(batch_features)
+        loss = criterion(outputs, batch_labels)
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+        total_epoch_loss += loss
+    avg_loss = total_epoch_loss / len(train_loader)
+    print(f"Epoch: {epoch + 1}, Loss: {avg_loss}")
+    
+model.eval()
+
+total = 0
+correct  = 0
+with torch.no_grad():
+    for batch_features, batch_labels in test_loader:
+        batch_features = batch_features.to(device)
+        batch_labels = batch_labels.to(device)
+        outputs = model(batch_features)
+        _, predicted = torch.max(outputs, 1)
+        total += batch_labels.shape[0]
+        correct += (predicted == batch_labels).sum().item()
+print(f"Accuracy: {correct/total}"
+
+# evaluation code on train data
+total = 0
+correct  = 0
+with torch.no_grad():
+    for batch_features, batch_labels in train_loader:
+        batch_features = batch_features.to(device)
+        batch_labels = batch_labels.to(device)
+        outputs = model(batch_features)
+        _, predicted = torch.max(outputs, 1)
+        total += batch_labels.shape[0]
+        correct += (predicted == batch_labels).sum().item()
+print(f"Accuracy: {correct/total}"
+
+
+
+
+
+
+
+
+
+
+
+
+##################################################################
+# DL in PyTorch - CNN Transfer Learning
+##################################################################
+# 1) import pre trained model. e.g. VGG16
+# 2) detach classifier
+# 3) attach own classifier (ANN)
+# 4) freeze features extraction (CNN) layers 
+# 5) train for fine-tuning 
+
+# VGG16 requires image in certain format,
+# transformation required on fMNIST dataset:
+# 1) reshape 1-d data to 2-d --> (28,28)
+# 2) change datatype to np.uint8 --> required for PIL image
+# 3) 1-d to 3-d tensor --> from (1,28,28) to (3,28,28)
+# 4) convert to PIL Image --> (3,28,28)
+# 5) resize to (3,256,256) --> input requirement of VGG16
+# 6) centre crop (3,224,224)
+# 7) convert to PyTorch.tensor & scale --> (0,1)
+# 8) normalize using documentation mean & std for each channel
+
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+import torch
+from torch.utils.data import Dataset, DataLoader
+import torch.nn as nn
+import torch.optim as optim
+import matplotlib.pyplot as plt
+
+
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+torch.manual_seed(42)
+
+df = pd.read_csv("fmnist_small.csv")
+df.head()
+
+X = df.iloc[:,1:].values()
+y = df.iloc[:,0].values()
+X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2, random_state=42)
+#X_train = X_train/255.0
+#X_test = X_test/255.0
+
+#required transformations
+from torchvision.transforms import transforms
+custom_transform = transforms.Compose([
+    transforms.Resize(256),
+    transforms.CenterCrop(224),
+    transforms.ToTensor(),
+    #normalize and scale 0 to 1
+    transforms.Normalize(mean=[0.485,0.456,0.406],std=[0.229,0.224,0.225])
+])
+
+
+from PIL import Image
+import numpy as np
+
+class CustomDataset(Dataset):
+    #def __init__(self, features, labels):
+    def __init__(self, features, labels, transform):
+        self.features = torch.tensor(features, dtype=torch.float32).reshape(-1,1,28,28)
+        self.labels = torch.tensor(labels, dtype=torch.long)
+        self.transform = transform
+    
+    def __len__(self):
+        return len(self.features)
+    
+    def __getitem__(self, index):
+        #resize to (28,28)
+        image = self.features[index].reshape(28,28)
+        #change datatype to np.uint8
+        image = image.astype(np.uint8)
+        #change Black&White to Color, Channel x Height x Width
+        #image = np.stack([image]*3)
+        #PIL requirement is Height x Width x Channel
+        image = np.stack([image]*3, axis=-1)
+        #convert array to PIL image
+        image = Image.fromarray(image)
+        #apply transforms
+        image = self.transform(image)
+        #return
+        return image, torch.tensor(self.labels[index], dtype=torch.long)
+        
+
+train_dataset = CustomDataset(X_train,y_train,transform=custom_transform)
+test_dataset = CustomDataset(X_test, y_test,transform=custom_transform)
+train_loader = Dataloader(train_dataset,batch_size=32,shuffle=True)
+test_dataloader=Dataloader(test_dataset,batch_size=32,shuffle=False)
+
+# fetch pretrained model
+import torchvision.models as models
+vgg16 =  models.vgg16(pretrained=True)
+vgg16.features      #CNN part
+vgg16.classifier    #ANN part
+
+#freeze CNN weights
+for param in vgg16.features.parameters():
+    param.requires_grad=False
+
+vgg16.classifier = nn.Sequential(
+                            nn.Linear(25088, 1024),
+                            nn.ReLU(),
+                            nn.Dropout(0.5),
+                            nn.Linear(1024, 512),
+                            nn.ReLU(),
+                            nn.Dropout(0.5),
+                            nn.Linear(512, 10)
+                        )
+
+
+epochs = 10
+learning_rate = 0.0001
+vgg16 = vgg16.to(device)
+
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.Adam(vgg16.classifier.parameters(), lr=learning_rate)
+
+for epoch in range(epochs):
+    total_epoch_loss = 0
+    for batch_features, batch_labels in train_loader:
+        batch_features = batch_features.to(device)
+        batch_labels = batch_labels.to(device)
+        outputs = vgg16(batch_features)
+        loss = criterion(outputs, batch_labels)
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+        total_epoch_loss += loss
+    avg_loss = total_epoch_loss / len(train_loader)
+    print(f"Epoch: {epoch + 1}, Loss: {avg_loss}")
+    
+vgg16.eval()
+
+total = 0
+correct  = 0
+with torch.no_grad():
+    for batch_features, batch_labels in test_loader:
+        batch_features = batch_features.to(device)
+        batch_labels = batch_labels.to(device)
+        outputs = vgg16(batch_features)
+        _, predicted = torch.max(outputs, 1)
+        total += batch_labels.shape[0]
+        correct += (predicted == batch_labels).sum().item()
+print(f"Accuracy: {correct/total}"
+
+# evaluation code on train data
+total = 0
+correct  = 0
+with torch.no_grad():
+    for batch_features, batch_labels in train_loader:
+        batch_features = batch_features.to(device)
+        batch_labels = batch_labels.to(device)
+        outputs = vgg16(batch_features)
+        _, predicted = torch.max(outputs, 1)
+        total += batch_labels.shape[0]
+        correct += (predicted == batch_labels).sum().item()
+print(f"Accuracy: {correct/total}"
+
+
+
+
+
+
+
+
+
+
+
+
+##################################################################
+# DL in PyTorch - RNN [Question Answer System]
+##################################################################
+import pandas as pd
+# a dataset containing 100 Questions and Answers
+df = pd.read_csv('/content/100_Unique_QA_Dataset.csv')
+
+# tokenize
+def tokenize(text):
+    text = text.lower()
+    text = text.replace('?','')
+    text = text.replace("'","")
+    return text.split()
+
+# vocab
+vocab = {'<UNK>':0}
+def build_vocab(row):
+    tokenized_question = tokenize(row['question'])
+    tokenized_answer = tokenize(row['answer'])
+    merged_tokens = tokenized_question + tokenized_answer
+    for token in merged_tokens:
+        if token not in vocab:
+            vocab[token] = len(vocab)
+
+df.apply(build_vocab, axis=1)
+len(vocab)
+
+# convert words to numerical indices
+def text_to_indices(text, vocab):
+    indexed_text = []
+    for token in tokenize(text):
+        if token in vocab:
+            indexed_text.append(vocab[token])
+        else:
+            indexed_text.append(vocab['<UNK>'])
+    return indexed_text
+
+
+import torch
+from torch.utils.data import Dataset, DataLoader
+# Custom Dataset Class
+class QADataset(Dataset):
+    def __init__(self, df, vocab):
+        self.df = df
+        self.vocab = vocab
+
+    def __len__(self):
+        return self.df.shape[0]
+
+    def __getitem__(self, index):
+        numerical_question = text_to_indices(self.df.iloc[index]['question'], self.vocab)
+        numerical_answer = text_to_indices(self.df.iloc[index]['answer'], self.vocab)
+        return torch.tensor(numerical_question), torch.tensor(numerical_answer)
+
+dataset = QADataset(df, vocab)
+dataloader = DataLoader(dataset, batch_size=1, shuffle=True)
+
+# architecture of model
+import torch.nn as nn
+class SimpleRNN(nn.Module):
+    def __init__(self, vocab_size):
+        super().__init__()
+        self.embedding = nn.Embedding(vocab_size, embedding_dim=50)
+        self.rnn = nn.RNN(50, 64, batch_first=True)
+        self.fc = nn.Linear(64, vocab_size)
+
+    def forward(self, question):
+        embedded_question = self.embedding(question)
+        hidden, final = self.rnn(embedded_question)
+        output = self.fc(final.squeeze(0))
+        return output
+
+# 
+x = nn.Embedding(324, embedding_dim=50)
+y = nn.RNN(50, 64, batch_first=True)
+z = nn.Linear(64, 324)
+
+a = dataset[0][0].reshape(1,6)
+print("shape of a:", a.shape)
+b = x(a)
+print("shape of b:", b.shape)
+c, d = y(b)
+print("shape of c:", c.shape)
+print("shape of d:", d.shape)
+
+e = z(d.squeeze(0))
+
+print("shape of e:", e.shape)
+
+
+learning_rate = 0.001
+epochs = 20
+model = SimpleRNN(len(vocab))
+criterion = nn.CrossEntropyLoss()
+optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+
+# training loop
+for epoch in range(epochs):
+    total_loss = 0
+    for question, answer in dataloader:
+        optimizer.zero_grad()
+        # forward pass
+        output = model(question)
+        # loss -> output shape (1,324) - (1)
+        loss = criterion(output, answer[0])
+        # gradients
+        loss.backward()
+        # update
+        optimizer.step()
+        total_loss = total_loss + loss.item()
+    print(f"Epoch: {epoch+1}, Loss: {total_loss:4f}")
+
+def predict(model, question, threshold=0.5):
+    # convert question to numbers
+    numerical_question = text_to_indices(question, vocab)
+    # tensor
+    question_tensor = torch.tensor(numerical_question).unsqueeze(0)
+    # send to model
+    output = model(question_tensor)
+    # convert logits to probs
+    probs = torch.nn.functional.softmax(output, dim=1)
+    # find index of max prob
+    value, index = torch.max(probs, dim=1)
+    if value < threshold:
+        print("I don't know")
+    print(list(vocab.keys())[index])
+
+predict(model, "What is the largest planet in our solar system?")
+
+list(vocab.keys())[7]
+
+
+
+
+
+
+
+
+
+##################################################################
+# DL in PyTorch - LSTM [Next Word Predictor]
+##################################################################
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import numpy as np
+from collections import Counter
+from torch.utils.data import Dataset, DataLoader
+from nltk.tokenize import word_tokenize
+import nltk
+
+
+document = """About the Program
+What is the course fee for  Data Science Mentorship Program (DSMP 2023)
+The course follows a monthly subscription model where you have to make monthly payments of Rs 799/month.
+What is the total duration of the course?
+The total duration of the course is 7 months. So the total course fee becomes 799*7 = Rs 5600(approx.)
+What is the syllabus of the mentorship program?
+We will be covering the following modules:
+Python Fundamentals
+Python libraries for Data Science
+Data Analysis
+SQL for Data Science
+Maths for Machine Learning
+ML Algorithms
+Practical ML
+MLOPs
+Case studies
+You can check the detailed syllabus here - https://learnwith.campusx.in/courses/CampusX-Data-Science-Mentorship-Program-637339afe4b0615a1bbed390
+Will Deep Learning and NLP be a part of this program?
+No, NLP and Deep Learning both are not a part of this program’s curriculum.
+What if I miss a live session? Will I get a recording of the session?
+Yes all our sessions are recorded, so even if you miss a session you can go back and watch the recording.
+Where can I find the class schedule?
+Checkout this google sheet to see month by month time table of the course - https://docs.google.com/spreadsheets/d/16OoTax_A6ORAeCg4emgexhqqPv3noQPYKU7RJ6ArOzk/edit?usp=sharing.
+What is the time duration of all the live sessions?
+Roughly, all the sessions last 2 hours.
+What is the language spoken by the instructor during the sessions?
+Hinglish
+How will I be informed about the upcoming class?
+You will get a mail from our side before every paid session once you become a paid user.
+Can I do this course if I am from a non-tech background?
+Yes, absolutely.
+I am late, can I join the program in the middle?
+Absolutely, you can join the program anytime.
+If I join/pay in the middle, will I be able to see all the past lectures?
+Yes, once you make the payment you will be able to see all the past content in your dashboard.
+Where do I have to submit the task?
+You don’t have to submit the task. We will provide you with the solutions, you have to self evaluate the task yourself.
+Will we do case studies in the program?
+Yes.
+Where can we contact you?
+You can mail us at nitish.campusx@gmail.com
+Payment/Registration related questions
+Where do we have to make our payments? Your YouTube channel or website?
+You have to make all your monthly payments on our website. Here is the link for our website - https://learnwith.campusx.in/
+Can we pay the entire amount of Rs 5600 all at once?
+Unfortunately no, the program follows a monthly subscription model.
+What is the validity of monthly subscription? Suppose if I pay on 15th Jan, then do I have to pay again on 1st Feb or 15th Feb
+15th Feb. The validity period is 30 days from the day you make the payment. So essentially you can join anytime you don’t have to wait for a month to end.
+What if I don’t like the course after making the payment. What is the refund policy?
+You get a 7 days refund period from the day you have made the payment.
+I am living outside India and I am not able to make the payment on the website, what should I do?
+You have to contact us by sending a mail at nitish.campusx@gmail.com
+Post registration queries
+Till when can I view the paid videos on the website?
+This one is tricky, so read carefully. You can watch the videos till your subscription is valid. Suppose you have purchased subscription on 21st Jan, you will be able to watch all the past paid sessions in the period of 21st Jan to 20th Feb. But after 21st Feb you will have to purchase the subscription again.
+But once the course is over and you have paid us Rs 5600(or 7 installments of Rs 799) you will be able to watch the paid sessions till Aug 2024.
+Why lifetime validity is not provided?
+Because of the low course fee.
+Where can I reach out in case of a doubt after the session?
+You will have to fill a google form provided in your dashboard and our team will contact you for a 1 on 1 doubt clearance session
+If I join the program late, can I still ask past week doubts?
+Yes, just select past week doubt in the doubt clearance google form.
+I am living outside India and I am not able to make the payment on the website, what should I do?
+You have to contact us by sending a mail at nitish.campusx@gmai.com
+Certificate and Placement Assistance related queries
+What is the criteria to get the certificate?
+There are 2 criterias:
+You have to pay the entire fee of Rs 5600
+You have to attempt all the course assessments.
+I am joining late. How can I pay payment of the earlier months?
+You will get a link to pay fee of earlier months in your dashboard once you pay for the current month.
+I have read that Placement assistance is a part of this program. What comes under Placement assistance?
+This is to clarify that Placement assistance does not mean Placement guarantee. So we dont guarantee you any jobs or for that matter even interview calls. So if you are planning to join this course just for placements, I am afraid you will be disappointed. Here is what comes under placement assistance
+Portfolio Building sessions
+Soft skill sessions
+Sessions with industry mentors
+Discussion on Job hunting strategies
+"""
+
+# Tokenization
+nltk.download('punkt')
+nltk.download('punkt_tab')
+
+# tokenize
+tokens = word_tokenize(document.lower())
+
+# build vocab
+vocab = {'<unk>':0}
+
+for token in Counter(tokens).keys():
+  if token not in vocab:
+    vocab[token] = len(vocab)
+
+vocab
+len(vocab)
+
+input_sentences = document.split('\n')
+
+def text_to_indices(sentence, vocab):
+    numerical_sentence = []
+    for token in sentence:
+    if token in vocab:
+        numerical_sentence.append(vocab[token])
+    else:
+        numerical_sentence.append(vocab['<unk>'])
+    return numerical_sentence
+
+input_numerical_sentences = []
+
+for sentence in input_sentences:
+    input_numerical_sentences.append(text_to_indices(word_tokenize(sentence.lower()), vocab))
+
+len(input_numerical_sentences)
+
+training_sequence = []
+for sentence in input_numerical_sentences:
+    for i in range(1, len(sentence)):
+        training_sequence.append(sentence[:i+1])
+
+len(training_sequence)
+training_sequence[:5]
+
+len_list = []
+for sequence in training_sequence:
+    len_list.append(len(sequence))
+
+max(len_list)
+
+training_sequence[0]
+
+padded_training_sequence = []
+for sequence in training_sequence:
+    padded_training_sequence.append([0]*(max(len_list) - len(sequence)) + sequence)
+
+len(padded_training_sequence[10])
+padded_training_sequence = torch.tensor(padded_training_sequence, dtype=torch.long)
+padded_training_sequence
+
+X = padded_training_sequence[:, :-1]
+y = padded_training_sequence[:,-1]
+X
+y
+
+
+class CustomDataset(Dataset):
+    def __init__(self, X, y):
+        self.X = X
+        self.y = y
+
+    def __len__(self):
+        return self.X.shape[0]
+
+    def __getitem__(self, idx):
+        return self.X[idx], self.y[idx]
+
+dataset = CustomDataset(X,y)
+len(dataset)
+
+dataloader = DataLoader(dataset, batch_size=32, shuffle=True)
+
+class LSTMModel(nn.Module):
+    def __init__(self, vocab_size):
+        super().__init__()
+        self.embedding = nn.Embedding(vocab_size, 100)
+        self.lstm = nn.LSTM(100, 150, batch_first=True)
+        self.fc = nn.Linear(150, vocab_size)
+
+    def forward(self, x):
+        embedded = self.embedding(x)
+        intermediate_hidden_states, (final_hidden_state, final_cell_state) = self.lstm(embedded)
+        output = self.fc(final_hidden_state.squeeze(0))
+        return output
+
+model = LSTMModel(len(vocab))
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model.to(device)
+
+epochs = 50
+learning_rate = 0.001
+criterion = nn.CrossEntropyLoss()
+optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+
+# training loop
+for epoch in range(epochs):
+    total_loss = 0
+    for batch_x, batch_y in dataloader:
+        batch_x, batch_y = batch_x.to(device), batch_y.to(device)
+        optimizer.zero_grad()
+        output = model(batch_x)
+        loss = criterion(output, batch_y)
+        loss.backward()
+        optimizer.step()
+        total_loss = total_loss + loss.item()
+    print(f"Epoch: {epoch + 1}, Loss: {total_loss:.4f}")
+
+# prediction
+def prediction(model, vocab, text):
+  # tokenize
+  tokenized_text = word_tokenize(text.lower())
+  # text -> numerical indices
+  numerical_text = text_to_indices(tokenized_text, vocab)
+  # padding
+  padded_text = torch.tensor([0] * (61 - len(numerical_text)) + numerical_text, dtype=torch.long).unsqueeze(0)
+  # send to model
+  output = model(padded_text)
+  # predicted index
+  value, index = torch.max(output, dim=1)
+  # merge with text
+  return text + " " + list(vocab.keys())[index]
+
+prediction(model, vocab, "The course follows a monthly")
+
+import time
+num_tokens = 10
+input_text = "hi how are"
+
+for i in range(num_tokens):
+    output_text = prediction(model, vocab, input_text)
+    print(output_text)
+    input_text = output_text
+    time.sleep(0.5)
+
+dataloader1 = DataLoader(dataset, batch_size=32, shuffle=False)
+
+# Function to calculate accuracy
+def calculate_accuracy(model, dataloader, device):
+    model.eval()  # Set the model to evaluation mode
+    correct = 0
+    total = 0
+    with torch.no_grad():  # No need to compute gradients
+        for batch_x, batch_y in dataloader1:
+            batch_x, batch_y = batch_x.to(device), batch_y.to(device)
+            # Get model predictions
+            outputs = model(batch_x)
+            # Get the predicted word indices
+            _, predicted = torch.max(outputs, dim=1)
+            # Compare with actual labels
+            correct += (predicted == batch_y).sum().item()
+            total += batch_y.size(0)
+    accuracy = correct / total * 100
+    return accuracy
+
+# Compute accuracy
+accuracy = calculate_accuracy(model, dataloader, device)
+print(f"Model Accuracy: {accuracy:.2f}%")
 
 
 
