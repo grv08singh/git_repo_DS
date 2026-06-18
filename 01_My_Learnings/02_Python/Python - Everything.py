@@ -469,7 +469,7 @@ pip install google-generativeai
 
 
 ###############################################################################################################
-#### PyTorch - Everything
+#### Deep Learning DL in PyTorch - Everything
 ###############################################################################################################
 import torch
 
@@ -726,7 +726,7 @@ with torch.no_grad:
 
 
 ##################################################################
-# Create a Simple Neural Network from scratch in PyTorch
+# DL in PyTorch - Simple Neural Network from scratch
 ##################################################################
 import numpy as np
 import pandas as pd
@@ -823,7 +823,7 @@ with torch.no_grad():
   
   
 ##################################################################
-# Create a Neural Network using PyTorch NN Module
+# DL in PyTorch - Neural Network using torch.nn
 ##################################################################
 import torch
 import torch.nn as nn
@@ -885,7 +885,7 @@ summary(model, input_size=(10,5))
 
 
 ##################################################################
-# Create a Simple Neural Network from scratch using torch.nn
+# DL in PyTorch - Simple Neural Network from scratch using torch.nn
 ##################################################################
 import numpy as np
 import pandas as pd
@@ -977,7 +977,8 @@ with torch.no_grad():
 
 
 ##################################################################
-# Dataset and Dataloader Class - better management of data and code.
+# DL in PyTorch
+# Dataset & Dataloader Class (better management of data and code)
 ##################################################################
 from torch.utils.data import Dataset, DataLoader
 
@@ -1065,7 +1066,7 @@ print(f'Accuracy: {overall_accuracy:.4f}')
 
 
 ##################################################################
-# Create ANN / MLP using PyTorch [on CPU & GPU]
+# DL in PyTorch - ANN/MLP using PyTorch [on CPU & GPU]
 ##################################################################
 # Dataset => Fashion MNIST
 # Input Layer => 784 Neurons
@@ -1242,7 +1243,7 @@ print(f"Accuracy: {correct/total}"
 
 
 ##################################################################
-# Reduce Overfitting in PyTorch
+# DL in PyTorch - Reduce Overfitting
 ##################################################################
 # 1) Add more data
 # 2) Reduce complexity of NN Architecture
@@ -1319,7 +1320,7 @@ class MyNN(nn.Module):
 
 
 ##################################################################
-# Hyperparameter Tuning in PyTorch - using Optuna [complete code]
+# DL in PyTorch - Hyperparameter Tuning using Optuna
 ##################################################################
 # 1) Number of Hidden Layers
 # 2) Neurons in each Layer
@@ -1462,7 +1463,7 @@ study.best_params
 
 
 ##################################################################
-# Create basic CNN in PyTorch
+# DL in PyTorch - Basic CNN
 ##################################################################
 
 
@@ -1601,7 +1602,7 @@ print(f"Accuracy: {correct/total}"
 
 
 ##################################################################
-# CNN Transfer Learning using PyTorch
+# DL in PyTorch - CNN Transfer Learning
 ##################################################################
 # 1) import pre trained model. e.g. VGG16
 # 2) detach classifier
@@ -1769,7 +1770,7 @@ print(f"Accuracy: {correct/total}"
 
 
 ##################################################################
-# RNN in PyTorch [Question Answer System]
+# DL in PyTorch - RNN [Question Answer System]
 ##################################################################
 import pandas as pd
 # a dataset containing 100 Questions and Answers
@@ -3552,10 +3553,13 @@ for s in test_sentences:
 
 
 
+###############################################################################################################
+#### Deep Learning DL in Tensorflow Keras - Everything
+###############################################################################################################
 
-###############################################################################################################
-#### Deep Learning (DL) - Single Perceptron architecture code from scratch
-###############################################################################################################
+##################################################################
+# DL in Keras - Single Perceptron architecture code from scratch
+##################################################################
 
 import math
 import numpy as np
@@ -3636,9 +3640,9 @@ plt.show()
 
 
 
-###############################################################################################################
-#### DL - Artificial Neural Network (ANN / MLP) Architecture
-###############################################################################################################
+##################################################################
+# DL in Keras - Artificial Neural Network (ANN / MLP) Architecture
+##################################################################
 import warnings as wr
 wr.filterwarnings('ignore')
 print(f"TensorFlow Version: {tf.__version__}")
@@ -3838,9 +3842,9 @@ print(f"Actual     : {y_test[random_ix]}")
 
 
 
-###############################################################################################################
-#### DL - Convolution Neural Network (CNN) Architecture with tensorboard
-###############################################################################################################
+##################################################################
+# DL in Keras - CNN Architecture with tensorboard
+##################################################################
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -3971,9 +3975,9 @@ plt.show()
 
 
 
-###############################################################################################################
-#### DL - Cat vs. Dog classifier on Image Data (from kaggle with api)
-###############################################################################################################
+##################################################################
+# DL in Keras - Cat vs. Dog classifier on Image Data (kaggle/api)
+##################################################################
 import numpy as np
 import pandas as pd
 
@@ -4185,9 +4189,9 @@ for image_path in paths:
 
 
 
-###############################################################################################################
-#### DL - Transfer Learning : CNN model : Learn from pre-built models (VGG16)
-###############################################################################################################
+##################################################################
+# DL in Keras - Transfer Learning CNN (VGG16)
+##################################################################
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -4363,9 +4367,9 @@ for image_path in paths:
 
 
 
-#################################################
-#create and save images with data augmentation
-#################################################
+##################################################################
+# DL in Keras - create and save images with data augmentation
+##################################################################
 from keras.preprocessing import image
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
@@ -4398,9 +4402,9 @@ for output in datagen.flow(input_batch, batch_size=1, save_to_dir='D:/Downloads/
 
 
 
-###############################################################################################################
-#### DL - create RNN model : Sentiment Analysis (imdb)
-###############################################################################################################
+##################################################################
+# DL in Keras - RNN : Sentiment Analysis (imdb)
+##################################################################
 import numpy as np
 import pandas as pd
 
@@ -4504,9 +4508,9 @@ for i in range(n):
 
 
 
-###############################################################################################################
-#### DL - LSTM (Long Short-Term Memory) - Predict next word
-###############################################################################################################
+##################################################################
+# DL in Keras - LSTM (Long Short-Term Memory) - Predict next word
+##################################################################
 import numpy as np
 import pandas as pd
 import tensorflow as tf
