@@ -16,18 +16,6 @@ SET SKIPPED=0
 SET REPOS[0]=01_masterRepo
 SET REPOS[1]=14_Proj_ML_99Acres
 SET REPOS[2]=15_AI_Travel_Agent
-SET REPOS[3]=13_Misc_projects
-SET REPOS[4]=12_GenAI_projects
-SET REPOS[5]=11_NLP_projects
-SET REPOS[6]=10_DL_projects
-SET REPOS[7]=09_ML_projects
-SET REPOS[8]=08_WebScraping_projects
-SET REPOS[9]=07_EDA_projects
-SET REPOS[10]=06_Statistical_Analysis_projects
-SET REPOS[11]=05_Python_projects
-SET REPOS[12]=04_PowerBI_projects
-SET REPOS[13]=03_SQL_projects
-SET REPOS[14]=02_Excel_projects
 :: ----------------------------------------------------------------
 
 :: Count repos
