@@ -3648,17 +3648,16 @@ nltk.download('punkt_tab')
 
 # tokenize
 tokens = word_tokenize(document.lower())
-
 # build vocab
 vocab = {'<unk>':0}
 
 for token in Counter(tokens).keys():
   if token not in vocab:
     vocab[token] = len(vocab)
-
 vocab
 len(vocab)
 
+# extract sentences from data
 input_sentences = document.split('\n')
 
 def text_to_indices(sentence, vocab):
@@ -3671,7 +3670,6 @@ def text_to_indices(sentence, vocab):
     return numerical_sentence
 
 input_numerical_sentences = []
-
 for sentence in input_sentences:
     input_numerical_sentences.append(text_to_indices(word_tokenize(sentence.lower()), vocab))
 
@@ -3699,12 +3697,9 @@ for sequence in training_sequence:
 
 len(padded_training_sequence[10])
 padded_training_sequence = torch.tensor(padded_training_sequence, dtype=torch.long)
-padded_training_sequence
 
 X = padded_training_sequence[:, :-1]
 y = padded_training_sequence[:,-1]
-X
-y
 
 
 class CustomDataset(Dataset):
@@ -3723,6 +3718,19 @@ len(dataset)
 
 dataloader = DataLoader(dataset, batch_size=32, shuffle=True)
 
+#### LSTMModel input/intemediate/output states
+# x = nn.Embedding(289, 100)
+# y = nn.LSTM(100, 150, batch_first=True)
+# z = nn.Linear(150, 289)
+# row_input = dataset[0][0].unsqueeze(0)
+# embedded_data = x(row_input)
+# output = y(embedded_data)
+## tuple unpacking
+# intermediate_hidden_states, final_states = output
+# final_hidden_state, final_cell_state = final_states
+## LOGIT values at the end
+# z(final_hidden_state.squeeze(0))
+
 class LSTMModel(nn.Module):
     def __init__(self, vocab_size):
         super().__init__()
@@ -3735,6 +3743,8 @@ class LSTMModel(nn.Module):
         intermediate_hidden_states, (final_hidden_state, final_cell_state) = self.lstm(embedded)
         output = self.fc(final_hidden_state.squeeze(0))
         return output
+
+
 
 model = LSTMModel(len(vocab))
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
