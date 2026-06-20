@@ -550,6 +550,32 @@ from keras.preprocessing.sequence import pad_sequences
 #vocabulary = unique words from corpus
 #document = a complete sentence
 
+# Removing HTML tags using Regular Expressions (REGEX)
+html_text = "<p>This <b>bold text</b> contains exactly twenty words, carefully styled with basic HTML tags to format its online structural presentation.</p>"
+import re
+def strip_html(text):
+    p = re.compile(r'<.*?>')    #start with <(once), any character any number of times, end with >
+    return p.sub('', text)
+strip_html(html_text)
+
+
+# Handling Emojis
+emoji_text = "Let us grab a hot coffee and catch up today! ☕✨ I am so excited to see you and hear all your news! 😊💬"
+emoji_text.encode('utf-8')  #returns emoji encoded into utf-8 text
+
+# Spell Checking
+incorrect_text = "Thsi si a teext wiht sepling mitkase."
+from textblob import TextBlob
+txt_blob = TextBlob(incorrect_text)
+txt_blob.correct()  #returns correct spellings
+
+# Tokenizer
+from nltk.tokenize import sent_tokenize, word_tokenize
+sentences = sent_tokenize(paragraph)    #sentence tokenizer
+for sentence in sentences:
+    print(word_tokenize(sentence))  #word tokenizer
+
+
 
 
 #################################################
