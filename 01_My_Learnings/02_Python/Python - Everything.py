@@ -29,8 +29,8 @@
 D:
 cd "D:\05 GIT\14_Proj_ML_99Acres"
 
+jupyter notebook --notebook-dir="D:\05 GIT\01_masterRepo\01_My_Learnings\02_Python\05_NLP"
 jupyter notebook --notebook-dir="D:\05 GIT\01_masterRepo\01_My_Learnings\02_Python\04_DL_PyTorch"
-jupyter notebook --notebook-dir="D:\05 GIT\12_GenAI_projects\01_EngHin_Translator_EncDec"
 jupyter notebook --notebook-dir="D:\05 GIT\12_GenAI_projects\01_EngHin_Translator_EncDec"
 jupyter notebook --notebook-dir="D:\05 GIT\13_Misc_projects\04_YT_Timestamp_Gen"
 
@@ -550,7 +550,14 @@ from keras.preprocessing.sequence import pad_sequences
 #vocabulary = unique words from corpus
 #document = a complete sentence
 
-# Removing HTML tags using Regular Expressions (REGEX)
+##################################################################
+# NLP - Text Preprocessing
+##################################################################
+# Convert text to lowercase
+text = "<p>This <b>bold text</b> contains exactly twenty words, carefully styled with basic HTML tags to format its online structural presentation.</p>"
+text = text.lower()
+
+# Remove HTML tags using Regular Expressions (REGEX)
 html_text = "<p>This <b>bold text</b> contains exactly twenty words, carefully styled with basic HTML tags to format its online structural presentation.</p>"
 import re
 def strip_html(text):
@@ -558,108 +565,306 @@ def strip_html(text):
     return p.sub('', text)
 strip_html(html_text)
 
+# Remove URL
+def remove_url(text):
+    pattern = re.compile(r'http\S+|www\.\S+')
+    return pattern.sub('', text)
+text = 'alfksdkj https://www.youtube.com/watch?v=6C0sLtw5ctc&list=PLKnIA16_RmvZo7fp5kkIth6nRTeQQsjfX&index=3&t=3790s jflsk'
 
-# Handling Emojis
-emoji_text = "Let us grab a hot coffee and catch up today! ☕✨ I am so excited to see you and hear all your news! 😊💬"
-emoji_text.encode('utf-8')  #returns emoji encoded into utf-8 text
+remove_url(text)
 
-# Spell Checking
-incorrect_text = "Thsi si a teext wiht sepling mitkase."
+# Remove multiple spaces
+def remove_multi_space(text):
+    pattern = re.compile(r'\s+')
+    return pattern.sub(' ', text)
+text = 'abdfs lsdkfj  lskdjfk   lsdkfjk      sldkfjl'
+remove_multi_space(text)
+
+# Remove Punctuations
+import string
+#### slower method
+def rem_punc1(text):
+    for char in text:
+        if char in string.punctuation:
+            text = text.replace(char, '')
+    return text
+text = 'Hi! is this obvious? my dog is running.'
+rem_punc1(text)
+
+#### faster method
+def rem_punc2(text):
+    return text.translate(str.maketrans('','',string.punctuation))
+rem_punc2(text)
+
+# Handle Chat Words
+#### create a dictionary of chat words
+chat_abbreviations = {
+    "ASAP": "As soon as possible",
+    "F2F": "Face-to-face",
+    "G2G": "Got to go",
+    "LOL": "Laugh out loud",
+    "OMG": "Oh my God",
+    "TTYL": "Talk to you later",
+}
+def correct_chat_words(text):
+    new_text = []
+    for word in text.split():
+        word = word.replace(',','')
+        word = word.upper()
+        if word in chat_abbreviations:
+            new_text.append(chat_abbreviations[word])
+        else:
+            new_text.append(word)
+    return " ".join(new_text).lower()
+txt = 'Omg tbh, I was AFK when the TBH DM dropped, but IMO it’s NGL totally lit RN ngl'
+correct_chat_words(txt)
+
+# Correct the Spelling
 from textblob import TextBlob
+incorrect_text = "Thsi si a teext wiht sepling mitkase."
 txt_blob = TextBlob(incorrect_text)
 txt_blob.correct()  #returns correct spellings
 
-# Tokenizer
-from nltk.tokenize import sent_tokenize, word_tokenize
-sentences = sent_tokenize(paragraph)    #sentence tokenizer
-for sentence in sentences:
-    print(word_tokenize(sentence))  #word tokenizer
+# Remove stop words
+import nltk
+nltk.download('stopwords')
+from nltk.corpus import stopwords
+stopwords = stopwords.words('english')
+def remove_stopwords(text):
+    filtered_words = [word for word in text.split() if word not in stopwords]
+    return " ".join(filtered_words)
+
+
+# Handle Emojis
+#### encode emoji to utf-8 text
+emoji_text = "Let us grab a hot coffee and catch up today! ☕✨ I am so excited to see you and hear all your news! 😊💬"
+emoji_text.encode('utf-8')  #returns emoji encoded into utf-8 text
+
+#### demojize the emojis
+import emoji
+emoji.demojize(emoji_text)    #gives text in place of emoji
+
+#### remove emojis
+import re
+def remove_emoji(text):
+    emoji_pattern = re.compile("["
+                           u"\U0001F600-\U0001F64F"  # emoticons
+                           u"\U0001F300-\U0001F5FF"  # symbols & pictographs
+                           u"\U0001F680-\U0001F6FF"  # transport & map symbols
+                           u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
+                           u"\U00002702-\U000027B0"
+                           u"\U000024C2-\U0001F251"
+                           "]+", flags=re.UNICODE)
+    return emoji_pattern.sub(r'', text)
+
+# Remove Digits
+def remove_digits(text):
+    pattern = re.compile(r'\d+')
+    return pattern.sub('', text)
+
+# Tokenize (Tokenization) - sentence/word
+text = 'I am going to Delhi? I will stay there for 3 days! Let\'s hope the trip to be great.'
+
+#### Sentence Tokenization
+text.split('.') #only splits at one character
+#### word Tokenization
+text.split()    #also keeps punctuations attached to words
+#### split function splits on one character only.
+#### what if sentences end with . ? ! 
+#### to overcome this, use REGEX
+
+#### sentence Tokenization
+import re
+re.compile('[.!?] ').split(text)
+#### word Tokenization
+import re
+re.findall("[\w]+", text)
+
+#### Tokenize using NLTK library
+import nltk
+nltk.download('punkt_tab')
+from nltk.tokenize import word_tokenize, sent_tokenize
+sent_tokenize(text)
+word_tokenize(text)
+
+#### Tokenize using Spacy library (most advance)
+import spacy
+!python -m spacy download en_core_web_sm
+nlp = spacy.load("en_core_web_sm")    #load english dictionary
+doc = nlp(text)
+for token in doc:
+    print(token)
+
+# Stemming - root words [rule based - may give wrong spelling]
+from nltk.stem.porter import PorterStemmer
+ps = PorterStemmer()
+def stem_words(text):
+    return " ".join([ps.stem(word) for word in text.split()])
+text = 'walk walks walking walked'
+stem_words(text)
+
+# Lemmatization - root words [using Lexical Dictionary - slower]
+import nltk
+nltk.download('wordnet')
+from nltk.stem import WordNetLemmatizer
+lemmatizer = WordNetLemmatizer()
+
+def lem_word(text):
+  return " ".join([lemmatizer.lemmatize(word, pos='v') for word in text.split()])
+#pos='v' - verb form of root word
 
 
 
 
-#################################################
-#sklearn, keras, pandas
-#################################################
 
-#### Techniques of Converting Words into Numbers
 
-#1) One Hot Encoding (OHE)
-#OHE working: one feature is created for each category, feature_val=1 or 0 based on whether that category is present in data.
-#using pandas
+
+
+
+
+##################################################################
+# NLP - Text Vectorization/Representation [text to numbers]
+##################################################################
+
+# One Hot Encoding (OHE)
+#### if one doc/sentence contains 3 words
+#### each word is represented by a vector of dimension equal to the total number of words in vocab.
+#### one dimension is 1 where word matches, others are 0 --> sparse
+
+#### Implementation using pandas
 pd.get_dummies(df,columns=['col1','col2'],drop_first=True)      #OHE for col1 and col2
 
-#using sklearn
+#### Implementation using sklearn
 from sklearn.preprocessing import OneHotEncoder
 ohe = OneHotEncoder(drop='First', sparse_output=False, handle_unknown='ignore')
-df['col1'] = pd.DataFrame(ohe.fit_transform(df[['col1']]))
+df['review'] = pd.DataFrame(ohe.fit_transform(df[['review']]))
 
-#using keras
+#### Implementation using keras
 from keras.utils import to_categorical
 y_train_ohe = to_categorical(y_train, num_classes)
 
+#### problems in OHE
+#### 1) Sparsity, 2) OOV, 4) No Semantic Meaning capture,
+#### 4) Sentence size varies, Not able to train ML model
 
 
-#2) Bag Of Words (BOW) = aka bag-of-uni-grams
-#3) N-grams / Ngrams = aka bag-of-n-grams
-#N-grams working: group of N-consecutive words is taken as feature, feature_val=count of that group of consecutive words.
-#Bi-gram working: group of 2-consecutive words is taken as feature, feature_val=count of those 2 consecutive words.
-#Tri-gram working: group of 3-consecutive words is taken as feature, feature_val=count of those 3 consecutive words.
-#BOW working: one feature is created for each word in sentence, feature_val=count of that word in document/sentence.
+
+
+# Bag of Words (BOW) - [helpful in text classification]
+#### if one doc/sentence contains 3 words
+#### each SENTENCE is represented by a vector of dimensions equal to the total number of words in vocab.
+#### each dimension contains the total number of times that word appears in the sentence
+#### unseen words get handled by ignoring.
 from sklearn.feature_extraction.text import CountVectorizer
+cv = CountVectorizer( analyzer='word',
+                tokenizer=word_tokenize, lowercase=True,
+                ngram_range=(1,1), stop_words='english',
+                max_features=10000)
+X_train_bow = cv.fit_transform(X_train['review'])
+print(cv.vocabulary_)
+print(X_train_bow[0].toarray())  #1st sentence numbers in train data
 
-cv = CountVectorizer(max_features=1000)                         #Bag of words / Bag of Uni-gram, with max features=1000
-cv = CountVectorizer(ngram_range=(2,2))                         #Bi-gram [number cannot be greater than #words in sentence
-cv = CountVectorizer(ngram_range=(3,3))                         #Tri-gram
-cv = CountVectorizer(ngram_range=(1,3))                         #Uni-gram, Bi-gram and Tri-gram
-cv = CountVectorizer(ngram_range=(2,3))                         #Bi-gram and Tri-gram
+X_test_bow = cv.transform(X_test['review'])
 
-bow = cv.fit_transform(df['text'])
-print(cv.vocabulary_)                                           #prints complete vocabulary
-print(bow[0].toarray())                                         #sentence at index 0 converted to vector
-cv.transform(["this is a new sentence"]).toarray()              #transforming a new sentence into vector
+x_tr1=pd.DataFrame(x_train_bow.toarray(),columns=cv.get_feature_names_out())
+x_tr1.head()
+
+x_ts1=pd.DataFrame(x_test_bow.toarray(),columns=cv.get_feature_names_out())
+x_ts1.head()
+#### Advantages in BOW
+#### 1) Less sparsity, 2) solves OOV by ignoring new words,
+#### 3) captures Sematic relationship (similarity) to some extent,
+#### 4) works with diff sentence sizes
+
+#### Disadvantages in BOW
+#### 1) Sparcity still exists to a very great extent
+#### 2) OOV is ignored (word may be important)
+#### 3) sequence of words is ignored (context not captured)
 
 
 
-#4) Term Frequency Inverse Document Frequence (TFIDF)
-#TF(t,d) = (count of a term t in a document)/(total #words in document d)
-#IDF(t) = LOG[(total #documents in corpus)/(#documents with term t)]
+# Bag of ngrams/ n-grams/ bi-grams/ tri-grams
+#### BOW was made with single word
+#### Bag of ngrams is made of n-words taken at a time (2-bi, 3-tri)
+#### BOW = Bag of 1-gram
+#### code modification for Bag of bi-gram
+cv = CountVectorizer(ngram_range=(2,2))
+#### code modification for Bag of bi-gram & tri-gram both
+cv = CountVectorizer(ngram_range=(2,3))
+
+#### Advantages in n-grams
+#### 1) Able to capture semantic meaning
+#### 2) Easy implementation
+
+#### Disadvantages in n-grams
+#### 1) more features/ slow training
+#### 2) OOV is ignored
+
+
+
+
+
+# TF-IDF (TFIDF): Term Frequency Inverse Document Frequency
+#### a word comes in one doc & not others, then its weightage in that sentence is higher
+#### TF = (#occurences of term t in doc d)/(total #terms in d)
+#### IDF = 1 + LOG[(total #docs in corpus)/(#docs with term t)]
+#### calculate TF x IDF for each word in every document
 from sklearn.feature_extraction.text import TfidfVectorizer
+tfidf = TfidfVectorizer(analyzer='word', tokenizer=word_tokenize,
+            lowercase=True, ngram_range=(1,1), max_features=10000)
+x_tr1=tfidf.fit_transform(x_train['review'])
+x_ts1=tfidf.transform(x_test['review'])
 
-tfidf = TfidfVectorizer()
-tfidf_model = tfidf.fit_transform(df['text'])
+x_tr1=pd.DataFrame(x_tr1.toarray(),columns=tfidf.get_feature_names_out())
+x_tr1.head()
 
-tfidf_model.toarray()                                           #print transformed vectors
-print(tfidf.idf_)                                               #inverse document frequency vectors
-print(tfidf.get_feature_names_out())                            #newly created feature names    
+x_ts1=pd.DataFrame(x_ts1.toarray(),columns=tfidf.get_feature_names_out())
+x_ts1.head()
+
+#### Advantages in TF-IDF
+#### 1) Works well in information retrieval systems [Google]
+
+#### Disadvantages in TF-IDF
+#### 1) Sparsity exists
+#### 2) OOV is ignored
+#### 3) High Dimensionality
+#### 4) Semantic relationship is not captured
 
 
 
 
 
-#################################################
-#gensim.Word2Vec
-#################################################
-#5) Word2Vec : advanced embedding technique
-
-####Word2Vec using pre-trained model from google
-####300 dimensional embedding
+# Word2Vec - word embedding technique to convert a word to vector
+#### invented by Google
+#### Captures Semantic Meaning
+#### Low dimentionality - Fast Training
+#### Dense/Non-Sparse Vectors
+#### based on Deep Learning
+#### Word2Vec using pre-trained model from google
+#### 300 dimensional embedding of 3 Million words
 import gensim
 from gensim.models import Word2Vec, KeyedVectors
 
 !pip install wget
 !wget -c "https://s3.amazonaws.com/dl4j-distribution/GoogleNews-vectors-negative300.bin.gz"
 
-model = KeyedVectors.load_word2vec_format('GoogleNews-vectors-negative300.bin.gz',binary=True,limit=500000)
-model['cricket']                                                #print the embedding of the word 'cricket'
-model['man']                                                    #print the embedding of the word 'man'
-model.most_similar('man')                                       #print words that are similar to the word 'man'
-model.similarity('man','woman')                                 #print similarity score between 'man' and 'woman' btwn 0 and 1
-model.doesnt_match(['PHP','java','monkey'])                     #from the given list of words, print the odd word out
-vec = model['king'] - model['man'] + model['woman']             #create a vector = king - man + woman, must be similar to queen
-model.most_similar([vec])                                       #print the above vec
-vec = model['INR'] - model ['India'] + model['England']         #create a vector = INR - India + England, must be similar to GBP
-model.most_similar([vec])                                       #print it
+model = KeyedVectors.load_word2vec_format(
+                    'GoogleNews-vectors-negative300.bin.gz',
+                    binary=True, limit=500000)
+#### print the embedding of different words
+model['cricket']
+model['man']
+model.most_similar('man')
+#### similarity score (0 to 1) of 'man' & 'woman'
+model.similarity('man','woman')
+#### odd word out of the given words
+model.doesnt_match(['PHP','java','monkey'])
+#### create a vector = king - man + woman, must be similar to queen
+vec = model['king'] - model['man'] + model['woman']
+model.most_similar([vec])
+
+vec = model['INR'] - model ['India'] + model['England']
+model.most_similar([vec])
 
 
 ####Word2Vec using own model
@@ -680,44 +885,63 @@ for filename in os.listdir('data'):
         story.append(simple_preprocess(sentence))               #simple_preprocess = sentence.split().strip()
 story                                                           #a 2-d list, [[words in sentence1],[words in sentence2],...]
 
-model = Word2Vec(vector_size=100,                               #final vector size for each word
-                min_count=2,                                    #ignore words with frequency lower than 2
-                workers=4)                                      #use 4 processor threads
+model = Word2Vec(window=10,     # #words to consider at a time
+            vector_size=100,    #final vector size for each word
+            min_count=2,    #ignore words with frequency lower than 2
+            workers=4)      #use 4 processor threads
 model.build_vocab(story)
 model.train(story, total_examples=model.corpus_count, epochs=model.epochs)
-model.wv.most_similar('daenerys')           #result below, because the corpus is from GOT books
-                                            [('stormborn', 0.824600100517273),
-                                            ('unburnt', 0.7458840608596802),
-                                            ('targaryen', 0.7374287247657776),
-                                            ('princess', 0.7150521278381348),
-                                            ('queen', 0.7111046314239502),
-                                            ('myrcella', 0.6616984605789185),
-                                            ('elia', 0.6537615656852722),
-                                            ('viserys', 0.6392196416854858),
-                                            ('margaery', 0.6376862525939941),
-                                            ('prince', 0.6282042264938354)]
 
-model.wv.doesnt_match(['jon','rikon','robb','arya','sansa','bran'])     #prints the odd one i.e. jon
-model.wv.doesnt_match(['cersei', 'jaime', 'bronn', 'tyrion'])           #prints the odd one i.e. bronn
+model.wv.most_similar('daenerys')
+    #result below, because the corpus is from GOT books
+                    [('stormborn', 0.824600100517273),
+                    ('unburnt', 0.7458840608596802),
+                    ('targaryen', 0.7374287247657776),
+                    ('princess', 0.7150521278381348),
+                    ('queen', 0.7111046314239502),
+                    ('myrcella', 0.6616984605789185),
+                    ('elia', 0.6537615656852722),
+                    ('viserys', 0.6392196416854858),
+                    ('margaery', 0.6376862525939941),
+                    ('prince', 0.6282042264938354)]
 
-model.wv['king']                                                        #embedding of the word king
+model.wv.doesnt_match(['jon','rikon','robb','arya','sansa','bran'])
+    #prints the odd one i.e. jon
+model.wv.doesnt_match(['cersei', 'jaime', 'bronn', 'tyrion'])
+    #prints the odd one i.e. bronn
 
-model.wv.similarity('arya','sansa')                                     #similarity score of arya and sansa
+model.wv['king']        #embedding of the word king
+model.wv.similarity('arya','sansa') #similarity score of arya and sansa
 
-model.wv.get_normed_vectors()                                           #normalized vectors
+model.wv.get_normed_vectors()   #normalized vectors
+model.wv.index_to_key           #all words in text form
 
 
 
 
-#################################################
-#nltk
-#################################################
-#### remove stop words
-from nltk.corpus import stopwords
-sw_list = stopwords.words('english')
-df['review'] = df['review'].apply(
-                lambda x: [item for item in x.split() if item not in sw_list]
-            ).apply(lambda x:" ".join(x))
+
+
+
+
+
+
+##################################################################
+# NLP - Text Classification [Spam/Not Spam, Positive/Negative]
+##################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #################################################
