@@ -558,12 +558,12 @@ text = "<p>This <b>bold text</b> contains exactly twenty words, carefully styled
 text = text.lower()
 
 # Remove HTML tags using Regular Expressions (REGEX)
-html_text = "<p>This <b>bold text</b> contains exactly twenty words, carefully styled with basic HTML tags to format its online structural presentation.</p>"
 import re
-def strip_html(text):
-    p = re.compile(r'<.*?>')    #start with <(once), any character any number of times, end with >
-    return p.sub('', text)
-strip_html(html_text)
+def remove_html(text):
+    pattern = re.compile(r'<.*?>')    #start with <(once), any character any number of times, end with >
+    return pattern.sub('', text)
+html_text = "<p>This <b>bold text</b> contains exactly twenty words, carefully styled with basic HTML tags to format its online structural presentation.</p>"
+remove_html(html_text)
 
 # Remove URL
 def remove_url(text):
