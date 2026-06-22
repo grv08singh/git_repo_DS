@@ -843,7 +843,6 @@ x_ts1.head()
 #### Word2Vec using pre-trained model from google
 #### 300 dimensional embedding of 3 Million words
 import gensim
-from gensim.models import Word2Vec, KeyedVectors
 
 !pip install wget
 !wget -c "https://s3.amazonaws.com/dl4j-distribution/GoogleNews-vectors-negative300.bin.gz"
@@ -875,48 +874,47 @@ from nltk import sent_tokenize
 from gensim.utils import simple_preprocess
 from gensim.models import Word2Vec
 
-story = []
+text = []
 #from a directory named data present in cwd, load all files
 for filename in os.listdir('data'):
     f = open(os.path.join('data',filename))
     corpus = f.read()
-    raw_sentence = sent_tokenize(corpus)                        #tokenize sentences
-    for sentence in raw_sentence:
-        story.append(simple_preprocess(sentence))               #simple_preprocess = sentence.split().strip()
-story                                                           #a 2-d list, [[words in sentence1],[words in sentence2],...]
+    sentences = sent_tokenize(corpus)   #tokenize sentences
+    for sentence in sentences:
+        text.append(simple_preprocess(sentence))               #simple_preprocess = sentence.split().strip()
+text    #a 2-d list, [[words in sentence1],[words in sentence2],...]
 
+#### method 1
 model = Word2Vec(window=10,     # #words to consider at a time
             vector_size=100,    #final vector size for each word
             min_count=2,    #ignore words with frequency lower than 2
             workers=4)      #use 4 processor threads
-model.build_vocab(story)
-model.train(story, total_examples=model.corpus_count, epochs=model.epochs)
+model.build_vocab(text)
+model.train(text, total_examples=model.corpus_count, epochs=model.epochs)
+#### method 2 - giving text in input automatically executes build_vocab and train
+model = Word2Vec(sentences=text,
+            window=10,
+            vector_size=100,
+            min_count=2,
+            workers=4)
 
-model.wv.most_similar('daenerys')
+model.wv['king']        #embedding (numpy array) of the word king
+model.wv.most_similar('daenerys', topn=5)
     #result below, because the corpus is from GOT books
-                    [('stormborn', 0.824600100517273),
-                    ('unburnt', 0.7458840608596802),
-                    ('targaryen', 0.7374287247657776),
-                    ('princess', 0.7150521278381348),
-                    ('queen', 0.7111046314239502),
-                    ('myrcella', 0.6616984605789185),
-                    ('elia', 0.6537615656852722),
-                    ('viserys', 0.6392196416854858),
-                    ('margaery', 0.6376862525939941),
-                    ('prince', 0.6282042264938354)]
-
+model.wv.similarity('arya','sansa') #similarity score of arya and sansa
 model.wv.doesnt_match(['jon','rikon','robb','arya','sansa','bran'])
     #prints the odd one i.e. jon
-model.wv.doesnt_match(['cersei', 'jaime', 'bronn', 'tyrion'])
-    #prints the odd one i.e. bronn
 
-model.wv['king']        #embedding of the word king
-model.wv.similarity('arya','sansa') #similarity score of arya and sansa
 
 model.wv.get_normed_vectors()   #normalized vectors
 model.wv.index_to_key           #all words in text form
 
-
+#### method to create sentence embeddings from word embeddings
+def doc_vector(doc):
+    # only keep sentence words which are considered in corpus vocab
+    doc = [word for word in doc.split() if word in model.wv.index_to_key]
+    # return mean embeddings of whole sentence
+    return np.mean(model.wv[doc], axis=0)
 
 
 
@@ -926,8 +924,155 @@ model.wv.index_to_key           #all words in text form
 
 
 ##################################################################
-# NLP - Text Classification [Spam/Not Spam, Positive/Negative]
+# NLP Project - Text Classification [Positive/Negative]
 ##################################################################
+import pandas as pd
+import numpy as np
+import re
+import string
+import nltk
+from nltk import sent_tokenize
+import emoji
+import tqdm
+from tqdm.auto import tqdm
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from gensim.models import Word2Vec
+from gensim.utils import simple_preprocess
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score, confusion_matrix, f1_score
+from sklearn.ensemble import RandomForestClassifier
+
+df = pd.read_csv('datasets/IMDB Dataset.csv')
+
+# check class balance
+df['sentiment'].value_counts()
+# check missing values
+df.isnull().sum()
+# drop duplicates
+df.drop_duplicates(inplace=True)
+# convert text to lowercase
+df['review'] = df['review'].str.lower()
+# remove html tags
+def remove_html(text):
+    pattern = re.compile(r'<.*?>')
+    return pattern.sub('', text)
+df['review'] = df['review'].apply(remove_html)
+# remove URLs
+def remove_url(text):
+    pattern = re.compile(r'http\S+|www\.\S+')
+    return pattern.sub('', text)
+df['review'] = df['review'].apply(remove_url)
+# remove multiple spaces
+def remove_multiple_spaces(text):
+    pattern = re.compile(r'\s+')
+    return pattern.sub(' ', text)
+df['review'] = df['review'].apply(remove_multiple_spaces)
+# remove punctuations
+def remove_punctuations(text):
+    return text.translate(str.maketrans('','',string.punctuation))
+df['review'] = df['review'].apply(remove_punctuations)
+# handle emojis
+tqdm.pandas(desc="Processing Data")
+df['review'] = df['review'].progress_apply(emoji.demojize)
+# remove stop words
+nltk.download('stopwords')
+from nltk.corpus import stopwords
+stopwords = stopwords.words('english')
+def remove_stopwords(text):
+    filtered_words = [word for word in text.split() if word not in stopwords]
+    return " ".join(filtered_words)
+df['review'] = df['review'].progress_apply(remove_stopwords)
+# X,y split
+X = df.iloc[:,:-1]
+y = df.iloc[:,-1]
+# label encode y
+le = LabelEncoder()
+y = le.fit_transform(y)
+X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.2,random_state=1)
+
+#################################
+# Using Techniques BOW / TFIDF
+#################################
+# BOW
+cv = CountVectorizer(ngram_range=(1,1), min_df=5, max_df=0.95, max_features=5000)
+X_train_bow = cv.fit_transform(X_train['review']).toarray()
+X_test_bow = cv.transform(X_test['review']).toarray()
+
+# TFIDF
+tfidf = TfidfVectorizer(ngram_range=(1,1), min_df=5, max_df=0.95, max_features=5000)
+X_train_tfidf = tfidf.fit_transform(X_train['review']).toarray()
+X_test_tfidf = tfidf.transform(X_test['review']).toarray()
+
+# Gaussian Naive Bayes Model with BOW
+gnb = GaussianNB()
+gnb.fit(X_train_bow, y_train)
+y_pred1 = gnb.predict(X_test_bow)
+confusion_matrix(y_test, y_pred1), accuracy_score(y_test, y_pred1), f1_score(y_test, y_pred1)
+
+# Random Forest Model with TFIDF
+rf = RandomForestClassifier(n_estimators=300, max_depth=5, n_jobs=-1, verbose=1, random_state=42)
+rf.fit(X_train_tfidf, y_train)
+y_pred22 = rf.predict(X_test_tfidf)
+confusion_matrix(y_test, y_pred22), accuracy_score(y_test, y_pred22), f1_score(y_test, y_pred22)
+
+#################################
+# Using Word2Vec Embeddings
+#################################
+# tokenized words for each sentence in all the rows
+story = []
+for doc in df['review']:
+    sentences = sent_tokenize(doc)
+    for sentence in sentences:
+        story.append(simple_preprocess(sentence))
+
+# Word2Vec - method 1
+model_wv = Word2Vec(window=10, vector_size=300, min_count=2, workers=12)
+model_wv.build_vocab(story)
+model_wv.train(story, total_examples=model_wv.corpus_count, epochs=model_wv.epochs)
+
+# Word2Vec - method 2
+model_wv = Word2Vec(sentences=story, window=10, vector_size=300, min_count=2, workers=12)
+
+# all words in vocab of model_wv
+model_wv.wv.index_to_key
+
+# get document (review) embeddings from word embeddings
+def doc_vector(doc):
+    #In the doc (review), keep only the words that are present in vocab of model
+    doc = [word for word in doc.split() if word in model_wv.wv.index_to_key]
+    #each word has an embedding of 300 dimensions.
+    #take mean of embeddings of all the words in a doc (review)
+    return np.mean(model_wv.wv[doc], axis=0)
+# apply above method
+X = []
+for doc in tqdm(df['review'].values):
+    X.append(doc_vector(doc))
+y = df.iloc[:,-1]
+# train test split
+X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.2,random_state=1)
+# Random Forest Classifier
+rf = RandomForestClassifier(n_estimators=100, max_depth=8, n_jobs=-1, verbose=1)
+rf.fit(X_train, y_train)
+y_pred = rf.predict(X_test)
+
+confusion_matrix(y_test, y_pred), accuracy_score(y_test, y_pred), f1_score(y_test, y_pred)
+
+
+
+
+
+
+
+
+##################################################################
+# NLP Project - Parts of Speech (POS) Tagging
+##################################################################
+
+
+
+
 
 
 
