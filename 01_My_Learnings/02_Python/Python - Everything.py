@@ -1069,6 +1069,49 @@ confusion_matrix(y_test, y_pred), accuracy_score(y_test, y_pred), f1_score(y_tes
 ##################################################################
 # NLP Project - Parts of Speech (POS) Tagging
 ##################################################################
+# Applications of POS tagging:
+# 1) Named Entity Recognition
+# 2) Question Answering system
+# 3) Word sense disambiguation (same word used with diff meanings)
+# 4) Chatbots
+
+# Using spacy library, Hidden Markov Model & Viterbi optimization
+
+import spacy
+nlp = spacy.load('en_core_web_sm')
+# POS tagging code
+doc = nlp(u"I will google about facebook")
+
+doc.text                #output= 'I will google about facebook'
+doc[0]                  #output= I
+doc[0].pos_             #overview POS: output= 'PRON'
+doc[0].tag_             #detailed POS: output= 'PRP'
+spacy.explain('PRP')    #explain PRP: output= pronoun, personal
+
+# print POS for every word
+for word in doc:
+    print(word.text,"-->",word.pos_, spacy.explain(word.tag_))
+
+# sentence visualization using spacy
+from spacy import displacy
+doc = nlp(r'The quick brown fox jumped over the lazy dog')
+displacy.render(doc,style='deep',jupyter=True)
+OR
+options={'distance':80,
+        'compact':True,
+        'color':'#fff',
+        'bg':'#00a65a'}
+displacy.render(doc,style='dep',jupyter=True,options=options)
+
+
+
+
+
+
+
+
+
+
 
 
 
