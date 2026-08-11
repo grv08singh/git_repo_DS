@@ -9787,6 +9787,55 @@ git push origin main
 
 
 
+#######################################################
+#### Replace the local repo with remote one (in case of conflict)
+#######################################################
+git fetch --all
+git reset --hard origin/main
+git clean -fd
+git stash -u            #optional - to save untracked files
+git pull
+git stash pop           #optional - to recover changes
+
+
+
+#######################################################
+#### Resolve File Conflict with same branch versions
+#######################################################
+
+#### 1) Keep Local Changes
+git stash
+git pull
+git stash pop
+git add .
+git commit -m "conflict msg"
+git push
+
+#### 2) Keep Remote Changes (Overwrite Local Changes)
+git checkout -- <file path>
+git pull
+
+#### 3) To manually check the file which changes to keep
+git add <file path>
+git commit -m "<commit message>"
+git pull                                #both the changes will be in the file, remove one manually 
+
+
+
+
+
+
+#######################################################
+#### resolve demerged branches (on different commit versions)
+#### keep remote branch
+#######################################################
+git rebase --abort
+git fetch origin
+git reset --hard origin/main
+
+
+
+
 
 
 #######################################################
@@ -9844,43 +9893,6 @@ git push origin main
 #### Untrack an LFS directory - Purge complete history
 git filter-repo --invert-paths --path path/to/directory/
 git push origin --force --all
-
-
-
-#######################################################
-#### Resolve File Conflict with same branch versions
-#######################################################
-
-#### 1) Keep Local Changes
-git stash
-git pull
-git stash pop
-git add .
-git commit -m "conflict msg"
-git push
-
-#### 2) Keep Remote Changes (Overwrite Local Changes)
-git checkout -- <file path>
-git pull
-
-#### 3) To manually check the file which changes to keep
-git add <file path>
-git commit -m "<commit message>"
-git pull                                #both the changes will be in the file, remove one manually 
-
-
-
-
-
-
-#######################################################
-#### resolve demerged branches (on different commit versions)
-#### keep remote branch
-#######################################################
-git rebase --abort
-git fetch origin
-git reset --hard origin/main
-
 
 
 
