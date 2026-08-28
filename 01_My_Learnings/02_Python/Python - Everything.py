@@ -38,6 +38,7 @@ jupyter lab --no-browser --notebook-dir='/mnt/f/Grv/Grv/05 GIT/01_masterRepo/01_
 
 
 # Windows
+jupyter notebook --notebook-dir="C:\Users\Dex\Desktop\TN WP 2026-27"
 jupyter notebook --notebook-dir="D:\05 GIT\01_masterRepo\01_My_Learnings\02_Python\05_NLP"
 jupyter lab --notebook-dir="D:\05 GIT\01_masterRepo\01_My_Learnings\02_Python\05_NLP"
 
