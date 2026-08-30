@@ -147,6 +147,177 @@ ML Project Checklist:
         5.08) 
         5.09) 
         5.10) 
+
+
+
+
+
+
+
+
+###############################################################################################################
+#### LangChain - Everything
+###############################################################################################################
+# --- Model Provider Keys (Choose what you use) ---
+OPENAI_API_KEY=your_actual_openai_api_key_here
+ANTHROPIC_API_KEY=your_actual_anthropic_api_key_here
+GOOGLE_API_KEY=your_actual_gemini_api_key_here
+
+# --- LangSmith Tracing & Observability (Optional) ---
+LANGCHAIN_TRACING_V2=true
+LANGCHAIN_API_KEY=your_langsmith_api_key_here
+LANGCHAIN_PROJECT=my-langchain-app
+
+##################################################################
+# LLM Invoking
+##################################################################
+import os
+from dotenv import load_dotenv
+
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_anthropic import ChatAnthropic
+from langchain_openai import ChatOpenAI
+from langchain_huggingface import HuggingFaceEndpoint, ChatHuggingFace, HuggingFacePipeline
+
+from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
+
+#for api based LLMs
+load_dotenv()
+
+#1) Paid Cloud LLM
+#Unified Initializer (Recommended) - dynamic way
+model = init_chat_model("google_genai:gemini-3.7-flash")
+
+#static way
+model = ChatGoogleGenerativeAI(model='gemini-1.5-pro')                          #Gemini
+model = ChatAnthropic(model='claude-3-5-sonnet-20241022')                       #Claude
+model = ChatOpenAI(model='gpt-4', temperature=1.5, max_completion_tokens=10)    #OpenAI
+
+#2) Free Cloud LLM
+llm = HuggingFaceEndpoint(
+            repo_id="TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+            task="text-generation"
+        )
+model = ChatHuggingFace(llm=llm)
+
+#3) Free Local LLM
+os.environ['HF_HOME'] = 'D:/huggingface_cache'
+llm = HuggingFacePipeline.from_model_id(
+            model_id='TinyLlama/TinyLlama-1.1B-Chat-v1.0',
+            task='text-generation',
+            pipeline_kwargs=dict(
+                temperature=0.5,
+                max_new_tokens=100
+            )
+        )
+model = ChatHuggingFace(llm=llm)
+
+#Querying LLM model
+prompt = 'What is the capital of India'
+result = model.invoke(prompt)
+print(result.content)
+
+
+#keeping chat history
+messages=[
+            SystemMessage(content='You are a helpful assistant'),
+            HumanMessage(content='Tell me about LangChain')
+        ]
+result = model.invoke(messages)
+messages.append(AIMessage(content=result.content))
+
+
+
+
+
+
+
+
+
+##################################################################
+# LangChain Prompts
+##################################################################
+from langchain_core.prompts import ChatPromptTemplate, PromptTemplate, MessagesPlaceholder
+
+#1)Create Simple Text Only Prompt - using PromptTemplate
+template = "Write a poem about {topic}."
+prompt_template = PromptTemplate(template=template, input_variables=["topic"], validate_template=True)
+prompt_template.save('template.json')
+prompt = prompt_template.format(topic="AI")                 #output: 'Write a poem about AI.'
+or
+prompt = prompt_template.invoke({'topic': 'AI'})            #ouput: StringPromptValue(text='Write a poem about AI.')
+
+
+#2)Create Structured Prompt - using ChatPromptTemplate
+chat_prompt_template = ChatPromptTemplate([
+                            ("system", "You are a helpful poetic assistant. You only reply in rhyming poems."),
+                            ("human", "Write a poem about {topic}.")
+                        ])
+prompt = chat_prompt_template.format_messages(topic="AI")   #list of messages
+or
+prompt = chat_prompt_template.invoke({'topic':'AI'})        #ChatPromptValue object having list of messages    
+
+
+
+
+
+
+
+
+
+
+##################################################################
+# Embedding Models
+##################################################################
+from dotenv import load_dotenv
+from langchain_openai import OpenAIEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
+from sklearn.metrics.pairwise import cosine_similarity
+
+load_dotenv()
+
+emb_model = OpenAIEmbeddings(model='text-embedding-3-large', dimensions=300)                #OpenAI
+emb_model = HuggingFaceEmbeddings(model_name='sentence-transformers/all-MiniLM-L6-v2')      #HuggingFace
+
+#single query
+query = "Delhi is the capital of India"
+result = emb_model.embed_query(query)
+
+#vector query
+documents = [
+                "Delhi is the capital of India",
+                "Kolkata is the capital of West Bengal",
+                "Paris is the capital of France"
+            ]
+result_vector = emb_model.embed_documents(documents)
+
+#Finding Cosine Similarity
+scores = cosine_similarity([result], result_vector)[0]
+index, score = sorted(list(enumerate(scores)),key=lambda x:x[1])[-1]
+print(query)
+print(documents[index])
+print("similarity score is:", score)
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
         
 
 
