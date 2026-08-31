@@ -174,9 +174,11 @@ LANGCHAIN_PROJECT=my-langchain-app
 import os
 from dotenv import load_dotenv
 
+from langchain.chat_models import init_chat_model
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_anthropic import ChatAnthropic
 from langchain_openai import ChatOpenAI
+from langchain_ollama import ChatOllama
 from langchain_huggingface import HuggingFaceEndpoint, ChatHuggingFace, HuggingFacePipeline
 
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
@@ -192,6 +194,7 @@ model = init_chat_model("google_genai:gemini-3.7-flash")
 model = ChatGoogleGenerativeAI(model='gemini-1.5-pro')                          #Gemini
 model = ChatAnthropic(model='claude-3-5-sonnet-20241022')                       #Claude
 model = ChatOpenAI(model='gpt-4', temperature=1.5, max_completion_tokens=10)    #OpenAI
+model = ChatOllama(model="tinyllama", temperature=0.7)                          #Ollama    
 
 #2) Free Cloud LLM
 llm = HuggingFaceEndpoint(
@@ -211,6 +214,7 @@ llm = HuggingFacePipeline.from_model_id(
             )
         )
 model = ChatHuggingFace(llm=llm)
+
 
 #Querying LLM model
 prompt = 'What is the capital of India'
@@ -258,6 +262,160 @@ or
 prompt = chat_prompt_template.invoke({'topic':'AI'})        #ChatPromptValue object having list of messages    
 
 
+
+
+
+
+
+
+
+
+##################################################################
+# with Structured Output
+##################################################################
+
+# set output structure using json schema
+json_schema = {
+  "title": "Review",
+  "type": "object",
+  "properties": {
+    "key_themes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Write down all the key themes discussed in the review in a list"
+    },
+    "summary": {
+      "type": "string",
+      "description": "A brief summary of the review"
+    },
+    "sentiment": {
+      "type": "string",
+      "enum": ["pos", "neg"],
+      "description": "Return sentiment of the review either negative, positive or neutral"
+    },
+    "pros": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "string"
+      },
+      "description": "Write down all the pros inside a list"
+    },
+    "cons": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "string"
+      },
+      "description": "Write down all the cons inside a list"
+    },
+    "name": {
+      "type": ["string", "null"],
+      "description": "Write the name of the reviewer"
+    }
+  },
+  "required": ["key_themes", "summary", "sentiment"]
+}
+
+# set output structure using pydantic model base class
+from pydantic import BaseModel, Field
+class Review(BaseModel):
+    key_themes: list[str] = Field(description="Write down all the key themes discussed in the review in a list")
+    summary: str = Field(description="A brief summary of the review")
+    sentiment: Literal["pos", "neg"] = Field(description="Return sentiment of the review either negative, positive or neutral")
+    pros: Optional[list[str]] = Field(default=None, description="Write down all the pros inside a list")
+    cons: Optional[list[str]] = Field(default=None, description="Write down all the cons inside a list")
+    name: Optional[str] = Field(default=None, description="Write the name of the reviewer")
+class Review(TypedDict):
+    key_themes: Annotated[list[str], "Write down all the key themes discussed in the review in a list"]
+    summary: Annotated[str, "A brief summary of the review"]
+    sentiment: Annotated[Literal["pos", "neg"], "Return sentiment of the review either negative, positive or neutral"]
+    pros: Annotated[Optional[list[str]], "Write down all the pros inside a list"]
+    cons: Annotated[Optional[list[str]], "Write down all the cons inside a list"]
+    name: Annotated[Optional[str], "Write the name of the reviewer"]
+
+structured_model = model.with_structured_output(json_schema)
+or
+structured_model = model.with_structured_output(Review)
+
+result = structured_model.invoke(prompt)
+
+
+
+
+
+
+
+
+
+##################################################################
+# HuggingFace LLMs
+##################################################################
+import os
+from langchain_huggingface import HuggingFaceEndpoint, ChatHuggingFace
+from langchain_core.messages import HumanMessage, SystemMessage
+
+repo_id = "google/gemma-4-31B-it"
+llm = HuggingFaceEndpoint(
+            repo_id=repo_id,
+            task="text-generation", # Required for ChatHuggingFace mapping
+            max_new_tokens=512,
+            temperature=0.7,
+            do_sample=True,
+        )
+model = ChatHuggingFace(llm=llm)
+messages = [
+                SystemMessage(content="You are an expert, concise coding assistant."),
+                HumanMessage(content="Write a Python list comprehension that filters out negative numbers.")
+            ]
+result = model.invoke(messages)
+print(result.content)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##################################################################
+# Output Parsers
+##################################################################
+from langchain_core.prompts import PromptTemplate
+from langchain_core.output_parsers import JsonOutputParser, PydanticOutputParser, StrOutputParser
+from pydantic import BaseModel, Field
+
+#1) step 1
+#for json, pydantic, string output parser
+class CustomSchema(BaseModel):
+    fact_1: str = Field(description="Fact 1 about the topic")
+    fact_2: str = Field(description="Fact 2 about the topic")
+    fact_3: str = Field(description="Fact 3 about the topic")
+
+#2) step 2
+parser = JsonOutputParser(pydantic_object=CustomSchema)             #json output parser
+or
+parser = PydanticOutputParser(pydantic_object=CustomSchema)         #pydantic output parser
+or
+parser = StrOutputParser()                                          #string output parser
+
+#3) step 3
+template = PromptTemplate(
+                template='Give 3 fact about {topic} \n {format_instruction}',
+                input_variables=['topic'],
+                partial_variables={'format_instruction':parser.get_format_instructions()}   #for json and pydantic only, wont work with string
+            )
+
+chain = template | model | parser
+result = chain.invoke({'topic':'black hole'})
+print(result)
 
 
 
