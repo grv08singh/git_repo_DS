@@ -155,6 +155,12 @@ ML Project Checklist:
 
 
 
+
+
+
+
+
+
 ###############################################################################################################
 #### LangChain - Everything
 ###############################################################################################################
@@ -178,7 +184,6 @@ from langchain.chat_models import init_chat_model
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_anthropic import ChatAnthropic
 from langchain_openai import ChatOpenAI
-from langchain_ollama import ChatOllama
 from langchain_huggingface import HuggingFaceEndpoint, ChatHuggingFace, HuggingFacePipeline
 from langchain_core.runnables import RunnableParallel
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
@@ -194,7 +199,6 @@ model = init_chat_model("google_genai:gemini-3.7-flash")
 model = ChatGoogleGenerativeAI(model='gemini-3.7-flash')                        #Gemini
 model = ChatAnthropic(model='claude-3-5-sonnet-20241022')                       #Claude
 model = ChatOpenAI(model='gpt-4', temperature=1.5, max_completion_tokens=10)    #OpenAI
-model = ChatOllama(model="tinyllama", temperature=0.7)                          #Ollama    
 
 #2) Free HuggingFace LLM
 '''
@@ -276,7 +280,7 @@ model = ChatHuggingFace(llm=llm)
 #Creating Prompt
 #single query prompt
 prompt = 'What is the capital of India'
-or
+############# OR
 #prompt with chat history
 messages_prompt = [
                     SystemMessage(content="You are an expert, concise coding assistant."),
@@ -308,7 +312,7 @@ template = "Write a poem about {topic}."
 prompt_template = PromptTemplate(template=template, input_variables=["topic"], validate_template=True)
 prompt_template.save('template.json')
 prompt = prompt_template.format(topic="AI")                 #output: 'Write a poem about AI.'
-or
+############# OR
 prompt = prompt_template.invoke({'topic': 'AI'})            #ouput: StringPromptValue(text='Write a poem about AI.')
 
 
@@ -318,7 +322,7 @@ chat_prompt_template = ChatPromptTemplate([
                             ("human", "Write a poem about {topic}.")
                         ])
 prompt = chat_prompt_template.format_messages(topic="AI")   #list of messages
-or
+############# OR
 prompt = chat_prompt_template.invoke({'topic':'AI'})        #ChatPromptValue object having list of messages    
 
 #invoke LLM
@@ -397,7 +401,7 @@ class Review(TypedDict):
     name: Annotated[Optional[str], "Write the name of the reviewer"]
 
 structured_model = model.with_structured_output(json_schema)
-or
+############# OR
 structured_model = model.with_structured_output(Review)
 
 #invoke LLM
@@ -433,9 +437,9 @@ class CustomSchema(BaseModel):
 
 #2) step 2
 parser = JsonOutputParser(pydantic_object=CustomSchema)             #json output parser
-or
+############# OR
 parser = PydanticOutputParser(pydantic_object=CustomSchema)         #pydantic output parser
-or
+############# OR
 parser = StrOutputParser()                                          #string output parser
 
 #3) step 3
@@ -695,15 +699,105 @@ for document in docs:
 
 
 ##################################################################
-# Embedding Models
+# LangChain - Text Splitter
 ##################################################################
-from dotenv import load_dotenv
+#Text Splitter
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+
+text = '''
+This is a long text. It is for experimentation only.
+This text will be splitted.
+'''
+splitter = RecursiveCharacterTextSplitter(
+                chunk_size=50,
+                chunk_overlap=0,
+            )
+chunks = splitter.split_text(text)
+print(len(chunks))
+print(chunks)
+
+
+#docs (text) Splitter - docs created from pdf, csv etc.
+from langchain.text_splitter import CharacterTextSplitter
+splitter = CharacterTextSplitter(
+                chunk_size=500,
+                chunk_overlap=0,
+                separator=''
+            )
+result = splitter.split_documents(docs)
+print(result[1].page_content)
+
+#python code splitting
+from langchain.text_splitter import RecursiveCharacterTextSplitter,Language
+
+text = """
+# Project Name: Smart Student Tracker
+A simple Python-based project to manage and track student data, including their grades, age, and academic status.
+## Features
+- Add new students with relevant info
+- View student details
+- Check if a student is passing
+- Easily extendable class-based design
+## 🛠 Tech Stack
+- Python 3.10+
+- No external dependencies
+## Getting Started
+1. Clone the repo  
+   ```bash
+   git clone https://github.com/your-username/student-tracker.git
+"""
+splitter = RecursiveCharacterTextSplitter.from_language(
+                language=Language.MARKDOWN,
+                chunk_size=200,
+                chunk_overlap=0,
+            )
+chunks = splitter.split_text(text)
+print(len(chunks))
+print(chunks[0])
+
+#Semantic Splitter
+from langchain_experimental.text_splitter import SemanticChunker
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from langchain_openai.embeddings import OpenAIEmbeddings
+text = """
+Farmers were working hard in the fields, preparing the soil and planting seeds for the next season. The sun was bright, and the air smelled of earth and fresh grass. The Indian Premier League (IPL) is the biggest cricket league in the world. People all over the world watch the matches and cheer for their favourite teams.
+Terrorism is a big danger to peace and safety. It causes harm to people and creates fear in cities and villages. When such attacks happen, they leave behind pain and sadness. To fight terrorism, we need strong laws, alert security forces, and support from people who care about peace and safety.
+"""
+#using embeddings model
+emb_model = OpenAIEmbeddings()
+############# OR
+emb_model = GoogleGenerativeAIEmbeddings(
+                model="models/gemini-embedding-001"
+            )
+############# OR
+emb_model = HuggingFaceEmbeddings(model_name='sentence-transformers/all-MiniLM-L6-v2')
+
+#split text
+splitter = SemanticChunker(
+                    emb_model, 
+                    breakpoint_threshold_type="standard_deviation",
+                    breakpoint_threshold_amount=3
+                )
+docs = splitter.create_documents([text])
+print(len(docs))
+print(docs)
+
+
+
+
+
+
+##################################################################
+# LangChain - Embedding Models
+##################################################################
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_openai import OpenAIEmbeddings
 from langchain_huggingface import HuggingFaceEmbeddings
 from sklearn.metrics.pairwise import cosine_similarity
 
 load_dotenv()
 
+emb_model = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001")               #Gemini
 emb_model = OpenAIEmbeddings(model='text-embedding-3-large', dimensions=300)                #OpenAI
 emb_model = HuggingFaceEmbeddings(model_name='sentence-transformers/all-MiniLM-L6-v2')      #HuggingFace
 
@@ -725,6 +819,23 @@ index, score = sorted(list(enumerate(scores)),key=lambda x:x[1])[-1]
 print(query)
 print(documents[index])
 print("similarity score is:", score)
+
+
+
+
+
+
+##################################################################
+# LangChain - Create tools
+##################################################################
+
+
+
+
+
+
+
+
 
 
 
